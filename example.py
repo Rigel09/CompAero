@@ -40,20 +40,20 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Fanno Flow Example  #################################
     ##########################################################################
-    # # Fanno Flow Example
-    # t1 = 300
-    # p1 = 1
-    # po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
-    # flow = FannoFlowRelations(1.4, po_poSt= 4.23456790)
-    # flow.applyPipeParameters(0.4, 11, 0.005)
-    # print()
-    # print(flow)
-    # print()
-    # print("T2: ", t1 * flow.t2_t1)
-    # print("P2: ", p1 * flow.p2_p1)
-    # print("Po2: ", po1 * flow.po2_po1)
+    # Fanno Flow Example
+    t1 = 300
+    p1 = 1
+    po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
+    flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
+    flow.applyPipeParameters(0.4, 11, 0.005)
+    print()
+    print(flow)
+    print()
+    print("T2: ", t1 * flow.t2_t1)
+    print("P2: ", p1 * flow.p2_p1)
+    print("Po2: ", po1 * flow.po2_po1)
 
-    # # Plot length and diameter combinations to slow a mach 3 flow down to a mach 2.5 flow at the exit
+    # Plot length and diameter combinations to slow a mach 3 flow down to a mach 2.5 flow at the exit
     # f4ld = FannoFlowRelations.calc4FLSt_D_FromMach(1.5, 1.4)
 
     # diamEqn = lambda len : 1 / f4ld * 4 * flow.frictionCoeff * len
@@ -88,12 +88,12 @@ if __name__ == "__main__":
     ##########################################################################
     ##################### Conical Flow Example  ##############################
     ##########################################################################
-    flow = ConicalFlowRelations(1.4, mach=3, shockAngle=30)
-    ans = flow.calculateConeFlowParameters(288.16, 287, [21, 25, 26, 24, 24.5, 29, flow.coneAngle])
+    # flow = ConicalFlowRelations(1.4, mach=3, shockAngle=30)
+    # ans = flow.calculateConeFlowParameters(288.16, 287, [21, 25, 26, 24, 24.5, 29, flow.coneAngle])
 
-    print(ans[flow.coneAngle].mach)
-    print(ans[flow.coneAngle].tempRay_tempInit)
-    print(ans[flow.coneAngle].pressRay_pressInit)
-    print(ans[flow.coneAngle].rhoRay_rhoInit)
-    print(ans[flow.coneAngle])
+    # print(ans[flow.coneAngle].mach)
+    # print(ans[flow.coneAngle].tempRay_tempInit)
+    # print(ans[flow.coneAngle].pressRay_pressInit)
+    # print(ans[flow.coneAngle].rhoRay_rhoInit)
+    # print(ans[flow.coneAngle])
 
