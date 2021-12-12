@@ -44,6 +44,7 @@ class IsentropicRelations:
         self.p0_p = IsentropicRelations.calc_p0_p(self.mach, self.gamma)
         self.rho0_rho = IsentropicRelations.calc_rho0_rho(self.mach, self.gamma)
         self.a_aStar = IsentropicRelations.calc_A_Astar(self.mach, self.gamma)
+        self.flowType = "Supersonic" if self.mach > 1.0 else "Subsonic"
 
     def __checkValue(self, var: float) -> bool:
         if isnan(var):
@@ -79,8 +80,7 @@ class IsentropicRelations:
     @staticmethod
     def calcMachFrom_T0_T(t0_t: float, gamma: float) -> float:
         """ Calcutes the given Mach associated for T0_T """
-
-        return brenth(IsentropicRelations.calc_T0_T, 0, 30, args=(gamma, t0_t))
+        return sqrt((t0_t - 1) * 2 / (gamma - 1))
 
     @staticmethod
     def calc_p0_p(mach: float, gamma: float, offset: float = 0.0) -> float:
