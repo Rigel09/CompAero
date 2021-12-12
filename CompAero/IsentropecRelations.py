@@ -1,6 +1,7 @@
 from math import sqrt, nan, pow, isnan
 import numpy as np
 from scipy.optimize import brenth
+from CompAero.commonFuncs import checkValue
 
 
 class IsentropicRelations:
@@ -24,19 +25,19 @@ class IsentropicRelations:
         self._precision = 4
 
         # Calculate parameters based on what was passed in
-        if isnan(self.gamma) or self.gamma < 0.0:
+        if not checkValue(self.gamma):
             return
 
-        if self.__checkValue(self.p0_p):
+        if checkValue(self.p0_p):
             self.mach = IsentropicRelations.calcMachFrom_p0_p(self.p0_p, self.gamma)
-        elif self.__checkValue(self.t0_t):
+        elif checkValue(self.t0_t):
             self.mach = IsentropicRelations.calcMachFrom_T0_T(self.t0_t, self.gamma)
-        elif self.__checkValue(self.rho0_rho):
+        elif checkValue(self.rho0_rho):
             self.mach = IsentropicRelations.calcMachFrom_rho0_rho(self.rho0_rho, self.gamma)
-        elif self.__checkValue(self.a_aStar):
+        elif checkValue(self.a_aStar):
             self.mach = IsentropicRelations.calcMachFrom_A_Astar(self.a_aStar, self.gamma, self.flowType)
 
-        if self.__checkValue(self.mach):
+        if checkValue(self.mach):
             self.__calculateStateFromMach()
 
     def __calculateStateFromMach(self) -> None:
@@ -45,15 +46,6 @@ class IsentropicRelations:
         self.rho0_rho = IsentropicRelations.calc_rho0_rho(self.mach, self.gamma)
         self.a_aStar = IsentropicRelations.calc_A_Astar(self.mach, self.gamma)
         self.flowType = "Supersonic" if self.mach > 1.0 else "Subsonic"
-
-    def __checkValue(self, var: float) -> bool:
-        if isnan(var):
-            return False
-
-        if var < 0:
-            return False
-
-        return True
 
     def __str__(self) -> str:
         ff = "\nIsentropic Flow State at Mach: {}\n".format(round(self.mach, self._precision))
