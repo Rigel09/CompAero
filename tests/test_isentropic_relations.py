@@ -1,5 +1,6 @@
 from pytest import approx
 from CompAero.IsentropecRelations import IsentropicRelations as isr
+from CompAero.common import FlowState as FS
 
 
 class TestIsentropicClassFuncs:
@@ -29,7 +30,9 @@ class TestIsentropicClassFuncs:
         assert isr.calc_A_Astar(0.5, self.gamma) == approx(1.3398, rel=1e-4)
 
     def test_subsonic_func_mach_from_A_Astar(self):
-        assert isr.calcMachFrom_A_Astar(1.33984375, self.gamma, flowType="Subsonic") == approx(0.5, rel=1e-4)
+        assert isr.calcMachFrom_A_Astar(1.33984375, self.gamma, flowType=FS.SUB_SONIC) == approx(
+            0.5, rel=1e-4
+        )
 
     # Test the Functions for Supersonic Case
     #######################################################################################
@@ -55,7 +58,7 @@ class TestIsentropicClassFuncs:
         assert isr.calc_A_Astar(1.5, self.gamma) == approx(1.1762, rel=1e-4)
 
     def test_supersonic_func_mach_from_A_Astar(self):
-        assert isr.calcMachFrom_A_Astar(1.17616705, self.gamma, flowType="Supersonic") == approx(
+        assert isr.calcMachFrom_A_Astar(1.17616705, self.gamma, flowType=FS.SUPER_SONIC) == approx(
             1.5, rel=1e-4
         )
 
@@ -71,7 +74,7 @@ class TestIsentropicClassSubsonic:
         assert inst.t0_t == approx(1.05, rel=1e-3)
         assert inst.rho0_rho == approx(1.1297, rel=1e-4)
         assert inst.a_aStar == approx(1.3398, rel=1e-4)
-        assert inst.flowType == "Subsonic"
+        assert inst.flowType == FS.SUB_SONIC
 
     def test_subsonic_construction_from_p0_p(self):
         inst = isr(gamma=self.gamma, p0_p=1.186212645674475)
@@ -81,7 +84,7 @@ class TestIsentropicClassSubsonic:
         assert inst.t0_t == approx(1.05, rel=1e-3)
         assert inst.rho0_rho == approx(1.1297, rel=1e-4)
         assert inst.a_aStar == approx(1.3398, rel=1e-4)
-        assert inst.flowType == "Subsonic"
+        assert inst.flowType == FS.SUB_SONIC
 
     def test_subsonic_construction_from_t0_t(self):
         inst = isr(gamma=self.gamma, t0_t=1.05)
@@ -91,7 +94,7 @@ class TestIsentropicClassSubsonic:
         assert inst.t0_t == approx(1.05, rel=1e-3)
         assert inst.rho0_rho == approx(1.1297, rel=1e-4)
         assert inst.a_aStar == approx(1.3398, rel=1e-4)
-        assert inst.flowType == "Subsonic"
+        assert inst.flowType == FS.SUB_SONIC
 
     def test_subsonic_construction_from_rho0_rho(self):
         inst = isr(gamma=self.gamma, rho0_rho=1.1297263272993634)
@@ -101,17 +104,17 @@ class TestIsentropicClassSubsonic:
         assert inst.t0_t == approx(1.05, rel=1e-3)
         assert inst.rho0_rho == approx(1.1297, rel=1e-4)
         assert inst.a_aStar == approx(1.3398, rel=1e-4)
-        assert inst.flowType == "Subsonic"
+        assert inst.flowType == FS.SUB_SONIC
 
     def test_subsonic_construction_from_A_Astar(self):
-        inst = isr(gamma=self.gamma, a_aStar=1.33984375, flowType="Subsonic")
+        inst = isr(gamma=self.gamma, a_aStar=1.33984375, flowType=FS.SUB_SONIC)
         assert inst.mach == approx(0.5, rel=1e-2)
         assert inst.gamma == approx(self.gamma, rel=1e-2)
         assert inst.p0_p == approx(1.1862, rel=1e-4)
         assert inst.t0_t == approx(1.05, rel=1e-3)
         assert inst.rho0_rho == approx(1.1297, rel=1e-4)
         assert inst.a_aStar == approx(1.3398, rel=1e-4)
-        assert inst.flowType == "Subsonic"
+        assert inst.flowType == FS.SUB_SONIC
 
 
 class TestIsentropicClassSupersonic:
@@ -125,7 +128,7 @@ class TestIsentropicClassSupersonic:
         assert inst.t0_t == approx(1.45, rel=1e-3)
         assert inst.rho0_rho == approx(2.5317, rel=1e-4)
         assert inst.a_aStar == approx(1.1762, rel=1e-4)
-        assert inst.flowType == "Supersonic"
+        assert inst.flowType == FS.SUPER_SONIC
 
     def test_supersonic_construction_from_p0_p(self):
         inst = isr(gamma=self.gamma, p0_p=3.671030714559521)
@@ -135,7 +138,7 @@ class TestIsentropicClassSupersonic:
         assert inst.t0_t == approx(1.45, rel=1e-3)
         assert inst.rho0_rho == approx(2.5317, rel=1e-4)
         assert inst.a_aStar == approx(1.1762, rel=1e-4)
-        assert inst.flowType == "Supersonic"
+        assert inst.flowType == FS.SUPER_SONIC
 
     def test_supersonic_construction_from_t0_t(self):
         inst = isr(gamma=self.gamma, t0_t=1.45)
@@ -145,7 +148,7 @@ class TestIsentropicClassSupersonic:
         assert inst.t0_t == approx(1.45, rel=1e-3)
         assert inst.rho0_rho == approx(2.5317, rel=1e-4)
         assert inst.a_aStar == approx(1.1762, rel=1e-4)
-        assert inst.flowType == "Supersonic"
+        assert inst.flowType == FS.SUPER_SONIC
 
     def test_supersonic_construction_from_rho0_rho(self):
         inst = isr(gamma=self.gamma, rho0_rho=2.5317453011566733)
@@ -155,7 +158,7 @@ class TestIsentropicClassSupersonic:
         assert inst.t0_t == approx(1.45, rel=1e-3)
         assert inst.rho0_rho == approx(2.5317, rel=1e-4)
         assert inst.a_aStar == approx(1.1762, rel=1e-4)
-        assert inst.flowType == "Supersonic"
+        assert inst.flowType == FS.SUPER_SONIC
 
     def test_supersonic_construction_from_A_Astar(self):
         inst = isr(gamma=self.gamma, a_aStar=1.17616705)
@@ -165,5 +168,5 @@ class TestIsentropicClassSupersonic:
         assert inst.t0_t == approx(1.45, rel=1e-3)
         assert inst.rho0_rho == approx(2.5317, rel=1e-4)
         assert inst.a_aStar == approx(1.1762, rel=1e-4)
-        assert inst.flowType == "Supersonic"
+        assert inst.flowType == FS.SUPER_SONIC
 

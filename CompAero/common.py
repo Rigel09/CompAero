@@ -1,5 +1,6 @@
 from math import isnan
 from typing import List, Union
+from enum import Enum
 
 
 def checkValue(value: Union[float, List[float]]) -> bool:
@@ -14,3 +15,8 @@ def checkValue(value: Union[float, List[float]]) -> bool:
             checkVal = checkVal and val > 0.0
 
     return checkVal
+
+
+class FlowState(Enum):
+    SUB_SONIC = 1
+    SUPER_SONIC = 2

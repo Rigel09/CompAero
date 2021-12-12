@@ -1,6 +1,7 @@
 from math import sqrt, nan, pow, isnan, log
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
+from CompAero.common import checkValue
 
 
 class FannoFlowRelations:
@@ -50,29 +51,29 @@ class FannoFlowRelations:
         self.f4LD2_f4LD1 = nan
         self.u2_u1 = nan
 
-        if self.__checkValue(self.t_tSt):
+        if checkValue(self.t_tSt):
             self.mach = FannoFlowRelations.calcMachFrom_T_TSt(self.t_tSt, self.gamma)
 
-        elif self.__checkValue(self.p_pSt):
+        elif checkValue(self.p_pSt):
             self.mach = FannoFlowRelations.calcMachFrom_P_PSt(self.p_pSt, self.gamma)
 
-        elif self.__checkValue(self.rho_rhoSt):
+        elif checkValue(self.rho_rhoSt):
             self.mach = FannoFlowRelations.calcMachFrom_Rho_RhoSt(self.rho_rhoSt, self.gamma)
 
-        elif self.__checkValue(self.po_poSt):
+        elif checkValue(self.po_poSt):
             self.mach = FannoFlowRelations.calcMachFrom_Po_PoSt(
                 self.po_poSt, self.gamma, flowType=self.flowType
             )
 
-        elif self.__checkValue(self.f4LSt_D):
+        elif checkValue(self.f4LSt_D):
             self.mach = FannoFlowRelations.calcMachFrom_4FLSt_D(
                 self.f4LSt_D, self.gamma, flowType=self.flowType
             )
 
-        elif self.__checkValue(self.u_uSt):
+        elif checkValue(self.u_uSt):
             self.mach = FannoFlowRelations.calcMachFrom_U_USt(self.u_uSt, self.gamma)
 
-        if self.__checkValue(self.mach):
+        if checkValue(self.mach):
             self.__calculateState()
 
     def __str__(self) -> str:
@@ -226,11 +227,7 @@ class FannoFlowRelations:
             self.flowType = "Supersonic"
 
     def __calculateDownStreamState(self) -> None:
-        if (
-            not self.__checkValue(self.pipeDiameter)
-            or not self.__checkValue(self.pipeLength)
-            or not self.__checkValue(self.frictionCoeff)
-        ):
+        if not checkValue([self.pipeDiameter, self.pipeLength, self.frictionCoeff]):
             return
 
         self.chokedLength = self.f4LSt_D * self.pipeDiameter / 4 / self.frictionCoeff
@@ -257,15 +254,6 @@ class FannoFlowRelations:
         self.po2_po1 = self.dwnStrm_po_poSt / self.po_poSt
         self.f4LD2_f4LD1 = self.dwnStrm_f4LSt_D / self.f4LSt_D
         self.u2_u1 = self.dwnStrm_u_uSt / self.u_uSt
-
-    def __checkValue(self, var: float) -> bool:
-        if isnan(var):
-            return False
-
-        if var < 0:
-            return False
-
-        return True
 
     @staticmethod
     def calcT_Tstar(mach: float, gamma: float, offset: float = 0.0) -> float:

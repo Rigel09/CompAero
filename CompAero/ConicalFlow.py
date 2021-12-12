@@ -2,7 +2,7 @@ from numpy import ndarray
 import numpy as np
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
-from CompAero.commonFuncs import checkValue
+from CompAero.common import checkValue
 from CompAero.ObliqueShockRelations import ObliqueShockRelations
 from GreekLetters.greekLetters import LowerCaseGreek as lcg, Misc
 from CompAero.IsentropecRelations import IsentropicRelations

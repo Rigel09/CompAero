@@ -1,7 +1,7 @@
 from math import sqrt, nan, pow, isnan
 import numpy as np
 from scipy.optimize import brenth
-from CompAero.commonFuncs import checkValue
+from CompAero.common import checkValue, FlowState as FS
 
 
 class IsentropicRelations:
@@ -13,7 +13,7 @@ class IsentropicRelations:
         t0_t: float = nan,
         rho0_rho: float = nan,
         a_aStar: float = nan,
-        flowType: str = "Supersonic",
+        flowType: FS = FS.SUPER_SONIC,
     ) -> None:
         self.gamma = gamma
         self.mach = mach
@@ -45,7 +45,7 @@ class IsentropicRelations:
         self.p0_p = IsentropicRelations.calc_p0_p(self.mach, self.gamma)
         self.rho0_rho = IsentropicRelations.calc_rho0_rho(self.mach, self.gamma)
         self.a_aStar = IsentropicRelations.calc_A_Astar(self.mach, self.gamma)
-        self.flowType = "Supersonic" if self.mach > 1.0 else "Subsonic"
+        self.flowType = FS.SUPER_SONIC if self.mach > 1.0 else FS.SUB_SONIC
 
     def __str__(self) -> str:
         ff = "\nIsentropic Flow State at Mach: {}\n".format(round(self.mach, self._precision))
@@ -120,14 +120,15 @@ class IsentropicRelations:
         return sqrt(pow(nonRaised, gp1 / gm1) / mSqr) - offset
 
     @staticmethod
-    def calcMachFrom_A_Astar(A_Astar: float, gamma: float, flowType: str = "Supersonic") -> float:
+    def calcMachFrom_A_Astar(A_Astar: float, gamma: float, flowType: FS = FS.SUPER_SONIC) -> float:
         """ Calcutes the given Mach associated for A/A* need to specify subsonic or supersonic solution """
+        assert isinstance(flowType, FS)
         if A_Astar == 1.0:
             return A_Astar
-        elif flowType == "Supersonic":
+        elif flowType == FS.SUPER_SONIC:
             return brenth(IsentropicRelations.calc_A_Astar, 1, 30, args=(gamma, A_Astar))
-        elif flowType == "Subsonic":
+        elif flowType == FS.SUB_SONIC:
             return brenth(IsentropicRelations.calc_A_Astar, 0.001, 1, args=(gamma, A_Astar))
         else:
-            print("Unsupported flow type passed to A/A* calculations. Type: {}".format(flowType))
+            print("Unsupported flow type passed to A/A* calculations. Type: {}".format(flowType.name))
             return nan
