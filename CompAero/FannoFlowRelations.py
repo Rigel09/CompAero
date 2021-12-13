@@ -1,7 +1,7 @@
 from math import sqrt, nan, pow, isnan, log
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
-from CompAero.common import checkValue
+from CompAero.common import FlowState, checkValue
 
 
 class FannoFlowRelations:
@@ -15,7 +15,7 @@ class FannoFlowRelations:
         po_poSt: float = nan,
         f4LSt_D: float = nan,
         u_uSt: float = nan,
-        flowType: str = "Supersonic",
+        flowType: FlowState = FlowState.SUPER_SONIC,
     ) -> None:
         self.gamma = gamma
         self.mach = mach
@@ -76,6 +76,10 @@ class FannoFlowRelations:
         if checkValue(self.mach):
             self.__calculateState()
 
+    @property
+    def chockedFlow(self) -> bool:
+        return self.pipeLength >= self.chokedLength
+
     def __str__(self) -> str:
         gammaStr = str(round(self.gamma, self._preciscion))
         machStr = str(round(self.mach, self._preciscion))
@@ -121,7 +125,9 @@ class FannoFlowRelations:
         rhoR = "|{:<{width}}{}|\n".format("\u03C1/\u03C1*", rhoStr, width=width - len(rhoStr))
         lenR = "|{:-<{width}}{}|\n".format("4fL*/D", f4ldStr, width=width - len(f4ldStr))
         uStR = "|{:<{width}}{}|\n".format("U/U*", UStr, width=width - len(UStr))
-        flow = "|{:-<{width}}{}|\n".format("FlowType", self.flowType, width=width - len(self.flowType))
+        flow = "|{:-<{width}}{}|\n".format(
+            "FlowType", self.flowType.name, width=width - len(self.flowType.name)
+        )
 
         # Pipe Parameters
         paramSep = "|{:-^{width}}|\n".format("Pipe Parameters", width=width)
@@ -217,14 +223,14 @@ class FannoFlowRelations:
         self.t_tSt = FannoFlowRelations.calcT_Tstar(self.mach, self.gamma)
         self.p_pSt = FannoFlowRelations.calcP_Pstar(self.mach, self.gamma)
         self.rho_rhoSt = FannoFlowRelations.calcRho_RhoStar(self.mach, self.gamma)
-        self.po_poSt = FannoFlowRelations.calcRho_RhoStar(self.mach, self.gamma)
+        self.po_poSt = FannoFlowRelations.calcPo_PoStar(self.mach, self.gamma)
         self.f4LSt_D = FannoFlowRelations.calc4FLSt_D(self.mach, self.gamma)
         self.u_uSt = FannoFlowRelations.calcU_Ustar(self.mach, self.gamma)
 
         if self.mach < 1:
-            self.flowType = "Subsonic"
+            self.flowType = FlowState.SUB_SONIC
         else:
-            self.flowType = "Supersonic"
+            self.flowType = FlowState.SUPER_SONIC
 
     def __calculateDownStreamState(self) -> None:
         if not checkValue([self.pipeDiameter, self.pipeLength, self.frictionCoeff]):
@@ -243,7 +249,7 @@ class FannoFlowRelations:
         self.dwnStrm_t_tSt = FannoFlowRelations.calcT_Tstar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_p_pSt = FannoFlowRelations.calcP_Pstar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_rho_rhoSt = FannoFlowRelations.calcRho_RhoStar(self.dwnStrmMach, self.gamma)
-        self.dwnStrm_po_poSt = FannoFlowRelations.calcRho_RhoStar(self.dwnStrmMach, self.gamma)
+        self.dwnStrm_po_poSt = FannoFlowRelations.calcPo_PoStar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_u_uSt = FannoFlowRelations.calcU_Ustar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_f4LSt_D = FannoFlowRelations.calc4FLSt_D(self.dwnStrmMach, self.gamma)
 
@@ -286,28 +292,30 @@ class FannoFlowRelations:
         return brenth(FannoFlowRelations.calcRho_RhoStar, 1e-9, 40, args=(gamma, rho_rhoSt,),)
 
     @staticmethod
-    def calcRho_RhoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calcPo_PoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
         """ Calculates po/po* given mach and gamma"""
         gp1 = gamma + 1
         gm1 = gamma - 1
         return pow(1 / FannoFlowRelations.calcT_Tstar(mach, gamma), gp1 / (2 * gm1)) / mach - offset
 
     @staticmethod
-    def calcMachFrom_Po_PoSt(po_poSt: float, gamma: float, flowType: str = "Supersonic") -> float:
+    def calcMachFrom_Po_PoSt(
+        po_poSt: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
+    ) -> float:
         """ Calculates mach given po/po* and gamma"""
         tolerance = 1e-5
         if po_poSt == 1.0:
             return 1
-        elif flowType == "Supersonic":
-            return brenth(FannoFlowRelations.calcRho_RhoStar, 1 + tolerance, 40, args=(gamma, po_poSt,),)
-        elif flowType == "Subsonic":
-            return brenth(
-                FannoFlowRelations.calcRho_RhoStar, tolerance, 1 - tolerance, args=(gamma, po_poSt,),
-            )
+        elif flowType == FlowState.SUPER_SONIC:
+            return brenth(FannoFlowRelations.calcPo_PoStar, 1 + tolerance, 40, args=(gamma, po_poSt,),)
+        elif flowType == FlowState.SUB_SONIC:
+            return brenth(FannoFlowRelations.calcPo_PoStar, tolerance, 1 - tolerance, args=(gamma, po_poSt,),)
         else:
             raise ValueError(
                 Back.RED + Fore.BLACK + "Flow Type [{}] not supported for Fanno"
-                " Flow! Accepted Types: 'Supersonic' & 'Subsonic'".format(flowType) + Back.RESET + Fore.RESET
+                " Flow! Accepted Types: 'Supersonic' & 'Subsonic'".format(flowType.name)
+                + Back.RESET
+                + Fore.RESET
             )
 
     @staticmethod
@@ -319,18 +327,22 @@ class FannoFlowRelations:
         return (1 - mSqr) / (gamma * mSqr) + (gp1 / (2 * gamma)) * log(t_tSt * mSqr) - offset
 
     @staticmethod
-    def calcMachFrom_4FLSt_D(f4lSt_d: float, gamma: float, flowType: str = "Supersonic") -> float:
+    def calcMachFrom_4FLSt_D(
+        f4lSt_d: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
+    ) -> float:
         """ Calculates mach given gamma and 4FL*/D"""
         if f4lSt_d == 0.0:
             return 1
-        elif flowType == "Supersonic":
+        elif flowType == FlowState.SUPER_SONIC:
             return brenth(FannoFlowRelations.calc4FLSt_D, 1.00001, 50, args=(gamma, f4lSt_d,),)
-        elif flowType == "Subsonic":
+        elif flowType == FlowState.SUB_SONIC:
             return brenth(FannoFlowRelations.calc4FLSt_D, 1e-5, 0.9999, args=(gamma, f4lSt_d,),)
         else:
             raise ValueError(
                 Back.RED + Fore.BLACK + "Flow Type [{}] not supported for Fanno"
-                " Flow! Accepted Types: 'Supersonic' & 'Subsonic'".format(flowType) + Back.RESET + Fore.RESET
+                " Flow! Accepted Types: 'Supersonic' & 'Subsonic'".format(flowType.name)
+                + Back.RESET
+                + Fore.RESET
             )
 
     @staticmethod
