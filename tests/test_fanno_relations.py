@@ -1,4 +1,3 @@
-from math import gamma
 from pytest import approx
 from CompAero.FannoFlowRelations import FannoFlowRelations as ffr
 from CompAero.common import FlowState as FS

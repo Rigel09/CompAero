@@ -70,13 +70,27 @@ if __name__ == "__main__":
     # plt.grid()
     # plt.show()
 
+    flow = RayleighFlowRelations(1.4, 0.5)
+    # print(flow)
+    print(flow.rho_rhoSt)
+    print(flow.t_tSt)
+    print(flow.u_uSt)
+    print(flow.po_poSt)
+    print(flow.p_pSt)
+
     ##########################################################################
     #################### Rayleigh Flow Example  ##############################
     ##########################################################################
-    # flow = RayleighFlowRelations(1.4, rho_rhoSt=0.5875)
-    # print()
-    # flow.simulateHeatAddition(260786.98, 275.2, 287)
-    # print(flow)
+    flow = RayleighFlowRelations(1.4, mach=1.5)
+    print()
+    flow.simulateHeatAddition(100000, 275.2, 287)
+    print(flow)
+    print(flow.t_tSt)
+    print(flow.p_pSt)
+    print(flow.rho_rhoSt)
+    print(flow.po_poSt)
+    print(flow.to_toSt)
+    print(flow.u_uSt)
     # flow.__preciscion = 4
 
     ##########################################################################
