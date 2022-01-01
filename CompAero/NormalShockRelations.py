@@ -1,7 +1,9 @@
 from math import sqrt, nan, pow, isnan
+from _pytest.python_api import raises
 from scipy.optimize import brenth
 
 from CompAero.IsentropecRelations import IsentropicRelations
+from CompAero.common import checkValue
 
 
 class NormalShockRelations:
@@ -30,25 +32,25 @@ class NormalShockRelations:
         if isnan(self.gamma) or self.gamma < 0.0:
             return
 
-        if self.__checkValue(self.p2_p1):
+        if checkValue(self.p2_p1):
             self.mach = NormalShockRelations.calcMachFrom_p2_p1(self.p2_p1, self.gamma)
 
-        elif self.__checkValue(self.rho2_rho1):
+        elif checkValue(self.rho2_rho1):
             self.mach = NormalShockRelations.calcMachFrom_rho2_rho1(self.rho2_rho1, self.gamma)
 
-        elif self.__checkValue(self.t2_t1):
+        elif checkValue(self.t2_t1):
             self.mach = NormalShockRelations.calcMachFrom_T2_T1(self.t2_t1, self.gamma)
 
-        elif self.__checkValue(self.po2_po1):
+        elif checkValue(self.po2_po1):
             self.mach = NormalShockRelations.calcMachFrom_po2_po1(self.po2_po1, self.gamma)
 
-        elif self.__checkValue(self.po2_p1):
+        elif checkValue(self.po2_p1):
             self.mach = NormalShockRelations.calcMachFrom_po2_p1(self.po2_p1, self.gamma)
 
-        elif self.__checkValue(self.mach2):
+        elif checkValue(self.mach2):
             self.mach = NormalShockRelations.calcMachFrom_mach2(self.mach2, self.gamma)
 
-        if self.__checkValue(self.mach):
+        if checkValue(self.mach):
             if self.mach >= 1.0:
                 self.__calculateStateFromMach()
             else:
@@ -61,15 +63,6 @@ class NormalShockRelations:
         self.po2_po1 = NormalShockRelations.calc_po2_po1(self.mach, self.gamma)
         self.po2_p1 = NormalShockRelations.calc_po2_p1(self.mach, self.gamma)
         self.mach2 = NormalShockRelations.calc__mach2(self.mach, self.gamma)
-
-    def __checkValue(self, var: float) -> bool:
-        if isnan(var):
-            return False
-
-        if var < 0:
-            return False
-
-        return True
 
     def setPrecision(self, precision: int) -> None:
         self._precision = int(precision)
@@ -106,12 +99,15 @@ class NormalShockRelations:
             Can be used for root finding if a given off set is applied
         """
 
+        if mach < 1.0:
+            raise ValueError("Normal Shocks Require a mach greater than 1")
+
         return 1 + 2 * gamma / (gamma + 1) * (pow(mach, 2) - 1) - offset
 
     @staticmethod
     def calcMachFrom_p2_p1(p2_p1: float, gamma: float) -> float:
         """ Calcutes the given Mach associated for p2_p1 """
-        return brenth(NormalShockRelations.calc_p2_p1, 0.001, 30, args=(gamma, p2_p1))
+        return brenth(NormalShockRelations.calc_p2_p1, 1.0, 30, args=(gamma, p2_p1))
 
     @staticmethod
     def calc_rho2_rho1(mach: float, gamma: float, offset: float = 0.0) -> float:
@@ -119,13 +115,15 @@ class NormalShockRelations:
             Calculates p2/p1 for a give Mach and gamma combination
             Can be used for root finding if a given off set is applied
         """
+        if mach < 1.0:
+            raise ValueError("Normal Shocks Require a mach greater than 1")
 
         return (gamma + 1) * pow(mach, 2) / (2 + (gamma - 1) * pow(mach, 2)) - offset
 
     @staticmethod
     def calcMachFrom_rho2_rho1(rho2_rho1: float, gamma: float) -> float:
         """ Calcutes the given Mach associated for rho2/rho1 """
-        return brenth(NormalShockRelations.calc_rho2_rho1, 0.001, 30, args=(gamma, rho2_rho1))
+        return brenth(NormalShockRelations.calc_rho2_rho1, 1.0, 30, args=(gamma, rho2_rho1))
 
     @staticmethod
     def calc_T2_T1(mach: float, gamma: float, offset: float = 0.0) -> float:
@@ -133,6 +131,8 @@ class NormalShockRelations:
             Calculates T2/T1 for a give Mach and gamma combination
             Can be used for root finding if a given off set is applied
         """
+        if mach < 1.0:
+            raise ValueError("Normal Shocks Require a mach greater than 1")
 
         return (
             NormalShockRelations.calc_p2_p1(mach, gamma) / NormalShockRelations.calc_rho2_rho1(mach, gamma)
@@ -150,6 +150,8 @@ class NormalShockRelations:
             Calculates downstream mach for a give Mach and gamma combination
             Can be used for root finding if a given off set is applied
         """
+        if mach < 1.0:
+            raise ValueError("Normal Shocks Require a mach greater than 1")
         gm1 = gamma - 1
         mSqr = pow(mach, 2)
         num = 1 + gm1 / 2 * mSqr
@@ -167,6 +169,8 @@ class NormalShockRelations:
             Calculates po2/po1 for a give Mach and gamma combination
             Can be used for root finding if a given off set is applied
         """
+        if mach < 1.0:
+            raise ValueError("Normal Shocks Require a mach greater than 1")
         m2 = NormalShockRelations.calc__mach2(mach, gamma)
         upstream = IsentropicRelations(gamma, mach=mach)
         downstream = IsentropicRelations(gamma, mach=m2)
