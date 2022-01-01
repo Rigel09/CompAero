@@ -71,7 +71,7 @@ class PrandtlMeyer:
                 + "\t"
             )
 
-        if checkValue(self.__mach):
+        if checkValue(self.__mach) and self.__mach >= 1.0:
             self.__calculateState()
 
     def __str__(self) -> str:
@@ -173,6 +173,9 @@ class PrandtlMeyer:
     @staticmethod
     def calcNuFromMach(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculated Nu given a mach number. Offset can be used for root finding"""
+        if mach <= 1.0:
+            return 0.0
+
         gp1 = gamma + 1
         gm1 = gamma - 1
         mSqrMinus1 = pow(mach, 2) - 1
@@ -181,5 +184,8 @@ class PrandtlMeyer:
     @staticmethod
     def calcMachGivenNu(nu: float, gamma: float) -> float:
         """ Calculates Mach number for a given Nu"""
+        if nu <= 0.0:
+            return 1.0
+
         return brenth(PrandtlMeyer.calcNuFromMach, 1 + 1e-9, 30, args=(gamma, nu))
 
