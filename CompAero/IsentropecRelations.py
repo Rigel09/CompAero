@@ -1,7 +1,16 @@
 from math import sqrt, nan, pow, isnan
 import numpy as np
 from scipy.optimize import brenth
-from CompAero.common import checkValue, FlowState as FS
+from CompAero.internal import (
+    checkValue,
+    FlowState as FS,
+    footer,
+    named_header,
+    named_subheader,
+    seperator,
+    data_value_to_string,
+)
+from CompAero.greek_letters import LowerCaseGreek as lcg
 
 
 class IsentropicRelations:
@@ -55,7 +64,20 @@ class IsentropicRelations:
         third = "\u03C1_0/\u03C1: {}\n".format(round(self.rho0_rho, self._precision))
         fourth = "A/A*:  {}\n".format(round(self.a_aStar, self._precision))
         complete = "".join([ff, ff2, first, second, third, fourth])
-        return complete
+
+        return "".join(
+            [
+                named_header("Isentropic Flow State at Mach", self.mach, precision=self._precision),
+                seperator(),
+                data_value_to_string("p0/p:", self.p0_p, precision=self._precision),
+                data_value_to_string("T0/T:", self.t0_t, precision=self._precision, dot_line=True),
+                data_value_to_string(
+                    "{}0/{}:".format(lcg.rho, lcg.rho), self.rho0_rho, precision=self._precision
+                ),
+                data_value_to_string("A/A*:", self.a_aStar, precision=self._precision, dot_line=True),
+                footer(),
+            ]
+        )
 
     def precision(self, precision: int) -> None:
         self._precision = int(precision)

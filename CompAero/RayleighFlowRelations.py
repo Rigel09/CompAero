@@ -1,7 +1,7 @@
 from math import sqrt, nan, pow, isnan, log
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
-from CompAero.common import FlowState, checkValue
+from CompAero.internal import FlowState, checkValue
 
 
 class RayleighFlowRelations:

@@ -3,7 +3,7 @@ from _pytest.python_api import raises
 from scipy.optimize import brenth
 
 from CompAero.IsentropecRelations import IsentropicRelations
-from CompAero.common import checkValue
+from CompAero.internal import checkValue
 
 
 class NormalShockRelations:

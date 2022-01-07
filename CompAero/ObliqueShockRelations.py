@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from CompAero.NormalShockRelations import NormalShockRelations
-from CompAero.common import checkValue
+from CompAero.internal import checkValue
 
 # TODO: Subclassing from the normal shock relations doesnt seem to make as much sense as it used to
 # get rid of the subclassing and mach ObliqueShockRelations it's own class

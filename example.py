@@ -25,8 +25,8 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Normal Shock Example  ###############################
     ##########################################################################
-    flow = NormalShockRelations(gamma=1.4, m2=0.5130)
-    print(flow)
+    # flow = NormalShockRelations(gamma=1.4, m2=0.5130)
+    # print(flow)
 
     ##########################################################################
     #################### Oblique Shock Example  ##############################
@@ -69,16 +69,16 @@ if __name__ == "__main__":
     # plt.grid()
     # plt.show()
 
-    flow = RayleighFlowRelations(1.4, 0.5)
-    print(flow)
+    # flow = RayleighFlowRelations(1.4, 0.5)
+    # print(flow)
 
     ##########################################################################
     #################### Rayleigh Flow Example  ##############################
     ##########################################################################
-    flow = RayleighFlowRelations(1.4, mach=1.5)
-    print()
-    flow.simulateHeatAddition(100000, 275.2, 287)
-    print(flow)
+    # flow = RayleighFlowRelations(1.4, mach=1.5)
+    # print()
+    # flow.simulateHeatAddition(100000, 275.2, 287)
+    # print(flow)
 
     ##########################################################################
     #################### Prandtl Meyer Example  ##############################

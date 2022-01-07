@@ -1,6 +1,6 @@
 from pytest import approx
 from CompAero.RayleighFlowRelations import RayleighFlowRelations as rfr
-from CompAero.common import FlowState as FS
+from CompAero.internal import FlowState as FS
 
 
 class TestRayleighClassFuncs:

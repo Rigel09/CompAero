@@ -1,7 +1,7 @@
 from math import atan, sqrt, nan, pow, radians, degrees
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
-from CompAero.common import checkValue
+from CompAero.internal import checkValue
 from CompAero.ObliqueShockRelations import ObliqueShockRelations
 from CompAero.greek_letters import LowerCaseGreek as lcg, Misc
 
