@@ -3,13 +3,15 @@ from math import isnan
 from typing import List, Union
 import sys
 
+from colorama.ansi import Style
+
 # Settings for printing out outputs from classes
 TOTAL_WIDTH = 70  # Width of the area including  | |
 INTERNAL_VALUE_WIDTH = TOTAL_WIDTH - 2  # Width of area excluding | |
 
 
 def data_value_to_string(
-    name: str, value: Union[float, int, bool], precision: int = 4, dot_line: bool = False
+    name: str, value: Union[float, int, bool], precision: int, dot_line: bool = False
 ) -> str:
     """This generates a professional easy to read string for a data value
 
@@ -23,10 +25,10 @@ def data_value_to_string(
     Returns:
         str: A formatted string with new line character on the end
     """
-    valString = str(round(value, precision))
+    valString = str(round(value, precision)) if not isinstance(value, (bool, str,)) else str(value)
     sep = "-" if dot_line else ""
-    return "|{:{sep}<{width}}{}|\n".format(
-        name, valString, width=INTERNAL_VALUE_WIDTH - len(valString), sep=sep
+    return "|{:{sep}<{width}}{}|{}\n".format(
+        name, valString, Style.RESET_ALL, width=INTERNAL_VALUE_WIDTH - len(valString), sep=sep
     )
 
 
@@ -40,7 +42,7 @@ def named_subheader(name: str) -> str:
     Returns:
         str: A formatted string with new line character on the end
     """
-    return "|{:-^{width}}|\n".format(" " + name + " ", width=INTERNAL_VALUE_WIDTH - 2)
+    return "|{:-^{width}}|\n".format(" " + name + " ", width=INTERNAL_VALUE_WIDTH)
 
 
 def seperator() -> str:
@@ -52,7 +54,7 @@ def seperator() -> str:
     return "|{:{width}}|\n".format("", width=INTERNAL_VALUE_WIDTH)
 
 
-def named_header(name: str, value: Union[float, int], precision: int = 4) -> str:
+def named_header(name: str, value: Union[float, int], precision: int) -> str:
     """Generates a title header for the table
 
     Args:
