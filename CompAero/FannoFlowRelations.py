@@ -90,7 +90,7 @@ class FannoFlowRelations:
         return self.pipeLength >= self.chokedLength
 
     def __str__(self) -> str:
-        color = "" if self.pipeLength < self.chokedLength else Back.YELLOW + Fore.BLACK
+        color = Back.GREEN + Fore.BLACK if self.pipeLength < self.chokedLength else Back.YELLOW + Fore.BLACK
 
         return "".join(
             [
@@ -107,8 +107,8 @@ class FannoFlowRelations:
                 value_to_string("Flow Type", self.flowType.name, self._preciscion),
                 seperator(),
                 named_subheader("Pipe Parameters"),
-                color,
                 value_to_string("Length For Chocked Flow", self.chokedLength, self._preciscion),
+                color,
                 value_to_string("Is Flow Choked? ", self.chockedFlow, self._preciscion, dot_line=True),
                 value_to_string("Pipe Length", self.pipeLength, self._preciscion),
                 value_to_string("Pipe Diameter", self.pipeDiameter, self._preciscion, dot_line=True),
@@ -132,7 +132,6 @@ class FannoFlowRelations:
                 value_to_string("P02/P01", self.po2_po1, self._preciscion, dot_line=True),
                 value_to_string("4FL*/D2 / 4FL*/D 1", self.f4LD2_f4LD1, self._preciscion),
                 value_to_string("U2/U1", self.u2_u1, self._preciscion, dot_line=True),
-                seperator(),
                 footer(),
             ]
         )

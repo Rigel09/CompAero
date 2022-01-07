@@ -1,7 +1,16 @@
 from math import sqrt, nan, pow, isnan, log
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
-from CompAero.internal import FlowState, checkValue
+from CompAero.internal import (
+    FlowState,
+    checkValue,
+    value_to_string,
+    named_subheader,
+    named_header,
+    footer,
+    seperator,
+)
+from CompAero.greek_letters import LowerCaseGreek as lcg
 
 
 class RayleighFlowRelations:
@@ -26,7 +35,7 @@ class RayleighFlowRelations:
         self.u_uSt = u_uSt
         self.to_toSt = to_toSt
         self.flowType = flowType
-        self.__preciscion = 4
+        self._preciscion = 4
 
         # Pipe parameters
         self.chokedHeat = nan
@@ -129,141 +138,59 @@ class RayleighFlowRelations:
 
     @property
     def precision(self) -> int:
-        return self.__preciscion
+        return self._preciscion
 
     @precision.setter
     def precision(self, precision) -> None:
-        self.__preciscion = precision
+        self._preciscion = precision
 
     def __str__(self) -> str:
-        gammaStr = str(round(self.gamma, self.__preciscion))
-        machStr = str(round(self.mach, self.__preciscion))
-        tempStr = str(round(self.t_tSt, self.__preciscion))
-        prStr = str(round(self.p_pSt, self.__preciscion))
-        porStr = str(round(self.po_poSt, self.__preciscion))
-        rhoStr = str(round(self.rho_rhoSt, self.__preciscion))
-        UStr = str(round(self.u_uSt, self.__preciscion))
-        toStr = str(round(self.to_toSt, self.__preciscion))
-
-        # Pipe parameters
-        chokedStr = str(round(self.chokedHeat, self.__preciscion))
-        heatStr = str(round(self.heat, self.__preciscion))
-        gasConstStr = str(round(self.gasConstantR, self.__preciscion))
-        cpStr = str(round(self.cp, self.__preciscion))
-
-        # Down stream conditions if pipe parameters are given
-        dwnMachStr = str(round(self.dwnStrmMach, self.__preciscion))
-        dwnTmpStr = str(round(self.dwnStrm_t_tSt, self.__preciscion))
-        dwnPressStr = str(round(self.dwnStrm_p_pSt, self.__preciscion))
-        dwnRhoStr = str(round(self.dwnStrm_rho_rhoSt, self.__preciscion))
-        dwnPorStr = str(round(self.dwnStrm_po_poSt, self.__preciscion))
-        dwnVelStr = str(round(self.dwnStrm_u_uSt, self.__preciscion))
-        dwnTorStr = str(round(self.dwnStrm_to_toSt, self.__preciscion))
-
-        # Downstream / Initial Conditions
-        temp2Str = str(round(self.t2_t1, self.__preciscion))
-        press2Str = str(round(self.p2_p1, self.__preciscion))
-        rho2Str = str(round(self.rho2_rho1, self.__preciscion))
-        po2Str = str(round(self.po2_po1, self.__preciscion))
-        to2RStr = str(round(self.to2_to1, self.__preciscion))
-        u2Str = str(round(self.u2_u1, self.__preciscion))
-        to2Str = str(round(self.to2, self.__preciscion))
-        to1Str = str(round(self.to1, self.__preciscion))
-
-        width = 50 - 2  # Width minus edges
-        sep = "|{:{width}}|\n".format("", width=width)
-
-        # Initial Conditions
-        header = "|{:=^{width}}|\n".format("Fanno Relations at Mach: {}".format(machStr), width=width)
-        gamma = "|{:<{width}}{}|\n".format("\u03B3", gammaStr, width=width - len(gammaStr))
-        tempR = "|{:-<{width}}{}|\n".format("T/T*", tempStr, width=width - len(tempStr))
-        pressR = "|{:<{width}}{}|\n".format("P/P*", prStr, width=width - len(prStr))
-        poR = "|{:-<{width}}{}|\n".format("Po/Po*", porStr, width=width - len(porStr))
-        rhoR = "|{:<{width}}{}|\n".format("\u03C1/\u03C1*", rhoStr, width=width - len(rhoStr))
-        uStR = "|{:-<{width}}{}|\n".format("U/U*", UStr, width=width - len(UStr))
-        toR = "|{:<{width}}{}|\n".format("To/To*", toStr, width=width - len(toStr))
-        flow = "|{:-<{width}}{}|\n".format("FlowType", self.flowType, width=width - len(self.flowType.name))
-
-        # Pipe
-        pipeSep = "|{:-^{width}}|\n".format("Pipe Conditions", width=width)
-        if self.heat > self.chokedHeat:
-            choked = (
-                "|"
-                + Fore.BLACK
-                + Back.LIGHTYELLOW_EX
-                + "{:<{width}}{}".format("Heat fro Choked Flow", chokedStr, width=width - len(chokedStr))
-                + Style.RESET_ALL
-                + "|\n"
-            )
-        else:
-            choked = "|{:<{width}}{}|\n".format(
-                "Heat fro Choked Flow", chokedStr, width=width - len(chokedStr)
-            )
-        heat = "|{:-<{width}}{}|\n".format("Added Heat", heatStr, width=width - len(heatStr))
-        gasConst = "|{:<{width}}{}|\n".format("Gas Constant R", gasConstStr, width=width - len(gasConstStr))
-        cp = "|{:-<{width}}{}|\n".format("Cp", cpStr, width=width - len(cpStr))
-        to1 = "|{:<{width}}{}|\n".format("To1", to1Str, width=width - len(to1Str))
-        to2 = "|{:-<{width}}{}|\n".format("To2", to2Str, width=width - len(to2Str))
-
-        # Downstream
-        dwnStrmSep = "|{:-^{width}}|\n".format("Down Stream Conditions", width=width)
-        dwmMach = "|{:<{width}}{}|\n".format("Mach", dwnMachStr, width=width - len(dwnMachStr))
-        dwnTmp = "|{:-<{width}}{}|\n".format("T/T*", dwnTmpStr, width=width - len(dwnTmpStr))
-        dwnPress = "|{:<{width}}{}|\n".format("P/P*", dwnPressStr, width=width - len(dwnPressStr))
-        dwnRho = "|{:-<{width}}{}|\n".format("\u03C1/\u03C1*", dwnRhoStr, width=width - len(dwnRhoStr))
-        dwnPor = "|{:<{width}}{}|\n".format("Po/Po*", dwnPorStr, width=width - len(dwnPorStr))
-        dwnVel = "|{:-<{width}}{}|\n".format("U/U*", dwnVelStr, width=width - len(dwnVelStr))
-        dwnTor = "|{:<{width}}{}|\n".format("To/To*", dwnTorStr, width=width - len(dwnTorStr))
-
-        # Jump Conditions
-        jumpSep = "|{:-^{width}}|\n".format("Conditions Across Heat Addition", width=width)
-        temp2 = "|{:<{width}}{}|\n".format("T2/T1", temp2Str, width=width - len(temp2Str))
-        press2 = "|{:-<{width}}{}|\n".format("P2/P1", press2Str, width=width - len(press2Str))
-        rho2 = "|{:<{width}}{}|\n".format("\u03C12/\u03C11", rho2Str, width=width - len(rho2Str))
-        po2 = "|{:-<{width}}{}|\n".format("Po2/Po1", po2Str, width=width - len(po2Str))
-        to2R = "|{:<{width}}{}|\n".format("To2/To1", to2RStr, width=width - len(to2RStr))
-        u2 = "|{:-<{width}}{}|\n".format("U2/U1", u2Str, width=width - len(u2Str))
-
-        finish = "|{:=^{width}}|\n".format("", width=width)
+        color = Back.GREEN + Fore.BLACK if self.heat < self.chokedHeat else Back.YELLOW + Fore.BLACK
 
         return "".join(
             [
-                header,
-                sep,
-                gamma,
-                tempR,
-                pressR,
-                poR,
-                rhoR,
-                uStR,
-                toR,
-                flow,
-                sep,
-                pipeSep,
-                choked,
-                heat,
-                gasConst,
-                cp,
-                to1,
-                to2,
-                sep,
-                dwnStrmSep,
-                dwmMach,
-                dwnTmp,
-                dwnPress,
-                dwnRho,
-                dwnPor,
-                dwnVel,
-                dwnTor,
-                sep,
-                jumpSep,
-                temp2,
-                press2,
-                rho2,
-                po2,
-                to2R,
-                u2,
-                finish,
+                named_header("Rayleigh Relations at Mach", self.mach, precision=self._preciscion),
+                seperator(),
+                value_to_string(lcg.gamma, self.gamma, self._preciscion),
+                value_to_string("T/T*", self.t_tSt, self._preciscion, dot_line=True),
+                value_to_string("P/P*", self.p_pSt, self._preciscion),
+                value_to_string(
+                    "{}/{}*".format(lcg.rho, lcg.rho), self.rho_rhoSt, self._preciscion, dot_line=True
+                ),
+                value_to_string("P0/P0*", self.po_poSt, self._preciscion),
+                value_to_string("U/U*", self.u_uSt, self._preciscion, dot_line=True),
+                value_to_string("T0/T0*", self.to_toSt, self.precision),
+                value_to_string("Flow Type", self.flowType.name, self._preciscion, dot_line=True),
+                seperator(),
+                named_subheader("Pipe Parameters"),
+                value_to_string("Heat Req. For Chocked Flow", self.chokedHeat, self._preciscion),
+                color,
+                value_to_string("Is Flow Choked? ", self.chockedFlow, self._preciscion, dot_line=True),
+                value_to_string("Added Heat", self.heat, self._preciscion),
+                value_to_string("Gas Constant R", self.gasConstantR, self._preciscion, dot_line=True),
+                value_to_string("Cp", self.cp, self._preciscion),
+                value_to_string("T01", self.to1, self.precision, dot_line=True),
+                value_to_string("T02", self.to2, self.precision),
+                seperator(),
+                named_subheader("Down Stream Conditions"),
+                value_to_string("Mach", self.dwnStrmMach, self._preciscion),
+                value_to_string("T/T*", self.t_tSt, self._preciscion, dot_line=True),
+                value_to_string("P/P*", self.dwnStrm_p_pSt, self._preciscion),
+                value_to_string("P0/P0*", self.dwnStrm_po_poSt, self._preciscion, dot_line=True),
+                value_to_string("{}/{}*".format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self._preciscion),
+                value_to_string("T0/T0*", self.to_toSt, self._preciscion, dot_line=True),
+                value_to_string("U/U*", self.dwnStrm_u_uSt, self._preciscion),
+                seperator(),
+                named_subheader("Conditions Across Heat Addition"),
+                value_to_string("P2/P1", self.p2_p1, self._preciscion),
+                value_to_string(
+                    "{}2/{}1".format(lcg.rho, lcg.rho), self.rho2_rho1, self._preciscion, dot_line=True
+                ),
+                value_to_string("T2/T1", self.t2_t1, self._preciscion),
+                value_to_string("P02/P01", self.po2_po1, self._preciscion, dot_line=True),
+                value_to_string("T02/T01", self.to2_to1, self._preciscion),
+                value_to_string("U2/U1", self.u2_u1, self._preciscion, dot_line=True),
+                footer(),
             ]
         )
 
