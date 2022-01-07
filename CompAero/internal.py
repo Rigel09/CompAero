@@ -106,3 +106,13 @@ class FlowState(Enum):
 class ShockType(Enum):
     WEAK = auto()
     STRONG = auto()
+
+
+class InvalidOptionCombinationError(Exception):
+    """ Thrown when the options supplied to a class are incorrect or invalid (nan) """
+
+    def __init__(self, *args: object) -> None:
+        super().__init__(
+            "Either the options suppled were the incorrect combination or not enough valid arguments were supplied",
+            *args,
+        )

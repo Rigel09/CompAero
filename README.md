@@ -70,7 +70,7 @@ The Rayleigh and Fanno Classes can also simulate Heat and Friction
 ```python
 t1 = 300
 p1 = 1
-po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
+po1 = IsentropicRelations.calc_P0_P(3, 1.4) * p1
 flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
 flow.applyPipeParameters(0.4, 11, 0.005)
 print()
@@ -181,7 +181,7 @@ Example.
 
 ```python
 NormalShockRelations.calc_po2_po1(1.5, 1.4)
-IsentropicRelations.calc_p0_p(1.5, 1.4)
+IsentropicRelations.calc_P0_P(1.5, 1.4)
 ```
 
 ### Validation
