@@ -3,7 +3,8 @@ from _pytest.python_api import raises
 from scipy.optimize import brenth
 
 from CompAero.IsentropecRelations import IsentropicRelations
-from CompAero.common import checkValue
+from CompAero.greek_letters import LowerCaseGreek as lcg
+from CompAero.internal import checkValue, value_to_string, footer, named_header, seperator
 
 
 class NormalShockRelations:
@@ -68,29 +69,21 @@ class NormalShockRelations:
         self._precision = int(precision)
 
     def __str__(self) -> str:
-        mach1Str = str(round(self.mach, self._precision))
-        pRatioStr = str(round(self.p2_p1, self._precision))
-        rhoRatioStr = str(round(self.rho2_rho1, self._precision))
-        tempRatioStr = str(round(self.t2_t1, self._precision))
-        poRatioStr = str(round(self.po2_po1, self._precision))
-        poprRatioStr = str(round(self.po2_p1, self._precision))
-        mach2Str = str(round(self.mach2, self._precision))
-
-        width = 50 - 2  # Width minus edges
-
-        header = "|{:=^{width}}|\n".format("Normal Shock Relations at Mach: {}".format(mach1Str), width=width)
-        pRatio = "|{:<{width}}{}|\n".format("p2/p1:", pRatioStr, width=width - len(pRatioStr))
-        rhoRatio = "|{:-<{width}}{}|\n".format(
-            "\u03C12/\u03C11:", rhoRatioStr, width=width - len(rhoRatioStr)
+        return "".join(
+            [
+                named_header("Normal Shock Relations at Mach", self.mach, self._precision),
+                seperator(),
+                value_to_string("P2/P1", self.p2_p1, self._precision),
+                value_to_string(
+                    "{}2/{}1".format(*[lcg.rho] * 2), self.rho2_rho1, self._precision, dot_line=True
+                ),
+                value_to_string("T2/T1", self.t2_t1, self._precision),
+                value_to_string("P02/P01", self.po2_po1, self._precision, dot_line=True),
+                value_to_string("P02/P1", self.po2_p1, self._precision),
+                value_to_string("Dowstream Mach", self.mach2, self._precision, dot_line=True),
+                footer(),
+            ]
         )
-        tempRatio = "|{:<{width}}{}|\n".format("T2/T1:", tempRatioStr, width=width - len(tempRatioStr))
-        poRatio = "|{:-<{width}}{}|\n".format("po2/po1:", poRatioStr, width=width - len(poRatioStr))
-        poprRatio = "|{:<{width}}{}|\n".format("po2/p1:", poprRatioStr, width=width - len(poprRatioStr))
-        mach2 = "|{:<{width}}{}|\n".format("Downstream Mach:", mach2Str, width=width - len(mach2Str))
-        sep = "|{:{width}}|\n".format("", width=width)
-        finish = "|{:=^{width}}|".format("", width=width)
-
-        return "".join([header, sep, pRatio, rhoRatio, tempRatio, poRatio, poprRatio, mach2, finish,])
 
     @staticmethod
     def calc_p2_p1(mach: float, gamma: float, offset: float = 0.0) -> float:

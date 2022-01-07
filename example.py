@@ -1,4 +1,4 @@
-from CompAero.ConicalFlow import ConicalFlowRelations
+# from CompAero.ConicalFlow import ConicalFlowRelations
 from CompAero.PrandtlMeyer import PrandtlMeyer
 from CompAero.RayleighFlowRelations import RayleighFlowRelations
 from numpy.lib.twodim_base import diag
@@ -31,26 +31,26 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Oblique Shock Example  ##############################
     ##########################################################################
-    # flow = ObliqueShockRelations(1.4, mach=3, shockAngle=60)
-    # print()
-    # print(flow)
+    flow = ObliqueShockRelations(1.4, mach=3, shockAngle=60)
+    print()
+    print(flow)
     # flow.plotThetaBetaMachChart()
 
     ##########################################################################
     #################### Fanno Flow Example  #################################
     ##########################################################################
     # Fanno Flow Example
-    # t1 = 300
-    # p1 = 1
-    # po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
-    # flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
-    # flow.applyPipeParameters(0.4, 11, 0.005)
-    # print()
-    # print(flow)
-    # print()
-    # print("T2: ", t1 * flow.t2_t1)
-    # print("P2: ", p1 * flow.p2_p1)
-    # print("Po2: ", po1 * flow.po2_po1)
+    t1 = 300
+    p1 = 1
+    po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
+    flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
+    flow.applyPipeParameters(0.4, 11, 0.005)
+    print()
+    print(flow)
+    print()
+    print("T2: ", t1 * flow.t2_t1)
+    print("P2: ", p1 * flow.p2_p1)
+    print("Po2: ", po1 * flow.po2_po1)
 
     # Plot length and diameter combinations to slow a mach 3 flow down to a mach 2.5 flow at the exit
     # f4ld = FannoFlowRelations.calc4FLSt_D_FromMach(1.5, 1.4)
@@ -69,15 +69,15 @@ if __name__ == "__main__":
     # plt.grid()
     # plt.show()
 
-    flow = RayleighFlowRelations(1.4, 0.5)
-    print(flow)
+    # flow = RayleighFlowRelations(1.4, 0.5)
+    # print(flow)
 
     ##########################################################################
     #################### Rayleigh Flow Example  ##############################
     ##########################################################################
     flow = RayleighFlowRelations(1.4, mach=1.5)
     print()
-    flow.simulateHeatAddition(100000, 275.2, 287)
+    flow.simulateHeatAddition(1000, 275.2, 287)
     print(flow)
 
     ##########################################################################

@@ -1,7 +1,16 @@
 from math import sqrt, nan, pow, isnan, log
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
-from CompAero.common import FlowState, checkValue
+from CompAero.greek_letters import LowerCaseGreek as lcg
+from CompAero.internal import (
+    FlowState,
+    checkValue,
+    value_to_string,
+    footer,
+    named_header,
+    named_subheader,
+    seperator,
+)
 
 
 class FannoFlowRelations:
@@ -81,135 +90,49 @@ class FannoFlowRelations:
         return self.pipeLength >= self.chokedLength
 
     def __str__(self) -> str:
-        gammaStr = str(round(self.gamma, self._preciscion))
-        machStr = str(round(self.mach, self._preciscion))
-        tempStr = str(round(self.t_tSt, self._preciscion))
-        prStr = str(round(self.p_pSt, self._preciscion))
-        porStr = str(round(self.po_poSt, self._preciscion))
-        rhoStr = str(round(self.rho_rhoSt, self._preciscion))
-        f4ldStr = str(round(self.f4LSt_D, self._preciscion))
-        UStr = str(round(self.u_uSt, self._preciscion))
-
-        # Pipe Condtion Str
-        chkLenStr = str(round(self.chokedLength, self._preciscion))
-        pipeLenStr = str(round(self.pipeLength, self._preciscion))
-        diamStr = str(round(self.pipeDiameter, self._preciscion))
-        coeffStr = str(round(self.frictionCoeff, self._preciscion))
-
-        # Final Condition Strings
-        finalmachStr = str(round(self.dwnStrmMach, self._preciscion))
-        finaltempStr = str(round(self.dwnStrm_t_tSt, self._preciscion))
-        finalprStr = str(round(self.dwnStrm_p_pSt, self._preciscion))
-        finalporStr = str(round(self.dwnStrm_po_poSt, self._preciscion))
-        finalrhoStr = str(round(self.dwnStrm_rho_rhoSt, self._preciscion))
-        finalf4ldStr = str(round(self.dwnStrm_f4LSt_D, self._preciscion))
-        finalUStr = str(round(self.dwnStrm_u_uSt, self._preciscion))
-
-        # Friction Jump Ratios
-        jumptempStr = str(round(self.t2_t1, self._preciscion))
-        jumpprStr = str(round(self.p2_p1, self._preciscion))
-        jumpporStr = str(round(self.po2_po1, self._preciscion))
-        jumprhoStr = str(round(self.rho2_rho1, self._preciscion))
-        jumpf4ldStr = str(round(self.f4LD2_f4LD1, self._preciscion))
-        jumpUStr = str(round(self.u2_u1, self._preciscion))
-
-        width = 50 - 2  # Width minus edges
-        sep = "|{:{width}}|\n".format("", width=width)
-
-        # Initial Conditions
-        header = "|{:=^{width}}|\n".format("Fanno Relations at Mach: {}".format(machStr), width=width)
-        gamma = "|{:<{width}}{}|\n".format("\u03B3", gammaStr, width=width - len(gammaStr))
-        tempR = "|{:-<{width}}{}|\n".format("T/T*", tempStr, width=width - len(tempStr))
-        pressR = "|{:<{width}}{}|\n".format("P/P*", prStr, width=width - len(prStr))
-        poR = "|{:-<{width}}{}|\n".format("Po/Po*", porStr, width=width - len(porStr))
-        rhoR = "|{:<{width}}{}|\n".format("\u03C1/\u03C1*", rhoStr, width=width - len(rhoStr))
-        lenR = "|{:-<{width}}{}|\n".format("4fL*/D", f4ldStr, width=width - len(f4ldStr))
-        uStR = "|{:<{width}}{}|\n".format("U/U*", UStr, width=width - len(UStr))
-        flow = "|{:-<{width}}{}|\n".format(
-            "FlowType", self.flowType.name, width=width - len(self.flowType.name)
-        )
-
-        # Pipe Parameters
-        paramSep = "|{:-^{width}}|\n".format("Pipe Parameters", width=width)
-        if self.pipeLength > self.chokedLength:
-            chokedLen = (
-                Back.YELLOW
-                + Fore.BLACK
-                + "|{:<{width}}{}|".format("Length For Chocked Flow", chkLenStr, width=width - len(chkLenStr))
-                + Style.RESET_ALL
-                + "\n"
-            )
-        else:
-            chokedLen = "|{:<{width}}{}|\n".format(
-                "Length For Chocked Flow", chkLenStr, width=width - len(chkLenStr)
-            )
-
-        pipeLen = "|{:-<{width}}{}|\n".format("Pipe Length", pipeLenStr, width=width - len(pipeLenStr))
-        pipeDiam = "|{:<{width}}{}|\n".format("Pipe Diameter", diamStr, width=width - len(diamStr))
-        fricCoeff = "|{:-<{width}}{}|\n".format("Friction Coefficient", coeffStr, width=width - len(coeffStr))
-
-        # Down Stream Conditions
-        dwnStrmSep = "|{:-^{width}}|\n".format("Down Stream Conditions", width=width)
-        dwnmachStr = "|{:<{width}}{}|\n".format("Mach", finalmachStr, width=width - len(finalmachStr))
-        dwntempR = "|{:-<{width}}{}|\n".format("T/T*", finaltempStr, width=width - len(finaltempStr))
-        dwnpressR = "|{:<{width}}{}|\n".format("P/P*", finalprStr, width=width - len(finalprStr))
-        dwnpoR = "|{:-<{width}}{}|\n".format("Po/Po*", finalporStr, width=width - len(finalporStr))
-        dwnrhoR = "|{:<{width}}{}|\n".format("\u03C1/\u03C1*", finalrhoStr, width=width - len(finalrhoStr))
-        dwnlenR = "|{:-<{width}}{}|\n".format("4fL*/D", finalf4ldStr, width=width - len(finalf4ldStr))
-        dwnuStR = "|{:<{width}}{}|\n".format("U/U*", finalUStr, width=width - len(finalUStr))
-
-        # Parameter Ratios
-        jumpSep = "|{:-^{width}}|\n".format("Conditions Across Friciton Area", width=width)
-        jumppRatio = "|{:<{width}}{}|\n".format("p2/p1:", jumpprStr, width=width - len(jumpprStr))
-        jumprhoRatio = "|{:-<{width}}{}|\n".format(
-            "\u03C12/\u03C11:", jumprhoStr, width=width - len(jumprhoStr)
-        )
-        jumptempRatio = "|{:<{width}}{}|\n".format("T2/T1:", jumptempStr, width=width - len(jumptempStr))
-        jumppoRatio = "|{:-<{width}}{}|\n".format("po2/po1:", jumpporStr, width=width - len(jumpporStr))
-        jumpFrRatio = "|{:<{width}}{}|\n".format(
-            "(4fL*/D)2 / (4fL*/D)1:", jumpf4ldStr, width=width - len(jumpf4ldStr)
-        )
-        jumpVelRatio = "|{:<{width}}{}|\n".format("U2/U1:", jumpUStr, width=width - len(jumpUStr))
-
-        finish = "|{:=^{width}}|\n".format("", width=width)
+        color = Back.GREEN + Fore.BLACK if self.pipeLength < self.chokedLength else Back.YELLOW + Fore.BLACK
 
         return "".join(
             [
-                header,
-                sep,
-                gamma,
-                tempR,
-                pressR,
-                poR,
-                rhoR,
-                lenR,
-                uStR,
-                flow,
-                sep,
-                paramSep,
-                chokedLen,
-                pipeLen,
-                pipeDiam,
-                fricCoeff,
-                sep,
-                dwnStrmSep,
-                dwnmachStr,
-                dwntempR,
-                dwnpressR,
-                dwnpoR,
-                dwnrhoR,
-                dwnlenR,
-                dwnuStR,
-                sep,
-                jumpSep,
-                jumppRatio,
-                jumprhoRatio,
-                jumptempRatio,
-                jumppoRatio,
-                jumpFrRatio,
-                jumpVelRatio,
-                sep,
-                finish,
+                named_header("Fanno Relations at Mach", self.mach, precision=self._preciscion),
+                seperator(),
+                value_to_string(lcg.gamma, self.gamma, self._preciscion),
+                value_to_string("T/T*", self.t_tSt, self._preciscion, dot_line=True),
+                value_to_string("P/P*", self.p_pSt, self._preciscion),
+                value_to_string(
+                    "{}/{}*".format(lcg.rho, lcg.rho), self.rho_rhoSt, self._preciscion, dot_line=True
+                ),
+                value_to_string("4FL*/D", self.f4LSt_D, self._preciscion),
+                value_to_string("U/U*", self.u_uSt, self._preciscion, dot_line=True),
+                value_to_string("Flow Type", self.flowType.name, self._preciscion),
+                seperator(),
+                named_subheader("Pipe Parameters"),
+                value_to_string("Length For Chocked Flow", self.chokedLength, self._preciscion),
+                color,
+                value_to_string("Is Flow Choked? ", self.chockedFlow, self._preciscion, dot_line=True),
+                value_to_string("Pipe Length", self.pipeLength, self._preciscion),
+                value_to_string("Pipe Diameter", self.pipeDiameter, self._preciscion, dot_line=True),
+                value_to_string("Friction Coefficient", self.frictionCoeff, self._preciscion),
+                seperator(),
+                named_subheader("Down Stream Conditions"),
+                value_to_string("Mach", self.dwnStrmMach, self._preciscion),
+                value_to_string("T/T*", self.t_tSt, self._preciscion, dot_line=True),
+                value_to_string("P/P*", self.dwnStrm_p_pSt, self._preciscion),
+                value_to_string("P0/P0*", self.dwnStrm_po_poSt, self._preciscion, dot_line=True),
+                value_to_string("{}/{}*".format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self._preciscion),
+                value_to_string("4FL*/D", self.dwnStrm_f4LSt_D, self._preciscion, dot_line=True),
+                value_to_string("U/U*", self.dwnStrm_u_uSt, self._preciscion),
+                seperator(),
+                named_subheader("Conditions Across Friction Area"),
+                value_to_string("p2/p1", self.p2_p1, self._preciscion),
+                value_to_string(
+                    "{}2/{}1".format(lcg.rho, lcg.rho), self.rho2_rho1, self._preciscion, dot_line=True
+                ),
+                value_to_string("T2/T1", self.t2_t1, self._preciscion),
+                value_to_string("P02/P01", self.po2_po1, self._preciscion, dot_line=True),
+                value_to_string("4FL*/D2 / 4FL*/D 1", self.f4LD2_f4LD1, self._preciscion),
+                value_to_string("U2/U1", self.u2_u1, self._preciscion, dot_line=True),
+                footer(),
             ]
         )
 
