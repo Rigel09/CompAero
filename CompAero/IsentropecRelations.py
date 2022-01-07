@@ -37,8 +37,9 @@ class IsentropicRelations:
         # Calculate parameters based on what was passed in
         if not checkValue(self.gamma):
             assert ValueError("Gamma must be defined in order to determine Isentropic Relations")
-
-        if checkValue(self.p0_p):
+        if checkValue(self.mach):
+            pass
+        elif checkValue(self.p0_p):
             self.mach = IsentropicRelations.calc_mach_from_p0_p(self.p0_p, self.gamma)
         elif checkValue(self.t0_t):
             self.mach = IsentropicRelations.calc_mach_from_T0_T(self.t0_t, self.gamma)

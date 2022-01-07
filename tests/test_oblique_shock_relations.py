@@ -2,6 +2,7 @@ from math import radians
 from pytest import approx
 import pytest
 from CompAero.ObliqueShockRelations import ObliqueShockRelations as osr
+from CompAero.internal import ShockType
 
 
 class TestObliqueShockClassFuncs:
@@ -96,7 +97,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.98660, rel=1e-4)
         assert inst.po2_p1 == approx(2.56720)
         assert inst.mach2 == approx(1.11438, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_mach_norm1_shock_angle(self):
         inst = osr(self.gamma, mn1=1.2534, shockAngle=56.67868)
@@ -112,7 +113,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.98660, rel=1e-4)
         assert inst.po2_p1 == approx(2.5672, rel=1e-4)
         assert inst.mach2 == approx(1.11438, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_shock_angle_wedge_angle(self):
         inst = osr(self.gamma, wedgeAngle=10.0, shockAngle=56.67868)
@@ -128,7 +129,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.98660, rel=1e-4)
         assert inst.po2_p1 == approx(2.5672, rel=1e-4)
         assert inst.mach2 == approx(1.11438, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_shock_angle_wedge_angle_m2_fail(self):
         with pytest.raises(ValueError):
@@ -148,7 +149,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_shock_angle_wedge_angle(self):
         inst = osr(self.gamma, wedgeAngle=10.0, shockAngle=23.01624)
@@ -164,8 +165,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == "Weak"
-        print("here")
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_po2_p1(self):
         inst = osr(self.gamma, po2_p1=3.35977, shockAngle=23.01624)
@@ -181,7 +181,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_p2_p1(self):
         inst = osr(self.gamma, p2_p1=2.40876, shockAngle=23.01624)
@@ -197,7 +197,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_rho2_rho1(self):
         inst = osr(self.gamma, rho2_rho1=1.83768, shockAngle=23.01624)
@@ -213,7 +213,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_t2_t1(self):
         inst = osr(self.gamma, t2_t1=1.31077, shockAngle=23.01624)
@@ -229,7 +229,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_po2_po1(self):
         inst = osr(self.gamma, po2_po1=0.93423, shockAngle=23.01624)
@@ -245,7 +245,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_from_mn2_shock_angle(self):
         inst = osr(self.gamma, mn2=0.70619, shockAngle=23.01624)
@@ -261,7 +261,7 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == "Weak"
+        assert inst.shockType == ShockType.WEAK
 
     def test_construction_not_enough_args(self):
         with pytest.raises(ValueError):
