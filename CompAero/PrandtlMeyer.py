@@ -2,7 +2,7 @@ from math import atan, sqrt, nan, pow, radians, degrees
 from types import DynamicClassAttribute
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
-from CompAero.internal import checkValue, footer, named_header, named_subheader, seperator, value_to_string
+from CompAero.internal import checkValue, footer, named_header, named_subheader, seperator, to_string
 from CompAero.ObliqueShockRelations import ObliqueShockRelations
 from CompAero.greek_letters import LowerCaseGreek as lcg, Misc
 
@@ -80,15 +80,15 @@ class PrandtlMeyer:
             [
                 named_header("Prandtl Relations at Mach", self.mach, self.precision),
                 seperator(),
-                value_to_string(lcg.gamma, self.gamma, self.precision),
-                value_to_string(lcg.nu, self.nu, self.precision, dot_line=True),
-                value_to_string(lcg.mu, self.mu, self.precision),
+                to_string(lcg.gamma, self.gamma, self.precision),
+                to_string(lcg.nu, self.nu, self.precision, dot_line=True),
+                to_string(lcg.mu, self.mu, self.precision),
                 seperator(),
                 named_subheader("Downstream Conditions"),
-                value_to_string("Mach", self.__dwnStrmMach, self.precision),
-                value_to_string(lcg.nu, self.__dwnStrmNu, self.precision, dot_line=True),
-                value_to_string(lcg.mu, self.downStreamMu, self.precision),
-                value_to_string(
+                to_string("Mach", self.__dwnStrmMach, self.precision),
+                to_string(lcg.nu, self.__dwnStrmNu, self.precision, dot_line=True),
+                to_string(lcg.mu, self.downStreamMu, self.precision),
+                to_string(
                     "Flow Deflection Angle [{}]".format(lcg.theta),
                     self.__deflectionAngle,
                     self.precision,

@@ -10,7 +10,7 @@ TOTAL_WIDTH = 70  # Width of the area including  | |
 INTERNAL_VALUE_WIDTH = TOTAL_WIDTH - 2  # Width of area excluding | |
 
 
-def value_to_string(name: str, value: Union[float, int, bool], precision: int, dot_line: bool = False) -> str:
+def to_string(name: str, value: Union[float, int, bool], precision: int, dot_line: bool = False) -> str:
     """This generates a professional easy to read string for a data value
 
     Args:
@@ -32,7 +32,7 @@ def value_to_string(name: str, value: Union[float, int, bool], precision: int, d
 
 
 def named_subheader(name: str) -> str:
-    """This generates a field which has a name in it with similiar format as to value_to_string()
+    """This generates a field which has a name in it with similiar format as to to_string()
        To be used in to seperate sub fields
 
     Args:

@@ -4,7 +4,7 @@ from scipy.optimize import brenth
 
 from CompAero.IsentropecRelations import IsentropicRelations
 from CompAero.greek_letters import LowerCaseGreek as lcg
-from CompAero.internal import checkValue, value_to_string, footer, named_header, seperator
+from CompAero.internal import checkValue, to_string, footer, named_header, seperator
 
 
 class NormalShockRelations:
@@ -73,14 +73,12 @@ class NormalShockRelations:
             [
                 named_header("Normal Shock Relations at Mach", self.mach, self._precision),
                 seperator(),
-                value_to_string("P2/P1", self.p2_p1, self._precision),
-                value_to_string(
-                    "{}2/{}1".format(*[lcg.rho] * 2), self.rho2_rho1, self._precision, dot_line=True
-                ),
-                value_to_string("T2/T1", self.t2_t1, self._precision),
-                value_to_string("P02/P01", self.po2_po1, self._precision, dot_line=True),
-                value_to_string("P02/P1", self.po2_p1, self._precision),
-                value_to_string("Dowstream Mach", self.mach2, self._precision, dot_line=True),
+                to_string("P2/P1", self.p2_p1, self._precision),
+                to_string("{}2/{}1".format(*[lcg.rho] * 2), self.rho2_rho1, self._precision, dot_line=True),
+                to_string("T2/T1", self.t2_t1, self._precision),
+                to_string("P02/P01", self.po2_po1, self._precision, dot_line=True),
+                to_string("P02/P1", self.po2_p1, self._precision),
+                to_string("Dowstream Mach", self.mach2, self._precision, dot_line=True),
                 footer(),
             ]
         )

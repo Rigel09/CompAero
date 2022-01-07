@@ -10,7 +10,7 @@ from CompAero.internal import (
     named_header,
     named_subheader,
     seperator,
-    value_to_string,
+    to_string,
     ShockType,
 )
 from CompAero.greek_letters import LowerCaseGreek as lcg
@@ -170,30 +170,28 @@ class ObliqueShockRelations(NormalShockRelations):
                 named_header("Oblique Shock Relations at Mach", self.mach, self._precision),
                 seperator(),
                 named_subheader("Upstream Conditions"),
-                value_to_string(lcg.gamma, self.gamma, self._precision),
-                value_to_string("Mach", self.mach, self._precision, dot_line=True),
-                value_to_string("Mach Normal Component", self.machNorm1, self._precision),
-                value_to_string(
+                to_string(lcg.gamma, self.gamma, self._precision),
+                to_string("Mach", self.mach, self._precision, dot_line=True),
+                to_string("Mach Normal Component", self.machNorm1, self._precision),
+                to_string(
                     "Flow Deflection Angle {}".format(lcg.theta),
                     self.wedgeAngle,
                     self._precision,
                     dot_line=True,
                 ),
-                value_to_string("Shock Angle {}".format(lcg.beta), self.shockAngle, self._precision),
-                value_to_string("Flow Turn Type", self.shockType.name, self._precision),
+                to_string("Shock Angle {}".format(lcg.beta), self.shockAngle, self._precision),
+                to_string("Flow Turn Type", self.shockType.name, self._precision),
                 seperator(),
                 named_subheader("Shock Jump Conditions"),
-                value_to_string("P2/P1", self.p2_p1, self._precision),
-                value_to_string(
-                    "{}2/{}1".format(*[lcg.rho] * 2), self.rho2_rho1, self._precision, dot_line=True
-                ),
-                value_to_string("T2/T1", self.t2_t1, self._precision),
-                value_to_string("P02/P01", self.po2_po1, self._precision, dot_line=True),
-                value_to_string("P02/P1", self.po2_p1, self._precision),
+                to_string("P2/P1", self.p2_p1, self._precision),
+                to_string("{}2/{}1".format(*[lcg.rho] * 2), self.rho2_rho1, self._precision, dot_line=True),
+                to_string("T2/T1", self.t2_t1, self._precision),
+                to_string("P02/P01", self.po2_po1, self._precision, dot_line=True),
+                to_string("P02/P1", self.po2_p1, self._precision),
                 seperator(),
                 named_subheader("Downstream Conditions"),
-                value_to_string("Mach", self.mach2, self._precision, dot_line=True),
-                value_to_string("Mach Normal Component", self.machNorm2, self._precision),
+                to_string("Mach", self.mach2, self._precision, dot_line=True),
+                to_string("Mach Normal Component", self.machNorm2, self._precision),
                 footer(),
             ]
         )
