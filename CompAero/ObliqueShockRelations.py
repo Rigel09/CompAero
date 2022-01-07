@@ -4,7 +4,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from CompAero.NormalShockRelations import NormalShockRelations
-from CompAero.internal import checkValue
+from CompAero.internal import (
+    checkValue,
+    footer,
+    named_header,
+    named_subheader,
+    seperator,
+    value_to_string,
+    ShockType,
+)
+from CompAero.greek_letters import LowerCaseGreek as lcg
 
 # TODO: Subclassing from the normal shock relations doesnt seem to make as much sense as it used to
 # get rid of the subclassing and mach ObliqueShockRelations it's own class
@@ -24,7 +33,7 @@ class ObliqueShockRelations(NormalShockRelations):
         po2_po1: float = nan,
         po2_p1: float = nan,
         m2: float = nan,
-        shockType: str = "Weak",
+        shockType: ShockType = ShockType.WEAK,
     ) -> None:
 
         self.useDegrees = useDegrees
@@ -40,7 +49,7 @@ class ObliqueShockRelations(NormalShockRelations):
         self.po2_po1 = po2_po1
         self.po2_p1 = po2_p1
         self.mach2 = m2
-        self.shockType = shockType
+        self.shockType: ShockType = shockType
         self._precision = 4
 
         if self.useDegrees and checkValue(self.shockAngle):
@@ -131,19 +140,21 @@ class ObliqueShockRelations(NormalShockRelations):
 
     def __calculateState(self) -> None:
         if checkValue(self.wedgeAngle):
-            if self.shockType == "Weak":
+            if self.shockType == ShockType.WEAK:
                 self.shockAngle = ObliqueShockRelations.calcBetaFromThetaMach_Weak(
                     self.wedgeAngle, self.mach, self.gamma
                 )
 
-            elif self.shockType == "Strong":
+            elif self.shockType == ShockType.STRONG:
                 self.shockAngle = ObliqueShockRelations.calcBetaFromThetaMach_Strong(
                     self.wedgeAngle, self.mach, self.gamma
                 )
 
             else:
                 raise ValueError(
-                    "Incorrect shock type specified -> [{}]. Choices: Strong, Weak".format(self.shockType)
+                    "Incorrect shock type specified -> [{}]. Choices: Strong, Weak".format(
+                        self.shockType.name
+                    )
                 )
 
         elif checkValue(self.shockAngle):
@@ -154,72 +165,36 @@ class ObliqueShockRelations(NormalShockRelations):
         self.machNorm1 = ObliqueShockRelations.calcMachNormal1(self.mach, self.shockAngle)
 
     def __str__(self) -> str:
-        mach1Str = str(round(self.mach, self._precision))
-        mn1Str = str(round(self.machNorm1, self._precision))
-        wedgeStr = str(round(self.wedgeAngle, self._precision))
-        shockStr = str(round(self.shockAngle, self._precision))
-        pRatioStr = str(round(self.p2_p1, self._precision))
-        rhoRatioStr = str(round(self.rho2_rho1, self._precision))
-        tempRatioStr = str(round(self.t2_t1, self._precision))
-        poRatioStr = str(round(self.po2_po1, self._precision))
-        poprRatioStr = str(round(self.po2_p1, self._precision))
-        mach2Str = str(round(self.mach2, self._precision))
-        mn2Str = str(round(self.machNorm2, self._precision))
-
-        width = 50 - 2  # Width minus edges
-
-        top = "|{:=^{width}}|\n".format("", width=width)
-        header = "|{:=^{width}}|\n".format(
-            "Oblique Shock Relations at Mach: {}".format(mach1Str), width=width
-        )
-        upstreamSep = "\n|{:-^{width}}|\n".format("Upstream Conditions", width=width)
-        mach1 = "|{:<{width}}{}|\n".format("Upstream Mach:", mach1Str, width=width - len(mach1Str))
-        mn1 = "|{:-<{width}}{}|\n".format("Upstream Mach_N:", mn1Str, width=width - len(mn1Str))
-        wedge = "|{:<{width}}{}|\n".format("Wedge Angle:", wedgeStr, width=width - len(wedgeStr))
-        shock = "|{:-<{width}}{}|\n".format("Shock Angle:", shockStr, width=width - len(shockStr))
-        Ftype = "|{:<{width}}{}|\n".format(
-            "Flow Turn Type:", self.shockType, width=width - len(self.shockType)
-        )
-
-        sep = "|{:{width}}|".format("", width=width)
-
-        shockSep = "\n|{:-^{width}}|\n".format("Shock Jump Conditions", width=width)
-        pRatio = "|{:<{width}}{}|\n".format("p2/p1:", pRatioStr, width=width - len(pRatioStr))
-        rhoRatio = "|{:-<{width}}{}|\n".format(
-            "\u03C12/\u03C11:", rhoRatioStr, width=width - len(rhoRatioStr)
-        )
-        tempRatio = "|{:<{width}}{}|\n".format("T2/T1:", tempRatioStr, width=width - len(tempRatioStr))
-        poRatio = "|{:-<{width}}{}|\n".format("po2/po1:", poRatioStr, width=width - len(poRatioStr))
-        poprRatio = "|{:<{width}}{}|\n".format("po2/p1:", poprRatioStr, width=width - len(poprRatioStr))
-
-        downSep = "\n|{:-^{width}}|\n".format("Downstream Conditions", width=width)
-        mach2 = "|{:<{width}}{}|\n".format("Downstream Mach:", mach2Str, width=width - len(mach2Str))
-        mn2 = "|{:-<{width}}{}|\n".format("Downstream Mach_N:", mn2Str, width=width - len(mn2Str))
-        finish = "|{:=^{width}}|\n".format("", width=width)
-
         return "".join(
             [
-                top,
-                header,
-                sep,
-                upstreamSep,
-                mach1,
-                mn1,
-                wedge,
-                shock,
-                Ftype,
-                sep,
-                shockSep,
-                pRatio,
-                rhoRatio,
-                tempRatio,
-                poRatio,
-                poprRatio,
-                sep,
-                downSep,
-                mach2,
-                mn2,
-                finish,
+                named_header("Oblique Shock Relations at Mach", self.mach, self._precision),
+                seperator(),
+                named_subheader("Upstream Conditions"),
+                value_to_string(lcg.gamma, self.gamma, self._precision),
+                value_to_string("Mach", self.mach, self._precision, dot_line=True),
+                value_to_string("Mach Normal Component", self.machNorm1, self._precision),
+                value_to_string(
+                    "Flow Deflection Angle {}".format(lcg.theta),
+                    self.wedgeAngle,
+                    self._precision,
+                    dot_line=True,
+                ),
+                value_to_string("Shock Angle {}".format(lcg.beta), self.shockAngle, self._precision),
+                value_to_string("Flow Turn Type", self.shockType.name, self._precision),
+                seperator(),
+                named_subheader("Shock Jump Conditions"),
+                value_to_string("P2/P1", self.p2_p1, self._precision),
+                value_to_string(
+                    "{}2/{}1".format(*[lcg.rho] * 2), self.rho2_rho1, self._precision, dot_line=True
+                ),
+                value_to_string("T2/T1", self.t2_t1, self._precision),
+                value_to_string("P02/P01", self.po2_po1, self._precision, dot_line=True),
+                value_to_string("P02/P1", self.po2_p1, self._precision),
+                seperator(),
+                named_subheader("Downstream Conditions"),
+                value_to_string("Mach", self.mach2, self._precision, dot_line=True),
+                value_to_string("Mach Normal Component", self.machNorm2, self._precision),
+                footer(),
             ]
         )
 

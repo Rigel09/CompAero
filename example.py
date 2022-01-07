@@ -31,9 +31,9 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Oblique Shock Example  ##############################
     ##########################################################################
-    # flow = ObliqueShockRelations(1.4, mach=3, shockAngle=60)
-    # print()
-    # print(flow)
+    flow = ObliqueShockRelations(1.4, mach=3, shockAngle=60)
+    print()
+    print(flow)
     # flow.plotThetaBetaMachChart()
 
     ##########################################################################
@@ -75,10 +75,10 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Rayleigh Flow Example  ##############################
     ##########################################################################
-    flow = RayleighFlowRelations(1.4, mach=1.5)
-    print()
-    flow.simulateHeatAddition(1000, 275.2, 287)
-    print(flow)
+    # flow = RayleighFlowRelations(1.4, mach=1.5)
+    # print()
+    # flow.simulateHeatAddition(1000, 275.2, 287)
+    # print(flow)
 
     ##########################################################################
     #################### Prandtl Meyer Example  ##############################
