@@ -1,4 +1,3 @@
-from math import gamma
 from pytest import approx
 import pytest
 from CompAero.NormalShockRelations import NormalShockRelations as nsr

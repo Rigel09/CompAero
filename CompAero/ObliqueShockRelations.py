@@ -1,12 +1,13 @@
-from math import gamma, sqrt, nan, pow, isnan, radians, sin, cos, atan, tan, asin, degrees, pi, asin
+from math import sqrt, nan, pow, radians, sin, cos, atan, tan, asin, degrees, asin
 from scipy.optimize import brenth
 import matplotlib.pyplot as plt
 import numpy as np
 
-from CompAero.IsentropecRelations import IsentropicRelations
 from CompAero.NormalShockRelations import NormalShockRelations
+from CompAero.common import checkValue
 
-
+# TODO: Subclassing from the normal shock relations doesnt seem to make as much sense as it used to
+# get rid of the subclassing and mach ObliqueShockRelations it's own class
 class ObliqueShockRelations(NormalShockRelations):
     def __init__(
         self,
@@ -42,21 +43,30 @@ class ObliqueShockRelations(NormalShockRelations):
         self.shockType = shockType
         self._precision = 4
 
-        if self.useDegrees and self.__checkValue(self.shockAngle):
+        if self.useDegrees and checkValue(self.shockAngle):
             self.shockAngle = radians(self.shockAngle)
-        if self.useDegrees and self.__checkValue(self.wedgeAngle):
+        if self.useDegrees and checkValue(self.wedgeAngle):
             self.wedgeAngle = radians(self.wedgeAngle)
 
-        if not self.__checkValue(self.gamma):
+        if not checkValue(self.gamma):
             return
 
-        if self.__checkValue(self.mach):
+        if checkValue(self.mach):
             pass
 
-        elif self.__checkValue(self.machNorm1) and self.__checkValue(self.shockAngle):
+        elif checkValue(self.machNorm1) and checkValue(self.shockAngle):
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
-        elif self.__checkValue(self.shockAngle) and self.__checkValue(self.wedgeAngle):
+        elif checkValue(m2) and checkValue(self.wedgeAngle) and checkValue(self.shockAngle):
+            self.machNorm2 = ObliqueShockRelations.calcMachNormal2FromMach2(
+                m2, self.shockAngle, self.wedgeAngle
+            )
+            if self.machNorm2 > 1:
+                assert ValueError("Normal component of downstream mach number has to be less than 1")
+            self.machNorm1 = NormalShockRelations.calcMachFrom_mach2(self.machNorm2, self.gamma)
+            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+
+        elif checkValue(self.shockAngle) and checkValue(self.wedgeAngle):
             self.mach = ObliqueShockRelations.calcMachFromThetaBeta(
                 self.shockAngle, self.wedgeAngle, self.gamma
             )
@@ -80,41 +90,34 @@ class ObliqueShockRelations(NormalShockRelations):
                     )
                 )
 
-        elif (
-            self.__checkValue(m2)
-            and self.__checkValue(self.wedgeAngle)
-            and self.__checkValue(self.shockAngle)
-        ):
-            self.machNorm2 = ObliqueShockRelations.calcMachNormal2FromMach2(
-                m2, self.shockAngle, self.wedgeAngle
-            )
-            self.mach = NormalShockRelations.calcMachFrom_mach2(self.machNorm2, self.gamma)
+        elif checkValue([po2_p1, self.shockAngle]):
+            self.machNorm1 = NormalShockRelations.calcMachFrom_po2_p1(po2_p1, self.gamma)
+            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
-        elif self.__checkValue(po2_p1):
-            self.mach = NormalShockRelations.calcMachFrom_po2_p1(po2_p1, self.gamma)
+        elif checkValue([p2_p1, self.shockAngle]):
+            self.machNorm1 = NormalShockRelations.calcMachFrom_p2_p1(p2_p1, self.gamma)
+            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
-        elif self.__checkValue(p2_p1):
-            self.mach = NormalShockRelations.calcMachFrom_p2_p1(p2_p1, self.gamma)
+        elif checkValue([rho2_rho1, self.shockAngle]):
+            self.machNorm1 = NormalShockRelations.calcMachFrom_rho2_rho1(rho2_rho1, self.gamma)
+            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
-        elif self.__checkValue(rho2_rho1):
-            self.mach = NormalShockRelations.calcMachFrom_rho2_rho1(rho2_rho1, self.gamma)
+        elif checkValue([t2_t1, self.shockAngle]):
+            self.machNorm1 = NormalShockRelations.calcMachFrom_T2_T1(t2_t1, self.gamma)
+            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
-        elif self.__checkValue(t2_t1):
-            self.mach = NormalShockRelations.calcMachFrom_T2_T1(t2_t1, self.gamma)
+        elif checkValue([po2_po1, self.shockAngle]):
+            self.machNorm1 = NormalShockRelations.calcMachFrom_po2_po1(po2_po1, self.gamma)
+            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
-        elif self.__checkValue(po2_po1):
-            self.mach = NormalShockRelations.calcMachFrom_po2_po1(po2_po1, self.gamma)
-
-        elif self.__checkValue(self.machNorm2) and self.__checkValue(self.shockAngle):
+        elif checkValue(self.machNorm2) and checkValue(self.shockAngle):
             self.machNorm1 = NormalShockRelations.calcMachFrom_mach2(self.machNorm2, self.gamma)
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
         else:
             raise ValueError("{} Not Enough Parameters given to determine flow field".format(__class__))
 
-        if self.__checkValue(self.mach) and (
-            (self.__checkValue(self.shockAngle) or self.__checkValue(self.wedgeAngle))
-        ):
+        if checkValue(self.mach) and ((checkValue(self.shockAngle) or checkValue(self.wedgeAngle))):
             self.__calculateState()
 
         super().__init__(self.gamma, mach=self.machNorm1)
@@ -122,12 +125,12 @@ class ObliqueShockRelations(NormalShockRelations):
         self.machNorm2 = self.mach2
         self.mach2 = ObliqueShockRelations.calcMach2(self.machNorm2, self.wedgeAngle, self.shockAngle)
 
-        if self.useDegrees:
-            self.shockAngle = degrees(self.shockAngle)
-            self.wedgeAngle = degrees(self.wedgeAngle)
+        # if self.useDegrees:
+        #     self.shockAngle = degrees(self.shockAngle)
+        #     self.wedgeAngle = degrees(self.wedgeAngle)
 
     def __calculateState(self) -> None:
-        if self.__checkValue(self.wedgeAngle):
+        if checkValue(self.wedgeAngle):
             if self.shockType == "Weak":
                 self.shockAngle = ObliqueShockRelations.calcBetaFromThetaMach_Weak(
                     self.wedgeAngle, self.mach, self.gamma
@@ -143,21 +146,12 @@ class ObliqueShockRelations(NormalShockRelations):
                     "Incorrect shock type specified -> [{}]. Choices: Strong, Weak".format(self.shockType)
                 )
 
-        elif self.__checkValue(self.shockAngle):
+        elif checkValue(self.shockAngle):
             self.wedgeAngle = ObliqueShockRelations.calcThetaFromBetaMach(
                 self.shockAngle, self.mach, self.gamma
             )
 
         self.machNorm1 = ObliqueShockRelations.calcMachNormal1(self.mach, self.shockAngle)
-
-    def __checkValue(self, var: float) -> bool:
-        if isnan(var):
-            return False
-
-        if var < 0:
-            return False
-
-        return True
 
     def __str__(self) -> str:
         mach1Str = str(round(self.mach, self._precision))
@@ -232,6 +226,9 @@ class ObliqueShockRelations(NormalShockRelations):
     @staticmethod
     def calcMachNormal1(mach: float, beta: float) -> float:
         """ Calculates the normal component of the Mach number for a given shock angle in radians"""
+        if mach < 1.0:
+            raise ValueError("Normal Shocks Require a mach greater than 1")
+
         machWave = ObliqueShockRelations.calcMachWaveAngle(mach)
 
         if abs(beta - machWave) < 1e-5:
@@ -270,13 +267,17 @@ class ObliqueShockRelations(NormalShockRelations):
         num = mSqr * pow(sin(beta), 2) - 1
         denom = mSqr * (gamma + cos(2 * beta)) + 2
         theta = atan(2 * 1 / tan(beta) * num / denom) - offset
-        return theta if theta > 0 else 0.0
+        return theta
 
     @staticmethod
     def calcBetaFromThetaMach_Weak(theta: float, mach: float, gamma: float) -> float:
         maxShockAngle = ObliqueShockRelations.calculateMaxShockAngle(mach, gamma)
+        minShockAngle = ObliqueShockRelations.calcMachWaveAngle(mach)
         return brenth(
-            ObliqueShockRelations.calcThetaFromBetaMach, 0.0001, maxShockAngle, args=(mach, gamma, theta)
+            ObliqueShockRelations.calcThetaFromBetaMach,
+            minShockAngle,
+            maxShockAngle,
+            args=(mach, gamma, theta),
         )
 
     @staticmethod
