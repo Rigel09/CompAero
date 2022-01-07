@@ -1,7 +1,8 @@
 from math import atan, sqrt, nan, pow, radians, degrees
+from types import DynamicClassAttribute
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
-from CompAero.internal import checkValue
+from CompAero.internal import checkValue, footer, named_header, named_subheader, seperator, value_to_string
 from CompAero.ObliqueShockRelations import ObliqueShockRelations
 from CompAero.greek_letters import LowerCaseGreek as lcg, Misc
 
@@ -75,38 +76,26 @@ class PrandtlMeyer:
             self.__calculateState()
 
     def __str__(self) -> str:
-        gammaStr = str(round(self.__gamma, self.__preciscion))
-        machStr = str(round(self.__mach, self.__preciscion))
-        nuStr = str(round(self.__nu, self.__preciscion))
-        muStr = str(round(self.__mu, self.__preciscion))
-        dwnNuStr = str(round(self.__dwnStrmNu, self.__preciscion))
-        dwnMuStr = str(round(self.__dwnStrmMu, self.__preciscion))
-        deflectionStr = str(round(self.__deflectionAngle, self.__preciscion))
-        dwnMachStr = str(round(self.__dwnStrmMach, self.__preciscion))
-
-        width = 50 - 2  # Width minus edges
-        sep = "|{:{width}}|\n".format("", width=width)
-
-        # Initial Conditions
-        header = "|{:=^{width}}|\n".format("Prandtl Relations at Mach: {}".format(machStr), width=width)
-        gammaS = "|{:<{width}}{}|\n".format(lcg.gamma, gammaStr, width=width - len(gammaStr))
-        nuS = "|{:-<{width}}{}|\n".format(lcg.nu, nuStr, width=width - len(nuStr))
-        muS = "|{:<{width}}{}|\n".format(lcg.mu, muStr, width=width - len(muStr))
-
-        jumpSep = "|{:-^{width}}|\n".format("Downstream Conditions", width=width)
-        dwnMachS = "|{:-<{width}}{}|\n".format("Mach", dwnMachStr, width=width - len(dwnMachStr))
-        dwnNu = "|{:<{width}}{}|\n".format(lcg.nu, dwnNuStr, width=width - len(dwnNuStr))
-        dwnMu = "|{:-<{width}}{}|\n".format(lcg.mu, dwnMuStr, width=width - len(dwnMuStr))
-        dwnDeflection = "|{:<{width}}{}|\n".format(
-            "Flow Deflection Angle [" + lcg.theta + Misc.degreeSym + "]",
-            deflectionStr,
-            width=width - len(deflectionStr),
-        )
-
-        finish = "|{:=^{width}}|\n".format("", width=width)
-
         return "".join(
-            [header, sep, gammaS, nuS, muS, sep, jumpSep, dwnMachS, dwnNu, dwnMu, dwnDeflection, finish]
+            [
+                named_header("Prandtl Relations at Mach", self.mach, self.precision),
+                seperator(),
+                value_to_string(lcg.gamma, self.gamma, self.precision),
+                value_to_string(lcg.nu, self.nu, self.precision, dot_line=True),
+                value_to_string(lcg.mu, self.mu, self.precision),
+                seperator(),
+                named_subheader("Downstream Conditions"),
+                value_to_string("Mach", self.__dwnStrmMach, self.precision),
+                value_to_string(lcg.nu, self.__dwnStrmNu, self.precision, dot_line=True),
+                value_to_string(lcg.mu, self.downStreamMu, self.precision),
+                value_to_string(
+                    "Flow Deflection Angle [{}]".format(lcg.theta),
+                    self.__deflectionAngle,
+                    self.precision,
+                    dot_line=True,
+                ),
+                footer(),
+            ]
         )
 
     def __calculateState(self) -> None:

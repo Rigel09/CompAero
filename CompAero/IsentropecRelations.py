@@ -8,7 +8,7 @@ from CompAero.internal import (
     named_header,
     named_subheader,
     seperator,
-    data_value_to_string,
+    value_to_string,
 )
 from CompAero.greek_letters import LowerCaseGreek as lcg
 
@@ -69,11 +69,11 @@ class IsentropicRelations:
             [
                 named_header("Isentropic Flow State at Mach", self.mach, self._precision),
                 seperator(),
-                data_value_to_string("{}:".format(lcg.gamma), self.gamma, self._precision, dot_line=True),
-                data_value_to_string("p0/p:", self.p0_p, self._precision),
-                data_value_to_string("T0/T:", self.t0_t, self._precision, dot_line=True),
-                data_value_to_string("{}0/{}:".format(lcg.rho, lcg.rho), self.rho0_rho, self._precision),
-                data_value_to_string("A/A*:", self.a_aStar, self._precision, dot_line=True),
+                value_to_string(lcg.gamma, self.gamma, self._precision, dot_line=True),
+                value_to_string("p0/p", self.p0_p, self._precision),
+                value_to_string("T0/T", self.t0_t, self._precision, dot_line=True),
+                value_to_string("{}0/{}".format(lcg.rho, lcg.rho), self.rho0_rho, self._precision),
+                value_to_string("A/A*", self.a_aStar, self._precision, dot_line=True),
                 footer(),
             ]
         )

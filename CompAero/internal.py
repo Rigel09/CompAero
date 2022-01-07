@@ -10,9 +10,7 @@ TOTAL_WIDTH = 70  # Width of the area including  | |
 INTERNAL_VALUE_WIDTH = TOTAL_WIDTH - 2  # Width of area excluding | |
 
 
-def data_value_to_string(
-    name: str, value: Union[float, int, bool], precision: int, dot_line: bool = False
-) -> str:
+def value_to_string(name: str, value: Union[float, int, bool], precision: int, dot_line: bool = False) -> str:
     """This generates a professional easy to read string for a data value
 
     Args:
@@ -26,6 +24,7 @@ def data_value_to_string(
         str: A formatted string with new line character on the end
     """
     valString = str(round(value, precision)) if not isinstance(value, (bool, str,)) else str(value)
+    name = name + ":"
     sep = "-" if dot_line else ""
     return "|{:{sep}<{width}}{}|{}\n".format(
         name, valString, Style.RESET_ALL, width=INTERNAL_VALUE_WIDTH - len(valString), sep=sep
@@ -33,7 +32,7 @@ def data_value_to_string(
 
 
 def named_subheader(name: str) -> str:
-    """This generates a field which has a name in it with similiar format as to data_value_to_string()
+    """This generates a field which has a name in it with similiar format as to value_to_string()
        To be used in to seperate sub fields
 
     Args:
@@ -42,7 +41,7 @@ def named_subheader(name: str) -> str:
     Returns:
         str: A formatted string with new line character on the end
     """
-    return "|{:-^{width}}|\n".format(" " + name + " ", width=INTERNAL_VALUE_WIDTH)
+    return "|{:=^{width}}|\n".format(" " + name + " ", width=INTERNAL_VALUE_WIDTH)
 
 
 def seperator() -> str:
@@ -64,9 +63,13 @@ def named_header(name: str, value: Union[float, int], precision: int) -> str:
     Returns:
         str: A formatted string that can be used as a header
     """
-    return "|{:=^{width}}|\n".format(
-        " {}: {:.{precision}f} ".format(name, round(value, precision), precision=precision),
-        width=INTERNAL_VALUE_WIDTH,
+    return (
+        footer()
+        + "|{:^{width}}|\n".format(
+            " {}: {:.{precision}f} ".format(name, round(value, precision), precision=precision),
+            width=INTERNAL_VALUE_WIDTH,
+        )
+        + footer()
     )
 
 
@@ -79,10 +82,10 @@ def footer() -> str:
     return "|{:=^{width}}|\n".format("", width=INTERNAL_VALUE_WIDTH)
 
 
-def checkValue(value: Union[float, List[float]]) -> bool:
+def checkValue(value: Union[Union[float, int], List[Union[float, int]]]) -> bool:
     """ Checks to see if value is non NAN and greater than zero"""
     checkVal = True
-    if isinstance(value, float):
+    if isinstance(value, (float, int,)):
         value = [value]
 
     if isinstance(value, list):
