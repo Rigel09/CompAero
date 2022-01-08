@@ -116,3 +116,10 @@ class InvalidOptionCombinationError(Exception):
             "Either the options suppled were the incorrect combination or not enough valid arguments were supplied",
             *args,
         )
+
+
+class GammaNotDefinedError(Exception):
+    """ Thrown when gamma is found not to be defined """
+
+    def __init__(self, *args: object) -> None:
+        super().__init__("Gamma must be defined for the determination of flow states", *args)
