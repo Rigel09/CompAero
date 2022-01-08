@@ -103,19 +103,19 @@ class IsentropicRelations:
         )
 
     @staticmethod
-    def calc_T0_T(mach: float, gamma: float, ofFlowStateet: float = 0.0) -> float:
+    def calc_T0_T(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates the ratio of Total Temperature to static temperature (T0/T)
 
         Args:
             mach (float): Mach number of the flow
             gamma (float): Ratio of specific heats of the flow
-            ofFlowStateet (float, optional): OfFlowStateet that can be used for root finding for a specific value. Defaults to 0.0.
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
 
         Returns:
             float: T0/T
         """
 
-        return 1 + (gamma - 1) / 2 * pow(mach, 2) - ofFlowStateet
+        return 1 + (gamma - 1) / 2 * pow(mach, 2) - offset
 
     @staticmethod
     def calc_mach_from_T0_T(t0_t: float, gamma: float) -> float:
@@ -131,19 +131,19 @@ class IsentropicRelations:
         return sqrt((t0_t - 1) * 2 / (gamma - 1))
 
     @staticmethod
-    def calc_P0_P(mach: float, gamma: float, ofFlowStateet: float = 0.0) -> float:
+    def calc_P0_P(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates the ratio of Total pressure to static pressure (P0/P)
 
         Args:
             mach (float): mach number of the flow
             gamma (float): ratio of specific heats
-            ofFlowStateet (float, optional): [description]. Defaults to 0.0.
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
 
         Returns:
             float: P0/P
         """
 
-        return pow((1 + (gamma - 1) / 2 * pow(mach, 2)), gamma / (gamma - 1)) - ofFlowStateet
+        return pow((1 + (gamma - 1) / 2 * pow(mach, 2)), gamma / (gamma - 1)) - offset
 
     @staticmethod
     def calc_mach_from_p0_p(p0_p: float, gamma: float) -> float:
@@ -160,19 +160,19 @@ class IsentropicRelations:
         return brenth(IsentropicRelations.calc_P0_P, 0, 30, args=(gamma, p0_p))
 
     @staticmethod
-    def calc_rho0_rho(mach: float, gamma: float, ofFlowStateet: float = 0.0) -> float:
+    def calc_rho0_rho(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates the ratio of Total density to static density (rho0/rho)
 
         Args:
             mach (float): mach number of the flow
             gamma (float): ratio of specific heats
-            ofFlowStateet (float, optional): [description]. Defaults to 0.0.
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
 
         Returns:
             float: rho0/rho
         """
 
-        return pow((1 + (gamma - 1) / 2 * pow(mach, 2)), 1 / (gamma - 1)) - ofFlowStateet
+        return pow((1 + (gamma - 1) / 2 * pow(mach, 2)), 1 / (gamma - 1)) - offset
 
     @staticmethod
     def calc_mach_from_rho0_rho(rho0_rho: float, gamma: float) -> float:
@@ -189,13 +189,13 @@ class IsentropicRelations:
         return brenth(IsentropicRelations.calc_rho0_rho, 0, 30, args=(gamma, rho0_rho))
 
     @staticmethod
-    def calc_A_Astar(mach: float, gamma: float, ofFlowStateet: float = 0.0) -> float:
+    def calc_A_Astar(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates the ratio of Nozzle Area to Sonic Throat Area (A/A*)
 
         Args:
             mach (float): mach number of the flow
             gamma (float): ratio of specific heats
-            ofFlowStateet (float, optional): [description]. Defaults to 0.0.
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
 
         Returns:
             float: A/A*
@@ -207,7 +207,7 @@ class IsentropicRelations:
 
         nonRaised = 2 / gp1 * (1 + gm1 / 2 * mSqr)
 
-        return sqrt(pow(nonRaised, gp1 / gm1) / mSqr) - ofFlowStateet
+        return sqrt(pow(nonRaised, gp1 / gm1) / mSqr) - offset
 
     @staticmethod
     def calc_mach_from_A_Astar(

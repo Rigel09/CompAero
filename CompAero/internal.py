@@ -4,6 +4,7 @@ from typing import List, Union
 import sys
 
 from colorama.ansi import Style
+from numpy import seterrobj
 
 # Settings for printing out outputs from classes
 TOTAL_WIDTH = 70  # Width of the area including  | |
@@ -90,8 +91,13 @@ def checkValue(value: Union[Union[float, int], List[Union[float, int]]]) -> bool
 
     if isinstance(value, list):
         for val in value:
-            checkVal = checkVal and not isnan(val)
-            checkVal = checkVal and val > 0.0
+            if isinstance(val, (FlowState, ShockType,)):
+                checkVal = checkVal and True
+            elif isinstance(val, (float, int,)):
+                checkVal = checkVal and not isnan(val)
+                checkVal = checkVal and val > 0.0
+            else:
+                raise TypeError("Cannot validate the given type")
     else:
         raise TypeError("{} Expected a list".format(sys._getframe().f_code.co_name))
 

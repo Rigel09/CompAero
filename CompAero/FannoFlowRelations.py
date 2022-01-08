@@ -4,6 +4,8 @@ from colorama import Back, Style, Fore
 from CompAero.greek_letters import LowerCaseGreek as lcg
 from CompAero.internal import (
     FlowState,
+    GammaNotDefinedError,
+    InvalidOptionCombinationError,
     checkValue,
     to_string,
     footer,
@@ -14,6 +16,37 @@ from CompAero.internal import (
 
 
 class FannoFlowRelations:
+    """ This class is a collective name space for basic calculations regarding Fanno flows. 
+        The constructor of this class can also determine the entire state of the flow given a partial state of the flow 
+
+    Args:
+        gamma (float): ratio of specific heats      
+        mach (float, optional): mach number of the flow. Defaults to nan.
+        t_tSt (float, optional): Ratio of Temperature to sonic temperature. Defaults to nan.
+        p_pSt (float, optional): Ratio of Pressure to sonic pressure. Defaults to nan.
+        rho_rhoSt (float, optional): Ratio of density to sonic density. Defaults to nan.
+        po_poSt (float, optional): Ratio of Total pressure to sonic total pressre. Defaults to nan.
+        f4LSt_D (float, optional): Effect of friction on pipe. Defaults to nan.
+        u_uSt (float, optional): Velocity to sonic Velocity. Defaults to nan.
+        flowType (FlowState, optional):  States wether the flow is subsonic or supersonic. Used for Area Ratio Calculations. Defaults to FlowState.SUPER_SONIC.
+        
+    Raises:
+        GammaNotDefinedError: [description]
+        InvalidOptionCombinationError: [description]
+        
+    Useage:
+        To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
+
+    Valid Combinations of Parameters:
+        gamma, mach
+        gamma, T/T*
+        gamma, P/P*
+        gamma, rho/rho*
+        gamma, P0/P0*
+        gamma, 4FL*/D, flowtype (flow type defaults to super sonic)
+        gamma, U/U*
+    """
+
     def __init__(
         self,
         gamma: float,
@@ -60,7 +93,13 @@ class FannoFlowRelations:
         self.f4LD2_f4LD1 = nan
         self.u2_u1 = nan
 
-        if checkValue(self.t_tSt):
+        if not checkValue(self.gamma):
+            raise GammaNotDefinedError()
+
+        if checkValue(self.mach):
+            pass
+
+        elif checkValue(self.t_tSt):
             self.mach = FannoFlowRelations.calcMachFrom_T_TSt(self.t_tSt, self.gamma)
 
         elif checkValue(self.p_pSt):
@@ -74,7 +113,7 @@ class FannoFlowRelations:
                 self.po_poSt, self.gamma, flowType=self.flowType
             )
 
-        elif checkValue(self.f4LSt_D):
+        elif checkValue([self.f4LSt_D, self.flowType]):
             self.mach = FannoFlowRelations.calcMachFrom_4FLSt_D(
                 self.f4LSt_D, self.gamma, flowType=self.flowType
             )
@@ -82,11 +121,15 @@ class FannoFlowRelations:
         elif checkValue(self.u_uSt):
             self.mach = FannoFlowRelations.calcMachFrom_U_USt(self.u_uSt, self.gamma)
 
+        else:
+            raise InvalidOptionCombinationError()
+
         if checkValue(self.mach):
             self.__calculateState()
 
     @property
     def chockedFlow(self) -> bool:
+        """ True if the flow has reached the choked condition (I.E. Sonic) """
         return self.pipeLength >= self.chokedLength
 
     def __str__(self) -> str:
@@ -135,6 +178,14 @@ class FannoFlowRelations:
         )
 
     def applyPipeParameters(self, diameter: float, length: float, frictionCoeff: float = 0.005) -> None:
+        """This functions applies parameters of a known pipe to the determined state of the flow. 
+            This allows the state at the downstream end of the pipe or pipe section to be found
+
+        Args:
+            diameter (float): Diameter of pipe
+            length (float): Length of pipe
+            frictionCoeff (float, optional): Friction coefficient of the pipe. Defaults to 0.005 which holds for Reynolds > 10^5.
+        """
         self.pipeDiameter = diameter
         self.pipeLength = length
         self.frictionCoeff = frictionCoeff
@@ -184,37 +235,97 @@ class FannoFlowRelations:
 
     @staticmethod
     def calcT_Tstar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates T_T* given gamma and Mach, offset can be applied for root finding"""
+        """Calculates Ratio of static temperature to sonic temperature
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: T/T*
+        """
         return (gamma + 1) / (2 + (gamma - 1) * pow(mach, 2)) - offset
 
     @staticmethod
     def calcMachFrom_T_TSt(t_tSt: float, gamma: float) -> float:
-        """Calculates Mach given a T_T* value and gamma"""
+        """Calculates the mach number based of the ratio of static temperature to sonic static temperature
+
+        Args:
+            t_tSt (float): Ratio of static temperature to sonic static temperature
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        """
         return brenth(FannoFlowRelations.calcT_Tstar, 1e-9, 40, args=(gamma, t_tSt,))
 
     @staticmethod
     def calcP_Pstar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates p/p* given gamma and mach"""
+        """Calculates Ratio of static pressure to sonic pressure
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: P/P*
+        """
         return sqrt(FannoFlowRelations.calcT_Tstar(mach, gamma)) / mach - offset
 
     @staticmethod
     def calcMachFrom_P_PSt(p_pSt: float, gamma: float) -> float:
-        """ Calculates mach given p/p* and gamma"""
+        """Calculates the mach number based of the ratio of static pressure to sonic static pressure
+
+        Args:
+            p_pSt (float): Ratio of static pressure to sonic static pressure
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        """
         return brenth(FannoFlowRelations.calcP_Pstar, 1e-9, 40, args=(gamma, p_pSt,))
 
     @staticmethod
     def calcRho_RhoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates rho/rho* given gamma and mach"""
+        """Calculates Ratio of static density to sonic density
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: rho/rho*
+        """
         return sqrt(1 / FannoFlowRelations.calcT_Tstar(mach, gamma)) / mach - offset
 
     @staticmethod
     def calcMachFrom_Rho_RhoSt(rho_rhoSt: float, gamma: float) -> float:
-        """ Calculates mach given rho/rho* and gamma"""
+        """Calculates the mach number based of the ratio of density to sonic density
+
+        Args:
+            rho_rhoSt (float): Ratio of density to sonic density
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        """
         return brenth(FannoFlowRelations.calcRho_RhoStar, 1e-9, 40, args=(gamma, rho_rhoSt,),)
 
     @staticmethod
     def calcPo_PoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """ Calculates po/po* given mach and gamma"""
+        """Calculates Ratio of static density to sonic density
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: P0/P0*
+        """
         gp1 = gamma + 1
         gm1 = gamma - 1
         return pow(1 / FannoFlowRelations.calcT_Tstar(mach, gamma), gp1 / (2 * gm1)) / mach - offset
@@ -223,7 +334,15 @@ class FannoFlowRelations:
     def calcMachFrom_Po_PoSt(
         po_poSt: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
     ) -> float:
-        """ Calculates mach given po/po* and gamma"""
+        """Calculates the mach number based of the ratio of total pressure to sonic total pressure
+
+        Args:
+            po_poSt (float): Ratio of total pressure to sonic total pressure
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        """
         tolerance = 1e-5
         if po_poSt == 1.0:
             return 1
@@ -241,7 +360,16 @@ class FannoFlowRelations:
 
     @staticmethod
     def calc4FLSt_D(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """ Calculates 4fL*/D given mach and gamma"""
+        """Calculates friction parameter for flow
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: 4FL*/D
+        """
         gp1 = gamma + 1
         t_tSt = FannoFlowRelations.calcT_Tstar(mach, gamma)
         mSqr = pow(mach, 2)
@@ -251,7 +379,19 @@ class FannoFlowRelations:
     def calcMachFrom_4FLSt_D(
         f4lSt_d: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
     ) -> float:
-        """ Calculates mach given gamma and 4FL*/D"""
+        """ Calculates the mach number from the friction parameter
+
+        Args:
+            f4lSt_d (float): friction parameter 4FL*/D
+            gamma (float): ratio of specific heats
+            flowType (FlowState, optional):  Type of flow whether it is super sonic of subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Raises:
+            ValueError: Raised if Flow State is not supersonic of subsonic  
+
+        Returns:
+            float: mach number
+        """
         if f4lSt_d == 0.0:
             return 1
         elif flowType == FlowState.SUPER_SONIC:
@@ -268,12 +408,29 @@ class FannoFlowRelations:
 
     @staticmethod
     def calcU_Ustar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """ Calculates U_U* given mach and gamma"""
+        """Calculates Ratio of static velocity to sonic velocity
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: U/U*
+        """
         t_tSt = FannoFlowRelations.calcT_Tstar(mach, gamma)
         return mach * sqrt(t_tSt) - offset
 
     @staticmethod
     def calcMachFrom_U_USt(u_uSt: float, gamma: float) -> float:
-        """ Calculates Mach given U_U* and gamma"""
+        """Calculates the mach number based of the ratio of velocity to sonic velocity
+
+        Args:
+            u_uSt (float): Ratio of velocity to sonic velocity
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        """
         return brenth(FannoFlowRelations.calcU_Ustar, 1e-9, 40, args=(gamma, u_uSt))
 
