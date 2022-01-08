@@ -97,6 +97,7 @@ class IsentropicRelations:
                 to_string("T0/T", self.t0_t, self.precision, dot_line=True),
                 to_string("{}0/{}".format(lcg.rho, lcg.rho), self.rho0_rho, self.precision),
                 to_string("A/A*", self.a_aStar, self.precision, dot_line=True),
+                to_string("Flow Type", self.flowType.name, self.precision),
                 footer(),
             ]
         )
