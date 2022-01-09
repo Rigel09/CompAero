@@ -226,24 +226,59 @@ class RayleighFlowRelations:
 
     @staticmethod
     def calc_P_Pstar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates p/p* given gamma and mach"""
+        """Calculates Ratio of static pressure to sonic pressure P/P*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: P/P*
+        """
         return (1 + gamma) / (1 + gamma * pow(mach, 2)) - offset
 
     @staticmethod
     def calc_mach_from_P_PStar(p_pSt: float, gamma: float) -> float:
-        """ Calculates mach given p/p* and gamma"""
+        """Calculates the mach number based of the ratio of static pressure to sonic static pressure P/P*
+
+        Args:
+            p_pSt (float): Ratio of static pressure to sonic static pressure P/P*
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        """
         return brenth(RayleighFlowRelations.calc_P_Pstar, 1e-9, 40, args=(gamma, p_pSt,))
 
     @staticmethod
     def calc_T_Tstar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates T_T* given gamma and Mach, offset can be applied for root finding"""
+        """Calculates Ratio of static temperature to sonic temperature T/T*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: T/T*
+        """
         return pow(mach, 2) * pow(RayleighFlowRelations.calc_P_Pstar(mach, gamma), 2) - offset
 
     @staticmethod
     def calc_mach_from_T_TStar(
         t_tSt: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
     ) -> float:
-        """Calculates Mach given a T_T* value and gamma"""
+        """Calculates the mach number based of the ratio of static temperature to sonic static temperature T/T*
+
+        Args:
+            t_tSt (float): Ratio of static temperature to sonic static temperature T/T*
+            gamma (float): ratio of specific heats
+            flowType (FlowState, optional): States whether the flow is currently supersonic or subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Returns:
+            float: mach number
+        """
         tolerance = 1e-5
         if t_tSt == 1.0:
             return 1
@@ -261,17 +296,43 @@ class RayleighFlowRelations:
 
     @staticmethod
     def calc_Rho_RhoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates rho/rho* given gamma and mach"""
+        """Calculates Ratio of static density to sonic density Rho/Rho*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: Rho/Rho*
+        """
         return 1 / RayleighFlowRelations.calc_P_Pstar(mach, gamma) / pow(mach, 2) - offset
 
     @staticmethod
     def calc_mach_from_Rho_RhoStar(rho_rhoSt: float, gamma: float) -> float:
-        """ Calculates mach given rho/rho* and gamma"""
+        """Calculates the mach number based of the ratio of density to sonic density Rho/Rho*
+
+        Args:
+            rho_rhoSt (float): Ratio of density to sonic density Rho/Rho*
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        """
         return brenth(RayleighFlowRelations.calc_Rho_RhoStar, 1e-9, 40, args=(gamma, rho_rhoSt,))
 
     @staticmethod
     def calc_Po_PoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """ Calculates po/po* given mach and gamma"""
+        """Calculates Ratio of static density to sonic density P0/P0*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: P0/P0*
+        """
         gp1 = gamma + 1
         gm1 = gamma - 1
         p_pSt = RayleighFlowRelations.calc_P_Pstar(mach, gamma)
@@ -282,7 +343,16 @@ class RayleighFlowRelations:
     def calc_mach_from_Po_PoStar(
         po_poSt: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
     ) -> float:
-        """ Calculates mach given po/po* and gamma"""
+        """Calculates the mach number based of the ratio of total pressure to sonic total pressure P0/P0*
+
+        Args:
+            po_poSt (float): Ratio of total pressure to sonic total pressure P0/P0*
+            gamma (float): ratio of specific heats
+            flowType (FlowState, optional): States whether the flow is currently supersonic or subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Returns:
+            float: mach number
+        """
         tolerance = 1e-5
         if po_poSt == 1.0:
             return 1
@@ -312,7 +382,16 @@ class RayleighFlowRelations:
     def calc_mach_from_To_ToStar(
         t_tSt: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
     ) -> float:
-        """Calculates Mach given a To_To* value and gamma"""
+        """Calculates the mach number based of the ratio of total temperature to sonic total temperature T0/T0*
+
+        Args:
+            po_poSt (float): Ratio of total temperature to sonic total temperature T0/T0*
+            gamma (float): ratio of specific heats
+            flowType (FlowState, optional): States whether the flow is currently supersonic or subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Returns:
+            float: mach number
+        """
         tolerance = 1e-5
         if t_tSt == 1.0:
             return 1
@@ -330,12 +409,29 @@ class RayleighFlowRelations:
 
     @staticmethod
     def calc_U_UStar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """ Calculates U_U* given mach and gamma"""
+        """Calculates Ratio of static velocity to sonic velocity U/U*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: U/U*
+        """
         gp1 = gamma + 1
         mSqr = pow(mach, 2)
         return gp1 * mSqr / (1 + gamma * mSqr) - offset
 
     @staticmethod
     def calc_mach_from_U_USt(u_uSt: float, gamma: float) -> float:
-        """ Calculates Mach given U_U* and gamma"""
+        """Calculates the mach number based of the ratio of velocity to sonic velocity U/U*
+
+        Args:
+            u_uSt (float): Ratio of velocity to sonic velocity U/U*
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        """
         return brenth(RayleighFlowRelations.calc_U_UStar, 1e-9, 40, args=(gamma, u_uSt))

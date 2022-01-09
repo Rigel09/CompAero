@@ -233,7 +233,7 @@ class FannoFlowRelations:
 
     @staticmethod
     def calc_T_Tstar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates Ratio of static temperature to sonic temperature
+        """Calculates Ratio of static temperature to sonic temperature T/T*
 
         Args:
             mach (float): mach number of the flow
@@ -247,7 +247,7 @@ class FannoFlowRelations:
 
     @staticmethod
     def calc_mach_from_T_TStar(t_tSt: float, gamma: float) -> float:
-        """Calculates the mach number based of the ratio of static temperature to sonic static temperature
+        """Calculates the mach number based of the ratio of static temperature to sonic static temperature T/T*
 
         Args:
             t_tSt (float): Ratio of static temperature to sonic static temperature T/T*
@@ -260,7 +260,7 @@ class FannoFlowRelations:
 
     @staticmethod
     def calc_P_Pstar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates Ratio of static pressure to sonic pressure
+        """Calculates Ratio of static pressure to sonic pressure P/P*
 
         Args:
             mach (float): mach number of the flow
@@ -274,7 +274,7 @@ class FannoFlowRelations:
 
     @staticmethod
     def calc_mach_from_P_PStar(p_pSt: float, gamma: float) -> float:
-        """Calculates the mach number based of the ratio of static pressure to sonic static pressure
+        """Calculates the mach number based of the ratio of static pressure to sonic static pressure P/P*
 
         Args:
             p_pSt (float): Ratio of static pressure to sonic static pressure P/P*
@@ -287,7 +287,7 @@ class FannoFlowRelations:
 
     @staticmethod
     def calc_Rho_RhoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates Ratio of static density to sonic density
+        """Calculates Ratio of static density to sonic density Rho/Rho*
 
         Args:
             mach (float): mach number of the flow
@@ -295,16 +295,16 @@ class FannoFlowRelations:
             offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
 
         Returns:
-            float: rho/rho*
+            float: Rho/Rho*
         """
         return sqrt(1 / FannoFlowRelations.calc_T_Tstar(mach, gamma)) / mach - offset
 
     @staticmethod
     def calc_mach_from_Rho_RhoStar(rho_rhoSt: float, gamma: float) -> float:
-        """Calculates the mach number based of the ratio of density to sonic density
+        """Calculates the mach number based of the ratio of density to sonic density Rho/Rho*
 
         Args:
-            rho_rhoSt (float): Ratio of density to sonic density rho/rho*
+            rho_rhoSt (float): Ratio of density to sonic density Rho/Rho*
             gamma (float): ratio of specific heats
 
         Returns:
@@ -314,7 +314,7 @@ class FannoFlowRelations:
 
     @staticmethod
     def calc_Po_PoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates Ratio of static density to sonic density
+        """Calculates Ratio of static density to sonic density P0/P0*
 
         Args:
             mach (float): mach number of the flow
@@ -332,11 +332,12 @@ class FannoFlowRelations:
     def calc_mach_from_Po_PoStar(
         po_poSt: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
     ) -> float:
-        """Calculates the mach number based of the ratio of total pressure to sonic total pressure
+        """Calculates the mach number based of the ratio of total pressure to sonic total pressure P0/P0*
 
         Args:
             po_poSt (float): Ratio of total pressure to sonic total pressure P0/P0*
             gamma (float): ratio of specific heats
+            flowType (FlowState, optional): States whether the flow is currently supersonic or subsonic. Defaults to FlowState.SUPER_SONIC.
 
         Returns:
             float: mach number
@@ -408,7 +409,7 @@ class FannoFlowRelations:
 
     @staticmethod
     def calc_U_UStar(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculates Ratio of static velocity to sonic velocity
+        """Calculates Ratio of static velocity to sonic velocity U/U*
 
         Args:
             mach (float): mach number of the flow
@@ -423,7 +424,7 @@ class FannoFlowRelations:
 
     @staticmethod
     def calc_mach_from_U_USt(u_uSt: float, gamma: float) -> float:
-        """Calculates the mach number based of the ratio of velocity to sonic velocity
+        """Calculates the mach number based of the ratio of velocity to sonic velocity U/U*
 
         Args:
             u_uSt (float): Ratio of velocity to sonic velocity U/U*
