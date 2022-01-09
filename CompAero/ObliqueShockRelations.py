@@ -50,7 +50,7 @@ class ObliqueShockRelations(NormalShockRelations):
         self.po2_p1 = po2_p1
         self.mach2 = m2
         self.shockType: ShockType = shockType
-        self._precision = 4
+        self.precision = 4
 
         if self.useDegrees and checkValue(self.shockAngle):
             self.shockAngle = radians(self.shockAngle)
@@ -72,7 +72,9 @@ class ObliqueShockRelations(NormalShockRelations):
             )
             if self.machNorm2 > 1:
                 assert ValueError("Normal component of downstream mach number has to be less than 1")
-            self.machNorm1 = NormalShockRelations.calcMachFrom_mach2(self.machNorm2, self.gamma)
+            self.machNorm1 = NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
+                self.machNorm2, self.gamma
+            )
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
         elif checkValue(self.shockAngle) and checkValue(self.wedgeAngle):
@@ -100,27 +102,29 @@ class ObliqueShockRelations(NormalShockRelations):
                 )
 
         elif checkValue([po2_p1, self.shockAngle]):
-            self.machNorm1 = NormalShockRelations.calcMachFrom_po2_p1(po2_p1, self.gamma)
+            self.machNorm1 = NormalShockRelations.calc_mach_from_po2_p1(po2_p1, self.gamma)
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
         elif checkValue([p2_p1, self.shockAngle]):
-            self.machNorm1 = NormalShockRelations.calcMachFrom_p2_p1(p2_p1, self.gamma)
+            self.machNorm1 = NormalShockRelations.calc_mach_from_p2_p1(p2_p1, self.gamma)
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
         elif checkValue([rho2_rho1, self.shockAngle]):
-            self.machNorm1 = NormalShockRelations.calcMachFrom_rho2_rho1(rho2_rho1, self.gamma)
+            self.machNorm1 = NormalShockRelations.calc_mach_from_rho2_rho1(rho2_rho1, self.gamma)
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
         elif checkValue([t2_t1, self.shockAngle]):
-            self.machNorm1 = NormalShockRelations.calcMachFrom_T2_T1(t2_t1, self.gamma)
+            self.machNorm1 = NormalShockRelations.calc_mach_from_T2_T1(t2_t1, self.gamma)
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
         elif checkValue([po2_po1, self.shockAngle]):
-            self.machNorm1 = NormalShockRelations.calcMachFrom_po2_po1(po2_po1, self.gamma)
+            self.machNorm1 = NormalShockRelations.calc_mach_from_po2_po1(po2_po1, self.gamma)
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
         elif checkValue(self.machNorm2) and checkValue(self.shockAngle):
-            self.machNorm1 = NormalShockRelations.calcMachFrom_mach2(self.machNorm2, self.gamma)
+            self.machNorm1 = NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
+                self.machNorm2, self.gamma
+            )
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
         else:
@@ -167,31 +171,31 @@ class ObliqueShockRelations(NormalShockRelations):
     def __str__(self) -> str:
         return "".join(
             [
-                named_header("Oblique Shock Relations at Mach", self.mach, self._precision),
+                named_header("Oblique Shock Relations at Mach", self.mach, self.precision),
                 seperator(),
                 named_subheader("Upstream Conditions"),
-                to_string(lcg.gamma, self.gamma, self._precision),
-                to_string("Mach", self.mach, self._precision, dot_line=True),
-                to_string("Mach Normal Component", self.machNorm1, self._precision),
+                to_string(lcg.gamma, self.gamma, self.precision),
+                to_string("Mach", self.mach, self.precision, dot_line=True),
+                to_string("Mach Normal Component", self.machNorm1, self.precision),
                 to_string(
                     "Flow Deflection Angle {}".format(lcg.theta),
                     self.wedgeAngle,
-                    self._precision,
+                    self.precision,
                     dot_line=True,
                 ),
-                to_string("Shock Angle {}".format(lcg.beta), self.shockAngle, self._precision),
-                to_string("Flow Turn Type", self.shockType.name, self._precision),
+                to_string("Shock Angle {}".format(lcg.beta), self.shockAngle, self.precision),
+                to_string("Flow Turn Type", self.shockType.name, self.precision),
                 seperator(),
                 named_subheader("Shock Jump Conditions"),
-                to_string("P2/P1", self.p2_p1, self._precision),
-                to_string("{}2/{}1".format(*[lcg.rho] * 2), self.rho2_rho1, self._precision, dot_line=True),
-                to_string("T2/T1", self.t2_t1, self._precision),
-                to_string("P02/P01", self.po2_po1, self._precision, dot_line=True),
-                to_string("P02/P1", self.po2_p1, self._precision),
+                to_string("P2/P1", self.p2_p1, self.precision),
+                to_string("{}2/{}1".format(*[lcg.rho] * 2), self.rho2_rho1, self.precision, dot_line=True),
+                to_string("T2/T1", self.t2_t1, self.precision),
+                to_string("P02/P01", self.po2_po1, self.precision, dot_line=True),
+                to_string("P02/P1", self.po2_p1, self.precision),
                 seperator(),
                 named_subheader("Downstream Conditions"),
-                to_string("Mach", self.mach2, self._precision, dot_line=True),
-                to_string("Mach Normal Component", self.machNorm2, self._precision),
+                to_string("Mach", self.mach2, self.precision, dot_line=True),
+                to_string("Mach Normal Component", self.machNorm2, self.precision),
                 footer(),
             ]
         )
@@ -355,7 +359,7 @@ class ObliqueShockRelations(NormalShockRelations):
         ax.set_yticks([num for num in range(0, 92, 2)])
         ax.set_xlabel("Flow Deflection Angle, \u03B8 (\u00b0)")
         ax.set_ylabel("Shock Anlge, \u03B2 (\u00b0)")
-        ax.set_title("Mach {} Flow".format(round(self.mach, self._precision)))
+        ax.set_title("Mach {} Flow".format(round(self.mach, self.precision)))
         ax.legend()
         ax.grid()
         plt.show()
