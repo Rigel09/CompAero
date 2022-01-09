@@ -68,7 +68,7 @@ class FannoFlowRelations:
         self.f4LSt_D = f4LSt_D
         self.u_uSt = u_uSt
         self.flowType = flowType
-        self.preciscion = 4
+        self.precision = 4
 
         # Pipe parameters
         self.chokedLength = nan
@@ -137,40 +137,40 @@ class FannoFlowRelations:
 
         return "".join(
             [
-                named_header("Fanno Relations at Mach", self.mach, precision=self.preciscion),
+                named_header("Fanno Relations at Mach", self.mach, precision=self.precision),
                 seperator(),
-                to_string(lcg.gamma, self.gamma, self.preciscion),
-                to_string("T/T*", self.t_tSt, self.preciscion, dot_line=True),
-                to_string("P/P*", self.p_pSt, self.preciscion),
-                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.rho_rhoSt, self.preciscion, dot_line=True),
-                to_string("4FL*/D", self.f4LSt_D, self.preciscion),
-                to_string("U/U*", self.u_uSt, self.preciscion, dot_line=True),
-                to_string("Flow Type", self.flowType.name, self.preciscion),
+                to_string(lcg.gamma, self.gamma, self.precision),
+                to_string("T/T*", self.t_tSt, self.precision, dot_line=True),
+                to_string("P/P*", self.p_pSt, self.precision),
+                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.rho_rhoSt, self.precision, dot_line=True),
+                to_string("4FL*/D", self.f4LSt_D, self.precision),
+                to_string("U/U*", self.u_uSt, self.precision, dot_line=True),
+                to_string("Flow Type", self.flowType.name, self.precision),
                 seperator(),
                 named_subheader("Pipe Parameters"),
-                to_string("Length For Chocked Flow", self.chokedLength, self.preciscion),
+                to_string("Length For Chocked Flow", self.chokedLength, self.precision),
                 color,
-                to_string("Is Flow Choked? ", self.chockedFlow, self.preciscion, dot_line=True),
-                to_string("Pipe Length", self.pipeLength, self.preciscion),
-                to_string("Pipe Diameter", self.pipeDiameter, self.preciscion, dot_line=True),
-                to_string("Friction Coefficient", self.frictionCoeff, self.preciscion),
+                to_string("Is Flow Choked? ", self.chockedFlow, self.precision, dot_line=True),
+                to_string("Pipe Length", self.pipeLength, self.precision),
+                to_string("Pipe Diameter", self.pipeDiameter, self.precision, dot_line=True),
+                to_string("Friction Coefficient", self.frictionCoeff, self.precision),
                 seperator(),
                 named_subheader("Down Stream Conditions"),
-                to_string("Mach", self.dwnStrmMach, self.preciscion),
-                to_string("T/T*", self.t_tSt, self.preciscion, dot_line=True),
-                to_string("P/P*", self.dwnStrm_p_pSt, self.preciscion),
-                to_string("P0/P0*", self.dwnStrm_po_poSt, self.preciscion, dot_line=True),
-                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self.preciscion),
-                to_string("4FL*/D", self.dwnStrm_f4LSt_D, self.preciscion, dot_line=True),
-                to_string("U/U*", self.dwnStrm_u_uSt, self.preciscion),
+                to_string("Mach", self.dwnStrmMach, self.precision),
+                to_string("T/T*", self.t_tSt, self.precision, dot_line=True),
+                to_string("P/P*", self.dwnStrm_p_pSt, self.precision),
+                to_string("P0/P0*", self.dwnStrm_po_poSt, self.precision, dot_line=True),
+                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self.precision),
+                to_string("4FL*/D", self.dwnStrm_f4LSt_D, self.precision, dot_line=True),
+                to_string("U/U*", self.dwnStrm_u_uSt, self.precision),
                 seperator(),
                 named_subheader("Conditions Across Friction Area"),
-                to_string("p2/p1", self.p2_p1, self.preciscion),
-                to_string("{}2/{}1".format(lcg.rho, lcg.rho), self.rho2_rho1, self.preciscion, dot_line=True),
-                to_string("T2/T1", self.t2_t1, self.preciscion),
-                to_string("P02/P01", self.po2_po1, self.preciscion, dot_line=True),
-                to_string("4FL*/D2 / 4FL*/D 1", self.f4LD2_f4LD1, self.preciscion),
-                to_string("U2/U1", self.u2_u1, self.preciscion, dot_line=True),
+                to_string("p2/p1", self.p2_p1, self.precision),
+                to_string("{}2/{}1".format(lcg.rho, lcg.rho), self.rho2_rho1, self.precision, dot_line=True),
+                to_string("T2/T1", self.t2_t1, self.precision),
+                to_string("P02/P01", self.po2_po1, self.precision, dot_line=True),
+                to_string("4FL*/D2 / 4FL*/D 1", self.f4LD2_f4LD1, self.precision),
+                to_string("U2/U1", self.u2_u1, self.precision, dot_line=True),
                 footer(),
             ]
         )

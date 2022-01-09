@@ -68,7 +68,7 @@ class RayleighFlowRelations:
         self.u_uSt = u_uSt
         self.to_toSt = to_toSt
         self.flowType = flowType
-        self.preciscion = 4
+        self.precision = 4
 
         # Pipe parameters
         self.chokedHeat = nan
@@ -183,43 +183,43 @@ class RayleighFlowRelations:
 
         return "".join(
             [
-                named_header("Rayleigh Relations at Mach", self.mach, precision=self.preciscion),
+                named_header("Rayleigh Relations at Mach", self.mach, precision=self.precision),
                 seperator(),
-                to_string(lcg.gamma, self.gamma, self.preciscion),
-                to_string("T/T*", self.t_tSt, self.preciscion, dot_line=True),
-                to_string("P/P*", self.p_pSt, self.preciscion),
-                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.rho_rhoSt, self.preciscion, dot_line=True),
-                to_string("P0/P0*", self.po_poSt, self.preciscion),
-                to_string("U/U*", self.u_uSt, self.preciscion, dot_line=True),
+                to_string(lcg.gamma, self.gamma, self.precision),
+                to_string("T/T*", self.t_tSt, self.precision, dot_line=True),
+                to_string("P/P*", self.p_pSt, self.precision),
+                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.rho_rhoSt, self.precision, dot_line=True),
+                to_string("P0/P0*", self.po_poSt, self.precision),
+                to_string("U/U*", self.u_uSt, self.precision, dot_line=True),
                 to_string("T0/T0*", self.to_toSt, self.precision),
-                to_string("Flow Type", self.flowType.name, self.preciscion, dot_line=True),
+                to_string("Flow Type", self.flowType.name, self.precision, dot_line=True),
                 seperator(),
                 named_subheader("Pipe Parameters"),
-                to_string("Heat Req. For Chocked Flow", self.chokedHeat, self.preciscion),
+                to_string("Heat Req. For Chocked Flow", self.chokedHeat, self.precision),
                 color,
-                to_string("Is Flow Choked? ", self.chockedFlow, self.preciscion, dot_line=True),
-                to_string("Added Heat", self.heat, self.preciscion),
-                to_string("Gas Constant R", self.gasConstantR, self.preciscion, dot_line=True),
-                to_string("Cp", self.cp, self.preciscion),
+                to_string("Is Flow Choked? ", self.chockedFlow, self.precision, dot_line=True),
+                to_string("Added Heat", self.heat, self.precision),
+                to_string("Gas Constant R", self.gasConstantR, self.precision, dot_line=True),
+                to_string("Cp", self.cp, self.precision),
                 to_string("T01", self.to1, self.precision, dot_line=True),
                 to_string("T02", self.to2, self.precision),
                 seperator(),
                 named_subheader("Down Stream Conditions"),
-                to_string("Mach", self.dwnStrmMach, self.preciscion),
-                to_string("T/T*", self.t_tSt, self.preciscion, dot_line=True),
-                to_string("P/P*", self.dwnStrm_p_pSt, self.preciscion),
-                to_string("P0/P0*", self.dwnStrm_po_poSt, self.preciscion, dot_line=True),
-                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self.preciscion),
-                to_string("T0/T0*", self.to_toSt, self.preciscion, dot_line=True),
-                to_string("U/U*", self.dwnStrm_u_uSt, self.preciscion),
+                to_string("Mach", self.dwnStrmMach, self.precision),
+                to_string("T/T*", self.t_tSt, self.precision, dot_line=True),
+                to_string("P/P*", self.dwnStrm_p_pSt, self.precision),
+                to_string("P0/P0*", self.dwnStrm_po_poSt, self.precision, dot_line=True),
+                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self.precision),
+                to_string("T0/T0*", self.to_toSt, self.precision, dot_line=True),
+                to_string("U/U*", self.dwnStrm_u_uSt, self.precision),
                 seperator(),
                 named_subheader("Conditions Across Heat Addition"),
-                to_string("P2/P1", self.p2_p1, self.preciscion),
-                to_string("{}2/{}1".format(lcg.rho, lcg.rho), self.rho2_rho1, self.preciscion, dot_line=True),
-                to_string("T2/T1", self.t2_t1, self.preciscion),
-                to_string("P02/P01", self.po2_po1, self.preciscion, dot_line=True),
-                to_string("T02/T01", self.to2_to1, self.preciscion),
-                to_string("U2/U1", self.u2_u1, self.preciscion, dot_line=True),
+                to_string("P2/P1", self.p2_p1, self.precision),
+                to_string("{}2/{}1".format(lcg.rho, lcg.rho), self.rho2_rho1, self.precision, dot_line=True),
+                to_string("T2/T1", self.t2_t1, self.precision),
+                to_string("P02/P01", self.po2_po1, self.precision, dot_line=True),
+                to_string("T02/T01", self.to2_to1, self.precision),
+                to_string("U2/U1", self.u2_u1, self.precision, dot_line=True),
                 footer(),
             ]
         )
