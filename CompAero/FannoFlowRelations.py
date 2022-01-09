@@ -68,7 +68,7 @@ class FannoFlowRelations:
         self.f4LSt_D = f4LSt_D
         self.u_uSt = u_uSt
         self.flowType = flowType
-        self._preciscion = 4
+        self.preciscion = 4
 
         # Pipe parameters
         self.chokedLength = nan
@@ -100,26 +100,26 @@ class FannoFlowRelations:
             pass
 
         elif checkValue(self.t_tSt):
-            self.mach = FannoFlowRelations.calcMachFrom_T_TSt(self.t_tSt, self.gamma)
+            self.mach = FannoFlowRelations.calc_mach_from_T_TStar(self.t_tSt, self.gamma)
 
         elif checkValue(self.p_pSt):
-            self.mach = FannoFlowRelations.calcMachFrom_P_PSt(self.p_pSt, self.gamma)
+            self.mach = FannoFlowRelations.calc_mach_from_P_PStar(self.p_pSt, self.gamma)
 
         elif checkValue(self.rho_rhoSt):
-            self.mach = FannoFlowRelations.calcMachFrom_Rho_RhoSt(self.rho_rhoSt, self.gamma)
+            self.mach = FannoFlowRelations.calc_mach_from_Rho_RhoStar(self.rho_rhoSt, self.gamma)
 
         elif checkValue(self.po_poSt):
-            self.mach = FannoFlowRelations.calcMachFrom_Po_PoSt(
+            self.mach = FannoFlowRelations.calc_mach_from_Po_PoStar(
                 self.po_poSt, self.gamma, flowType=self.flowType
             )
 
         elif checkValue([self.f4LSt_D, self.flowType]):
-            self.mach = FannoFlowRelations.calcMachFrom_4FLSt_D(
+            self.mach = FannoFlowRelations.calc_mach_from_4FLSt_D(
                 self.f4LSt_D, self.gamma, flowType=self.flowType
             )
 
         elif checkValue(self.u_uSt):
-            self.mach = FannoFlowRelations.calcMachFrom_U_USt(self.u_uSt, self.gamma)
+            self.mach = FannoFlowRelations.calc_mach_from_U_USt(self.u_uSt, self.gamma)
 
         else:
             raise InvalidOptionCombinationError()
@@ -137,47 +137,45 @@ class FannoFlowRelations:
 
         return "".join(
             [
-                named_header("Fanno Relations at Mach", self.mach, precision=self._preciscion),
+                named_header("Fanno Relations at Mach", self.mach, precision=self.preciscion),
                 seperator(),
-                to_string(lcg.gamma, self.gamma, self._preciscion),
-                to_string("T/T*", self.t_tSt, self._preciscion, dot_line=True),
-                to_string("P/P*", self.p_pSt, self._preciscion),
-                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.rho_rhoSt, self._preciscion, dot_line=True),
-                to_string("4FL*/D", self.f4LSt_D, self._preciscion),
-                to_string("U/U*", self.u_uSt, self._preciscion, dot_line=True),
-                to_string("Flow Type", self.flowType.name, self._preciscion),
+                to_string(lcg.gamma, self.gamma, self.preciscion),
+                to_string("T/T*", self.t_tSt, self.preciscion, dot_line=True),
+                to_string("P/P*", self.p_pSt, self.preciscion),
+                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.rho_rhoSt, self.preciscion, dot_line=True),
+                to_string("4FL*/D", self.f4LSt_D, self.preciscion),
+                to_string("U/U*", self.u_uSt, self.preciscion, dot_line=True),
+                to_string("Flow Type", self.flowType.name, self.preciscion),
                 seperator(),
                 named_subheader("Pipe Parameters"),
-                to_string("Length For Chocked Flow", self.chokedLength, self._preciscion),
+                to_string("Length For Chocked Flow", self.chokedLength, self.preciscion),
                 color,
-                to_string("Is Flow Choked? ", self.chockedFlow, self._preciscion, dot_line=True),
-                to_string("Pipe Length", self.pipeLength, self._preciscion),
-                to_string("Pipe Diameter", self.pipeDiameter, self._preciscion, dot_line=True),
-                to_string("Friction Coefficient", self.frictionCoeff, self._preciscion),
+                to_string("Is Flow Choked? ", self.chockedFlow, self.preciscion, dot_line=True),
+                to_string("Pipe Length", self.pipeLength, self.preciscion),
+                to_string("Pipe Diameter", self.pipeDiameter, self.preciscion, dot_line=True),
+                to_string("Friction Coefficient", self.frictionCoeff, self.preciscion),
                 seperator(),
                 named_subheader("Down Stream Conditions"),
-                to_string("Mach", self.dwnStrmMach, self._preciscion),
-                to_string("T/T*", self.t_tSt, self._preciscion, dot_line=True),
-                to_string("P/P*", self.dwnStrm_p_pSt, self._preciscion),
-                to_string("P0/P0*", self.dwnStrm_po_poSt, self._preciscion, dot_line=True),
-                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self._preciscion),
-                to_string("4FL*/D", self.dwnStrm_f4LSt_D, self._preciscion, dot_line=True),
-                to_string("U/U*", self.dwnStrm_u_uSt, self._preciscion),
+                to_string("Mach", self.dwnStrmMach, self.preciscion),
+                to_string("T/T*", self.t_tSt, self.preciscion, dot_line=True),
+                to_string("P/P*", self.dwnStrm_p_pSt, self.preciscion),
+                to_string("P0/P0*", self.dwnStrm_po_poSt, self.preciscion, dot_line=True),
+                to_string("{}/{}*".format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self.preciscion),
+                to_string("4FL*/D", self.dwnStrm_f4LSt_D, self.preciscion, dot_line=True),
+                to_string("U/U*", self.dwnStrm_u_uSt, self.preciscion),
                 seperator(),
                 named_subheader("Conditions Across Friction Area"),
-                to_string("p2/p1", self.p2_p1, self._preciscion),
-                to_string(
-                    "{}2/{}1".format(lcg.rho, lcg.rho), self.rho2_rho1, self._preciscion, dot_line=True
-                ),
-                to_string("T2/T1", self.t2_t1, self._preciscion),
-                to_string("P02/P01", self.po2_po1, self._preciscion, dot_line=True),
-                to_string("4FL*/D2 / 4FL*/D 1", self.f4LD2_f4LD1, self._preciscion),
-                to_string("U2/U1", self.u2_u1, self._preciscion, dot_line=True),
+                to_string("p2/p1", self.p2_p1, self.preciscion),
+                to_string("{}2/{}1".format(lcg.rho, lcg.rho), self.rho2_rho1, self.preciscion, dot_line=True),
+                to_string("T2/T1", self.t2_t1, self.preciscion),
+                to_string("P02/P01", self.po2_po1, self.preciscion, dot_line=True),
+                to_string("4FL*/D2 / 4FL*/D 1", self.f4LD2_f4LD1, self.preciscion),
+                to_string("U2/U1", self.u2_u1, self.preciscion, dot_line=True),
                 footer(),
             ]
         )
 
-    def applyPipeParameters(self, diameter: float, length: float, frictionCoeff: float = 0.005) -> None:
+    def apply_pipe_parameters(self, diameter: float, length: float, frictionCoeff: float = 0.005) -> None:
         """This functions applies parameters of a known pipe to the determined state of the flow. 
             This allows the state at the downstream end of the pipe or pipe section to be found
 
@@ -192,12 +190,12 @@ class FannoFlowRelations:
         self.__calculateDownStreamState()
 
     def __calculateState(self) -> None:
-        self.t_tSt = FannoFlowRelations.calcT_Tstar(self.mach, self.gamma)
-        self.p_pSt = FannoFlowRelations.calcP_Pstar(self.mach, self.gamma)
-        self.rho_rhoSt = FannoFlowRelations.calcRho_RhoStar(self.mach, self.gamma)
-        self.po_poSt = FannoFlowRelations.calcPo_PoStar(self.mach, self.gamma)
-        self.f4LSt_D = FannoFlowRelations.calc4FLSt_D(self.mach, self.gamma)
-        self.u_uSt = FannoFlowRelations.calcU_Ustar(self.mach, self.gamma)
+        self.t_tSt = FannoFlowRelations.calc_T_Tstar(self.mach, self.gamma)
+        self.p_pSt = FannoFlowRelations.calc_P_Pstar(self.mach, self.gamma)
+        self.rho_rhoSt = FannoFlowRelations.calc_Rho_RhoStar(self.mach, self.gamma)
+        self.po_poSt = FannoFlowRelations.calc_Po_PoStar(self.mach, self.gamma)
+        self.f4LSt_D = FannoFlowRelations.calc_4FLSt_D(self.mach, self.gamma)
+        self.u_uSt = FannoFlowRelations.calc_U_UStar(self.mach, self.gamma)
 
         if self.mach < 1:
             self.flowType = FlowState.SUB_SONIC
@@ -214,16 +212,16 @@ class FannoFlowRelations:
         if self.pipeLength > self.chokedLength:
             self.dwnStrmMach = 1
         else:
-            self.dwnStrmMach = FannoFlowRelations.calcMachFrom_4FLSt_D(
+            self.dwnStrmMach = FannoFlowRelations.calc_mach_from_4FLSt_D(
                 self.dwnStrm_f4LSt_D, self.gamma, self.flowType
             )
 
-        self.dwnStrm_t_tSt = FannoFlowRelations.calcT_Tstar(self.dwnStrmMach, self.gamma)
-        self.dwnStrm_p_pSt = FannoFlowRelations.calcP_Pstar(self.dwnStrmMach, self.gamma)
-        self.dwnStrm_rho_rhoSt = FannoFlowRelations.calcRho_RhoStar(self.dwnStrmMach, self.gamma)
-        self.dwnStrm_po_poSt = FannoFlowRelations.calcPo_PoStar(self.dwnStrmMach, self.gamma)
-        self.dwnStrm_u_uSt = FannoFlowRelations.calcU_Ustar(self.dwnStrmMach, self.gamma)
-        self.dwnStrm_f4LSt_D = FannoFlowRelations.calc4FLSt_D(self.dwnStrmMach, self.gamma)
+        self.dwnStrm_t_tSt = FannoFlowRelations.calc_T_Tstar(self.dwnStrmMach, self.gamma)
+        self.dwnStrm_p_pSt = FannoFlowRelations.calc_P_Pstar(self.dwnStrmMach, self.gamma)
+        self.dwnStrm_rho_rhoSt = FannoFlowRelations.calc_Rho_RhoStar(self.dwnStrmMach, self.gamma)
+        self.dwnStrm_po_poSt = FannoFlowRelations.calc_Po_PoStar(self.dwnStrmMach, self.gamma)
+        self.dwnStrm_u_uSt = FannoFlowRelations.calc_U_UStar(self.dwnStrmMach, self.gamma)
+        self.dwnStrm_f4LSt_D = FannoFlowRelations.calc_4FLSt_D(self.dwnStrmMach, self.gamma)
 
         # Calculate parameter ratios across the condition
         self.t2_t1 = self.dwnStrm_t_tSt / self.t_tSt
@@ -234,7 +232,7 @@ class FannoFlowRelations:
         self.u2_u1 = self.dwnStrm_u_uSt / self.u_uSt
 
     @staticmethod
-    def calcT_Tstar(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_T_Tstar(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates Ratio of static temperature to sonic temperature
 
         Args:
@@ -248,20 +246,20 @@ class FannoFlowRelations:
         return (gamma + 1) / (2 + (gamma - 1) * pow(mach, 2)) - offset
 
     @staticmethod
-    def calcMachFrom_T_TSt(t_tSt: float, gamma: float) -> float:
+    def calc_mach_from_T_TStar(t_tSt: float, gamma: float) -> float:
         """Calculates the mach number based of the ratio of static temperature to sonic static temperature
 
         Args:
-            t_tSt (float): Ratio of static temperature to sonic static temperature
+            t_tSt (float): Ratio of static temperature to sonic static temperature T/T*
             gamma (float): ratio of specific heats
 
         Returns:
             float: mach number
         """
-        return brenth(FannoFlowRelations.calcT_Tstar, 1e-9, 40, args=(gamma, t_tSt,))
+        return brenth(FannoFlowRelations.calc_T_Tstar, 1e-9, 40, args=(gamma, t_tSt,))
 
     @staticmethod
-    def calcP_Pstar(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_P_Pstar(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates Ratio of static pressure to sonic pressure
 
         Args:
@@ -272,23 +270,23 @@ class FannoFlowRelations:
         Returns:
             float: P/P*
         """
-        return sqrt(FannoFlowRelations.calcT_Tstar(mach, gamma)) / mach - offset
+        return sqrt(FannoFlowRelations.calc_T_Tstar(mach, gamma)) / mach - offset
 
     @staticmethod
-    def calcMachFrom_P_PSt(p_pSt: float, gamma: float) -> float:
+    def calc_mach_from_P_PStar(p_pSt: float, gamma: float) -> float:
         """Calculates the mach number based of the ratio of static pressure to sonic static pressure
 
         Args:
-            p_pSt (float): Ratio of static pressure to sonic static pressure
+            p_pSt (float): Ratio of static pressure to sonic static pressure P/P*
             gamma (float): ratio of specific heats
 
         Returns:
             float: mach number
         """
-        return brenth(FannoFlowRelations.calcP_Pstar, 1e-9, 40, args=(gamma, p_pSt,))
+        return brenth(FannoFlowRelations.calc_P_Pstar, 1e-9, 40, args=(gamma, p_pSt,))
 
     @staticmethod
-    def calcRho_RhoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_Rho_RhoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates Ratio of static density to sonic density
 
         Args:
@@ -299,23 +297,23 @@ class FannoFlowRelations:
         Returns:
             float: rho/rho*
         """
-        return sqrt(1 / FannoFlowRelations.calcT_Tstar(mach, gamma)) / mach - offset
+        return sqrt(1 / FannoFlowRelations.calc_T_Tstar(mach, gamma)) / mach - offset
 
     @staticmethod
-    def calcMachFrom_Rho_RhoSt(rho_rhoSt: float, gamma: float) -> float:
+    def calc_mach_from_Rho_RhoStar(rho_rhoSt: float, gamma: float) -> float:
         """Calculates the mach number based of the ratio of density to sonic density
 
         Args:
-            rho_rhoSt (float): Ratio of density to sonic density
+            rho_rhoSt (float): Ratio of density to sonic density rho/rho*
             gamma (float): ratio of specific heats
 
         Returns:
             float: mach number
         """
-        return brenth(FannoFlowRelations.calcRho_RhoStar, 1e-9, 40, args=(gamma, rho_rhoSt,),)
+        return brenth(FannoFlowRelations.calc_Rho_RhoStar, 1e-9, 40, args=(gamma, rho_rhoSt,),)
 
     @staticmethod
-    def calcPo_PoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_Po_PoStar(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates Ratio of static density to sonic density
 
         Args:
@@ -328,16 +326,16 @@ class FannoFlowRelations:
         """
         gp1 = gamma + 1
         gm1 = gamma - 1
-        return pow(1 / FannoFlowRelations.calcT_Tstar(mach, gamma), gp1 / (2 * gm1)) / mach - offset
+        return pow(1 / FannoFlowRelations.calc_T_Tstar(mach, gamma), gp1 / (2 * gm1)) / mach - offset
 
     @staticmethod
-    def calcMachFrom_Po_PoSt(
+    def calc_mach_from_Po_PoStar(
         po_poSt: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
     ) -> float:
         """Calculates the mach number based of the ratio of total pressure to sonic total pressure
 
         Args:
-            po_poSt (float): Ratio of total pressure to sonic total pressure
+            po_poSt (float): Ratio of total pressure to sonic total pressure P0/P0*
             gamma (float): ratio of specific heats
 
         Returns:
@@ -347,9 +345,11 @@ class FannoFlowRelations:
         if po_poSt == 1.0:
             return 1
         elif flowType == FlowState.SUPER_SONIC:
-            return brenth(FannoFlowRelations.calcPo_PoStar, 1 + tolerance, 40, args=(gamma, po_poSt,),)
+            return brenth(FannoFlowRelations.calc_Po_PoStar, 1 + tolerance, 40, args=(gamma, po_poSt,),)
         elif flowType == FlowState.SUB_SONIC:
-            return brenth(FannoFlowRelations.calcPo_PoStar, tolerance, 1 - tolerance, args=(gamma, po_poSt,),)
+            return brenth(
+                FannoFlowRelations.calc_Po_PoStar, tolerance, 1 - tolerance, args=(gamma, po_poSt,),
+            )
         else:
             raise ValueError(
                 Back.RED + Fore.BLACK + "Flow Type [{}] not supported for Fanno"
@@ -359,7 +359,7 @@ class FannoFlowRelations:
             )
 
     @staticmethod
-    def calc4FLSt_D(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_4FLSt_D(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates friction parameter for flow
 
         Args:
@@ -371,12 +371,12 @@ class FannoFlowRelations:
             float: 4FL*/D
         """
         gp1 = gamma + 1
-        t_tSt = FannoFlowRelations.calcT_Tstar(mach, gamma)
+        t_tSt = FannoFlowRelations.calc_T_Tstar(mach, gamma)
         mSqr = pow(mach, 2)
         return (1 - mSqr) / (gamma * mSqr) + (gp1 / (2 * gamma)) * log(t_tSt * mSqr) - offset
 
     @staticmethod
-    def calcMachFrom_4FLSt_D(
+    def calc_mach_from_4FLSt_D(
         f4lSt_d: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
     ) -> float:
         """ Calculates the mach number from the friction parameter
@@ -395,9 +395,9 @@ class FannoFlowRelations:
         if f4lSt_d == 0.0:
             return 1
         elif flowType == FlowState.SUPER_SONIC:
-            return brenth(FannoFlowRelations.calc4FLSt_D, 1.00001, 50, args=(gamma, f4lSt_d,),)
+            return brenth(FannoFlowRelations.calc_4FLSt_D, 1.00001, 50, args=(gamma, f4lSt_d,),)
         elif flowType == FlowState.SUB_SONIC:
-            return brenth(FannoFlowRelations.calc4FLSt_D, 1e-5, 0.9999, args=(gamma, f4lSt_d,),)
+            return brenth(FannoFlowRelations.calc_4FLSt_D, 1e-5, 0.9999, args=(gamma, f4lSt_d,),)
         else:
             raise ValueError(
                 Back.RED + Fore.BLACK + "Flow Type [{}] not supported for Fanno"
@@ -407,7 +407,7 @@ class FannoFlowRelations:
             )
 
     @staticmethod
-    def calcU_Ustar(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_U_UStar(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates Ratio of static velocity to sonic velocity
 
         Args:
@@ -418,19 +418,19 @@ class FannoFlowRelations:
         Returns:
             float: U/U*
         """
-        t_tSt = FannoFlowRelations.calcT_Tstar(mach, gamma)
+        t_tSt = FannoFlowRelations.calc_T_Tstar(mach, gamma)
         return mach * sqrt(t_tSt) - offset
 
     @staticmethod
-    def calcMachFrom_U_USt(u_uSt: float, gamma: float) -> float:
+    def calc_mach_from_U_USt(u_uSt: float, gamma: float) -> float:
         """Calculates the mach number based of the ratio of velocity to sonic velocity
 
         Args:
-            u_uSt (float): Ratio of velocity to sonic velocity
+            u_uSt (float): Ratio of velocity to sonic velocity U/U*
             gamma (float): ratio of specific heats
 
         Returns:
             float: mach number
         """
-        return brenth(FannoFlowRelations.calcU_Ustar, 1e-9, 40, args=(gamma, u_uSt))
+        return brenth(FannoFlowRelations.calc_U_UStar, 1e-9, 40, args=(gamma, u_uSt))
 

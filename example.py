@@ -44,7 +44,7 @@ if __name__ == "__main__":
     # p1 = 1
     # po1 = IsentropicRelations.calc_P0_P(3, 1.4) * p1
     # flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
-    # flow.applyPipeParameters(0.4, 11, 0.005)
+    # flow.apply_pipe_parameters(0.4, 11, 0.005)
     # print()
     # print(flow)
     # print()
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     ##########################################################################
     flow = RayleighFlowRelations(1.4, mach=1.5)
     print()
-    flow.simulateHeatAddition(1000, 275.2, 287)
+    flow.simulate_heat_addition(1000, 275.2, 287)
     print(flow)
 
     ##########################################################################

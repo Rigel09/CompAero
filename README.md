@@ -72,7 +72,7 @@ t1 = 300
 p1 = 1
 po1 = IsentropicRelations.calc_P0_P(3, 1.4) * p1
 flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
-flow.applyPipeParameters(0.4, 11, 0.005)
+flow.apply_pipe_parameters(0.4, 11, 0.005)
 print()
 print(flow)
 print()
@@ -81,7 +81,7 @@ print("P2: ", p1 * flow.p2_p1)
 print("Po2: ", po1 * flow.po2_po1)
     
 flow = RayleighFlowRelations(1.4, mach=1.5)
-flow.simulateHeatAddition(1000, 275.2, 287)
+flow.simulate_heat_addition(1000, 275.2, 287)
 print(flow)
 ```
 
