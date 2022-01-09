@@ -17,6 +17,36 @@ from CompAero.greek_letters import LowerCaseGreek as lcg, Misc
 
 
 class PrandtlMeyer:
+    """ This class is a collective name space for basic calculations regarding Prandtl Meyer flows. 
+    The constructor of this class can also determine the entire state of the flow given a partial state of the flow 
+
+    Args:
+        gamma (float): Ratio of specific heats
+        mach (float, optional): Mach number of the flow. Defaults to nan.
+        nu (float, optional): Prandtl Meyer function. Defaults to nan.
+        mu (float, optional): Mach Wave angle. Defaults to nan.
+        dwnstreamNu (float, optional): down stream prandtl meyer function. Defaults to nan.
+        dwnStreamMu (float, optional): down stream mach wave angle. Defaults to nan.
+        dwnStreamMach (float, optional): down stream mach number. Defaults to nan.
+        deflectionAngle (float, optional): deflection angle seen by the flow. Defaults to nan.
+        inDegrees (bool, optional): True if angles passed in are in degrees. Doesnt convert output to defrees. Defaults to True.
+
+    Raises:
+        GammaNotDefinedError: [description]
+        InvalidOptionCombinationError: [description]
+        
+    Useage:
+    To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
+
+    Valid Combinations of Parameters:
+        gamma, mach
+        gamma, nu
+        gamma, mu
+        gamma, deflection angle, dwnStrm_mach
+        gamma, deflection angle, dwnStrm_mu
+        gamma, deflection angle, dwnStrm_nu
+    """
+
     def __init__(
         self,
         gamma: float,
@@ -29,24 +59,6 @@ class PrandtlMeyer:
         deflectionAngle: float = nan,
         inDegrees: bool = True,
     ) -> None:
-        """ This class is a collective name space for basic calculations regarding Prandtl Meyer flows. 
-        The constructor of this class can also determine the entire state of the flow given a partial state of the flow 
-
-        Args:
-            gamma (float): Ratio of specific heats
-            mach (float, optional): Mach number of the flow. Defaults to nan.
-            nu (float, optional): Prandtl Meyer function. Defaults to nan.
-            mu (float, optional): Mach Wave angle. Defaults to nan.
-            dwnstreamNu (float, optional): down stream prandtl meyer function. Defaults to nan.
-            dwnStreamMu (float, optional): down stream mach wave angle. Defaults to nan.
-            dwnStreamMach (float, optional): down stream mach number. Defaults to nan.
-            deflectionAngle (float, optional): deflection angle seen by the flow. Defaults to nan.
-            inDegrees (bool, optional): True if angles passed in are in degrees. Doesnt convert output to defrees. Defaults to True.
-
-        Raises:
-            GammaNotDefinedError: [description]
-            InvalidOptionCombinationError: [description]
-        """
         self.gamma = gamma
         self.mach = mach
         self.nu = nu
