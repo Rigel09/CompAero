@@ -5,6 +5,8 @@ import numpy as np
 
 from CompAero.NormalShockRelations import NormalShockRelations
 from CompAero.internal import (
+    GammaNotDefinedError,
+    InvalidOptionCombinationError,
     checkValue,
     footer,
     named_header,
@@ -18,6 +20,44 @@ from CompAero.greek_letters import LowerCaseGreek as lcg
 # TODO: Subclassing from the normal shock relations doesnt seem to make as much sense as it used to
 # get rid of the subclassing and mach ObliqueShockRelations it's own class
 class ObliqueShockRelations(NormalShockRelations):
+    """ This class is a collective name space for basic calculations regarding Oblique Shock Properties. 
+    The constructor of this class can also determine the entire state of the flow given a partial state of the flow 
+
+    Args:
+        gamma (float): Ratio of specific heats
+        useDegrees (bool, optional): Angles provided to class are in degrees. Output will still be in radians. Defaults to True.
+        shockAngle (float, optional): Angle of the oblique shock wave. Defaults to nan.
+        wedgeAngle (float, optional): Angle of the wedge that is deflecting the flow. Defaults to nan.
+        mn1 (float, optional): Normal component of mach number ahead of the shock. Defaults to nan.
+        mn2 (float, optional): Normal component of mach number behind the shock. Defaults to nan.
+        mach (float, optional): Mach number ahead of the shock. Defaults to nan.
+        p2_p1 (float, optional): Ratio of pressure behind shock wave to ahead of shock wave. Defaults to nan.
+        rho2_rho1 (float, optional): Ratio of density behind shock wave to ahead of shock wave. Defaults to nan.
+        t2_t1 (float, optional): Ratio of temperature behind shock wave to ahead of shock wave. Defaults to nan.
+        po2_po1 (float, optional): Ratio of total pressure to behind shock wave to ahead of shock wave. Defaults to nan.
+        po2_p1 (float, optional): Ratio Total pressure behind shock wave to static pressure ahead of shock wave. Defaults to nan.
+        m2 (float, optional): mach number behind shock wave. Defaults to nan.
+        shockType (ShockType, optional): Describes whether the oblique shock is a Week or Strong shock. Defaults to ShockType.WEAK.
+
+    Raises:
+        RuntimeError: If shock wave angle is found to be less than the mach wave angle at
+        RuntimeError: If the deflection angle is found to be greater than the max deflection angle for the flow
+        GammaNotDefinedError: Raised if gamma is not defined when passed into the class
+        InvalidOptionCombinationError: Raised if the incorrect combination of parameters are passed to the class
+        
+    Valid Combinations of Parameters:
+        gamma, mach
+        gamma, mach normal 1, shock angle 
+        gamma, mach behind shock, wedge angle, shock angle
+        gamma, shock angle, wedge angle
+        gamma, P2/P1, shock angle
+        gamma, Rho2/Rho1, shock angle
+        gamma, T2/T1, shock angle
+        gamma, P02/P01, shock angle
+        gamma, P02/P1, shock angle
+        gamma, dwnStrm_mach, shock angle
+    """
+
     def __init__(
         self,
         gamma: float,
@@ -35,7 +75,6 @@ class ObliqueShockRelations(NormalShockRelations):
         m2: float = nan,
         shockType: ShockType = ShockType.WEAK,
     ) -> None:
-
         self.useDegrees = useDegrees
         self.shockAngle = shockAngle
         self.wedgeAngle = wedgeAngle
@@ -58,7 +97,7 @@ class ObliqueShockRelations(NormalShockRelations):
             self.wedgeAngle = radians(self.wedgeAngle)
 
         if not checkValue(self.gamma):
-            return
+            raise GammaNotDefinedError()
 
         if checkValue(self.mach):
             pass
@@ -128,7 +167,7 @@ class ObliqueShockRelations(NormalShockRelations):
             self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
 
         else:
-            raise ValueError("{} Not Enough Parameters given to determine flow field".format(__class__))
+            raise InvalidOptionCombinationError()
 
         if checkValue(self.mach) and ((checkValue(self.shockAngle) or checkValue(self.wedgeAngle))):
             self.__calculateState()
@@ -137,10 +176,6 @@ class ObliqueShockRelations(NormalShockRelations):
         self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
         self.machNorm2 = self.mach2
         self.mach2 = ObliqueShockRelations.calcMach2(self.machNorm2, self.wedgeAngle, self.shockAngle)
-
-        # if self.useDegrees:
-        #     self.shockAngle = degrees(self.shockAngle)
-        #     self.wedgeAngle = degrees(self.wedgeAngle)
 
     def __calculateState(self) -> None:
         if checkValue(self.wedgeAngle):
@@ -202,7 +237,18 @@ class ObliqueShockRelations(NormalShockRelations):
 
     @staticmethod
     def calcMachNormal1(mach: float, beta: float) -> float:
-        """ Calculates the normal component of the Mach number for a given shock angle in radians"""
+        """ Calculates the normal component of the mach number ahead of the shock wave
+
+        Args:
+            mach (float): Mach number of flow ahead of shock wave
+            beta (float): Angle of oblique shock in radians
+
+        Raises:
+            ValueError: Raised if mach number is less than 1.0
+
+        Returns:
+            float: Normal component of upstream mach number
+        """
         if mach < 1.0:
             raise ValueError("Normal Shocks Require a mach greater than 1")
 
@@ -218,28 +264,71 @@ class ObliqueShockRelations(NormalShockRelations):
 
     @staticmethod
     def calcMachFromMachNormal1(machNormal1: float, beta: float) -> float:
+        """ Calculates the upstream mach number from the normal component of the upstream mach number
+
+        Args:
+            machNormal1 (float): Normal Component of mach number ahead of the shock wave
+            beta (float): Angle of oblique shock in radians
+
+        Returns:
+            float: Returns value of mach number of the flow ahead of the shock wave
+        """
         return machNormal1 / sin(beta)
 
     @staticmethod
     def calcBetaFromMach_MachNormal1(mach: float, machNormal1: float) -> float:
+        """ Calculates the Oblique shock angle from the normal component of the mach number that is ahead of the shock wave
+
+        Args:
+            mach (float): Mach number of the flow ahead of the shock wave
+            machNormal1 (float): Normal Component of mach number of the flow that is ahead of the oblique shock wave
+
+        Returns:
+            float: Oblique Shock Angle
+        """
         return asin(machNormal1 / mach)
 
     @staticmethod
     def calcMach2(machNormal2: float, theta: float, beta: float) -> float:
-        """ 
-            Calcualtes the down stream mach number
-            machNormal2: Normal Component of downstream Mach Number
-            theta: flow deflection angle in radians
-            beta: shock angle in radians
+        """ Calculates the Mach number behind the oblique shock wave
+
+        Args:
+            machNormal2 (float): Normal Component of the mach number behind the shock wave
+            theta (float): Flow Deflection Angle (radians) (Wedge angle)
+            beta (float): Oblique shock angle (radians)
+
+        Returns:
+            float: Mach number of flow behind the oblique shock
         """
         return machNormal2 / sin(beta - theta)
 
     @staticmethod
     def calcMachNormal2FromMach2(mach2: float, beta: float, theta: float) -> float:
+        """ Calculates the normal component of the mach number behind the oblique shock 
+
+        Args:
+            mach2 (float): Mach number of flow behind the oblique shock
+            beta (float): Oblique shock angle (radians)
+            theta (float): Flow deflections (Wedge) angle (radians)
+
+        Returns:
+            float: Normal component of mach numnber of the flow behind the shock wave
+        """
         return mach2 * sin(beta - theta)
 
     @staticmethod
     def calcThetaFromBetaMach(beta: float, mach: float, gamma: float, offset: float = 0.0) -> float:
+        """ Impliments the Theta-Beta-Mach (TBM) equation. Solves for Theta
+
+        Args:
+            beta (float): Oblique shock angle (radians)
+            mach (float): Mach number of flow ahead of the shock wave
+            gamma (float): Ratio of specific heats
+            offset (float, optional): [description]. Defaults to 0.0.
+
+        Returns:
+            float: Flow deflection (Wedge) angle (radians)
+        """
         mSqr = pow(mach, 2)
         num = mSqr * pow(sin(beta), 2) - 1
         denom = mSqr * (gamma + cos(2 * beta)) + 2
@@ -248,6 +337,16 @@ class ObliqueShockRelations(NormalShockRelations):
 
     @staticmethod
     def calcBetaFromThetaMach_Weak(theta: float, mach: float, gamma: float) -> float:
+        """ Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming the shock is weak
+
+        Args:
+            theta (float): Flow deflection (Wedge) angle (radians)
+            mach (float): Mach number of the flow ahead of the oblique shock
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: Oblique shock angle (radians)
+        """
         maxShockAngle = ObliqueShockRelations.calculateMaxShockAngle(mach, gamma)
         minShockAngle = ObliqueShockRelations.calcMachWaveAngle(mach)
         return brenth(
@@ -259,6 +358,16 @@ class ObliqueShockRelations(NormalShockRelations):
 
     @staticmethod
     def calcBetaFromThetaMach_Strong(theta: float, mach: float, gamma: float) -> float:
+        """ Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming a strong shock wave
+
+        Args:
+            theta (float): Flow deflection (Wedge) angle (radians)
+            mach (float): Mach number of the flow ahead of the oblique shock
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: Oblique shock angle (radians)
+        """
         maxShockAngle = ObliqueShockRelations.calculateMaxShockAngle(mach, gamma)
         return brenth(
             ObliqueShockRelations.calcThetaFromBetaMach, maxShockAngle, radians(90), args=(mach, gamma, theta)
@@ -266,14 +375,32 @@ class ObliqueShockRelations(NormalShockRelations):
 
     @staticmethod
     def calcMachFromThetaBeta(beta: float, theta: float, gamma: float) -> float:
-        """finds Mach number for TBM shock given flow deflection angle, shock angle, and ratio of specific heats"""
+        """ Impliments the Theta-Beta-Mach (TBM) Equation. Solves for the mach number
+
+        Args:
+            beta (float): Oblique shock angle (radians)
+            theta (float): Flow deflection (wedge) angle (radians)
+            gamma (float): Ratio of specific heats
+
+        Returns:
+            float: Mach number of the flow ahead of the shock wave
+        """
         numerator = -2 * (1 + tan(theta) * tan(beta))
         denominator = tan(theta) * tan(beta) * (gamma + cos(2 * beta)) - 2 * (sin(beta)) ** 2
         return sqrt(numerator / denominator)
 
     @staticmethod
     def calculateMaxFlowDeflectionAngle(maxShockAngle: float, mach: float, gamma: float) -> float:
-        """finds maximum flow deflection angle given max shock angle, Mach number, and ratio of specific heats"""
+        """ Calculates the max flow deflection angle for a flow
+
+        Args:
+            maxShockAngle (float): Maximum oblique shock angle (radians)
+            mach (float): Mach number of flow ahead of the oblique shock
+            gamma (float): Ratio of specific heats
+
+        Returns:
+            float: Mac flow deflection angle (radians)
+        """
         msa = maxShockAngle
         numerator = (pow(mach, 2) * (sin(msa)) ** 2 - 1) / tan(msa)
         denominator = pow(mach, 2) * (gamma + 1) / 2 - pow(mach, 2) * (pow(sin(msa), 2)) + 1
@@ -281,7 +408,15 @@ class ObliqueShockRelations(NormalShockRelations):
 
     @staticmethod
     def calculateMaxShockAngle(mach: float, gamma: float) -> float:
-        """finds maximum shock angle given Mach number and ratio of specific heats"""
+        """ Calculates the maximum oblique shock angle 
+
+        Args:
+            mach (float): Mach number of flow ahead of the shock wave
+            gamma (float): Ratio of specific heats
+
+        Returns:
+            float: Maximum value of the oblique shock angle (radians)
+        """
         gp1 = gamma + 1
         gm1 = gamma - 1
         # splitting up of beta_max equation
@@ -295,10 +430,19 @@ class ObliqueShockRelations(NormalShockRelations):
 
     @staticmethod
     def calcMachFromMachWaveAngle(machAngle: float) -> float:
-        """ Calcualtes the mach number associated with a mach wave angle in radians"""
+        """ Calculates the Mach number fromt he mach wave angle
+
+        Args:
+            machAngle (float): Mach wave angle (mu) (radians)
+
+        Returns:
+            float: mach number
+        """
         return 1 / sin(machAngle)
 
     def plotThetaBetaMachChart(self) -> None:
+        """ Plots the Theta-Beta-Mach plot from the data already in the class
+        """
         mach = self.mach
 
         machWaveAngle = degrees(ObliqueShockRelations.calcMachWaveAngle(mach))
