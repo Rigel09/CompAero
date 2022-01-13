@@ -83,7 +83,7 @@ class PrandtlMeyer:
             self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
         elif checkValue(self.mu):
-            self.mach = ObliqueShockRelations.calcMachFromMachWaveAngle(radians(self.mu))
+            self.mach = ObliqueShockRelations.calc_mach_from_mach_wave_angle(radians(self.mu))
 
         elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_mach):
             self.dwmStrm_nu = PrandtlMeyer.calc_nu(self.dwmStrm_mach, self.gamma)
@@ -95,7 +95,7 @@ class PrandtlMeyer:
             self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
         elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_mu):
-            self.dwmStrm_mach = ObliqueShockRelations.calcMachFromMachWaveAngle(radians(self.dwmStrm_mu))
+            self.dwmStrm_mach = ObliqueShockRelations.calc_mach_from_mach_wave_angle(radians(self.dwmStrm_mu))
             self.dwmStrm_nu = PrandtlMeyer.calc_nu(self.dwmStrm_mach, self.gamma)
             self.nu = self.dwmStrm_nu - self.deflectionAngle
             self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
@@ -131,14 +131,14 @@ class PrandtlMeyer:
 
     def __calculateState(self) -> None:
         self.nu = PrandtlMeyer.calc_nu(self.mach, self.gamma)
-        self.mu = degrees(ObliqueShockRelations.calcMachWaveAngle(self.mach))
+        self.mu = degrees(ObliqueShockRelations.calc_mach_wave_angle(self.mach))
 
         if not checkValue(self.deflectionAngle):
             return
 
         self.dwmStrm_nu = self.deflectionAngle + self.nu
         self.dwmStrm_mach = PrandtlMeyer.calc_mach_from_nu(self.dwmStrm_nu, self.gamma)
-        self.dwmStrm_mu = degrees(ObliqueShockRelations.calcMachWaveAngle(self.dwmStrm_mach))
+        self.dwmStrm_mu = degrees(ObliqueShockRelations.calc_mach_wave_angle(self.dwmStrm_mach))
 
     @staticmethod
     def calc_nu(mach: float, gamma: float, offset: float = 0.0) -> float:

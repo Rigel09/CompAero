@@ -2,7 +2,7 @@ from math import radians
 from pytest import approx
 import pytest
 from CompAero.ObliqueShockRelations import ObliqueShockRelations as osr
-from CompAero.internal import ShockType
+from CompAero.internal import InvalidOptionCombinationError, ShockType
 
 
 class TestObliqueShockClassFuncs:
@@ -17,62 +17,68 @@ class TestObliqueShockClassFuncs:
     # Can it be detected? I.E. value always greater than X for mach > 1?
     def test_subsonic_p2_p1(self):
         with pytest.raises(ValueError):
-            osr.calcMachNormal1(0.5, self.gamma)
+            osr.calc_mach_normal_ahead_shock(0.5, self.gamma)
 
     #######################################################################################
     # Test the Functions for Superonic Case
     #######################################################################################
     # TODO: This function needs more tests and more checking on output validation
     def test_supersonic_calc_mach_normal_1(self):
-        assert osr.calcMachNormal1(1.5, radians(53.61)) == approx(1.2075, rel=1e-4)
+        assert osr.calc_mach_normal_ahead_shock(1.5, radians(53.61)) == approx(1.2075, rel=1e-4)
 
     def test_supersonic_calc_mach_from_mach_normal_1(self):
-        assert osr.calcMachFromMachNormal1(1.207496034, radians(53.61)) == approx(1.5, rel=1e-1)
-
-    def test_supersonic_calc_beta_from_mach_normal_1(self):
-        assert osr.calcBetaFromMach_MachNormal1(1.5, 1.25340) == approx(radians(56.67868), rel=1e-4)
-
-    def test_supersonic_calc_mach_2(self):
-        assert osr.calcMach2(0.83754, radians(8.56287), radians(53.61)) == approx(1.18349, rel=1e-4)
-
-    def test_supersonic_calc_mn2_from_m2(self):
-        assert osr.calcMachNormal2FromMach2(1.11438, radians(56.67868), radians(10.0)) == approx(
-            0.81073, rel=1e-4
+        assert osr.calc_mach_ahead_shock_from_mach_normal_ahead_shock(1.207496034, radians(53.61)) == approx(
+            1.5, rel=1e-1
         )
 
+    def test_supersonic_calc_beta_from_mach_normal_1(self):
+        assert osr.calc_beta_from_mach_mach_normal_ahead_shock(1.5, 1.25340) == approx(
+            radians(56.67868), rel=1e-4
+        )
+
+    def test_supersonic_calc_mach_2(self):
+        assert osr.calc_mach_behind_shock(0.83754, radians(8.56287), radians(53.61)) == approx(
+            1.18349, rel=1e-4
+        )
+
+    def test_supersonic_calc_mn2_from_m2(self):
+        assert osr.calc_mach_normal_behind_shock_from_mach_behind_shock(
+            1.11438, radians(56.67868), radians(10.0)
+        ) == approx(0.81073, rel=1e-4)
+
     def test_supersonic_calc_theta_from_beta_mach(self):
-        assert osr.calcThetaFromBetaMach(radians(56.67868), 1.5, self.gamma) == approx(
+        assert osr.calc_theta_from_theta_beta_mach(radians(56.67868), 1.5, self.gamma) == approx(
             radians(10.0), rel=1e-1
         )
 
     def test_supersonic_calc_beta_from_theta_mach_weak(self):
-        assert osr.calcBetaFromThetaMach_Weak(radians(10.0), 1.5, self.gamma) == approx(
+        assert osr.calc_beta_from_theta_beta_mach_weak(radians(10.0), 1.5, self.gamma) == approx(
             radians(56.67868), rel=1e-4
         )
 
     def test_supersonic_calc_beta_from_theta_mach_strong(self):
-        assert osr.calcBetaFromThetaMach_Strong(radians(10.0), 1.5, self.gamma) == approx(
+        assert osr.calc_beta_from_theta_beta_mach_strong(radians(10.0), 1.5, self.gamma) == approx(
             radians(75.99487), rel=1e-4
         )
 
     def test_supersonic_calc_mach_from_theta_beta(self):
-        assert osr.calcMachFromThetaBeta(radians(56.67868), radians(10.0), self.gamma) == approx(
+        assert osr.calc_mach_from_theta_beta_mach(radians(56.67868), radians(10.0), self.gamma) == approx(
             1.5, rel=1e-4
         )
 
     def test_supersonic_max_flow_deflection_angle(self):
-        assert osr.calculateMaxFlowDeflectionAngle(radians(66.5888), 1.5, self.gamma) == approx(
+        assert osr.calc_max_flow_deflection_angle(radians(66.5888), 1.5, self.gamma) == approx(
             radians(12.11267), rel=1e-4
         )
 
     def test_supersonic_max_shock_angle(self):
-        assert osr.calculateMaxShockAngle(1.5, self.gamma) == approx(radians(66.5888), rel=1e-4)
+        assert osr.calc_max_shock_angle(1.5, self.gamma) == approx(radians(66.5888), rel=1e-4)
 
     def test_supersonic_calc_mach_wave_angle(self):
-        assert osr.calcMachWaveAngle(1.5) == approx(radians(41.8103149), rel=1e-5)
+        assert osr.calc_mach_wave_angle(1.5) == approx(radians(41.8103149), rel=1e-5)
 
     def test_supersonic_calc_mach_from_mach_wave_angle(self):
-        assert osr.calcMachFromMachWaveAngle(radians(41.8103149)) == approx(1.5, rel=1e-1)
+        assert osr.calc_mach_from_mach_wave_angle(radians(41.8103149)) == approx(1.5, rel=1e-1)
 
     # TODO: Figure out someway to test the plotting feature of the TBM chart
 
@@ -264,5 +270,5 @@ class TestObliqueShockRelationsClass:
         assert inst.shockType == ShockType.WEAK
 
     def test_construction_not_enough_args(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(InvalidOptionCombinationError):
             inst = osr(self.gamma)

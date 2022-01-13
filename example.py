@@ -34,7 +34,7 @@ if __name__ == "__main__":
     # flow = ObliqueShockRelations(1.4, mach=3, shockAngle=60)
     # print()
     # print(flow)
-    # flow.plotThetaBetaMachChart()
+    # flow.plot_theta_beta_mach_chart()
 
     ##########################################################################
     #################### Fanno Flow Example  #################################

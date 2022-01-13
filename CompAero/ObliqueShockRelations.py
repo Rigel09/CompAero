@@ -103,10 +103,12 @@ class ObliqueShockRelations(NormalShockRelations):
             pass
 
         elif checkValue(self.machNorm1) and checkValue(self.shockAngle):
-            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.machNorm1, self.shockAngle
+            )
 
         elif checkValue(m2) and checkValue(self.wedgeAngle) and checkValue(self.shockAngle):
-            self.machNorm2 = ObliqueShockRelations.calcMachNormal2FromMach2(
+            self.machNorm2 = ObliqueShockRelations.calc_mach_normal_behind_shock_from_mach_behind_shock(
                 m2, self.shockAngle, self.wedgeAngle
             )
             if self.machNorm2 > 1:
@@ -114,15 +116,17 @@ class ObliqueShockRelations(NormalShockRelations):
             self.machNorm1 = NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
                 self.machNorm2, self.gamma
             )
-            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.machNorm1, self.shockAngle
+            )
 
         elif checkValue(self.shockAngle) and checkValue(self.wedgeAngle):
-            self.mach = ObliqueShockRelations.calcMachFromThetaBeta(
+            self.mach = ObliqueShockRelations.calc_mach_from_theta_beta_mach(
                 self.shockAngle, self.wedgeAngle, self.gamma
             )
-            machAngle = ObliqueShockRelations.calcMachWaveAngle(self.mach)
-            maxShockAngle = ObliqueShockRelations.calculateMaxShockAngle(self.mach, self.gamma)
-            maxDeflectionAngle = ObliqueShockRelations.calculateMaxFlowDeflectionAngle(
+            machAngle = ObliqueShockRelations.calc_mach_wave_angle(self.mach)
+            maxShockAngle = ObliqueShockRelations.calc_max_shock_angle(self.mach, self.gamma)
+            maxDeflectionAngle = ObliqueShockRelations.calc_max_flow_deflection_angle(
                 maxShockAngle, self.mach, self.gamma
             )
 
@@ -142,29 +146,41 @@ class ObliqueShockRelations(NormalShockRelations):
 
         elif checkValue([po2_p1, self.shockAngle]):
             self.machNorm1 = NormalShockRelations.calc_mach_from_po2_p1(po2_p1, self.gamma)
-            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.machNorm1, self.shockAngle
+            )
 
         elif checkValue([p2_p1, self.shockAngle]):
             self.machNorm1 = NormalShockRelations.calc_mach_from_p2_p1(p2_p1, self.gamma)
-            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.machNorm1, self.shockAngle
+            )
 
         elif checkValue([rho2_rho1, self.shockAngle]):
             self.machNorm1 = NormalShockRelations.calc_mach_from_rho2_rho1(rho2_rho1, self.gamma)
-            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.machNorm1, self.shockAngle
+            )
 
         elif checkValue([t2_t1, self.shockAngle]):
             self.machNorm1 = NormalShockRelations.calc_mach_from_T2_T1(t2_t1, self.gamma)
-            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.machNorm1, self.shockAngle
+            )
 
         elif checkValue([po2_po1, self.shockAngle]):
             self.machNorm1 = NormalShockRelations.calc_mach_from_po2_po1(po2_po1, self.gamma)
-            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.machNorm1, self.shockAngle
+            )
 
         elif checkValue(self.machNorm2) and checkValue(self.shockAngle):
             self.machNorm1 = NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
                 self.machNorm2, self.gamma
             )
-            self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.machNorm1, self.shockAngle
+            )
 
         else:
             raise InvalidOptionCombinationError()
@@ -173,19 +189,23 @@ class ObliqueShockRelations(NormalShockRelations):
             self.__calculateState()
 
         super().__init__(self.gamma, mach=self.machNorm1)
-        self.mach = ObliqueShockRelations.calcMachFromMachNormal1(self.machNorm1, self.shockAngle)
+        self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+            self.machNorm1, self.shockAngle
+        )
         self.machNorm2 = self.mach2
-        self.mach2 = ObliqueShockRelations.calcMach2(self.machNorm2, self.wedgeAngle, self.shockAngle)
+        self.mach2 = ObliqueShockRelations.calc_mach_behind_shock(
+            self.machNorm2, self.wedgeAngle, self.shockAngle
+        )
 
     def __calculateState(self) -> None:
         if checkValue(self.wedgeAngle):
             if self.shockType == ShockType.WEAK:
-                self.shockAngle = ObliqueShockRelations.calcBetaFromThetaMach_Weak(
+                self.shockAngle = ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak(
                     self.wedgeAngle, self.mach, self.gamma
                 )
 
             elif self.shockType == ShockType.STRONG:
-                self.shockAngle = ObliqueShockRelations.calcBetaFromThetaMach_Strong(
+                self.shockAngle = ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong(
                     self.wedgeAngle, self.mach, self.gamma
                 )
 
@@ -197,11 +217,11 @@ class ObliqueShockRelations(NormalShockRelations):
                 )
 
         elif checkValue(self.shockAngle):
-            self.wedgeAngle = ObliqueShockRelations.calcThetaFromBetaMach(
+            self.wedgeAngle = ObliqueShockRelations.calc_theta_from_theta_beta_mach(
                 self.shockAngle, self.mach, self.gamma
             )
 
-        self.machNorm1 = ObliqueShockRelations.calcMachNormal1(self.mach, self.shockAngle)
+        self.machNorm1 = ObliqueShockRelations.calc_mach_normal_ahead_shock(self.mach, self.shockAngle)
 
     def __str__(self) -> str:
         return "".join(
@@ -236,7 +256,7 @@ class ObliqueShockRelations(NormalShockRelations):
         )
 
     @staticmethod
-    def calcMachNormal1(mach: float, beta: float) -> float:
+    def calc_mach_normal_ahead_shock(mach: float, beta: float) -> float:
         """ Calculates the normal component of the mach number ahead of the shock wave
 
         Args:
@@ -252,7 +272,7 @@ class ObliqueShockRelations(NormalShockRelations):
         if mach < 1.0:
             raise ValueError("Normal Shocks Require a mach greater than 1")
 
-        machWave = ObliqueShockRelations.calcMachWaveAngle(mach)
+        machWave = ObliqueShockRelations.calc_mach_wave_angle(mach)
 
         if abs(beta - machWave) < 1e-5:
             return 1.0
@@ -263,7 +283,7 @@ class ObliqueShockRelations(NormalShockRelations):
         return mach * sin(beta)
 
     @staticmethod
-    def calcMachFromMachNormal1(machNormal1: float, beta: float) -> float:
+    def calc_mach_ahead_shock_from_mach_normal_ahead_shock(machNormal1: float, beta: float) -> float:
         """ Calculates the upstream mach number from the normal component of the upstream mach number
 
         Args:
@@ -276,7 +296,7 @@ class ObliqueShockRelations(NormalShockRelations):
         return machNormal1 / sin(beta)
 
     @staticmethod
-    def calcBetaFromMach_MachNormal1(mach: float, machNormal1: float) -> float:
+    def calc_beta_from_mach_mach_normal_ahead_shock(mach: float, machNormal1: float) -> float:
         """ Calculates the Oblique shock angle from the normal component of the mach number that is ahead of the shock wave
 
         Args:
@@ -289,7 +309,7 @@ class ObliqueShockRelations(NormalShockRelations):
         return asin(machNormal1 / mach)
 
     @staticmethod
-    def calcMach2(machNormal2: float, theta: float, beta: float) -> float:
+    def calc_mach_behind_shock(machNormal2: float, theta: float, beta: float) -> float:
         """ Calculates the Mach number behind the oblique shock wave
 
         Args:
@@ -303,7 +323,9 @@ class ObliqueShockRelations(NormalShockRelations):
         return machNormal2 / sin(beta - theta)
 
     @staticmethod
-    def calcMachNormal2FromMach2(mach2: float, beta: float, theta: float) -> float:
+    def calc_mach_normal_behind_shock_from_mach_behind_shock(
+        mach2: float, beta: float, theta: float
+    ) -> float:
         """ Calculates the normal component of the mach number behind the oblique shock 
 
         Args:
@@ -317,7 +339,7 @@ class ObliqueShockRelations(NormalShockRelations):
         return mach2 * sin(beta - theta)
 
     @staticmethod
-    def calcThetaFromBetaMach(beta: float, mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_theta_from_theta_beta_mach(beta: float, mach: float, gamma: float, offset: float = 0.0) -> float:
         """ Impliments the Theta-Beta-Mach (TBM) equation. Solves for Theta
 
         Args:
@@ -336,7 +358,7 @@ class ObliqueShockRelations(NormalShockRelations):
         return theta
 
     @staticmethod
-    def calcBetaFromThetaMach_Weak(theta: float, mach: float, gamma: float) -> float:
+    def calc_beta_from_theta_beta_mach_weak(theta: float, mach: float, gamma: float) -> float:
         """ Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming the shock is weak
 
         Args:
@@ -347,17 +369,17 @@ class ObliqueShockRelations(NormalShockRelations):
         Returns:
             float: Oblique shock angle (radians)
         """
-        maxShockAngle = ObliqueShockRelations.calculateMaxShockAngle(mach, gamma)
-        minShockAngle = ObliqueShockRelations.calcMachWaveAngle(mach)
+        maxShockAngle = ObliqueShockRelations.calc_max_shock_angle(mach, gamma)
+        minShockAngle = ObliqueShockRelations.calc_mach_wave_angle(mach)
         return brenth(
-            ObliqueShockRelations.calcThetaFromBetaMach,
+            ObliqueShockRelations.calc_theta_from_theta_beta_mach,
             minShockAngle,
             maxShockAngle,
             args=(mach, gamma, theta),
         )
 
     @staticmethod
-    def calcBetaFromThetaMach_Strong(theta: float, mach: float, gamma: float) -> float:
+    def calc_beta_from_theta_beta_mach_strong(theta: float, mach: float, gamma: float) -> float:
         """ Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming a strong shock wave
 
         Args:
@@ -368,13 +390,16 @@ class ObliqueShockRelations(NormalShockRelations):
         Returns:
             float: Oblique shock angle (radians)
         """
-        maxShockAngle = ObliqueShockRelations.calculateMaxShockAngle(mach, gamma)
+        maxShockAngle = ObliqueShockRelations.calc_max_shock_angle(mach, gamma)
         return brenth(
-            ObliqueShockRelations.calcThetaFromBetaMach, maxShockAngle, radians(90), args=(mach, gamma, theta)
+            ObliqueShockRelations.calc_theta_from_theta_beta_mach,
+            maxShockAngle,
+            radians(90),
+            args=(mach, gamma, theta),
         )
 
     @staticmethod
-    def calcMachFromThetaBeta(beta: float, theta: float, gamma: float) -> float:
+    def calc_mach_from_theta_beta_mach(beta: float, theta: float, gamma: float) -> float:
         """ Impliments the Theta-Beta-Mach (TBM) Equation. Solves for the mach number
 
         Args:
@@ -390,7 +415,7 @@ class ObliqueShockRelations(NormalShockRelations):
         return sqrt(numerator / denominator)
 
     @staticmethod
-    def calculateMaxFlowDeflectionAngle(maxShockAngle: float, mach: float, gamma: float) -> float:
+    def calc_max_flow_deflection_angle(maxShockAngle: float, mach: float, gamma: float) -> float:
         """ Calculates the max flow deflection angle for a flow
 
         Args:
@@ -407,7 +432,7 @@ class ObliqueShockRelations(NormalShockRelations):
         return atan(numerator / denominator)
 
     @staticmethod
-    def calculateMaxShockAngle(mach: float, gamma: float) -> float:
+    def calc_max_shock_angle(mach: float, gamma: float) -> float:
         """ Calculates the maximum oblique shock angle 
 
         Args:
@@ -425,11 +450,11 @@ class ObliqueShockRelations(NormalShockRelations):
         return asin(sqrt(issq))
 
     @staticmethod
-    def calcMachWaveAngle(mach: float) -> float:
+    def calc_mach_wave_angle(mach: float) -> float:
         return asin(1 / mach)
 
     @staticmethod
-    def calcMachFromMachWaveAngle(machAngle: float) -> float:
+    def calc_mach_from_mach_wave_angle(machAngle: float) -> float:
         """ Calculates the Mach number fromt he mach wave angle
 
         Args:
@@ -440,15 +465,15 @@ class ObliqueShockRelations(NormalShockRelations):
         """
         return 1 / sin(machAngle)
 
-    def plotThetaBetaMachChart(self) -> None:
+    def plot_theta_beta_mach_chart(self) -> None:
         """ Plots the Theta-Beta-Mach plot from the data already in the class
         """
         mach = self.mach
 
-        machWaveAngle = degrees(ObliqueShockRelations.calcMachWaveAngle(mach))
-        maxShockAngle = degrees(ObliqueShockRelations.calculateMaxShockAngle(mach, self.gamma))
+        machWaveAngle = degrees(ObliqueShockRelations.calc_mach_wave_angle(mach))
+        maxShockAngle = degrees(ObliqueShockRelations.calc_max_shock_angle(mach, self.gamma))
         maxDeflectionAngle = degrees(
-            ObliqueShockRelations.calculateMaxFlowDeflectionAngle(radians(maxShockAngle), mach, self.gamma)
+            ObliqueShockRelations.calc_max_flow_deflection_angle(radians(maxShockAngle), mach, self.gamma)
         )
 
         weakFlowDeflectionAngles = np.linspace(0, maxDeflectionAngle - 0.1, 100)
@@ -462,12 +487,12 @@ class ObliqueShockRelations(NormalShockRelations):
                 continue
 
             weakShockAngles[ii] = degrees(
-                ObliqueShockRelations.calcBetaFromThetaMach_Weak(
+                ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak(
                     radians(weakFlowDeflectionAngles[ii]), mach, self.gamma
                 )
             )
             strongShockAngles[ii] = degrees(
-                ObliqueShockRelations.calcBetaFromThetaMach_Strong(
+                ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong(
                     radians(weakFlowDeflectionAngles[ii]), mach, self.gamma
                 )
             )
