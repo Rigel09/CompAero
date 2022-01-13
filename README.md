@@ -175,7 +175,7 @@ Po2:  8.674491157634302
 
 ### Class Functions
 
-In some cases all the variables may not be necessary. Each of the classes contain static methods for each of the calculations so that a user can use them without creating  a class instance. 
+In some cases all the variables may not be necessary. Each of the classes contain static methods for each of the calculations so that a user can use them without creating  a class instance. In this case the class acts as a collective namespace for functions that make calculations for the same type of flows.
 
 Example.
 
