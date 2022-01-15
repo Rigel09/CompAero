@@ -5,6 +5,14 @@ The goal with this project is to make it easy to determine flow states. This is 
 
 
 
+### Install
+
+Currently this packet is <u>not</u> available on PYPI. Install can be accomplished locally from the cloned project by running the following command. 
+
+```python setup.py install```
+
+
+
 This repository allows users to easily simulate the Compressible Aerodynamic Tables found in the back of common text books for Compressible Aerodynamics. By knowing the state for any single value or combination of values the user can easily know the rest of them. The repository also prints out the state of the flow in a human readable format. 
 
 Supported Flows
