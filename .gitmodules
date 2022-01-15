@@ -1,0 +1,3 @@
+[submodule "CompAero.wiki"]
+	path = CompAero.wiki
+	url = git://github.com/Rigel09/CompAero.wiki
