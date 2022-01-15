@@ -2,12 +2,51 @@ from math import atan, sqrt, nan, pow, radians, degrees
 from types import DynamicClassAttribute
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
-from CompAero.internal import checkValue, footer, named_header, named_subheader, seperator, value_to_string
+from CompAero.internal import (
+    GammaNotDefinedError,
+    InvalidOptionCombinationError,
+    checkValue,
+    footer,
+    named_header,
+    named_subheader,
+    seperator,
+    to_string,
+)
 from CompAero.ObliqueShockRelations import ObliqueShockRelations
 from CompAero.greek_letters import LowerCaseGreek as lcg, Misc
 
 
 class PrandtlMeyer:
+    """ This class is a collective name space for basic calculations regarding Prandtl Meyer flows. 
+    The constructor of this class can also determine the entire state of the flow given a partial state of the flow 
+
+    Args:
+        gamma (float): Ratio of specific heats
+        mach (float, optional): Mach number of the flow. Defaults to nan.
+        nu (float, optional): Prandtl Meyer function. Defaults to nan.
+        mu (float, optional): Mach Wave angle. Defaults to nan.
+        dwnstreamNu (float, optional): down stream prandtl meyer function. Defaults to nan.
+        dwnStreamMu (float, optional): down stream mach wave angle. Defaults to nan.
+        dwnStreamMach (float, optional): down stream mach number. Defaults to nan.
+        deflectionAngle (float, optional): deflection angle seen by the flow. Defaults to nan.
+        inDegrees (bool, optional): True if angles passed in are in degrees. Doesnt convert output to defrees. Defaults to True.
+
+    Raises:
+        GammaNotDefinedError: [description]
+        InvalidOptionCombinationError: [description]
+        
+    Useage:
+    To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
+
+    Valid Combinations of Parameters:
+        gamma, mach
+        gamma, nu
+        gamma, mu
+        gamma, deflection angle, dwnStrm_mach
+        gamma, deflection angle, dwnStrm_mu
+        gamma, deflection angle, dwnStrm_nu
+    """
+
     def __init__(
         self,
         gamma: float,
@@ -20,59 +59,51 @@ class PrandtlMeyer:
         deflectionAngle: float = nan,
         inDegrees: bool = True,
     ) -> None:
-        self.__gamma = gamma
-        self.__mach = mach
-        self.__nu = nu
-        self.__mu = mu
-        self.__deflectionAngle = deflectionAngle
-        self.__degrees = inDegrees
-        self.__preciscion = 4
+        self.gamma = gamma
+        self.mach = mach
+        self.nu = nu
+        self.mu = mu
+        self.deflectionAngle = deflectionAngle
+        self._degrees = inDegrees
+        self.precision = 4
 
-        self.__dwnStrmNu = dwnstreamNu
-        self.__dwnStrmMu = dwnStreamMu
-        self.__dwnStrmMach = dwnStreamMach
+        self.dwmStrm_nu = dwnstreamNu
+        self.dwmStrm_mu = dwnStreamMu
+        self.dwmStrm_mach = dwnStreamMach
 
-        if not self.__degrees:
-            self.__deflectionAngle = degrees(self.__deflectionAngle)
+        if not self._degrees:
+            self.deflectionAngle = degrees(self.deflectionAngle)
 
-        if not checkValue(self.__gamma):
-            raise ValueError(
-                "Valid gamma is required for Prandtl Meyer calculations. Given {}".format(self.__gamma)
-            )
+        if not checkValue(self.gamma):
+            raise GammaNotDefinedError()
 
-        if checkValue(self.__mach):
+        if checkValue(self.mach):
             pass
-        elif checkValue(self.__nu):
-            self.__mach = PrandtlMeyer.calcMachGivenNu(self.__nu, self.__gamma)
+        elif checkValue(self.nu):
+            self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
-        elif checkValue(self.__mu):
-            self.__mach = ObliqueShockRelations.calcMachFromMachWaveAngle(radians(self.__mu))
+        elif checkValue(self.mu):
+            self.mach = ObliqueShockRelations.calc_mach_from_mach_wave_angle(radians(self.mu))
 
-        elif checkValue(self.__deflectionAngle) and checkValue(self.__dwnStrmMach):
-            self.__dwnStrmNu = PrandtlMeyer.calcNuFromMach(self.__dwnStrmMach, self.__gamma)
-            self.__nu = self.__dwnStrmNu - self.__deflectionAngle
-            self.__mach = PrandtlMeyer.calcMachGivenNu(self.__nu, self.__gamma)
+        elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_mach):
+            self.dwmStrm_nu = PrandtlMeyer.calc_nu(self.dwmStrm_mach, self.gamma)
+            self.nu = self.dwmStrm_nu - self.deflectionAngle
+            self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
-        elif checkValue(self.__deflectionAngle) and checkValue(self.__dwnStrmNu):
-            self.__nu = self.__dwnStrmNu - self.__deflectionAngle
-            self.__mach = PrandtlMeyer.calcMachGivenNu(self.__nu, self.__gamma)
+        elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_nu):
+            self.nu = self.dwmStrm_nu - self.deflectionAngle
+            self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
-        elif checkValue(self.__deflectionAngle) and checkValue(self.__dwnStrmMu):
-            self.__dwnStrmMach = ObliqueShockRelations.calcMachFromMachWaveAngle(radians(self.__dwnStrmMu))
-            self.__dwnStrmNu = PrandtlMeyer.calcNuFromMach(self.__dwnStrmMach, self.__gamma)
-            self.__nu = self.__dwnStrmNu - self.__deflectionAngle
-            self.__mach = PrandtlMeyer.calcMachGivenNu(self.__nu, self.__gamma)
+        elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_mu):
+            self.dwmStrm_mach = ObliqueShockRelations.calc_mach_from_mach_wave_angle(radians(self.dwmStrm_mu))
+            self.dwmStrm_nu = PrandtlMeyer.calc_nu(self.dwmStrm_mach, self.gamma)
+            self.nu = self.dwmStrm_nu - self.deflectionAngle
+            self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
         else:
-            raise ValueError(
-                Fore.BLACK
-                + Back.RED
-                + "Incorrect Combination of input arguments given to {}".format(self.__class__.__name__)
-                + Style.RESET_ALL
-                + "\t"
-            )
+            raise InvalidOptionCombinationError()
 
-        if checkValue(self.__mach) and self.__mach >= 1.0:
+        if checkValue(self.mach) and self.mach >= 1.0:
             self.__calculateState()
 
     def __str__(self) -> str:
@@ -80,17 +111,17 @@ class PrandtlMeyer:
             [
                 named_header("Prandtl Relations at Mach", self.mach, self.precision),
                 seperator(),
-                value_to_string(lcg.gamma, self.gamma, self.precision),
-                value_to_string(lcg.nu, self.nu, self.precision, dot_line=True),
-                value_to_string(lcg.mu, self.mu, self.precision),
+                to_string(lcg.gamma, self.gamma, self.precision),
+                to_string(lcg.nu, self.nu, self.precision, dot_line=True),
+                to_string(lcg.mu, self.mu, self.precision),
                 seperator(),
                 named_subheader("Downstream Conditions"),
-                value_to_string("Mach", self.__dwnStrmMach, self.precision),
-                value_to_string(lcg.nu, self.__dwnStrmNu, self.precision, dot_line=True),
-                value_to_string(lcg.mu, self.downStreamMu, self.precision),
-                value_to_string(
+                to_string("Mach", self.dwmStrm_mach, self.precision),
+                to_string(lcg.nu, self.dwmStrm_nu, self.precision, dot_line=True),
+                to_string(lcg.mu, self.dwmStrm_mu, self.precision),
+                to_string(
                     "Flow Deflection Angle [{}]".format(lcg.theta),
-                    self.__deflectionAngle,
+                    self.deflectionAngle,
                     self.precision,
                     dot_line=True,
                 ),
@@ -99,69 +130,28 @@ class PrandtlMeyer:
         )
 
     def __calculateState(self) -> None:
-        self.__nu = PrandtlMeyer.calcNuFromMach(self.__mach, self.__gamma)
-        self.__mu = degrees(ObliqueShockRelations.calcMachWaveAngle(self.__mach))
+        self.nu = PrandtlMeyer.calc_nu(self.mach, self.gamma)
+        self.mu = degrees(ObliqueShockRelations.calc_mach_wave_angle(self.mach))
 
-        if not checkValue(self.__deflectionAngle):
+        if not checkValue(self.deflectionAngle):
             return
 
-        self.__dwnStrmNu = self.__deflectionAngle + self.__nu
-        self.__dwnStrmMach = PrandtlMeyer.calcMachGivenNu(self.__dwnStrmNu, self.__gamma)
-        self.__dwnStrmMu = degrees(ObliqueShockRelations.calcMachWaveAngle(self.__dwnStrmMach))
-
-    @property
-    def gamma(self) -> float:
-        """Ratio of specific heats"""
-        return self.__gamma
-
-    @property
-    def mach(self) -> float:
-        """ Free stream mach number"""
-        return self.__mach
-
-    @property
-    def nu(self) -> float:
-        """Prandtl Meyer Result from free stream mach number"""
-        return self.__nu
-
-    @property
-    def mu(self) -> float:
-        """ Mach wave angle associated with free stream mach number"""
-        return self.__mu
-
-    @property
-    def deflectionAngle(self) -> float:
-        """ Angle the flow is deflected by """
-        return self.__deflectionAngle
-
-    @property
-    def downStreamNu(self) -> float:
-        """ Returns the result of the prandtl meyer function of the downstream mach number"""
-        return self.__dwnStrmNu
-
-    @property
-    def downStreamMu(self) -> float:
-        """ Returns the mach wave angle associated with the down stream mach number"""
-        return self.__dwnStrmMu
-
-    @property
-    def downStreamMach(self) -> float:
-        """Returns the down stream mach number"""
-        return self.__dwnStrmMach
-
-    @property
-    def precision(self) -> int:
-        """ Precision of any printed strings"""
-        return self.__preciscion
-
-    @precision.setter
-    def precision(self, precision) -> None:
-        """Sets the preciscion for any printed strings"""
-        self.__preciscion = precision
+        self.dwmStrm_nu = self.deflectionAngle + self.nu
+        self.dwmStrm_mach = PrandtlMeyer.calc_mach_from_nu(self.dwmStrm_nu, self.gamma)
+        self.dwmStrm_mu = degrees(ObliqueShockRelations.calc_mach_wave_angle(self.dwmStrm_mach))
 
     @staticmethod
-    def calcNuFromMach(mach: float, gamma: float, offset: float = 0.0) -> float:
-        """Calculated Nu given a mach number. Offset can be used for root finding"""
+    def calc_nu(mach: float, gamma: float, offset: float = 0.0) -> float:
+        """ Calculates the prandtl meyer function value (nu)
+
+        Args:
+            mach (float): mach number of the the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+
+        Returns:
+            float: nu
+        """
         if mach <= 1.0:
             return 0.0
 
@@ -171,10 +161,18 @@ class PrandtlMeyer:
         return degrees(sqrt(gp1 / gm1) * atan(sqrt(gm1 / gp1 * mSqrMinus1)) - atan(sqrt(mSqrMinus1))) - offset
 
     @staticmethod
-    def calcMachGivenNu(nu: float, gamma: float) -> float:
-        """ Calculates Mach number for a given Nu"""
+    def calc_mach_from_nu(nu: float, gamma: float) -> float:
+        """ Calculates the mach number based on a prandtl meyer function value
+
+        Args:
+            nu (float): prandtl meyer function value
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        """
         if nu <= 0.0:
             return 1.0
 
-        return brenth(PrandtlMeyer.calcNuFromMach, 1 + 1e-9, 30, args=(gamma, nu))
+        return brenth(PrandtlMeyer.calc_nu, 1 + 1e-9, 30, args=(gamma, nu))
 

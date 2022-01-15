@@ -5,6 +5,14 @@ The goal with this project is to make it easy to determine flow states. This is 
 
 
 
+### Install
+
+Currently this packet is <u>not</u> available on PYPI. Install can be accomplished locally from the cloned project by running the following command. 
+
+```python setup.py install```
+
+
+
 This repository allows users to easily simulate the Compressible Aerodynamic Tables found in the back of common text books for Compressible Aerodynamics. By knowing the state for any single value or combination of values the user can easily know the rest of them. The repository also prints out the state of the flow in a human readable format. 
 
 Supported Flows
@@ -70,9 +78,9 @@ The Rayleigh and Fanno Classes can also simulate Heat and Friction
 ```python
 t1 = 300
 p1 = 1
-po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
+po1 = IsentropicRelations.calc_P0_P(3, 1.4) * p1
 flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
-flow.applyPipeParameters(0.4, 11, 0.005)
+flow.apply_pipe_parameters(0.4, 11, 0.005)
 print()
 print(flow)
 print()
@@ -81,7 +89,7 @@ print("P2: ", p1 * flow.p2_p1)
 print("Po2: ", po1 * flow.po2_po1)
     
 flow = RayleighFlowRelations(1.4, mach=1.5)
-flow.simulateHeatAddition(1000, 275.2, 287)
+flow.simulate_heat_addition(1000, 275.2, 287)
 print(flow)
 ```
 
@@ -175,13 +183,13 @@ Po2:  8.674491157634302
 
 ### Class Functions
 
-In some cases all the variables may not be necessary. Each of the classes contain static methods for each of the calculations so that a user can use them without creating  a class instance. 
+In some cases all the variables may not be necessary. Each of the classes contain static methods for each of the calculations so that a user can use them without creating  a class instance. In this case the class acts as a collective namespace for functions that make calculations for the same type of flows.
 
 Example.
 
 ```python
 NormalShockRelations.calc_po2_po1(1.5, 1.4)
-IsentropicRelations.calc_p0_p(1.5, 1.4)
+IsentropicRelations.calc_P0_P(1.5, 1.4)
 ```
 
 ### Validation

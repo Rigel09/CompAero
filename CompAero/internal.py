@@ -4,13 +4,14 @@ from typing import List, Union
 import sys
 
 from colorama.ansi import Style
+from numpy import seterrobj
 
 # Settings for printing out outputs from classes
 TOTAL_WIDTH = 70  # Width of the area including  | |
 INTERNAL_VALUE_WIDTH = TOTAL_WIDTH - 2  # Width of area excluding | |
 
 
-def value_to_string(name: str, value: Union[float, int, bool], precision: int, dot_line: bool = False) -> str:
+def to_string(name: str, value: Union[float, int, bool], precision: int, dot_line: bool = False) -> str:
     """This generates a professional easy to read string for a data value
 
     Args:
@@ -32,7 +33,7 @@ def value_to_string(name: str, value: Union[float, int, bool], precision: int, d
 
 
 def named_subheader(name: str) -> str:
-    """This generates a field which has a name in it with similiar format as to value_to_string()
+    """This generates a field which has a name in it with similiar format as to to_string()
        To be used in to seperate sub fields
 
     Args:
@@ -90,8 +91,13 @@ def checkValue(value: Union[Union[float, int], List[Union[float, int]]]) -> bool
 
     if isinstance(value, list):
         for val in value:
-            checkVal = checkVal and not isnan(val)
-            checkVal = checkVal and val > 0.0
+            if isinstance(val, (FlowState, ShockType,)):
+                checkVal = checkVal and True
+            elif isinstance(val, (float, int,)):
+                checkVal = checkVal and not isnan(val)
+                checkVal = checkVal and val > 0.0
+            else:
+                raise TypeError("Cannot validate the given type")
     else:
         raise TypeError("{} Expected a list".format(sys._getframe().f_code.co_name))
 
@@ -106,3 +112,20 @@ class FlowState(Enum):
 class ShockType(Enum):
     WEAK = auto()
     STRONG = auto()
+
+
+class InvalidOptionCombinationError(Exception):
+    """ Thrown when the options supplied to a class are incorrect or invalid (nan) """
+
+    def __init__(self, *args: object) -> None:
+        super().__init__(
+            "Either the options suppled were the incorrect combination or not enough valid arguments were supplied",
+            *args,
+        )
+
+
+class GammaNotDefinedError(Exception):
+    """ Thrown when gamma is found not to be defined """
+
+    def __init__(self, *args: object) -> None:
+        super().__init__("Gamma must be defined for the determination of flow states", *args)

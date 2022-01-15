@@ -28,7 +28,7 @@ class TestNormalShockClassFuncs:
 
     def test_subsonic_downstream_mach(self):
         with pytest.raises(ValueError):
-            nsr.calc__mach2(0.5, self.gamma)
+            nsr.calc_mach_after_normal_shock(0.5, self.gamma)
 
     def test_subsonic_po2_po1(self):
         with pytest.raises(ValueError):
@@ -45,37 +45,39 @@ class TestNormalShockClassFuncs:
         assert nsr.calc_p2_p1(1.5, self.gamma) == approx(2.45833, rel=1e-4)
 
     def test_supersonic_mach_from_p2_p1(self):
-        assert nsr.calcMachFrom_p2_p1(2.45833, self.gamma) == approx(1.5, rel=1e-1)
+        assert nsr.calc_mach_from_p2_p1(2.45833, self.gamma) == approx(1.5, rel=1e-1)
 
     def test_supersonic_rho2_rho1(self):
         assert nsr.calc_rho2_rho1(1.5, self.gamma) == approx(1.86207, rel=1e-4)
 
     def test_supersonic_mach_from_rho2_rho1(self):
-        assert nsr.calcMachFrom_rho2_rho1(1.86207, self.gamma) == approx(1.5, rel=1e-1)
+        assert nsr.calc_mach_from_rho2_rho1(1.86207, self.gamma) == approx(1.5, rel=1e-1)
 
     def test_supersonic_t2_t1(self):
         assert nsr.calc_T2_T1(1.5, self.gamma) == approx(1.32022, rel=1e-4)
 
     def test_supersonic_mach_from_t2_t1(self):
-        assert nsr.calcMachFrom_T2_T1(1.32022, self.gamma) == approx(1.5, rel=1e-1)
+        assert nsr.calc_mach_from_T2_T1(1.32022, self.gamma) == approx(1.5, rel=1e-1)
 
     def test_supersonic_downstream_mach(self):
-        assert nsr.calc__mach2(1.5, self.gamma) == approx(0.70109, rel=1e-4)
+        assert nsr.calc_mach_after_normal_shock(1.5, self.gamma) == approx(0.70109, rel=1e-4)
 
     def test_supersonic_mach_from_downstream_mach(self):
-        assert nsr.calcMachFrom_mach2(0.70109, self.gamma) == approx(1.5, rel=1e-4)
+        assert nsr.calc_mach_before_normal_shock_from_mach_after_shock(0.70109, self.gamma) == approx(
+            1.5, rel=1e-4
+        )
 
     def test_supersonic_po2_po1(self):
         assert nsr.calc_po2_po1(1.5, self.gamma) == approx(0.92979, rel=1e-4)
 
     def test_supersonic_mach_from_po2_po1(self):
-        assert nsr.calcMachFrom_po2_po1(0.92979, self.gamma) == approx(1.5, rel=1e-4)
+        assert nsr.calc_mach_from_po2_po1(0.92979, self.gamma) == approx(1.5, rel=1e-4)
 
     def test_supersonic_po2_p1(self):
         assert nsr.calc_po2_p1(1.5, self.gamma) == approx(3.41327, rel=1e-4)
 
     def test_supersonic_mach_from_po2_p1(self):
-        assert nsr.calcMachFrom_po2_p1(3.41327, self.gamma) == approx(1.5, rel=1e-1)
+        assert nsr.calc_mach_from_po2_p1(3.41327, self.gamma) == approx(1.5, rel=1e-1)
 
 
 #######################################################################################

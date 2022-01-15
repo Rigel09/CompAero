@@ -19,38 +19,38 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Isentropic Example  #################################
     ##########################################################################
-    temp = IsentropicRelations(gamma=1.4, a_aStar=1.0235)
+    temp = IsentropicRelations(gamma=1.4, mach=1.5)
     print(temp)
 
     ##########################################################################
     #################### Normal Shock Example  ###############################
     ##########################################################################
-    flow = NormalShockRelations(gamma=1.4, m2=0.5130)
-    print(flow)
+    # flow = NormalShockRelations(gamma=1.4, m2=0.5130)
+    # print(flow)
 
     ##########################################################################
     #################### Oblique Shock Example  ##############################
     ##########################################################################
-    flow = ObliqueShockRelations(1.4, mach=3, shockAngle=60)
-    print()
-    print(flow)
-    # flow.plotThetaBetaMachChart()
+    # flow = ObliqueShockRelations(1.4, mach=3, shockAngle=60)
+    # print()
+    # print(flow)
+    # flow.plot_theta_beta_mach_chart()
 
     ##########################################################################
     #################### Fanno Flow Example  #################################
     ##########################################################################
     # Fanno Flow Example
-    t1 = 300
-    p1 = 1
-    po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
-    flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
-    flow.applyPipeParameters(0.4, 11, 0.005)
-    print()
-    print(flow)
-    print()
-    print("T2: ", t1 * flow.t2_t1)
-    print("P2: ", p1 * flow.p2_p1)
-    print("Po2: ", po1 * flow.po2_po1)
+    # t1 = 300
+    # p1 = 1
+    # po1 = IsentropicRelations.calc_P0_P(3, 1.4) * p1
+    # flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
+    # flow.apply_pipe_parameters(0.4, 11, 0.005)
+    # print()
+    # print(flow)
+    # print()
+    # print("T2: ", t1 * flow.t2_t1)
+    # print("P2: ", p1 * flow.p2_p1)
+    # print("Po2: ", po1 * flow.po2_po1)
 
     # Plot length and diameter combinations to slow a mach 3 flow down to a mach 2.5 flow at the exit
     # f4ld = FannoFlowRelations.calc4FLSt_D_FromMach(1.5, 1.4)
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     ##########################################################################
     flow = RayleighFlowRelations(1.4, mach=1.5)
     print()
-    flow.simulateHeatAddition(1000, 275.2, 287)
+    flow.simulate_heat_addition(1000, 275.2, 287)
     print(flow)
 
     ##########################################################################
