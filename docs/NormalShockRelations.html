@@ -69,30 +69,39 @@ class NormalShockRelations:
             m2 (float, optional): mach number behind shock wave. Defaults to nan.
             
         Raises:
-            GammaNotDefinedError: Raised if gamma is not defined when passed into the class
-            InvalidOptionCombinationError: Raised if the incorrect combination of parameters are passed to the class
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
             
         Useage:
         To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
 
-        Valid Combinations of Parameters:
-            gamma, mach
-            gamma, P2/P1
-            gamma, Rho2/Rho1
-            gamma, T2/T1
-            gamma, P02/P01
-            gamma, P02/P1
-            gamma, dwnStrm_mach
+        Valid_Combinations_of_Parameters:
+            1: gamma, mach\n
+            2: gamma, P2/P1\n
+            3: gamma, Rho2/Rho1\n
+            4: gamma, T2/T1\n
+            5: gamma, P02/P01\n
+            6: gamma, P02/P1\n
+            7: gamma, dwnStrm_mach\n
         &#34;&#34;&#34;
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
         self.p2_p1 = p2_p1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
         self.rho2_rho1 = rho2_rho1
+        &#34;&#34;&#34; Ratio of density behind the shock wave to density before the shock wave rho2/rho1 &#34;&#34;&#34;
         self.t2_t1 = t2_t1
+        &#34;&#34;&#34; Ratio of temperature behind the shock wave to temperature before the shock wave T2/T1 &#34;&#34;&#34;
         self.po2_po1 = po2_po1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
         self.po2_p1 = po2_p1
+        &#34;&#34;&#34; Ratio of total pressure behind the shock wave to pressure before the shock wave P02/P1 &#34;&#34;&#34;
         self.mach2 = m2
+        &#34;&#34;&#34; Mach number behind the shock wave &#34;&#34;&#34;
         self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
 
         # Calculate parameters based on what was passed in
         if not checkValue(self.gamma):
@@ -401,23 +410,19 @@ The constructor of this class can also determine the entire state of the flow gi
 <dt><strong><code>m2</code></strong> :&ensp;<code>float</code>, optional</dt>
 <dd>mach number behind shock wave. Defaults to nan.</dd>
 </dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>GammaNotDefinedError</code></dt>
-<dd>Raised if gamma is not defined when passed into the class</dd>
-<dt><code>InvalidOptionCombinationError</code></dt>
-<dd>Raised if the incorrect combination of parameters are passed to the class</dd>
-</dl>
+<p>Raises:
+GammaNotDefinedError: Raised if Gamma is undefined
+InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined</p>
 <p>Useage:
 To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. </p>
-<p>Valid Combinations of Parameters:
-gamma, mach
-gamma, P2/P1
-gamma, Rho2/Rho1
-gamma, T2/T1
-gamma, P02/P01
-gamma, P02/P1
-gamma, dwnStrm_mach</p></div>
+<h2 id="valid_combinations_of_parameters">Valid_Combinations_Of_Parameters</h2>
+<p>1: gamma, mach</p>
+<p>2: gamma, P2/P1</p>
+<p>3: gamma, Rho2/Rho1</p>
+<p>4: gamma, T2/T1</p>
+<p>5: gamma, P02/P01</p>
+<p>6: gamma, P02/P1</p>
+<p>7: gamma, dwnStrm_mach</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -448,30 +453,39 @@ gamma, dwnStrm_mach</p></div>
             m2 (float, optional): mach number behind shock wave. Defaults to nan.
             
         Raises:
-            GammaNotDefinedError: Raised if gamma is not defined when passed into the class
-            InvalidOptionCombinationError: Raised if the incorrect combination of parameters are passed to the class
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
             
         Useage:
         To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
 
-        Valid Combinations of Parameters:
-            gamma, mach
-            gamma, P2/P1
-            gamma, Rho2/Rho1
-            gamma, T2/T1
-            gamma, P02/P01
-            gamma, P02/P1
-            gamma, dwnStrm_mach
+        Valid_Combinations_of_Parameters:
+            1: gamma, mach\n
+            2: gamma, P2/P1\n
+            3: gamma, Rho2/Rho1\n
+            4: gamma, T2/T1\n
+            5: gamma, P02/P01\n
+            6: gamma, P02/P1\n
+            7: gamma, dwnStrm_mach\n
         &#34;&#34;&#34;
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
         self.p2_p1 = p2_p1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
         self.rho2_rho1 = rho2_rho1
+        &#34;&#34;&#34; Ratio of density behind the shock wave to density before the shock wave rho2/rho1 &#34;&#34;&#34;
         self.t2_t1 = t2_t1
+        &#34;&#34;&#34; Ratio of temperature behind the shock wave to temperature before the shock wave T2/T1 &#34;&#34;&#34;
         self.po2_po1 = po2_po1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
         self.po2_p1 = po2_p1
+        &#34;&#34;&#34; Ratio of total pressure behind the shock wave to pressure before the shock wave P02/P1 &#34;&#34;&#34;
         self.mach2 = m2
+        &#34;&#34;&#34; Mach number behind the shock wave &#34;&#34;&#34;
         self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
 
         # Calculate parameters based on what was passed in
         if not checkValue(self.gamma):
@@ -1270,6 +1284,45 @@ def calc_rho2_rho1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
 </details>
 </dd>
 </dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="CompAero.NormalShockRelations.NormalShockRelations.gamma"><code class="name">var <span class="ident">gamma</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of specific heats</p></div>
+</dd>
+<dt id="CompAero.NormalShockRelations.NormalShockRelations.mach"><code class="name">var <span class="ident">mach</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number of the flow</p></div>
+</dd>
+<dt id="CompAero.NormalShockRelations.NormalShockRelations.mach2"><code class="name">var <span class="ident">mach2</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number behind the shock wave</p></div>
+</dd>
+<dt id="CompAero.NormalShockRelations.NormalShockRelations.p2_p1"><code class="name">var <span class="ident">p2_p1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1</p></div>
+</dd>
+<dt id="CompAero.NormalShockRelations.NormalShockRelations.po2_p1"><code class="name">var <span class="ident">po2_p1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of total pressure behind the shock wave to pressure before the shock wave P02/P1</p></div>
+</dd>
+<dt id="CompAero.NormalShockRelations.NormalShockRelations.po2_po1"><code class="name">var <span class="ident">po2_po1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1</p></div>
+</dd>
+<dt id="CompAero.NormalShockRelations.NormalShockRelations.precision"><code class="name">var <span class="ident">precision</span></code></dt>
+<dd>
+<div class="desc"><p>Precision to use when printing output to the console defaults to four</p></div>
+</dd>
+<dt id="CompAero.NormalShockRelations.NormalShockRelations.rho2_rho1"><code class="name">var <span class="ident">rho2_rho1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of density behind the shock wave to density before the shock wave rho2/rho1</p></div>
+</dd>
+<dt id="CompAero.NormalShockRelations.NormalShockRelations.t2_t1"><code class="name">var <span class="ident">t2_t1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of temperature behind the shock wave to temperature before the shock wave T2/T1</p></div>
+</dd>
+</dl>
 </dd>
 </dl>
 </section>
@@ -1302,6 +1355,15 @@ def calc_rho2_rho1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
 <li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.calc_po2_p1" href="#CompAero.NormalShockRelations.NormalShockRelations.calc_po2_p1">calc_po2_p1</a></code></li>
 <li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.calc_po2_po1" href="#CompAero.NormalShockRelations.NormalShockRelations.calc_po2_po1">calc_po2_po1</a></code></li>
 <li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.calc_rho2_rho1" href="#CompAero.NormalShockRelations.NormalShockRelations.calc_rho2_rho1">calc_rho2_rho1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.gamma" href="#CompAero.NormalShockRelations.NormalShockRelations.gamma">gamma</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.mach" href="#CompAero.NormalShockRelations.NormalShockRelations.mach">mach</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.mach2" href="#CompAero.NormalShockRelations.NormalShockRelations.mach2">mach2</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.p2_p1" href="#CompAero.NormalShockRelations.NormalShockRelations.p2_p1">p2_p1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.po2_p1" href="#CompAero.NormalShockRelations.NormalShockRelations.po2_p1">po2_p1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.po2_po1" href="#CompAero.NormalShockRelations.NormalShockRelations.po2_po1">po2_po1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.precision" href="#CompAero.NormalShockRelations.NormalShockRelations.precision">precision</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.rho2_rho1" href="#CompAero.NormalShockRelations.NormalShockRelations.rho2_rho1">rho2_rho1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.t2_t1" href="#CompAero.NormalShockRelations.NormalShockRelations.t2_t1">t2_t1</a></code></li>
 </ul>
 </li>
 </ul>

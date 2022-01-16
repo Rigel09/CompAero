@@ -59,20 +59,20 @@ class FannoFlowRelations:
         flowType (FlowState, optional):  States wether the flow is subsonic or supersonic. Used for Area Ratio Calculations. Defaults to FlowState.SUPER_SONIC.
         
     Raises:
-        GammaNotDefinedError: [description]
-        InvalidOptionCombinationError: [description]
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
     Useage:
         To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
 
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, T/T*
-        gamma, P/P*
-        gamma, rho/rho*
-        gamma, P0/P0*
-        gamma, 4FL*/D, flowtype (flow type defaults to super sonic)
-        gamma, U/U*
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, T/T*\n
+        3: gamma, P/P*\n
+        4: gamma, rho/rho*\n
+        5: gamma, P0/P0*\n
+        6: gamma, 4FL*/D, flowtype (flow type defaults to super sonic)\n
+        7: gamma, U/U*\n
     &#34;&#34;&#34;
 
     def __init__(
@@ -88,38 +88,65 @@ class FannoFlowRelations:
         flowType: FlowState = FlowState.SUPER_SONIC,
     ) -&gt; None:
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
         self.t_tSt = t_tSt
+        &#34;&#34;&#34; Ratio of temperature to the sonic temperature T/T*&#34;&#34;&#34;
         self.p_pSt = p_pSt
+        &#34;&#34;&#34; Ratio of pressure to the sonic pressure P/P*&#34;&#34;&#34;
         self.rho_rhoSt = rho_rhoSt
+        &#34;&#34;&#34; Ratio of the density to the sonic density rho/rho* &#34;&#34;&#34;
         self.po_poSt = po_poSt
+        &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0*&#34;&#34;&#34;
         self.f4LSt_D = f4LSt_D
+        &#34;&#34;&#34; Friction parameter 4fL*/D&#34;&#34;&#34;
         self.u_uSt = u_uSt
+        &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U*&#34;&#34;&#34;
         self.flowType = flowType
+        &#34;&#34;&#34; Type of flow which is either subsonic or supersonic (Type: flowstate) &#34;&#34;&#34;
         self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
 
         # Pipe parameters
         self.chokedLength = nan
+        &#34;&#34;&#34; Pipe lenght required to choke the flow&#34;&#34;&#34;
         self.pipeLength = nan
+        &#34;&#34;&#34; Current pipe lenght&#34;&#34;&#34;
         self.pipeDiameter = nan
+        &#34;&#34;&#34; Diameter of the pipe&#34;&#34;&#34;
         self.frictionCoeff = nan
+        &#34;&#34;&#34; Friction coefficient&#34;&#34;&#34;
 
         # Down stream conditions if pipe parameters are given
         self.dwnStrmMach = nan
+        &#34;&#34;&#34; Mach number at the downstream point of the flow &#34;&#34;&#34;
         self.dwnStrm_t_tSt = nan
+        &#34;&#34;&#34; Ratio of temperature to the sonic temperature T/T* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_p_pSt = nan
+        &#34;&#34;&#34; Ratio of pressure to the sonic pressure P/P* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_rho_rhoSt = nan
+        &#34;&#34;&#34; Ratio of the density to the sonic density rho/rho* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_po_poSt = nan
+        &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_f4LSt_D = nan
+        &#34;&#34;&#34; Friction parameter 4fL*/D of the downstream flow&#34;&#34;&#34;
         self.dwnStrm_u_uSt = nan
+        &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U* at the downstream point&#34;&#34;&#34;
 
         # Downstream / Initial Conditions
         self.t2_t1 = nan
+        &#34;&#34;&#34; Ratio of downstream temperature to upstream temperature&#34;&#34;&#34;
         self.p2_p1 = nan
+        &#34;&#34;&#34; Ratio of downstream pressure to upstream pressure&#34;&#34;&#34;
         self.rho2_rho1 = nan
+        &#34;&#34;&#34; Ratio of downstream density to upstream density&#34;&#34;&#34;
         self.po2_po1 = nan
+        &#34;&#34;&#34; Ratio of downstream total pressure to upstream total pressure&#34;&#34;&#34;
         self.f4LD2_f4LD1 = nan
+        &#34;&#34;&#34; Ratio of the downstream friction parameter to the upstream friction parameter&#34;&#34;&#34;
         self.u2_u1 = nan
+        &#34;&#34;&#34; Ratio of downstream velocity to upstream velocity &#34;&#34;&#34;
 
         if not checkValue(self.gamma):
             raise GammaNotDefinedError()
@@ -505,20 +532,20 @@ The constructor of this class can also determine the entire state of the flow gi
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code>GammaNotDefinedError</code></dt>
-<dd>[description]</dd>
+<dd>Raised if Gamma is undefined</dd>
 <dt><code>InvalidOptionCombinationError</code></dt>
-<dd>[description]</dd>
+<dd>Raised if an invalid combination of parameters is given and flow state cannot be determined</dd>
 </dl>
 <h2 id="useage">Useage</h2>
 <p>To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. </p>
-<p>Valid Combinations of Parameters:
-gamma, mach
-gamma, T/T<em>
-gamma, P/P</em>
-gamma, rho/rho<em>
-gamma, P0/P0</em>
-gamma, 4FL<em>/D, flowtype (flow type defaults to super sonic)
-gamma, U/U</em></p></div>
+<h2 id="valid_combinations_of_parameters">Valid_Combinations_Of_Parameters</h2>
+<p>1: gamma, mach</p>
+<p>2: gamma, T/T*</p>
+<p>3: gamma, P/P*</p>
+<p>4: gamma, rho/rho*</p>
+<p>5: gamma, P0/P0*</p>
+<p>6: gamma, 4FL*/D, flowtype (flow type defaults to super sonic)</p>
+<p>7: gamma, U/U*</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -539,20 +566,20 @@ gamma, U/U</em></p></div>
         flowType (FlowState, optional):  States wether the flow is subsonic or supersonic. Used for Area Ratio Calculations. Defaults to FlowState.SUPER_SONIC.
         
     Raises:
-        GammaNotDefinedError: [description]
-        InvalidOptionCombinationError: [description]
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
     Useage:
         To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
 
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, T/T*
-        gamma, P/P*
-        gamma, rho/rho*
-        gamma, P0/P0*
-        gamma, 4FL*/D, flowtype (flow type defaults to super sonic)
-        gamma, U/U*
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, T/T*\n
+        3: gamma, P/P*\n
+        4: gamma, rho/rho*\n
+        5: gamma, P0/P0*\n
+        6: gamma, 4FL*/D, flowtype (flow type defaults to super sonic)\n
+        7: gamma, U/U*\n
     &#34;&#34;&#34;
 
     def __init__(
@@ -568,38 +595,65 @@ gamma, U/U</em></p></div>
         flowType: FlowState = FlowState.SUPER_SONIC,
     ) -&gt; None:
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
         self.t_tSt = t_tSt
+        &#34;&#34;&#34; Ratio of temperature to the sonic temperature T/T*&#34;&#34;&#34;
         self.p_pSt = p_pSt
+        &#34;&#34;&#34; Ratio of pressure to the sonic pressure P/P*&#34;&#34;&#34;
         self.rho_rhoSt = rho_rhoSt
+        &#34;&#34;&#34; Ratio of the density to the sonic density rho/rho* &#34;&#34;&#34;
         self.po_poSt = po_poSt
+        &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0*&#34;&#34;&#34;
         self.f4LSt_D = f4LSt_D
+        &#34;&#34;&#34; Friction parameter 4fL*/D&#34;&#34;&#34;
         self.u_uSt = u_uSt
+        &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U*&#34;&#34;&#34;
         self.flowType = flowType
+        &#34;&#34;&#34; Type of flow which is either subsonic or supersonic (Type: flowstate) &#34;&#34;&#34;
         self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
 
         # Pipe parameters
         self.chokedLength = nan
+        &#34;&#34;&#34; Pipe lenght required to choke the flow&#34;&#34;&#34;
         self.pipeLength = nan
+        &#34;&#34;&#34; Current pipe lenght&#34;&#34;&#34;
         self.pipeDiameter = nan
+        &#34;&#34;&#34; Diameter of the pipe&#34;&#34;&#34;
         self.frictionCoeff = nan
+        &#34;&#34;&#34; Friction coefficient&#34;&#34;&#34;
 
         # Down stream conditions if pipe parameters are given
         self.dwnStrmMach = nan
+        &#34;&#34;&#34; Mach number at the downstream point of the flow &#34;&#34;&#34;
         self.dwnStrm_t_tSt = nan
+        &#34;&#34;&#34; Ratio of temperature to the sonic temperature T/T* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_p_pSt = nan
+        &#34;&#34;&#34; Ratio of pressure to the sonic pressure P/P* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_rho_rhoSt = nan
+        &#34;&#34;&#34; Ratio of the density to the sonic density rho/rho* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_po_poSt = nan
+        &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_f4LSt_D = nan
+        &#34;&#34;&#34; Friction parameter 4fL*/D of the downstream flow&#34;&#34;&#34;
         self.dwnStrm_u_uSt = nan
+        &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U* at the downstream point&#34;&#34;&#34;
 
         # Downstream / Initial Conditions
         self.t2_t1 = nan
+        &#34;&#34;&#34; Ratio of downstream temperature to upstream temperature&#34;&#34;&#34;
         self.p2_p1 = nan
+        &#34;&#34;&#34; Ratio of downstream pressure to upstream pressure&#34;&#34;&#34;
         self.rho2_rho1 = nan
+        &#34;&#34;&#34; Ratio of downstream density to upstream density&#34;&#34;&#34;
         self.po2_po1 = nan
+        &#34;&#34;&#34; Ratio of downstream total pressure to upstream total pressure&#34;&#34;&#34;
         self.f4LD2_f4LD1 = nan
+        &#34;&#34;&#34; Ratio of the downstream friction parameter to the upstream friction parameter&#34;&#34;&#34;
         self.u2_u1 = nan
+        &#34;&#34;&#34; Ratio of downstream velocity to upstream velocity &#34;&#34;&#34;
 
         if not checkValue(self.gamma):
             raise GammaNotDefinedError()
@@ -1451,6 +1505,114 @@ def chockedFlow(self) -&gt; bool:
     return self.pipeLength &gt;= self.chokedLength</code></pre>
 </details>
 </dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.chokedLength"><code class="name">var <span class="ident">chokedLength</span></code></dt>
+<dd>
+<div class="desc"><p>Pipe lenght required to choke the flow</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrmMach"><code class="name">var <span class="ident">dwnStrmMach</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number at the downstream point of the flow</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_f4LSt_D"><code class="name">var <span class="ident">dwnStrm_f4LSt_D</span></code></dt>
+<dd>
+<div class="desc"><p>Friction parameter 4fL*/D of the downstream flow</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_p_pSt"><code class="name">var <span class="ident">dwnStrm_p_pSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of pressure to the sonic pressure P/P* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_po_poSt"><code class="name">var <span class="ident">dwnStrm_po_poSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_rho_rhoSt"><code class="name">var <span class="ident">dwnStrm_rho_rhoSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the density to the sonic density rho/rho* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_t_tSt"><code class="name">var <span class="ident">dwnStrm_t_tSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of temperature to the sonic temperature T/T* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_u_uSt"><code class="name">var <span class="ident">dwnStrm_u_uSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of velocity to the sonic velcoity U/U* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.f4LD2_f4LD1"><code class="name">var <span class="ident">f4LD2_f4LD1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the downstream friction parameter to the upstream friction parameter</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.f4LSt_D"><code class="name">var <span class="ident">f4LSt_D</span></code></dt>
+<dd>
+<div class="desc"><p>Friction parameter 4fL*/D</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.flowType"><code class="name">var <span class="ident">flowType</span></code></dt>
+<dd>
+<div class="desc"><p>Type of flow which is either subsonic or supersonic (Type: flowstate)</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.frictionCoeff"><code class="name">var <span class="ident">frictionCoeff</span></code></dt>
+<dd>
+<div class="desc"><p>Friction coefficient</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.gamma"><code class="name">var <span class="ident">gamma</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of specific heats</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.mach"><code class="name">var <span class="ident">mach</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number of the flow</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.p2_p1"><code class="name">var <span class="ident">p2_p1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream pressure to upstream pressure</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.p_pSt"><code class="name">var <span class="ident">p_pSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of pressure to the sonic pressure P/P*</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.pipeDiameter"><code class="name">var <span class="ident">pipeDiameter</span></code></dt>
+<dd>
+<div class="desc"><p>Diameter of the pipe</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.pipeLength"><code class="name">var <span class="ident">pipeLength</span></code></dt>
+<dd>
+<div class="desc"><p>Current pipe lenght</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.po2_po1"><code class="name">var <span class="ident">po2_po1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream total pressure to upstream total pressure</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.po_poSt"><code class="name">var <span class="ident">po_poSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0*</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.precision"><code class="name">var <span class="ident">precision</span></code></dt>
+<dd>
+<div class="desc"><p>Precision to use when printing output to the console defaults to four</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.rho2_rho1"><code class="name">var <span class="ident">rho2_rho1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream density to upstream density</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.rho_rhoSt"><code class="name">var <span class="ident">rho_rhoSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the density to the sonic density rho/rho*</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.t2_t1"><code class="name">var <span class="ident">t2_t1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream temperature to upstream temperature</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.t_tSt"><code class="name">var <span class="ident">t_tSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of temperature to the sonic temperature T/T*</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.u2_u1"><code class="name">var <span class="ident">u2_u1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream velocity to upstream velocity</p></div>
+</dd>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.u_uSt"><code class="name">var <span class="ident">u_uSt</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of velocity to the sonic velcoity U/U*</p></div>
+</dd>
 </dl>
 <h3>Methods</h3>
 <dl>
@@ -1523,6 +1685,33 @@ This allows the state at the downstream end of the pipe or pipe section to be fo
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.calc_mach_from_T_TStar" href="#CompAero.FannoFlowRelations.FannoFlowRelations.calc_mach_from_T_TStar">calc_mach_from_T_TStar</a></code></li>
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.calc_mach_from_U_USt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.calc_mach_from_U_USt">calc_mach_from_U_USt</a></code></li>
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.chockedFlow" href="#CompAero.FannoFlowRelations.FannoFlowRelations.chockedFlow">chockedFlow</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.chokedLength" href="#CompAero.FannoFlowRelations.FannoFlowRelations.chokedLength">chokedLength</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrmMach" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrmMach">dwnStrmMach</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_f4LSt_D" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_f4LSt_D">dwnStrm_f4LSt_D</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_p_pSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_p_pSt">dwnStrm_p_pSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_po_poSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_po_poSt">dwnStrm_po_poSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_rho_rhoSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_rho_rhoSt">dwnStrm_rho_rhoSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_t_tSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_t_tSt">dwnStrm_t_tSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_u_uSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_u_uSt">dwnStrm_u_uSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.f4LD2_f4LD1" href="#CompAero.FannoFlowRelations.FannoFlowRelations.f4LD2_f4LD1">f4LD2_f4LD1</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.f4LSt_D" href="#CompAero.FannoFlowRelations.FannoFlowRelations.f4LSt_D">f4LSt_D</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.flowType" href="#CompAero.FannoFlowRelations.FannoFlowRelations.flowType">flowType</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.frictionCoeff" href="#CompAero.FannoFlowRelations.FannoFlowRelations.frictionCoeff">frictionCoeff</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.gamma" href="#CompAero.FannoFlowRelations.FannoFlowRelations.gamma">gamma</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.mach" href="#CompAero.FannoFlowRelations.FannoFlowRelations.mach">mach</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.p2_p1" href="#CompAero.FannoFlowRelations.FannoFlowRelations.p2_p1">p2_p1</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.p_pSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.p_pSt">p_pSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.pipeDiameter" href="#CompAero.FannoFlowRelations.FannoFlowRelations.pipeDiameter">pipeDiameter</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.pipeLength" href="#CompAero.FannoFlowRelations.FannoFlowRelations.pipeLength">pipeLength</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.po2_po1" href="#CompAero.FannoFlowRelations.FannoFlowRelations.po2_po1">po2_po1</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.po_poSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.po_poSt">po_poSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.precision" href="#CompAero.FannoFlowRelations.FannoFlowRelations.precision">precision</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.rho2_rho1" href="#CompAero.FannoFlowRelations.FannoFlowRelations.rho2_rho1">rho2_rho1</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.rho_rhoSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.rho_rhoSt">rho_rhoSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.t2_t1" href="#CompAero.FannoFlowRelations.FannoFlowRelations.t2_t1">t2_t1</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.t_tSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.t_tSt">t_tSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.u2_u1" href="#CompAero.FannoFlowRelations.FannoFlowRelations.u2_u1">u2_u1</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.u_uSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.u_uSt">u_uSt</a></code></li>
 </ul>
 </li>
 </ul>

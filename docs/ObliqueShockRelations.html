@@ -70,20 +70,20 @@ class ObliqueShockRelations(NormalShockRelations):
     Raises:
         RuntimeError: If shock wave angle is found to be less than the mach wave angle at
         RuntimeError: If the deflection angle is found to be greater than the max deflection angle for the flow
-        GammaNotDefinedError: Raised if gamma is not defined when passed into the class
-        InvalidOptionCombinationError: Raised if the incorrect combination of parameters are passed to the class
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, mach normal 1, shock angle 
-        gamma, mach behind shock, wedge angle, shock angle
-        gamma, shock angle, wedge angle
-        gamma, P2/P1, shock angle
-        gamma, Rho2/Rho1, shock angle
-        gamma, T2/T1, shock angle
-        gamma, P02/P01, shock angle
-        gamma, P02/P1, shock angle
-        gamma, dwnStrm_mach, shock angle
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, mach normal 1, shock angle \n
+        3: gamma, mach behind shock, wedge angle, shock angle\n
+        4: gamma, shock angle, wedge angle\n
+        5: gamma, P2/P1, shock angle\n
+        6: gamma, Rho2/Rho1, shock angle\n
+        7: gamma, T2/T1, shock angle\n
+        8: gamma, P02/P01, shock angle\n
+        9: gamma, P02/P1, shock angle\n
+        10: gamma, dwnStrm_mach, shock angle\n
     &#34;&#34;&#34;
 
     def __init__(
@@ -104,20 +104,35 @@ class ObliqueShockRelations(NormalShockRelations):
         shockType: ShockType = ShockType.WEAK,
     ) -&gt; None:
         self.useDegrees = useDegrees
+        &#34;&#34;&#34; Angles passed to the constructor are in degrees&#34;&#34;&#34;
         self.shockAngle = shockAngle
+        &#34;&#34;&#34; Angle Oblique shock&#34;&#34;&#34;
         self.wedgeAngle = wedgeAngle
+        &#34;&#34;&#34; Angle of the flow deflection (wedge) angle&#34;&#34;&#34;
         self.machNorm1 = mn1
+        &#34;&#34;&#34; The normal component of the mach number ahead the shock wave&#34;&#34;&#34;
         self.machNorm2 = mn2
+        &#34;&#34;&#34; The normal component of the mach number behind the shock wave&#34;&#34;&#34;
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
         self.p2_p1 = p2_p1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
         self.rho2_rho1 = rho2_rho1
+        &#34;&#34;&#34; Ratio of density behind the shock wave to density before the shock wave rho2/rho1 &#34;&#34;&#34;
         self.t2_t1 = t2_t1
+        &#34;&#34;&#34; Ratio of temperature behind the shock wave to temperature before the shock wave T2/T1 &#34;&#34;&#34;
         self.po2_po1 = po2_po1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
         self.po2_p1 = po2_p1
+        &#34;&#34;&#34; Ratio of total pressure behind the shock wave to pressure before the shock wave P02/P1 &#34;&#34;&#34;
         self.mach2 = m2
+        &#34;&#34;&#34; Mach number behind the shock wave &#34;&#34;&#34;
         self.shockType: ShockType = shockType
+        &#34;&#34;&#34; The type of shock whether it is strong or weak &#34;&#34;&#34;
         self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
 
         if self.useDegrees and checkValue(self.shockAngle):
             self.shockAngle = radians(self.shockAngle)
@@ -616,21 +631,21 @@ The constructor of this class can also determine the entire state of the flow gi
 <dt><code>RuntimeError</code></dt>
 <dd>If the deflection angle is found to be greater than the max deflection angle for the flow</dd>
 <dt><code>GammaNotDefinedError</code></dt>
-<dd>Raised if gamma is not defined when passed into the class</dd>
+<dd>Raised if Gamma is undefined</dd>
 <dt><code>InvalidOptionCombinationError</code></dt>
-<dd>Raised if the incorrect combination of parameters are passed to the class</dd>
+<dd>Raised if an invalid combination of parameters is given and flow state cannot be determined</dd>
 </dl>
-<p>Valid Combinations of Parameters:
-gamma, mach
-gamma, mach normal 1, shock angle
-gamma, mach behind shock, wedge angle, shock angle
-gamma, shock angle, wedge angle
-gamma, P2/P1, shock angle
-gamma, Rho2/Rho1, shock angle
-gamma, T2/T1, shock angle
-gamma, P02/P01, shock angle
-gamma, P02/P1, shock angle
-gamma, dwnStrm_mach, shock angle</p>
+<h2 id="valid_combinations_of_parameters">Valid_Combinations_Of_Parameters</h2>
+<p>1: gamma, mach</p>
+<p>2: gamma, mach normal 1, shock angle </p>
+<p>3: gamma, mach behind shock, wedge angle, shock angle</p>
+<p>4: gamma, shock angle, wedge angle</p>
+<p>5: gamma, P2/P1, shock angle</p>
+<p>6: gamma, Rho2/Rho1, shock angle</p>
+<p>7: gamma, T2/T1, shock angle</p>
+<p>8: gamma, P02/P01, shock angle</p>
+<p>9: gamma, P02/P1, shock angle</p>
+<p>10: gamma, dwnStrm_mach, shock angle</p>
 <p>This class is a collective name space for basic calculations regarding Normal Shock Properties.
 The constructor of this class can also determine the entire state of the flow given a partial state of the flow </p>
 <h2 id="args_1">Args</h2>
@@ -652,23 +667,19 @@ The constructor of this class can also determine the entire state of the flow gi
 <dt><strong><code>m2</code></strong> :&ensp;<code>float</code>, optional</dt>
 <dd>mach number behind shock wave. Defaults to nan.</dd>
 </dl>
-<h2 id="raises_1">Raises</h2>
-<dl>
-<dt><code>GammaNotDefinedError</code></dt>
-<dd>Raised if gamma is not defined when passed into the class</dd>
-<dt><code>InvalidOptionCombinationError</code></dt>
-<dd>Raised if the incorrect combination of parameters are passed to the class</dd>
-</dl>
+<p>Raises:
+GammaNotDefinedError: Raised if Gamma is undefined
+InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined</p>
 <p>Useage:
 To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. </p>
-<p>Valid Combinations of Parameters:
-gamma, mach
-gamma, P2/P1
-gamma, Rho2/Rho1
-gamma, T2/T1
-gamma, P02/P01
-gamma, P02/P1
-gamma, dwnStrm_mach</p></div>
+<h2 id="valid_combinations_of_parameters_1">Valid_Combinations_Of_Parameters</h2>
+<p>1: gamma, mach</p>
+<p>2: gamma, P2/P1</p>
+<p>3: gamma, Rho2/Rho1</p>
+<p>4: gamma, T2/T1</p>
+<p>5: gamma, P02/P01</p>
+<p>6: gamma, P02/P1</p>
+<p>7: gamma, dwnStrm_mach</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -696,20 +707,20 @@ gamma, dwnStrm_mach</p></div>
     Raises:
         RuntimeError: If shock wave angle is found to be less than the mach wave angle at
         RuntimeError: If the deflection angle is found to be greater than the max deflection angle for the flow
-        GammaNotDefinedError: Raised if gamma is not defined when passed into the class
-        InvalidOptionCombinationError: Raised if the incorrect combination of parameters are passed to the class
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, mach normal 1, shock angle 
-        gamma, mach behind shock, wedge angle, shock angle
-        gamma, shock angle, wedge angle
-        gamma, P2/P1, shock angle
-        gamma, Rho2/Rho1, shock angle
-        gamma, T2/T1, shock angle
-        gamma, P02/P01, shock angle
-        gamma, P02/P1, shock angle
-        gamma, dwnStrm_mach, shock angle
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, mach normal 1, shock angle \n
+        3: gamma, mach behind shock, wedge angle, shock angle\n
+        4: gamma, shock angle, wedge angle\n
+        5: gamma, P2/P1, shock angle\n
+        6: gamma, Rho2/Rho1, shock angle\n
+        7: gamma, T2/T1, shock angle\n
+        8: gamma, P02/P01, shock angle\n
+        9: gamma, P02/P1, shock angle\n
+        10: gamma, dwnStrm_mach, shock angle\n
     &#34;&#34;&#34;
 
     def __init__(
@@ -730,20 +741,35 @@ gamma, dwnStrm_mach</p></div>
         shockType: ShockType = ShockType.WEAK,
     ) -&gt; None:
         self.useDegrees = useDegrees
+        &#34;&#34;&#34; Angles passed to the constructor are in degrees&#34;&#34;&#34;
         self.shockAngle = shockAngle
+        &#34;&#34;&#34; Angle Oblique shock&#34;&#34;&#34;
         self.wedgeAngle = wedgeAngle
+        &#34;&#34;&#34; Angle of the flow deflection (wedge) angle&#34;&#34;&#34;
         self.machNorm1 = mn1
+        &#34;&#34;&#34; The normal component of the mach number ahead the shock wave&#34;&#34;&#34;
         self.machNorm2 = mn2
+        &#34;&#34;&#34; The normal component of the mach number behind the shock wave&#34;&#34;&#34;
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
         self.p2_p1 = p2_p1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
         self.rho2_rho1 = rho2_rho1
+        &#34;&#34;&#34; Ratio of density behind the shock wave to density before the shock wave rho2/rho1 &#34;&#34;&#34;
         self.t2_t1 = t2_t1
+        &#34;&#34;&#34; Ratio of temperature behind the shock wave to temperature before the shock wave T2/T1 &#34;&#34;&#34;
         self.po2_po1 = po2_po1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
         self.po2_p1 = po2_p1
+        &#34;&#34;&#34; Ratio of total pressure behind the shock wave to pressure before the shock wave P02/P1 &#34;&#34;&#34;
         self.mach2 = m2
+        &#34;&#34;&#34; Mach number behind the shock wave &#34;&#34;&#34;
         self.shockType: ShockType = shockType
+        &#34;&#34;&#34; The type of shock whether it is strong or weak &#34;&#34;&#34;
         self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
 
         if self.useDegrees and checkValue(self.shockAngle):
             self.shockAngle = radians(self.shockAngle)
@@ -1697,6 +1723,33 @@ def calc_theta_from_theta_beta_mach(beta: float, mach: float, gamma: float, offs
 </details>
 </dd>
 </dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="CompAero.ObliqueShockRelations.ObliqueShockRelations.machNorm1"><code class="name">var <span class="ident">machNorm1</span></code></dt>
+<dd>
+<div class="desc"><p>The normal component of the mach number ahead the shock wave</p></div>
+</dd>
+<dt id="CompAero.ObliqueShockRelations.ObliqueShockRelations.machNorm2"><code class="name">var <span class="ident">machNorm2</span></code></dt>
+<dd>
+<div class="desc"><p>The normal component of the mach number behind the shock wave</p></div>
+</dd>
+<dt id="CompAero.ObliqueShockRelations.ObliqueShockRelations.shockAngle"><code class="name">var <span class="ident">shockAngle</span></code></dt>
+<dd>
+<div class="desc"><p>Angle Oblique shock</p></div>
+</dd>
+<dt id="CompAero.ObliqueShockRelations.ObliqueShockRelations.shockType"><code class="name">var <span class="ident">shockType</span></code></dt>
+<dd>
+<div class="desc"><p>The type of shock whether it is strong or weak</p></div>
+</dd>
+<dt id="CompAero.ObliqueShockRelations.ObliqueShockRelations.useDegrees"><code class="name">var <span class="ident">useDegrees</span></code></dt>
+<dd>
+<div class="desc"><p>Angles passed to the constructor are in degrees</p></div>
+</dd>
+<dt id="CompAero.ObliqueShockRelations.ObliqueShockRelations.wedgeAngle"><code class="name">var <span class="ident">wedgeAngle</span></code></dt>
+<dd>
+<div class="desc"><p>Angle of the flow deflection (wedge) angle</p></div>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="CompAero.ObliqueShockRelations.ObliqueShockRelations.plot_theta_beta_mach_chart"><code class="name flex">
@@ -1794,6 +1847,15 @@ def calc_theta_from_theta_beta_mach(beta: float, mach: float, gamma: float, offs
 <li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.calc_po2_p1" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.calc_po2_p1">calc_po2_p1</a></code></li>
 <li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.calc_po2_po1" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.calc_po2_po1">calc_po2_po1</a></code></li>
 <li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.calc_rho2_rho1" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.calc_rho2_rho1">calc_rho2_rho1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.gamma" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.gamma">gamma</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.mach" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.mach">mach</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.mach2" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.mach2">mach2</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.p2_p1" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.p2_p1">p2_p1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.po2_p1" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.po2_p1">po2_p1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.po2_po1" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.po2_po1">po2_po1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.precision" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.precision">precision</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.rho2_rho1" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.rho2_rho1">rho2_rho1</a></code></li>
+<li><code><a title="CompAero.NormalShockRelations.NormalShockRelations.t2_t1" href="NormalShockRelations.html#CompAero.NormalShockRelations.NormalShockRelations.t2_t1">t2_t1</a></code></li>
 </ul>
 </li>
 </ul>
@@ -1830,7 +1892,13 @@ def calc_theta_from_theta_beta_mach(beta: float, mach: float, gamma: float, offs
 <li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.calc_max_flow_deflection_angle" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.calc_max_flow_deflection_angle">calc_max_flow_deflection_angle</a></code></li>
 <li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.calc_max_shock_angle" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.calc_max_shock_angle">calc_max_shock_angle</a></code></li>
 <li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.calc_theta_from_theta_beta_mach" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.calc_theta_from_theta_beta_mach">calc_theta_from_theta_beta_mach</a></code></li>
+<li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.machNorm1" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.machNorm1">machNorm1</a></code></li>
+<li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.machNorm2" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.machNorm2">machNorm2</a></code></li>
 <li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.plot_theta_beta_mach_chart" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.plot_theta_beta_mach_chart">plot_theta_beta_mach_chart</a></code></li>
+<li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.shockAngle" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.shockAngle">shockAngle</a></code></li>
+<li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.shockType" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.shockType">shockType</a></code></li>
+<li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.useDegrees" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.useDegrees">useDegrees</a></code></li>
+<li><code><a title="CompAero.ObliqueShockRelations.ObliqueShockRelations.wedgeAngle" href="#CompAero.ObliqueShockRelations.ObliqueShockRelations.wedgeAngle">wedgeAngle</a></code></li>
 </ul>
 </li>
 </ul>

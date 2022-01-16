@@ -42,20 +42,20 @@ class ObliqueShockRelations(NormalShockRelations):
     Raises:
         RuntimeError: If shock wave angle is found to be less than the mach wave angle at
         RuntimeError: If the deflection angle is found to be greater than the max deflection angle for the flow
-        GammaNotDefinedError: Raised if gamma is not defined when passed into the class
-        InvalidOptionCombinationError: Raised if the incorrect combination of parameters are passed to the class
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, mach normal 1, shock angle 
-        gamma, mach behind shock, wedge angle, shock angle
-        gamma, shock angle, wedge angle
-        gamma, P2/P1, shock angle
-        gamma, Rho2/Rho1, shock angle
-        gamma, T2/T1, shock angle
-        gamma, P02/P01, shock angle
-        gamma, P02/P1, shock angle
-        gamma, dwnStrm_mach, shock angle
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, mach normal 1, shock angle \n
+        3: gamma, mach behind shock, wedge angle, shock angle\n
+        4: gamma, shock angle, wedge angle\n
+        5: gamma, P2/P1, shock angle\n
+        6: gamma, Rho2/Rho1, shock angle\n
+        7: gamma, T2/T1, shock angle\n
+        8: gamma, P02/P01, shock angle\n
+        9: gamma, P02/P1, shock angle\n
+        10: gamma, dwnStrm_mach, shock angle\n
     """
 
     def __init__(
@@ -76,20 +76,35 @@ class ObliqueShockRelations(NormalShockRelations):
         shockType: ShockType = ShockType.WEAK,
     ) -> None:
         self.useDegrees = useDegrees
+        """ Angles passed to the constructor are in degrees"""
         self.shockAngle = shockAngle
+        """ Angle Oblique shock"""
         self.wedgeAngle = wedgeAngle
+        """ Angle of the flow deflection (wedge) angle"""
         self.machNorm1 = mn1
+        """ The normal component of the mach number ahead the shock wave"""
         self.machNorm2 = mn2
+        """ The normal component of the mach number behind the shock wave"""
         self.gamma = gamma
+        """ Ratio of specific heats """
         self.mach = mach
+        """ Mach number of the flow """
         self.p2_p1 = p2_p1
+        """ Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 """
         self.rho2_rho1 = rho2_rho1
+        """ Ratio of density behind the shock wave to density before the shock wave rho2/rho1 """
         self.t2_t1 = t2_t1
+        """ Ratio of temperature behind the shock wave to temperature before the shock wave T2/T1 """
         self.po2_po1 = po2_po1
+        """ Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 """
         self.po2_p1 = po2_p1
+        """ Ratio of total pressure behind the shock wave to pressure before the shock wave P02/P1 """
         self.mach2 = m2
+        """ Mach number behind the shock wave """
         self.shockType: ShockType = shockType
+        """ The type of shock whether it is strong or weak """
         self.precision = 4
+        """ Precision to use when printing output to the console defaults to four """
 
         if self.useDegrees and checkValue(self.shockAngle):
             self.shockAngle = radians(self.shockAngle)

@@ -1,4 +1,6 @@
 class UpperCaseGreek:
+    """ Class that maps uppercase unicode greek letter values"""
+
     alpha: str = "\u0391"
     beta: str = "\u0392"
     gamma: str = "\u0393"
@@ -27,6 +29,8 @@ class UpperCaseGreek:
 
 
 class LowerCaseGreek:
+    """ Class that maps lowercase unicode greek letter values"""
+
     alpha: str = "\u03B1"
     beta: str = "\u03B2"
     gamma: str = "\u03B3"

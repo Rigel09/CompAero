@@ -31,20 +31,20 @@ class RayleighFlowRelations:
         flowType (FlowState, optional):  States wether the flow is subsonic or supersonic. Used for Area Ratio Calculations. Defaults to FlowState.SUPER_SONIC.
         
     Raises:
-        GammaNotDefinedError: [description]
-        InvalidOptionCombinationError: [description]
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
     Useage:
         To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
 
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, T/T*, flowtype (flow type defaults to super sonic)
-        gamma, P/P*
-        gamma, rho/rho*
-        gamma, P0/P0*, flowtype (flow type defaults to super sonic)
-        gamma, T0/T0*, flowtype (flow type defaults to super sonic)
-        gamma, U/U*
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, T/T*, flowtype (flow type defaults to super sonic)\n
+        3: gamma, P/P*\n
+        4: gamma, rho/rho*\n
+        5: gamma, P0/P0*, flowtype (flow type defaults to super sonic)\n
+        6: gamma, T0/T0*, flowtype (flow type defaults to super sonic)\n
+        7: gamma, U/U*\n
     """
 
     def __init__(
@@ -60,40 +60,69 @@ class RayleighFlowRelations:
         flowType: FlowState = FlowState.SUPER_SONIC,
     ) -> None:
         self.gamma = gamma
+        """ Ratio of specific heats """
         self.mach = mach
+        """ Mach number of the flow """
         self.t_tSt = t_tSt
+        """ Ratio of temperature to the sonic temperature T/T*"""
         self.p_pSt = p_pSt
+        """ Ratio of pressure to the sonic pressure P/P*"""
         self.rho_rhoSt = rho_rhoSt
+        """ Ratio of the density to the sonic density rho/rho* """
         self.po_poSt = po_poSt
+        """ Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0*"""
         self.u_uSt = u_uSt
+        """ Ratio of velocity to the sonic velcoity U/U*"""
         self.to_toSt = to_toSt
+        """ Ratio of the total temperature to the sonic total temperature T0/T0*"""
         self.flowType = flowType
+        """ Type of flow which is either subsonic or supersonic (Type: flowstate) """
         self.precision = 4
+        """ Precision to use when printing output to the console defaults to four """
 
         # Pipe parameters
         self.chokedHeat = nan
+        """ Amount of heat required to choke the flow"""
         self.heat = nan
+        """ Amount of heat added to the flow """
         self.gasConstantR = nan
+        """ Gas constant used for flow calculations"""
         self.cp = nan
+        """ Specific heat Coefficient at constant pressure for the gas used"""
 
         # Down stream conditions if pipe parameters are given
         self.dwnStrmMach = nan
+        """ Mach number at the downstream point of the flow """
         self.dwnStrm_t_tSt = nan
+        """ Ratio of temperature to the sonic temperature T/T* at the downstream point"""
         self.dwnStrm_p_pSt = nan
+        """ Ratio of pressure to the sonic pressure P/P* at the downstream point"""
         self.dwnStrm_rho_rhoSt = nan
+        """ Ratio of the density to the sonic density rho/rho* at the downstream point"""
         self.dwnStrm_po_poSt = nan
+        """ Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0* at the downstream point"""
         self.dwnStrm_u_uSt = nan
+        """ Ratio of velocity to the sonic velcoity U/U* at the downstream point"""
         self.dwnStrm_to_toSt = nan
+        """ Ratio of the total temperature to the sonic total temperature T0/T0* at the downstream point"""
 
         # Downstream / Initial Conditions
         self.t2_t1 = nan
+        """ Ratio of downstream temperature to upstream temperature"""
         self.p2_p1 = nan
+        """ Ratio of downstream pressure to upstream pressure"""
         self.rho2_rho1 = nan
+        """ Ratio of downstream density to upstream density"""
         self.po2_po1 = nan
+        """ Ratio of downstream total pressure to upstream total pressure"""
         self.to2_to1 = nan
+        """ Ratio of downstream total temperature to upstream total temperature"""
         self.u2_u1 = nan
+        """ Ratio of downstream velocity to upstream velocity """
         self.to2 = nan
+        """ Downstream total temperature """
         self.to1 = nan
+        """ Upstream total temperature"""
 
         if not checkValue(self.gamma):
             raise GammaNotDefinedError()

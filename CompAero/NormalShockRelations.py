@@ -41,30 +41,39 @@ class NormalShockRelations:
             m2 (float, optional): mach number behind shock wave. Defaults to nan.
             
         Raises:
-            GammaNotDefinedError: Raised if gamma is not defined when passed into the class
-            InvalidOptionCombinationError: Raised if the incorrect combination of parameters are passed to the class
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
             
         Useage:
         To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
 
-        Valid Combinations of Parameters:
-            gamma, mach
-            gamma, P2/P1
-            gamma, Rho2/Rho1
-            gamma, T2/T1
-            gamma, P02/P01
-            gamma, P02/P1
-            gamma, dwnStrm_mach
+        Valid_Combinations_of_Parameters:
+            1: gamma, mach\n
+            2: gamma, P2/P1\n
+            3: gamma, Rho2/Rho1\n
+            4: gamma, T2/T1\n
+            5: gamma, P02/P01\n
+            6: gamma, P02/P1\n
+            7: gamma, dwnStrm_mach\n
         """
         self.gamma = gamma
+        """ Ratio of specific heats """
         self.mach = mach
+        """ Mach number of the flow """
         self.p2_p1 = p2_p1
+        """ Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 """
         self.rho2_rho1 = rho2_rho1
+        """ Ratio of density behind the shock wave to density before the shock wave rho2/rho1 """
         self.t2_t1 = t2_t1
+        """ Ratio of temperature behind the shock wave to temperature before the shock wave T2/T1 """
         self.po2_po1 = po2_po1
+        """ Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 """
         self.po2_p1 = po2_p1
+        """ Ratio of total pressure behind the shock wave to pressure before the shock wave P02/P1 """
         self.mach2 = m2
+        """ Mach number behind the shock wave """
         self.precision = 4
+        """ Precision to use when printing output to the console defaults to four """
 
         # Calculate parameters based on what was passed in
         if not checkValue(self.gamma):

@@ -33,12 +33,12 @@ class IsentropicRelations:
     Useage:
         To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
     
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, p0/p
-        gamma, t0/t
-        gamma, rho0/rho
-        gamma, a/a*, flowtype (flow type defaults to super sonic)
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, p0/p\n
+        3: gamma, t0/t\n
+        4: gamma, rho0/rho\n
+        5: gamma, a/a*, flowtype (flow type defaults to super sonic)\n 
     """
 
     def __init__(

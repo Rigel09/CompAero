@@ -32,19 +32,19 @@ class PrandtlMeyer:
         inDegrees (bool, optional): True if angles passed in are in degrees. Doesnt convert output to defrees. Defaults to True.
 
     Raises:
-        GammaNotDefinedError: [description]
-        InvalidOptionCombinationError: [description]
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
     Useage:
     To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
 
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, nu
-        gamma, mu
-        gamma, deflection angle, dwnStrm_mach
-        gamma, deflection angle, dwnStrm_mu
-        gamma, deflection angle, dwnStrm_nu
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, nu\n
+        3: gamma, mu\n
+        4: gamma, deflection angle, dwnStrm_mach\n
+        5: gamma, deflection angle, dwnStrm_mu\n
+        6: gamma, deflection angle, dwnStrm_nu\n
     """
 
     def __init__(
@@ -60,16 +60,26 @@ class PrandtlMeyer:
         inDegrees: bool = True,
     ) -> None:
         self.gamma = gamma
+        """ Ratio of specific heats """
         self.mach = mach
+        """ Mach number of the flow """
         self.nu = nu
+        """ The Prandtl Meyer function value """
         self.mu = mu
+        """ The angle of the mach wave"""
         self.deflectionAngle = deflectionAngle
+        """ Angle of the flow deflection angle"""
         self._degrees = inDegrees
+        """ Angles passed to the constructor are in degrees"""
         self.precision = 4
+        """ Precision to use when printing output to the console defaults to four """
 
         self.dwmStrm_nu = dwnstreamNu
+        """ The Prandtl Meyer function value after the expansion wave """
         self.dwmStrm_mu = dwnStreamMu
+        """ The angle of the mach wave after the expansion wave"""
         self.dwmStrm_mach = dwnStreamMach
+        """ Mach number of the flow after the expansion wave """
 
         if not self._degrees:
             self.deflectionAngle = degrees(self.deflectionAngle)

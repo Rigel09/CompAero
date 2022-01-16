@@ -1,7 +1,6 @@
 # from CompAero.ConicalFlow import ConicalFlowRelations
 from CompAero.PrandtlMeyer import PrandtlMeyer
 from CompAero.RayleighFlowRelations import RayleighFlowRelations
-from numpy.lib.twodim_base import diag
 from CompAero.IsentropecRelations import IsentropicRelations
 from CompAero.NormalShockRelations import NormalShockRelations
 from CompAero.ObliqueShockRelations import ObliqueShockRelations
@@ -10,10 +9,6 @@ from CompAero.FannoFlowRelations import FannoFlowRelations
 from math import radians, degrees, pi
 import numpy as np
 import matplotlib.pyplot as plt
-
-import cProfile, pstats, io
-from pstats import SortKey
-
 
 if __name__ == "__main__":
     ##########################################################################

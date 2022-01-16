@@ -60,19 +60,19 @@ class PrandtlMeyer:
         inDegrees (bool, optional): True if angles passed in are in degrees. Doesnt convert output to defrees. Defaults to True.
 
     Raises:
-        GammaNotDefinedError: [description]
-        InvalidOptionCombinationError: [description]
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
     Useage:
     To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
 
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, nu
-        gamma, mu
-        gamma, deflection angle, dwnStrm_mach
-        gamma, deflection angle, dwnStrm_mu
-        gamma, deflection angle, dwnStrm_nu
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, nu\n
+        3: gamma, mu\n
+        4: gamma, deflection angle, dwnStrm_mach\n
+        5: gamma, deflection angle, dwnStrm_mu\n
+        6: gamma, deflection angle, dwnStrm_nu\n
     &#34;&#34;&#34;
 
     def __init__(
@@ -88,16 +88,26 @@ class PrandtlMeyer:
         inDegrees: bool = True,
     ) -&gt; None:
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
         self.nu = nu
+        &#34;&#34;&#34; The Prandtl Meyer function value &#34;&#34;&#34;
         self.mu = mu
+        &#34;&#34;&#34; The angle of the mach wave&#34;&#34;&#34;
         self.deflectionAngle = deflectionAngle
+        &#34;&#34;&#34; Angle of the flow deflection angle&#34;&#34;&#34;
         self._degrees = inDegrees
+        &#34;&#34;&#34; Angles passed to the constructor are in degrees&#34;&#34;&#34;
         self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
 
         self.dwmStrm_nu = dwnstreamNu
+        &#34;&#34;&#34; The Prandtl Meyer function value after the expansion wave &#34;&#34;&#34;
         self.dwmStrm_mu = dwnStreamMu
+        &#34;&#34;&#34; The angle of the mach wave after the expansion wave&#34;&#34;&#34;
         self.dwmStrm_mach = dwnStreamMach
+        &#34;&#34;&#34; Mach number of the flow after the expansion wave &#34;&#34;&#34;
 
         if not self._degrees:
             self.deflectionAngle = degrees(self.deflectionAngle)
@@ -245,19 +255,19 @@ The constructor of this class can also determine the entire state of the flow gi
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code>GammaNotDefinedError</code></dt>
-<dd>[description]</dd>
+<dd>Raised if Gamma is undefined</dd>
 <dt><code>InvalidOptionCombinationError</code></dt>
-<dd>[description]</dd>
+<dd>Raised if an invalid combination of parameters is given and flow state cannot be determined</dd>
 </dl>
 <p>Useage:
 To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. </p>
-<p>Valid Combinations of Parameters:
-gamma, mach
-gamma, nu
-gamma, mu
-gamma, deflection angle, dwnStrm_mach
-gamma, deflection angle, dwnStrm_mu
-gamma, deflection angle, dwnStrm_nu</p></div>
+<h2 id="valid_combinations_of_parameters">Valid_Combinations_Of_Parameters</h2>
+<p>1: gamma, mach</p>
+<p>2: gamma, nu</p>
+<p>3: gamma, mu</p>
+<p>4: gamma, deflection angle, dwnStrm_mach</p>
+<p>5: gamma, deflection angle, dwnStrm_mu</p>
+<p>6: gamma, deflection angle, dwnStrm_nu</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -278,19 +288,19 @@ gamma, deflection angle, dwnStrm_nu</p></div>
         inDegrees (bool, optional): True if angles passed in are in degrees. Doesnt convert output to defrees. Defaults to True.
 
     Raises:
-        GammaNotDefinedError: [description]
-        InvalidOptionCombinationError: [description]
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
     Useage:
     To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
 
-    Valid Combinations of Parameters:
-        gamma, mach
-        gamma, nu
-        gamma, mu
-        gamma, deflection angle, dwnStrm_mach
-        gamma, deflection angle, dwnStrm_mu
-        gamma, deflection angle, dwnStrm_nu
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, nu\n
+        3: gamma, mu\n
+        4: gamma, deflection angle, dwnStrm_mach\n
+        5: gamma, deflection angle, dwnStrm_mu\n
+        6: gamma, deflection angle, dwnStrm_nu\n
     &#34;&#34;&#34;
 
     def __init__(
@@ -306,16 +316,26 @@ gamma, deflection angle, dwnStrm_nu</p></div>
         inDegrees: bool = True,
     ) -&gt; None:
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
         self.nu = nu
+        &#34;&#34;&#34; The Prandtl Meyer function value &#34;&#34;&#34;
         self.mu = mu
+        &#34;&#34;&#34; The angle of the mach wave&#34;&#34;&#34;
         self.deflectionAngle = deflectionAngle
+        &#34;&#34;&#34; Angle of the flow deflection angle&#34;&#34;&#34;
         self._degrees = inDegrees
+        &#34;&#34;&#34; Angles passed to the constructor are in degrees&#34;&#34;&#34;
         self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
 
         self.dwmStrm_nu = dwnstreamNu
+        &#34;&#34;&#34; The Prandtl Meyer function value after the expansion wave &#34;&#34;&#34;
         self.dwmStrm_mu = dwnStreamMu
+        &#34;&#34;&#34; The angle of the mach wave after the expansion wave&#34;&#34;&#34;
         self.dwmStrm_mach = dwnStreamMach
+        &#34;&#34;&#34; Mach number of the flow after the expansion wave &#34;&#34;&#34;
 
         if not self._degrees:
             self.deflectionAngle = degrees(self.deflectionAngle)
@@ -507,6 +527,45 @@ def calc_nu(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
 </details>
 </dd>
 </dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.deflectionAngle"><code class="name">var <span class="ident">deflectionAngle</span></code></dt>
+<dd>
+<div class="desc"><p>Angle of the flow deflection angle</p></div>
+</dd>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mach"><code class="name">var <span class="ident">dwmStrm_mach</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number of the flow after the expansion wave</p></div>
+</dd>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mu"><code class="name">var <span class="ident">dwmStrm_mu</span></code></dt>
+<dd>
+<div class="desc"><p>The angle of the mach wave after the expansion wave</p></div>
+</dd>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_nu"><code class="name">var <span class="ident">dwmStrm_nu</span></code></dt>
+<dd>
+<div class="desc"><p>The Prandtl Meyer function value after the expansion wave</p></div>
+</dd>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.gamma"><code class="name">var <span class="ident">gamma</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of specific heats</p></div>
+</dd>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.mach"><code class="name">var <span class="ident">mach</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number of the flow</p></div>
+</dd>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.mu"><code class="name">var <span class="ident">mu</span></code></dt>
+<dd>
+<div class="desc"><p>The angle of the mach wave</p></div>
+</dd>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.nu"><code class="name">var <span class="ident">nu</span></code></dt>
+<dd>
+<div class="desc"><p>The Prandtl Meyer function value</p></div>
+</dd>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.precision"><code class="name">var <span class="ident">precision</span></code></dt>
+<dd>
+<div class="desc"><p>Precision to use when printing output to the console defaults to four</p></div>
+</dd>
+</dl>
 </dd>
 </dl>
 </section>
@@ -526,9 +585,18 @@ def calc_nu(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
 <ul>
 <li>
 <h4><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer" href="#CompAero.PrandtlMeyer.PrandtlMeyer">PrandtlMeyer</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.calc_mach_from_nu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.calc_mach_from_nu">calc_mach_from_nu</a></code></li>
 <li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.calc_nu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.calc_nu">calc_nu</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.deflectionAngle" href="#CompAero.PrandtlMeyer.PrandtlMeyer.deflectionAngle">deflectionAngle</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mach" href="#CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mach">dwmStrm_mach</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mu">dwmStrm_mu</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_nu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_nu">dwmStrm_nu</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.gamma" href="#CompAero.PrandtlMeyer.PrandtlMeyer.gamma">gamma</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.mach" href="#CompAero.PrandtlMeyer.PrandtlMeyer.mach">mach</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.mu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.mu">mu</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.nu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.nu">nu</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.precision" href="#CompAero.PrandtlMeyer.PrandtlMeyer.precision">precision</a></code></li>
 </ul>
 </li>
 </ul>
