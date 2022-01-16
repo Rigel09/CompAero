@@ -54,12 +54,19 @@ class IsentropicRelations:
         self.gamma = gamma
         """ Ratio of specific heats """
         self.mach = mach
+        """ mach number of the flow """
         self.p0_p = p0_p
+        """ Ratio of Total pressure to static pressure """
         self.t0_t = t0_t
+        """ Ratio of total temperature to static temperature """
         self.rho0_rho = rho0_rho
+        """ Ratio of total density to static density """
         self.a_aStar = a_aStar
+        """ Ratio of Nozzle area to sonic nozzle area """
         self.flowType = flowType
+        """ Type of flow which is either subsonic or supersonic (Type: flowstate) """
         self.precision = 4
+        """ Precision to use when printing output to the console defaults to four """
 
         # Calculate parameters based on what was passed in
         if not checkValue(self.gamma):
