@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>CompAero.greek_letters API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>CompAero.greek_letters</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UpperCaseGreek:
+    alpha: str = &#34;\u0391&#34;
+    beta: str = &#34;\u0392&#34;
+    gamma: str = &#34;\u0393&#34;
+    delta: str = &#34;\u0394&#34;
+    epsilon: str = &#34;\u0395&#34;
+    zeta: str = &#34;\u0396&#34;
+    eta: str = &#34;\u0397&#34;
+    theta: str = &#34;\u0398&#34;
+    iota: str = &#34;\u0399&#34;
+    kappa: str = &#34;\u039A&#34;
+    lamda: str = &#34;\u039B&#34;
+    mu: str = &#34;\u039C&#34;
+    nu: str = &#34;\u039D&#34;
+    xi: str = &#34;\u039E&#34;
+    omicron: str = &#34;\u039F&#34;
+    pi: str = &#34;\u03A0&#34;
+    rho: str = &#34;\u03A1&#34;
+    sigma: str = &#34;\u03A3&#34;
+    tau: str = &#34;\u03A4&#34;
+    upsilon: str = &#34;\u03A5&#34;
+    phi: str = &#34;\u03A6&#34;
+    chi: str = &#34;\u03A7&#34;
+    psi: str = &#34;\u03A8&#34;
+    omega: str = &#34;\u03A9&#34;
+    symbol: str = &#34;\u03F4&#34;
+
+
+class LowerCaseGreek:
+    alpha: str = &#34;\u03B1&#34;
+    beta: str = &#34;\u03B2&#34;
+    gamma: str = &#34;\u03B3&#34;
+    delta: str = &#34;\u03B4&#34;
+    epsilon: str = &#34;\u03B5&#34;
+    zeta: str = &#34;\u03B6&#34;
+    eta: str = &#34;\u03B7&#34;
+    theta: str = &#34;\u03B8&#34;
+    iota: str = &#34;\u03B9&#34;
+    kappa: str = &#34;\u03BA&#34;
+    lamda: str = &#34;\u03BB&#34;
+    mu: str = &#34;\u03BC&#34;
+    nu: str = &#34;\u03BD&#34;
+    xi: str = &#34;\u03BE&#34;
+    omicron: str = &#34;\u03BF&#34;
+    pi: str = &#34;\u03C0&#34;
+    rho: str = &#34;\u03C1&#34;
+    sigma: str = &#34;\u03C2&#34;
+    tau: str = &#34;\u03C3&#34;
+    upsilon: str = &#34;\u03C4&#34;
+    phi: str = &#34;\u03C5&#34;
+    chi: str = &#34;\u03C6&#34;
+    psi: str = &#34;\u03C7&#34;
+    omega: str = &#34;\u03C8&#34;
+    symbol: str = &#34;\u03C9&#34;
+
+
+class Misc:
+    degreeSym: str = &#34;\u00b0&#34;</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="CompAero.greek_letters.LowerCaseGreek"><code class="flex name class">
+<span>class <span class="ident">LowerCaseGreek</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LowerCaseGreek:
+    alpha: str = &#34;\u03B1&#34;
+    beta: str = &#34;\u03B2&#34;
+    gamma: str = &#34;\u03B3&#34;
+    delta: str = &#34;\u03B4&#34;
+    epsilon: str = &#34;\u03B5&#34;
+    zeta: str = &#34;\u03B6&#34;
+    eta: str = &#34;\u03B7&#34;
+    theta: str = &#34;\u03B8&#34;
+    iota: str = &#34;\u03B9&#34;
+    kappa: str = &#34;\u03BA&#34;
+    lamda: str = &#34;\u03BB&#34;
+    mu: str = &#34;\u03BC&#34;
+    nu: str = &#34;\u03BD&#34;
+    xi: str = &#34;\u03BE&#34;
+    omicron: str = &#34;\u03BF&#34;
+    pi: str = &#34;\u03C0&#34;
+    rho: str = &#34;\u03C1&#34;
+    sigma: str = &#34;\u03C2&#34;
+    tau: str = &#34;\u03C3&#34;
+    upsilon: str = &#34;\u03C4&#34;
+    phi: str = &#34;\u03C5&#34;
+    chi: str = &#34;\u03C6&#34;
+    psi: str = &#34;\u03C7&#34;
+    omega: str = &#34;\u03C8&#34;
+    symbol: str = &#34;\u03C9&#34;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="CompAero.greek_letters.LowerCaseGreek.alpha"><code class="name">var <span class="ident">alpha</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.beta"><code class="name">var <span class="ident">beta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.chi"><code class="name">var <span class="ident">chi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.delta"><code class="name">var <span class="ident">delta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.epsilon"><code class="name">var <span class="ident">epsilon</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.eta"><code class="name">var <span class="ident">eta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.gamma"><code class="name">var <span class="ident">gamma</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.iota"><code class="name">var <span class="ident">iota</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.kappa"><code class="name">var <span class="ident">kappa</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.lamda"><code class="name">var <span class="ident">lamda</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.mu"><code class="name">var <span class="ident">mu</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.nu"><code class="name">var <span class="ident">nu</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.omega"><code class="name">var <span class="ident">omega</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.omicron"><code class="name">var <span class="ident">omicron</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.phi"><code class="name">var <span class="ident">phi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.pi"><code class="name">var <span class="ident">pi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.psi"><code class="name">var <span class="ident">psi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.rho"><code class="name">var <span class="ident">rho</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.sigma"><code class="name">var <span class="ident">sigma</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.symbol"><code class="name">var <span class="ident">symbol</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.tau"><code class="name">var <span class="ident">tau</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.theta"><code class="name">var <span class="ident">theta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.upsilon"><code class="name">var <span class="ident">upsilon</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.xi"><code class="name">var <span class="ident">xi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.LowerCaseGreek.zeta"><code class="name">var <span class="ident">zeta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="CompAero.greek_letters.Misc"><code class="flex name class">
+<span>class <span class="ident">Misc</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Misc:
+    degreeSym: str = &#34;\u00b0&#34;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="CompAero.greek_letters.Misc.degreeSym"><code class="name">var <span class="ident">degreeSym</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek"><code class="flex name class">
+<span>class <span class="ident">UpperCaseGreek</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UpperCaseGreek:
+    alpha: str = &#34;\u0391&#34;
+    beta: str = &#34;\u0392&#34;
+    gamma: str = &#34;\u0393&#34;
+    delta: str = &#34;\u0394&#34;
+    epsilon: str = &#34;\u0395&#34;
+    zeta: str = &#34;\u0396&#34;
+    eta: str = &#34;\u0397&#34;
+    theta: str = &#34;\u0398&#34;
+    iota: str = &#34;\u0399&#34;
+    kappa: str = &#34;\u039A&#34;
+    lamda: str = &#34;\u039B&#34;
+    mu: str = &#34;\u039C&#34;
+    nu: str = &#34;\u039D&#34;
+    xi: str = &#34;\u039E&#34;
+    omicron: str = &#34;\u039F&#34;
+    pi: str = &#34;\u03A0&#34;
+    rho: str = &#34;\u03A1&#34;
+    sigma: str = &#34;\u03A3&#34;
+    tau: str = &#34;\u03A4&#34;
+    upsilon: str = &#34;\u03A5&#34;
+    phi: str = &#34;\u03A6&#34;
+    chi: str = &#34;\u03A7&#34;
+    psi: str = &#34;\u03A8&#34;
+    omega: str = &#34;\u03A9&#34;
+    symbol: str = &#34;\u03F4&#34;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="CompAero.greek_letters.UpperCaseGreek.alpha"><code class="name">var <span class="ident">alpha</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.beta"><code class="name">var <span class="ident">beta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.chi"><code class="name">var <span class="ident">chi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.delta"><code class="name">var <span class="ident">delta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.epsilon"><code class="name">var <span class="ident">epsilon</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.eta"><code class="name">var <span class="ident">eta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.gamma"><code class="name">var <span class="ident">gamma</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.iota"><code class="name">var <span class="ident">iota</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.kappa"><code class="name">var <span class="ident">kappa</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.lamda"><code class="name">var <span class="ident">lamda</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.mu"><code class="name">var <span class="ident">mu</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.nu"><code class="name">var <span class="ident">nu</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.omega"><code class="name">var <span class="ident">omega</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.omicron"><code class="name">var <span class="ident">omicron</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.phi"><code class="name">var <span class="ident">phi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.pi"><code class="name">var <span class="ident">pi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.psi"><code class="name">var <span class="ident">psi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.rho"><code class="name">var <span class="ident">rho</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.sigma"><code class="name">var <span class="ident">sigma</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.symbol"><code class="name">var <span class="ident">symbol</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.tau"><code class="name">var <span class="ident">tau</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.theta"><code class="name">var <span class="ident">theta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.upsilon"><code class="name">var <span class="ident">upsilon</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.xi"><code class="name">var <span class="ident">xi</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.greek_letters.UpperCaseGreek.zeta"><code class="name">var <span class="ident">zeta</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="CompAero" href="index.html">CompAero</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="CompAero.greek_letters.LowerCaseGreek" href="#CompAero.greek_letters.LowerCaseGreek">LowerCaseGreek</a></code></h4>
+<ul class="two-column">
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.alpha" href="#CompAero.greek_letters.LowerCaseGreek.alpha">alpha</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.beta" href="#CompAero.greek_letters.LowerCaseGreek.beta">beta</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.chi" href="#CompAero.greek_letters.LowerCaseGreek.chi">chi</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.delta" href="#CompAero.greek_letters.LowerCaseGreek.delta">delta</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.epsilon" href="#CompAero.greek_letters.LowerCaseGreek.epsilon">epsilon</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.eta" href="#CompAero.greek_letters.LowerCaseGreek.eta">eta</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.gamma" href="#CompAero.greek_letters.LowerCaseGreek.gamma">gamma</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.iota" href="#CompAero.greek_letters.LowerCaseGreek.iota">iota</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.kappa" href="#CompAero.greek_letters.LowerCaseGreek.kappa">kappa</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.lamda" href="#CompAero.greek_letters.LowerCaseGreek.lamda">lamda</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.mu" href="#CompAero.greek_letters.LowerCaseGreek.mu">mu</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.nu" href="#CompAero.greek_letters.LowerCaseGreek.nu">nu</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.omega" href="#CompAero.greek_letters.LowerCaseGreek.omega">omega</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.omicron" href="#CompAero.greek_letters.LowerCaseGreek.omicron">omicron</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.phi" href="#CompAero.greek_letters.LowerCaseGreek.phi">phi</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.pi" href="#CompAero.greek_letters.LowerCaseGreek.pi">pi</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.psi" href="#CompAero.greek_letters.LowerCaseGreek.psi">psi</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.rho" href="#CompAero.greek_letters.LowerCaseGreek.rho">rho</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.sigma" href="#CompAero.greek_letters.LowerCaseGreek.sigma">sigma</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.symbol" href="#CompAero.greek_letters.LowerCaseGreek.symbol">symbol</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.tau" href="#CompAero.greek_letters.LowerCaseGreek.tau">tau</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.theta" href="#CompAero.greek_letters.LowerCaseGreek.theta">theta</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.upsilon" href="#CompAero.greek_letters.LowerCaseGreek.upsilon">upsilon</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.xi" href="#CompAero.greek_letters.LowerCaseGreek.xi">xi</a></code></li>
+<li><code><a title="CompAero.greek_letters.LowerCaseGreek.zeta" href="#CompAero.greek_letters.LowerCaseGreek.zeta">zeta</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="CompAero.greek_letters.Misc" href="#CompAero.greek_letters.Misc">Misc</a></code></h4>
+<ul class="">
+<li><code><a title="CompAero.greek_letters.Misc.degreeSym" href="#CompAero.greek_letters.Misc.degreeSym">degreeSym</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="CompAero.greek_letters.UpperCaseGreek" href="#CompAero.greek_letters.UpperCaseGreek">UpperCaseGreek</a></code></h4>
+<ul class="two-column">
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.alpha" href="#CompAero.greek_letters.UpperCaseGreek.alpha">alpha</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.beta" href="#CompAero.greek_letters.UpperCaseGreek.beta">beta</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.chi" href="#CompAero.greek_letters.UpperCaseGreek.chi">chi</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.delta" href="#CompAero.greek_letters.UpperCaseGreek.delta">delta</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.epsilon" href="#CompAero.greek_letters.UpperCaseGreek.epsilon">epsilon</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.eta" href="#CompAero.greek_letters.UpperCaseGreek.eta">eta</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.gamma" href="#CompAero.greek_letters.UpperCaseGreek.gamma">gamma</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.iota" href="#CompAero.greek_letters.UpperCaseGreek.iota">iota</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.kappa" href="#CompAero.greek_letters.UpperCaseGreek.kappa">kappa</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.lamda" href="#CompAero.greek_letters.UpperCaseGreek.lamda">lamda</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.mu" href="#CompAero.greek_letters.UpperCaseGreek.mu">mu</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.nu" href="#CompAero.greek_letters.UpperCaseGreek.nu">nu</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.omega" href="#CompAero.greek_letters.UpperCaseGreek.omega">omega</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.omicron" href="#CompAero.greek_letters.UpperCaseGreek.omicron">omicron</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.phi" href="#CompAero.greek_letters.UpperCaseGreek.phi">phi</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.pi" href="#CompAero.greek_letters.UpperCaseGreek.pi">pi</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.psi" href="#CompAero.greek_letters.UpperCaseGreek.psi">psi</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.rho" href="#CompAero.greek_letters.UpperCaseGreek.rho">rho</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.sigma" href="#CompAero.greek_letters.UpperCaseGreek.sigma">sigma</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.symbol" href="#CompAero.greek_letters.UpperCaseGreek.symbol">symbol</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.tau" href="#CompAero.greek_letters.UpperCaseGreek.tau">tau</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.theta" href="#CompAero.greek_letters.UpperCaseGreek.theta">theta</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.upsilon" href="#CompAero.greek_letters.UpperCaseGreek.upsilon">upsilon</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.xi" href="#CompAero.greek_letters.UpperCaseGreek.xi">xi</a></code></li>
+<li><code><a title="CompAero.greek_letters.UpperCaseGreek.zeta" href="#CompAero.greek_letters.UpperCaseGreek.zeta">zeta</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
