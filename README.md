@@ -3,6 +3,8 @@ A python repository for compressible aerodynamics
 
 The goal with this project is to make it easy to determine flow states. This is done by taking compressible aerodynamic tables and computing them. Also more functionality than what is included in the tables is included here as well. This is expected to be a python version of the compressible aerodynamic tables by Virginia tech http://www.dept.aoe.vt.edu/~devenpor/aoe3114/calc.html
 
+Documentation for the project can be found at https://rigel09.github.io/CompAero/
+
 
 
 ### Install
@@ -12,6 +14,7 @@ Currently this packet is <u>not</u> available on PYPI. Install can be accomplish
 ```python setup.py install```
 
 
+### Overview 
 
 This repository allows users to easily simulate the Compressible Aerodynamic Tables found in the back of common text books for Compressible Aerodynamics. By knowing the state for any single value or combination of values the user can easily know the rest of them. The repository also prints out the state of the flow in a human readable format. 
 
