@@ -52,6 +52,7 @@ class IsentropicRelations:
         flowType: FlowState = FlowState.SUPER_SONIC,
     ) -> None:
         self.gamma = gamma
+        """ Ratio of specific heats """
         self.mach = mach
         self.p0_p = p0_p
         self.t0_t = t0_t

@@ -80,6 +80,7 @@ class IsentropicRelations:
         flowType: FlowState = FlowState.SUPER_SONIC,
     ) -&gt; None:
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
         self.p0_p = p0_p
         self.t0_t = t0_t
@@ -351,6 +352,7 @@ gamma, a/a*, flowtype (flow type defaults to super sonic)</p></div>
         flowType: FlowState = FlowState.SUPER_SONIC,
     ) -&gt; None:
         self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
         self.mach = mach
         self.p0_p = p0_p
         self.t0_t = t0_t
@@ -854,6 +856,13 @@ def calc_rho0_rho(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
 </details>
 </dd>
 </dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="CompAero.IsentropecRelations.IsentropicRelations.gamma"><code class="name">var <span class="ident">gamma</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of specific heats</p></div>
+</dd>
+</dl>
 </dd>
 </dl>
 </section>
@@ -882,6 +891,7 @@ def calc_rho0_rho(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
 <li><code><a title="CompAero.IsentropecRelations.IsentropicRelations.calc_mach_from_p0_p" href="#CompAero.IsentropecRelations.IsentropicRelations.calc_mach_from_p0_p">calc_mach_from_p0_p</a></code></li>
 <li><code><a title="CompAero.IsentropecRelations.IsentropicRelations.calc_mach_from_rho0_rho" href="#CompAero.IsentropecRelations.IsentropicRelations.calc_mach_from_rho0_rho">calc_mach_from_rho0_rho</a></code></li>
 <li><code><a title="CompAero.IsentropecRelations.IsentropicRelations.calc_rho0_rho" href="#CompAero.IsentropecRelations.IsentropicRelations.calc_rho0_rho">calc_rho0_rho</a></code></li>
+<li><code><a title="CompAero.IsentropecRelations.IsentropicRelations.gamma" href="#CompAero.IsentropecRelations.IsentropicRelations.gamma">gamma</a></code></li>
 </ul>
 </li>
 </ul>
