@@ -26,6 +26,7 @@ Supported Flows
 - Prandtl Meyer Expansion
 - Rayleigh Flow
 - Fanno Flow
+- Thrust Coefficient
 
 Upcoming Flows
 
