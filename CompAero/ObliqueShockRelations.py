@@ -523,18 +523,22 @@ class ObliqueShockRelations(NormalShockRelations):
 
         ax.plot(weakFlowDeflectionAngles, weakShockAngles, label=" Oblique Weak Shock")
         ax.plot(weakFlowDeflectionAngles, strongShockAngles, label="Oblique Strong Shock")
+
+        shockangle = degrees(self.shockAngle)
+        wedgeAngle = degrees(self.wedgeAngle)
+        ax.scatter(wedgeAngle, shockangle, label="This Flow", color="r")
         # ax.plot(np.ones(vertPointLine.shape) * self.wedgeAngle, vertPointLine, 'g')
         # ax.plot(horzPointLine, np.ones(horzPointLine.shape) * self.shockAngle, 'g')
         ax.annotate(
             "Shock {}\nWedge {}".format(round(maxShockAngle, 2), round(maxDeflectionAngle, 2)),
             xy=(maxDeflectionAngle, maxShockAngle),
-            xytext=(self.wedgeAngle - 0.4 * self.wedgeAngle, self.shockAngle + 0.1 * self.shockAngle),
+            xytext=(maxDeflectionAngle + 0.02 * maxDeflectionAngle, maxShockAngle + 0.1 * maxShockAngle),
             arrowprops=dict(facecolor="black", shrink=0.05),
         )
         ax.annotate(
-            "Shock {}\nWedge {}".format(round(self.shockAngle, 2), round(self.wedgeAngle, 2)),
-            xy=(self.wedgeAngle, self.shockAngle),
-            xytext=(self.wedgeAngle - 0.2 * self.wedgeAngle, self.shockAngle - 0.4 * self.shockAngle),
+            "Shock {}\nWedge {}".format(round(shockangle, 2), round(wedgeAngle, 2)),
+            xy=(wedgeAngle, shockangle),
+            xytext=(wedgeAngle - 0.2 * wedgeAngle, shockangle - 0.4 * shockangle),
             arrowprops=dict(facecolor="black", shrink=0.05),
         )
         # ax.set_xlim(0, maxDeflectionAngle + 5)
