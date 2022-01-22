@@ -1,3 +1,4 @@
+import enum
 from CompAero.internal import (
     InvalidOptionCombinationError,
     checkValue,
@@ -12,6 +13,22 @@ from CompAero.greek_letters import LowerCaseGreek as lcg
 
 from math import sqrt, nan, pow
 from scipy.optimize import brenth
+
+ISENTROPIC_VALID_OPTIONS = [
+    "gamma, mach",
+    " gamma, P0/P",
+    " gamma, T0/T",
+    " gamma, Rho0/Rho",
+    " gamma, A/A*",
+]
+
+
+class ISENTROPIC_CHOICE:
+    MACH = "gamma, mach"
+    P0_P = " gamma, P0/P"
+    T0_T = " gamma, T0/T"
+    RHO0_RHO = " gamma, Rho0/Rho"
+    A_ASTAR = " gamma, A/A*"
 
 
 class IsentropicRelations:

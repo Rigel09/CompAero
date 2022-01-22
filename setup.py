@@ -26,7 +26,7 @@ setup(
     author="Rigel09",
     url="https://github.com/Rigel09/CompAero",
     packages=find_packages(),
-    install_requires=["scipy", "numpy", "colorama", "matplotlib",],
+    install_requires=["scipy", "numpy", "colorama", "matplotlib", "PyQt5"],
     setup_requires=["pytest-runner", "black"],
     tests_require=["pytest"],
     license="MIT",
