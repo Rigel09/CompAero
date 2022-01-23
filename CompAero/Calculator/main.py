@@ -65,6 +65,24 @@ class UI(QMainWindow, Ui_MainWindow):
             self.isentropicT0TEntry.setText(TO_STR(state.t0_t, PRECISION))
             self.isentropicRho0RhoEntry.setText(TO_STR(state.rho0_rho, PRECISION))
 
+    def calculateNormalShockState(self) -> None:
+        pass
+
+    def calculateObliqueShockState(self) -> None:
+        pass
+
+    def calculateFannoFlowState(self) -> None:
+        pass
+
+    def calculateRayleighFlowState(self) -> None:
+        pass
+
+    def calculatePrandtlMeyerState(self) -> None:
+        pass
+
+    def calculateRocketNozzleState(self) -> None:
+        pass
+
 
 def main() -> None:
     app = QtWidgets.QApplication(sys.argv)
