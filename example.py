@@ -26,7 +26,7 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Oblique Shock Example  ##############################
     ##########################################################################
-    flow = ObliqueShockRelations(1.4, mach=3, shockAngle=60)
+    flow = ObliqueShockRelations(1.4, mach=3, wedgeAngle=60)
     print()
     print(flow)
     flow.plot_theta_beta_mach_chart()

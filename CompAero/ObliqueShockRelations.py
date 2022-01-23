@@ -1,4 +1,5 @@
 from math import sqrt, nan, pow, radians, sin, cos, atan, tan, asin, degrees, asin
+from multiprocessing.sharedctypes import Value
 from scipy.optimize import brenth
 import matplotlib.pyplot as plt
 import numpy as np
@@ -46,7 +47,8 @@ class ObliqueShockRelations(NormalShockRelations):
         InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
     Valid_Combinations_of_Parameters:
-        1: gamma, mach\n
+        1: gamma, mach, shock angle\n
+        2. gamma, mach, wedge angle\n
         2: gamma, mach normal 1, shock angle \n
         3: gamma, mach behind shock, wedge angle, shock angle\n
         4: gamma, shock angle, wedge angle\n
@@ -114,10 +116,21 @@ class ObliqueShockRelations(NormalShockRelations):
         if not checkValue(self.gamma):
             raise GammaNotDefinedError()
 
-        if checkValue(self.mach):
-            pass
+        if checkValue([self.mach, self.shockAngle]):
+            machWaveAngle = ObliqueShockRelations.calc_mach_wave_angle(self.mach)
+            if self.shockAngle < machWaveAngle or self.shockAngle > radians(90):
+                raise ValueError("Shock Angle of [{}] must be between mach wave angle of [{}] and 90 degrees for mach [{}]".format(degrees(self.shockAngle), degrees(machWaveAngle), self.mach))
+        
+        elif checkValue([self.mach, self.wedgeAngle]):
+            maxShockAngle = ObliqueShockRelations.calc_max_shock_angle(self.mach, self.gamma)
+            maxWedgeAngle = ObliqueShockRelations.calc_max_flow_deflection_angle(maxShockAngle, self.mach, self.gamma)
+            if self.wedgeAngle > maxWedgeAngle:
+                raise ValueError("Wedge angle of [{}] is greater than a maximum wedge angle of [{}] for mach [{}]".format(degrees(self.wedgeAngle), degrees(maxWedgeAngle), self.mach))
+
 
         elif checkValue(self.machNorm1) and checkValue(self.shockAngle):
+            if (self.machNorm1 < 1):
+                raise ValueError("Normal Component of mach ahead of shock wave must be greater than 1")
             self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
                 self.machNorm1, self.shockAngle
             )
@@ -211,6 +224,10 @@ class ObliqueShockRelations(NormalShockRelations):
         self.mach2 = ObliqueShockRelations.calc_mach_behind_shock(
             self.machNorm2, self.wedgeAngle, self.shockAngle
         )
+        
+        if self.useDegrees:
+            self.wedgeAngle = degrees(self.wedgeAngle)
+            self.shockAngle = degrees(self.shockAngle)
 
     def __calculateState(self) -> None:
         if checkValue(self.wedgeAngle):
