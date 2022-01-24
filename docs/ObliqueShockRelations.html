@@ -27,6 +27,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">from math import sqrt, nan, pow, radians, sin, cos, atan, tan, asin, degrees, asin
+from multiprocessing.sharedctypes import Value
 from scipy.optimize import brenth
 import matplotlib.pyplot as plt
 import numpy as np
@@ -74,7 +75,8 @@ class ObliqueShockRelations(NormalShockRelations):
         InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
     Valid_Combinations_of_Parameters:
-        1: gamma, mach\n
+        1: gamma, mach, shock angle\n
+        2. gamma, mach, wedge angle\n
         2: gamma, mach normal 1, shock angle \n
         3: gamma, mach behind shock, wedge angle, shock angle\n
         4: gamma, shock angle, wedge angle\n
@@ -142,10 +144,21 @@ class ObliqueShockRelations(NormalShockRelations):
         if not checkValue(self.gamma):
             raise GammaNotDefinedError()
 
-        if checkValue(self.mach):
-            pass
+        if checkValue([self.mach, self.shockAngle]):
+            machWaveAngle = ObliqueShockRelations.calc_mach_wave_angle(self.mach)
+            if self.shockAngle &lt; machWaveAngle or self.shockAngle &gt; radians(90):
+                raise ValueError(&#34;Shock Angle of [{}] must be between mach wave angle of [{}] and 90 degrees for mach [{}]&#34;.format(degrees(self.shockAngle), degrees(machWaveAngle), self.mach))
+        
+        elif checkValue([self.mach, self.wedgeAngle]):
+            maxShockAngle = ObliqueShockRelations.calc_max_shock_angle(self.mach, self.gamma)
+            maxWedgeAngle = ObliqueShockRelations.calc_max_flow_deflection_angle(maxShockAngle, self.mach, self.gamma)
+            if self.wedgeAngle &gt; maxWedgeAngle:
+                raise ValueError(&#34;Wedge angle of [{}] is greater than a maximum wedge angle of [{}] for mach [{}]&#34;.format(degrees(self.wedgeAngle), degrees(maxWedgeAngle), self.mach))
+
 
         elif checkValue(self.machNorm1) and checkValue(self.shockAngle):
+            if (self.machNorm1 &lt; 1):
+                raise ValueError(&#34;Normal Component of mach ahead of shock wave must be greater than 1&#34;)
             self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
                 self.machNorm1, self.shockAngle
             )
@@ -239,6 +252,10 @@ class ObliqueShockRelations(NormalShockRelations):
         self.mach2 = ObliqueShockRelations.calc_mach_behind_shock(
             self.machNorm2, self.wedgeAngle, self.shockAngle
         )
+        
+        if self.useDegrees:
+            self.wedgeAngle = degrees(self.wedgeAngle)
+            self.shockAngle = degrees(self.shockAngle)
 
     def __calculateState(self) -&gt; None:
         if checkValue(self.wedgeAngle):
@@ -551,18 +568,22 @@ class ObliqueShockRelations(NormalShockRelations):
 
         ax.plot(weakFlowDeflectionAngles, weakShockAngles, label=&#34; Oblique Weak Shock&#34;)
         ax.plot(weakFlowDeflectionAngles, strongShockAngles, label=&#34;Oblique Strong Shock&#34;)
+
+        shockangle = degrees(self.shockAngle)
+        wedgeAngle = degrees(self.wedgeAngle)
+        ax.scatter(wedgeAngle, shockangle, label=&#34;This Flow&#34;, color=&#34;r&#34;)
         # ax.plot(np.ones(vertPointLine.shape) * self.wedgeAngle, vertPointLine, &#39;g&#39;)
         # ax.plot(horzPointLine, np.ones(horzPointLine.shape) * self.shockAngle, &#39;g&#39;)
         ax.annotate(
             &#34;Shock {}\nWedge {}&#34;.format(round(maxShockAngle, 2), round(maxDeflectionAngle, 2)),
             xy=(maxDeflectionAngle, maxShockAngle),
-            xytext=(self.wedgeAngle - 0.4 * self.wedgeAngle, self.shockAngle + 0.1 * self.shockAngle),
+            xytext=(maxDeflectionAngle + 0.02 * maxDeflectionAngle, maxShockAngle + 0.1 * maxShockAngle),
             arrowprops=dict(facecolor=&#34;black&#34;, shrink=0.05),
         )
         ax.annotate(
-            &#34;Shock {}\nWedge {}&#34;.format(round(self.shockAngle, 2), round(self.wedgeAngle, 2)),
-            xy=(self.wedgeAngle, self.shockAngle),
-            xytext=(self.wedgeAngle - 0.2 * self.wedgeAngle, self.shockAngle - 0.4 * self.shockAngle),
+            &#34;Shock {}\nWedge {}&#34;.format(round(shockangle, 2), round(wedgeAngle, 2)),
+            xy=(wedgeAngle, shockangle),
+            xytext=(wedgeAngle - 0.2 * wedgeAngle, shockangle - 0.4 * shockangle),
             arrowprops=dict(facecolor=&#34;black&#34;, shrink=0.05),
         )
         # ax.set_xlim(0, maxDeflectionAngle + 5)
@@ -636,7 +657,10 @@ The constructor of this class can also determine the entire state of the flow gi
 <dd>Raised if an invalid combination of parameters is given and flow state cannot be determined</dd>
 </dl>
 <h2 id="valid_combinations_of_parameters">Valid_Combinations_Of_Parameters</h2>
-<p>1: gamma, mach</p>
+<p>1: gamma, mach, shock angle</p>
+<ol>
+<li>gamma, mach, wedge angle</li>
+</ol>
 <p>2: gamma, mach normal 1, shock angle </p>
 <p>3: gamma, mach behind shock, wedge angle, shock angle</p>
 <p>4: gamma, shock angle, wedge angle</p>
@@ -711,7 +735,8 @@ To use this class pass gamma and one of the known parameters of the flow and the
         InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and flow state cannot be determined
         
     Valid_Combinations_of_Parameters:
-        1: gamma, mach\n
+        1: gamma, mach, shock angle\n
+        2. gamma, mach, wedge angle\n
         2: gamma, mach normal 1, shock angle \n
         3: gamma, mach behind shock, wedge angle, shock angle\n
         4: gamma, shock angle, wedge angle\n
@@ -779,10 +804,21 @@ To use this class pass gamma and one of the known parameters of the flow and the
         if not checkValue(self.gamma):
             raise GammaNotDefinedError()
 
-        if checkValue(self.mach):
-            pass
+        if checkValue([self.mach, self.shockAngle]):
+            machWaveAngle = ObliqueShockRelations.calc_mach_wave_angle(self.mach)
+            if self.shockAngle &lt; machWaveAngle or self.shockAngle &gt; radians(90):
+                raise ValueError(&#34;Shock Angle of [{}] must be between mach wave angle of [{}] and 90 degrees for mach [{}]&#34;.format(degrees(self.shockAngle), degrees(machWaveAngle), self.mach))
+        
+        elif checkValue([self.mach, self.wedgeAngle]):
+            maxShockAngle = ObliqueShockRelations.calc_max_shock_angle(self.mach, self.gamma)
+            maxWedgeAngle = ObliqueShockRelations.calc_max_flow_deflection_angle(maxShockAngle, self.mach, self.gamma)
+            if self.wedgeAngle &gt; maxWedgeAngle:
+                raise ValueError(&#34;Wedge angle of [{}] is greater than a maximum wedge angle of [{}] for mach [{}]&#34;.format(degrees(self.wedgeAngle), degrees(maxWedgeAngle), self.mach))
+
 
         elif checkValue(self.machNorm1) and checkValue(self.shockAngle):
+            if (self.machNorm1 &lt; 1):
+                raise ValueError(&#34;Normal Component of mach ahead of shock wave must be greater than 1&#34;)
             self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
                 self.machNorm1, self.shockAngle
             )
@@ -876,6 +912,10 @@ To use this class pass gamma and one of the known parameters of the flow and the
         self.mach2 = ObliqueShockRelations.calc_mach_behind_shock(
             self.machNorm2, self.wedgeAngle, self.shockAngle
         )
+        
+        if self.useDegrees:
+            self.wedgeAngle = degrees(self.wedgeAngle)
+            self.shockAngle = degrees(self.shockAngle)
 
     def __calculateState(self) -&gt; None:
         if checkValue(self.wedgeAngle):
@@ -1188,18 +1228,22 @@ To use this class pass gamma and one of the known parameters of the flow and the
 
         ax.plot(weakFlowDeflectionAngles, weakShockAngles, label=&#34; Oblique Weak Shock&#34;)
         ax.plot(weakFlowDeflectionAngles, strongShockAngles, label=&#34;Oblique Strong Shock&#34;)
+
+        shockangle = degrees(self.shockAngle)
+        wedgeAngle = degrees(self.wedgeAngle)
+        ax.scatter(wedgeAngle, shockangle, label=&#34;This Flow&#34;, color=&#34;r&#34;)
         # ax.plot(np.ones(vertPointLine.shape) * self.wedgeAngle, vertPointLine, &#39;g&#39;)
         # ax.plot(horzPointLine, np.ones(horzPointLine.shape) * self.shockAngle, &#39;g&#39;)
         ax.annotate(
             &#34;Shock {}\nWedge {}&#34;.format(round(maxShockAngle, 2), round(maxDeflectionAngle, 2)),
             xy=(maxDeflectionAngle, maxShockAngle),
-            xytext=(self.wedgeAngle - 0.4 * self.wedgeAngle, self.shockAngle + 0.1 * self.shockAngle),
+            xytext=(maxDeflectionAngle + 0.02 * maxDeflectionAngle, maxShockAngle + 0.1 * maxShockAngle),
             arrowprops=dict(facecolor=&#34;black&#34;, shrink=0.05),
         )
         ax.annotate(
-            &#34;Shock {}\nWedge {}&#34;.format(round(self.shockAngle, 2), round(self.wedgeAngle, 2)),
-            xy=(self.wedgeAngle, self.shockAngle),
-            xytext=(self.wedgeAngle - 0.2 * self.wedgeAngle, self.shockAngle - 0.4 * self.shockAngle),
+            &#34;Shock {}\nWedge {}&#34;.format(round(shockangle, 2), round(wedgeAngle, 2)),
+            xy=(wedgeAngle, shockangle),
+            xytext=(wedgeAngle - 0.2 * wedgeAngle, shockangle - 0.4 * shockangle),
             arrowprops=dict(facecolor=&#34;black&#34;, shrink=0.05),
         )
         # ax.set_xlim(0, maxDeflectionAngle + 5)
@@ -1804,18 +1848,22 @@ def calc_theta_from_theta_beta_mach(beta: float, mach: float, gamma: float, offs
 
     ax.plot(weakFlowDeflectionAngles, weakShockAngles, label=&#34; Oblique Weak Shock&#34;)
     ax.plot(weakFlowDeflectionAngles, strongShockAngles, label=&#34;Oblique Strong Shock&#34;)
+
+    shockangle = degrees(self.shockAngle)
+    wedgeAngle = degrees(self.wedgeAngle)
+    ax.scatter(wedgeAngle, shockangle, label=&#34;This Flow&#34;, color=&#34;r&#34;)
     # ax.plot(np.ones(vertPointLine.shape) * self.wedgeAngle, vertPointLine, &#39;g&#39;)
     # ax.plot(horzPointLine, np.ones(horzPointLine.shape) * self.shockAngle, &#39;g&#39;)
     ax.annotate(
         &#34;Shock {}\nWedge {}&#34;.format(round(maxShockAngle, 2), round(maxDeflectionAngle, 2)),
         xy=(maxDeflectionAngle, maxShockAngle),
-        xytext=(self.wedgeAngle - 0.4 * self.wedgeAngle, self.shockAngle + 0.1 * self.shockAngle),
+        xytext=(maxDeflectionAngle + 0.02 * maxDeflectionAngle, maxShockAngle + 0.1 * maxShockAngle),
         arrowprops=dict(facecolor=&#34;black&#34;, shrink=0.05),
     )
     ax.annotate(
-        &#34;Shock {}\nWedge {}&#34;.format(round(self.shockAngle, 2), round(self.wedgeAngle, 2)),
-        xy=(self.wedgeAngle, self.shockAngle),
-        xytext=(self.wedgeAngle - 0.2 * self.wedgeAngle, self.shockAngle - 0.4 * self.shockAngle),
+        &#34;Shock {}\nWedge {}&#34;.format(round(shockangle, 2), round(wedgeAngle, 2)),
+        xy=(wedgeAngle, shockangle),
+        xytext=(wedgeAngle - 0.2 * wedgeAngle, shockangle - 0.4 * shockangle),
         arrowprops=dict(facecolor=&#34;black&#34;, shrink=0.05),
     )
     # ax.set_xlim(0, maxDeflectionAngle + 5)

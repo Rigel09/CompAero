@@ -26,7 +26,7 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Oblique Shock Example  ##############################
     ##########################################################################
-    flow = ObliqueShockRelations(1.4, mach=3, shockAngle=60)
+    flow = ObliqueShockRelations(1.4, mach=3, wedgeAngle=60)
     print()
     print(flow)
     flow.plot_theta_beta_mach_chart()
@@ -34,7 +34,6 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Fanno Flow Example  #################################
     ##########################################################################
-    # Fanno Flow Example
     t1 = 300
     p1 = 1
     po1 = IsentropicRelations.calc_P0_P(3, 1.4) * p1
@@ -48,7 +47,7 @@ if __name__ == "__main__":
     print("Po2: ", po1 * flow.po2_po1)
 
     # Plot length and diameter combinations to slow a mach 3 flow down to a mach 2.5 flow at the exit
-    f4ld = FannoFlowRelations.calc4FLSt_D_FromMach(1.5, 1.4)
+    f4ld = FannoFlowRelations.calc_4FLSt_D(1.5, 1.4)
 
     diamEqn = lambda len: 1 / f4ld * 4 * flow.frictionCoeff * len
 
@@ -84,6 +83,10 @@ if __name__ == "__main__":
     ##########################################################################
     ##################### Conical Flow Example  ##############################
     ##########################################################################
+    #
+    # Not Currently Supported
+    #
+
     # flow = ConicalFlowRelations(1.4, mach=3, shockAngle=30)
     # ans = flow.calculateConeFlowParameters(288.16, 287, [21, 25, 26, 24, 24.5, 29, flow.coneAngle])
 

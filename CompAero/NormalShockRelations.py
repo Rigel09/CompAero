@@ -1,6 +1,5 @@
 from enum import Enum
 from math import sqrt, nan, pow, isnan
-from _pytest.python_api import raises
 from scipy.optimize import brenth
 
 from CompAero.IsentropecRelations import IsentropicRelations
