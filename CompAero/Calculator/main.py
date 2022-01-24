@@ -2,6 +2,11 @@ from ast import Return
 from CompAero.Calculator.CalculatorUI import Ui_MainWindow
 from CompAero.internal import FlowState, ShockType
 from CompAero.IsentropecRelations import ISENTROPIC_VALID_OPTIONS, ISENTROPIC_CHOICE, IsentropicRelations
+from CompAero.NormalShockRelations import (
+    NORMAL_SHOCK_VALID_OPTIONS,
+    NORMAL_SHOCK_CHOICE,
+    NormalShockRelations as NSR,
+)
 
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from PyQt5 import QtCore, QtWidgets
@@ -21,9 +26,14 @@ class UI(QMainWindow, Ui_MainWindow):
         self.show()
         self.layout().setContentsMargins(0, 0, 0, 0)
 
+        # Combos
         self.isentropicOptionCombo.addItems(ISENTROPIC_VALID_OPTIONS)
-        self.isentropicCalcBtn.clicked.connect(self.calculateIsentropicState)
         self.isentropicFlowTypeCombo.addItems([FlowState.SUPER_SONIC.name, FlowState.SUB_SONIC.name])
+        self.normalShockOptionCombo.addItems(NORMAL_SHOCK_VALID_OPTIONS)
+
+        # Buttons
+        self.isentropicCalcBtn.clicked.connect(self.calculateIsentropicState)
+        self.normalShockCalculate.clicked.connect(self.calculateNormalShockState)
 
     def calculateIsentropicState(self) -> None:
         if not self.isentropicGammaEntry.text():
@@ -66,7 +76,48 @@ class UI(QMainWindow, Ui_MainWindow):
             self.isentropicRho0RhoEntry.setText(TO_STR(state.rho0_rho, PRECISION))
 
     def calculateNormalShockState(self) -> None:
-        pass
+        if not self.normalShockGammaEntry.text():
+            return
+
+        gamma = float(self.normalShockGammaEntry.text())
+
+        choice = NORMAL_SHOCK_CHOICE(self.normalShockOptionCombo.currentText())
+        if not choice:
+            return
+        state = None
+
+        if choice == NORMAL_SHOCK_CHOICE.MACH and self.normalShockM1Entry.text():
+            state = NSR(gamma, mach=float(self.normalShockM1Entry.text()))
+
+        elif choice == NORMAL_SHOCK_CHOICE.P2_P1 and self.normalShockP2P1Entry.text():
+            state = NSR(gamma, p2_p1=float(self.normalShockP2P1Entry.text()))
+
+        elif choice == NORMAL_SHOCK_CHOICE.RHO2_RHO1 and self.normalShockRho2Rho1Entry.text():
+            state = NSR(gamma, rho2_rho1=float(self.normalShockRho2Rho1Entry.text()))
+
+        elif choice == NORMAL_SHOCK_CHOICE.T2_T1 and self.normalShockT2T1Entry.text():
+            state = NSR(gamma, t2_t1=float(self.normalShockT2T1Entry.text()))
+
+        elif choice == NORMAL_SHOCK_CHOICE.PO2_PO1 and self.normalShockP02P01Entry.text():
+            state = NSR(gamma, po2_po1=float(self.normalShockP02P01Entry.text()))
+
+        elif choice == NORMAL_SHOCK_CHOICE.PO2_P1 and self.normalShockP02P1Entry.text():
+            state = NSR(gamma, po2_p1=float(self.normalShockP02P1Entry.text()))
+
+        elif choice == NORMAL_SHOCK_CHOICE.M2 and self.normalShockM2Entry.text():
+            state = NSR(gamma, m2=float(self.normalShockM2Entry.text()))
+
+        else:
+            print("Invalid Choice ")
+
+        if state is not None:
+            self.normalShockM1Entry.setText(TO_STR(state.mach, PRECISION))
+            self.normalShockM2Entry.setText(TO_STR(state.mach2, PRECISION))
+            self.normalShockP2P1Entry.setText(TO_STR(state.p2_p1, PRECISION))
+            self.normalShockRho2Rho1Entry.setText(TO_STR(state.rho2_rho1, PRECISION))
+            self.normalShockT2T1Entry.setText(TO_STR(state.t2_t1, PRECISION))
+            self.normalShockP02P01Entry.setText(TO_STR(state.po2_po1, PRECISION))
+            self.normalShockP02P1Entry.setText(TO_STR(state.po2_p1, PRECISION))
 
     def calculateObliqueShockState(self) -> None:
         pass
