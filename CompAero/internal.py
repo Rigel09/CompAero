@@ -105,8 +105,8 @@ def checkValue(value: Union[Union[float, int], List[Union[float, int]]]) -> bool
 
 
 class FlowState(Enum):
-    SUB_SONIC = 1
-    SUPER_SONIC = 2
+    SUB_SONIC = "SUB_SONIC"
+    SUPER_SONIC = "SUPER_SONIC"
 
 
 class ShockType(Enum):
