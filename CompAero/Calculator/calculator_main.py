@@ -7,7 +7,7 @@ from CompAero.NormalShockRelations import (
     NORMAL_SHOCK_CHOICE,
     NormalShockRelations as NSR,
 )
-from CompAero.ObliqueShockRelations import ObliqueShockRelations, OBLIQUE_SHOCK_VALID_OPTIONS, ObliqueShockChoice
+from CompAero.ObliqueShockRelations import ObliqueShockRelations as OSR, OBLIQUE_SHOCK_VALID_OPTIONS, ObliqueShockChoice
 
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from PyQt5 import QtCore, QtWidgets
@@ -32,6 +32,7 @@ class UI(QMainWindow, Ui_MainWindow):
         self.isentropicFlowTypeCombo.addItems([FlowState.SUPER_SONIC.name, FlowState.SUB_SONIC.name])
         self.normalShockOptionCombo.addItems(NORMAL_SHOCK_VALID_OPTIONS)
         self.obliqueShockOptionCombo.addItems(OBLIQUE_SHOCK_VALID_OPTIONS)
+        self.obliqueShockTypeCombo.addItems([x.value for x in ShockType])
 
         # Buttons
         self.isentropicCalcBtn.clicked.connect(self.calculateIsentropicState)
@@ -137,7 +138,96 @@ class UI(QMainWindow, Ui_MainWindow):
             self.normalShockP02P1Entry.setText(TO_STR(state.po2_p1, PRECISION))
 
     def calculateObliqueShockState(self) -> None:
-        pass
+        if not self.obliqueShockGammaEntry.text():
+            return
+        
+        gamma = float(self.obliqueShockGammaEntry.text())
+        choice = ObliqueShockChoice(self.obliqueShockOptionCombo.currentText())
+        shockType = ShockType(self.obliqueShockTypeCombo.currentText())
+        wedgeAngleValid = bool(self.obliqueShockWedgeAngleEdit.text())
+        shockAngleValid = bool(self.obliqueShockAngleEdit.text())
+        m1Valid         = bool(self.obliqueShockM1Edit.text())
+        mn1Valid        = bool(self.obliqueShockMn1Edit.text())
+        mn2Valid        = bool(self.obiqueShockMn2Edit.text())
+        m2Valid         = bool(self.obliqueShockM2Edit.text())
+        p2p1Valid       = bool(self.obliqueShockP2P1Edit.text())
+        rho2rho1Valid   = bool(self.obliqueShockRho2Rho1Edit.text())
+        po2p1Valid      = bool(self.obliqueShockPo2P1Edit.text())
+        t2t1Valid       = bool(self.obliqueShockT2T1Edit.text())
+        po2po1Valid     = bool(self.obliqueShockPo2Po1Edit.text())
+        degrees         = bool(not self.obliqueShockDegreeChkBtn.isChecked())
+        
+        if not choice:
+            return
+        
+        state = None
+        
+        # common options
+        opts = {
+            "gamma": gamma,
+            "useDegrees": degrees,
+            "shockType": shockType
+        }
+        
+        if choice == ObliqueShockChoice.MACH_WEDGE_ANGLE and m1Valid and wedgeAngleValid:
+            m = float(self.obliqueShockM1Edit.text())
+            wa = float(self.obliqueShockWedgeAngleEdit.text())
+            state = OSR(**opts, mach=m, wedgeAngle=wa)
+            
+        if not shockAngleValid:
+            return
+        
+        opts["shockAngle"] = float(self.obliqueShockAngleEdit.text())
+
+        if choice == ObliqueShockChoice.MACH_SHOCK_ANGLE and m1Valid:
+            m = float(self.obliqueShockM1Edit.text())
+            state = OSR(**opts, mach=m)
+        
+        elif choice == ObliqueShockChoice.MACH_N_1_SHOCK_ANGLE and mn1Valid:
+            m = float(self.obliqueShockMn1Edit.text())
+            state = OSR(**opts, mn1=m)
+        
+        elif choice == ObliqueShockChoice.M2_WEDGE_SHOCK_ANGLE and m2Valid and wedgeAngleValid:
+            m2 = float(self.obliqueShockM2Edit.text())
+            wa = float(self.obliqueShockWedgeAngleEdit.text())
+            state = OSR(**opts, m2=m2, wedgeAngle=wa)
+        
+        elif choice == ObliqueShockChoice.P2_P1_SHOCK_ANGLE and p2p1Valid:
+            p2p1 = float(self.obliqueShockP2P1Edit.text())
+            state = OSR(**opts, p2_p1=p2p1)
+        
+        elif choice == ObliqueShockChoice.RHO2_RHO1_SHOCK_ANGLE and rho2rho1Valid:
+            r2r1 = float(self.obliqueShockRho2Rho1Edit.text())
+            state = OSR(**opts, rho2_rho1=r2r1)
+        
+        elif choice == ObliqueShockChoice.T2_T1_SHOCK_ANGLE and t2t1Valid:
+            t2t1 = float(self.obliqueShockT2T1Edit.text())
+            state = OSR(**opts, t2_t1=t2t1)
+        
+        elif choice == ObliqueShockChoice.PO2_PO1_SHOCK_ANGLE and po2po1Valid:
+            p = float(self.obliqueShockPo2Po1Edit.text())
+            state = OSR(**opts, po2_po1=p)
+        
+        elif choice == ObliqueShockChoice.PO2_P1_SHOCK_ANGLE and po2p1Valid:
+            p = float(self.obliqueShockPo2P1Edit.text())
+            state = OSR(**opts, po2_p1=p)
+        
+        elif choice == ObliqueShockChoice.MN2_SHOCK_ANGLE and mn2Valid:
+            m = float(self.obiqueShockMn2Edit.text())
+            state = OSR(**opts, mn2=m)
+        
+        if state:
+            self.obliqueShockWedgeAngleEdit.setText(TO_STR(state.wedgeAngle, PRECISION))
+            self.obliqueShockAngleEdit.setText(TO_STR(state.shockAngle, PRECISION))
+            self.obliqueShockM1Edit.setText(TO_STR(state.mach, PRECISION))
+            self.obliqueShockMn1Edit.setText(TO_STR(state.machNorm1, PRECISION))
+            self.obiqueShockMn2Edit.setText(TO_STR(state.machNorm2, PRECISION))
+            self.obliqueShockM2Edit.setText(TO_STR(state.mach2, PRECISION))
+            self.obliqueShockP2P1Edit.setText(TO_STR(state.p2_p1, PRECISION))
+            self.obliqueShockRho2Rho1Edit.setText(TO_STR(state.rho2_rho1, PRECISION))
+            self.obliqueShockPo2P1Edit.setText(TO_STR(state.po2_p1, PRECISION))
+            self.obliqueShockT2T1Edit.setText(TO_STR(state.t2_t1, PRECISION))
+            self.obliqueShockPo2Po1Edit.setText(TO_STR(state.po2_po1, PRECISION))
 
     def calculateFannoFlowState(self) -> None:
         pass

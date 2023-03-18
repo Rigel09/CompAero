@@ -110,8 +110,8 @@ class FlowState(Enum):
 
 
 class ShockType(Enum):
-    WEAK = auto()
-    STRONG = auto()
+    WEAK = "WEAK"
+    STRONG = "STRONG"
 
 
 class InvalidOptionCombinationError(Exception):

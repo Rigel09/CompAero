@@ -23,8 +23,7 @@ class ObliqueShockChoice(Enum):
     MACH_WEDGE_ANGLE = "gamma, mach, wedge angle"
     MACH_N_1_SHOCK_ANGLE = "gamma, mach normal 1, shock angle "
     M2_WEDGE_SHOCK_ANGLE = "gamma, mach behind shock (M2), wedge angle, shock angle"
-    SHOCK_WEDGE_ANGLE = "gamma, shock angle, wedge angle"
-    P2_P1_SHCOK_ANGLE = "gamma, P2/P1, shock angle"
+    P2_P1_SHOCK_ANGLE = "gamma, P2/P1, shock angle"
     RHO2_RHO1_SHOCK_ANGLE = "gamma, Rho2/Rho1, shock angle"
     T2_T1_SHOCK_ANGLE = "gamma, T2/T1, shock angle"
     PO2_PO1_SHOCK_ANGLE = "gamma, P02/P01, shock angle"
@@ -156,7 +155,7 @@ class ObliqueShockRelations(NormalShockRelations):
                 m2, self.shockAngle, self.wedgeAngle
             )
             if self.machNorm2 > 1:
-                assert ValueError("Normal component of downstream mach number has to be less than 1")
+                raise ValueError("Normal component of downstream mach number has to be less than 1")
             self.machNorm1 = NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
                 self.machNorm2, self.gamma
             )

@@ -45,7 +45,7 @@
        <string/>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="isentropicFlowTab">
        <attribute name="title">
@@ -87,6 +87,9 @@
                  <width>100</width>
                  <height>16777215</height>
                 </size>
+               </property>
+               <property name="text">
+                <string>1.4</string>
                </property>
               </widget>
              </item>
@@ -540,7 +543,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="normalShockGammaEntry"/>
+              <widget class="QLineEdit" name="normalShockGammaEntry">
+               <property name="text">
+                <string>1.4</string>
+               </property>
+              </widget>
              </item>
              <item>
               <spacer name="horizontalSpacer_11">
@@ -937,7 +944,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="obliqueShockGammaEntry"/>
+              <widget class="QLineEdit" name="obliqueShockGammaEntry">
+               <property name="text">
+                <string>1.4</string>
+               </property>
+              </widget>
              </item>
              <item>
               <spacer name="horizontalSpacer_13">
@@ -979,7 +990,7 @@
               <widget class="QComboBox" name="obliqueShockOptionCombo">
                <property name="minimumSize">
                 <size>
-                 <width>150</width>
+                 <width>350</width>
                  <height>0</height>
                 </size>
                </property>
@@ -1190,7 +1201,7 @@
               </widget>
              </item>
              <item row="2" column="4">
-              <widget class="QLineEdit" name="obliqueShockM1Edit"/>
+              <widget class="QLineEdit" name="obliqueShockMn1Edit"/>
              </item>
              <item row="3" column="1">
               <widget class="QLineEdit" name="obliqueShockP2P1Edit"/>
@@ -1240,7 +1251,7 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QLineEdit" name="obliqueShockMn1Edit"/>
+              <widget class="QLineEdit" name="obliqueShockM1Edit"/>
              </item>
              <item row="3" column="8">
               <spacer name="horizontalSpacer_26">
@@ -1494,7 +1505,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="fannoGammaEntry"/>
+            <widget class="QLineEdit" name="fannoGammaEntry">
+             <property name="text">
+              <string>1.4</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_34">
@@ -2482,7 +2497,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="rayleighGammaEntry"/>
+            <widget class="QLineEdit" name="rayleighGammaEntry">
+             <property name="text">
+              <string>1.4</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_51">
@@ -3422,7 +3441,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="prandtlMeyerGammaEntry"/>
+            <widget class="QLineEdit" name="prandtlMeyerGammaEntry">
+             <property name="text">
+              <string>1.4</string>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_76">
@@ -3852,7 +3875,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="rocketNozzleGammaEntry"/>
+          <widget class="QLineEdit" name="rocketNozzleGammaEntry">
+           <property name="text">
+            <string>1.4</string>
+           </property>
+          </widget>
          </item>
          <item>
           <spacer name="horizontalSpacer_92">
