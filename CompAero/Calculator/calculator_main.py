@@ -7,6 +7,7 @@ from CompAero.NormalShockRelations import (
     NORMAL_SHOCK_CHOICE,
     NormalShockRelations as NSR,
 )
+from CompAero.ObliqueShockRelations import ObliqueShockRelations, OBLIQUE_SHOCK_VALID_OPTIONS, ObliqueShockChoice
 
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from PyQt5 import QtCore, QtWidgets
@@ -30,10 +31,26 @@ class UI(QMainWindow, Ui_MainWindow):
         self.isentropicOptionCombo.addItems(ISENTROPIC_VALID_OPTIONS)
         self.isentropicFlowTypeCombo.addItems([FlowState.SUPER_SONIC.name, FlowState.SUB_SONIC.name])
         self.normalShockOptionCombo.addItems(NORMAL_SHOCK_VALID_OPTIONS)
+        self.obliqueShockOptionCombo.addItems(OBLIQUE_SHOCK_VALID_OPTIONS)
 
         # Buttons
         self.isentropicCalcBtn.clicked.connect(self.calculateIsentropicState)
         self.normalShockCalculate.clicked.connect(self.calculateNormalShockState)
+        self.obliqueShockCalcBtn.clicked.connect(self.calculateObliqueShockState)
+        self.obliqueShockDegreeChkBtn.clicked.connect(self.obliqueShockDegreesChkBoxUpdate)
+        self.prandtlMeyerDegreeChkBtn.clicked.connect(self.prandtlMeyerDegreesChkBoxUpdate)
+    
+    def obliqueShockDegreesChkBoxUpdate(self) -> None:
+        if self.obliqueShockDegreeChkBtn.isChecked():
+            self.obliqueShockDegreeChkBtn.setText("Radians")
+        else:
+            self.obliqueShockDegreeChkBtn.setText("Degrees")
+
+    def prandtlMeyerDegreesChkBoxUpdate(self) -> None:
+        if self.prandtlMeyerDegreeChkBtn.isChecked():
+            self.prandtlMeyerDegreeChkBtn.setText("Radians")
+        else:
+            self.prandtlMeyerDegreeChkBtn.setText("Degrees")
 
     def calculateIsentropicState(self) -> None:
         if not self.isentropicGammaEntry.text():
@@ -139,3 +156,7 @@ def main() -> None:
     app = QtWidgets.QApplication(sys.argv)
     _ = UI()
     app.exec_()
+
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,7 @@
 from math import sqrt, nan, pow, isnan, log
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
+from enum import Enum
 from CompAero.internal import (
     FlowState,
     GammaNotDefinedError,
@@ -13,6 +14,26 @@ from CompAero.internal import (
     seperator,
 )
 from CompAero.greek_letters import LowerCaseGreek as lcg
+
+
+RAYLEIGH_FLOW_VALID_OPTIONS = [
+    "gamma, mach"
+    "gamma, T/T*, flowtype"
+    "gamma, P/P*"
+    "gamma, rho/rho*"
+    "gamma, P0/P0*, flowtype"
+    "gamma, T0/T0*, flowtype"
+    "gamma, U/U*"
+]
+
+class RayleighFlowChoice(Enum):
+    GAMMA_MACH = "gamma, mach"
+    GAMMA_T_T_ST = "gamma, T/T*, flowtype"
+    GAMMA_P_P_ST = "gamma, P/P*"
+    GAMMA_RHO_RHO_ST = "gamma, rho/rho*"
+    GAMMA_PO_PO_ST = "gamma, P0/P0*, flowtype"
+    GAMMA_4FLSTD_FLOW_TYPE = "gamma, T0/T0*, flowtype"
+    GAMMA_U_U_ST = "gamma, U/U*"
 
 
 class RayleighFlowRelations:

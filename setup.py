@@ -31,5 +31,5 @@ setup(
     tests_require=["pytest"],
     license="MIT",
     long_description=open("README.md", "r", encoding="utf8").read(),
-    entry_points={"console_scripts": ["compressible_calculator=CompAero.Calculator.main:main"]},
+    entry_points={"console_scripts": ["compressible_calculator=CompAero.Calculator.calculator_main:main"]},
 )

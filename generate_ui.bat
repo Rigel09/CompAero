@@ -1,0 +1,1 @@
+call pyuic5.exe Resources\calculator.ui  -o CompAero\Calculator\CalculatorUI.py

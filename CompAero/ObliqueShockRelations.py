@@ -1,8 +1,8 @@
 from math import sqrt, nan, pow, radians, sin, cos, atan, tan, asin, degrees, asin
-from multiprocessing.sharedctypes import Value
 from scipy.optimize import brenth
 import matplotlib.pyplot as plt
 import numpy as np
+from enum import Enum
 
 from CompAero.NormalShockRelations import NormalShockRelations
 from CompAero.internal import (
@@ -17,6 +17,22 @@ from CompAero.internal import (
     ShockType,
 )
 from CompAero.greek_letters import LowerCaseGreek as lcg
+
+class ObliqueShockChoice(Enum):
+    MACH_SHOCK_ANGLE = "gamma, mach, shock angle"
+    MACH_WEDGE_ANGLE = "gamma, mach, wedge angle"
+    MACH_N_1_SHOCK_ANGLE = "gamma, mach normal 1, shock angle "
+    M2_WEDGE_SHOCK_ANGLE = "gamma, mach behind shock (M2), wedge angle, shock angle"
+    SHOCK_WEDGE_ANGLE = "gamma, shock angle, wedge angle"
+    P2_P1_SHCOK_ANGLE = "gamma, P2/P1, shock angle"
+    RHO2_RHO1_SHOCK_ANGLE = "gamma, Rho2/Rho1, shock angle"
+    T2_T1_SHOCK_ANGLE = "gamma, T2/T1, shock angle"
+    PO2_PO1_SHOCK_ANGLE = "gamma, P02/P01, shock angle"
+    PO2_P1_SHOCK_ANGLE = "gamma, P02/P1, shock angle"
+    MN2_SHOCK_ANGLE = "gamma, MN2, shock angle"
+
+OBLIQUE_SHOCK_VALID_OPTIONS = [x.value for x in ObliqueShockChoice]
+
 
 # TODO: Subclassing from the normal shock relations doesnt seem to make as much sense as it used to
 # get rid of the subclassing and mach ObliqueShockRelations it's own class
