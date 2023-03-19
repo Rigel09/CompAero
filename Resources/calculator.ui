@@ -45,7 +45,7 @@
        <string/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="isentropicFlowTab">
        <attribute name="title">
@@ -1591,7 +1591,7 @@
             <widget class="QComboBox" name="fannoFlowTypeCombo">
              <property name="minimumSize">
               <size>
-               <width>75</width>
+               <width>150</width>
                <height>0</height>
               </size>
              </property>
@@ -1963,7 +1963,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="fannoFrictionCoeffEdit"/>
+              <widget class="QLineEdit" name="fannoFrictionCoeffEdit">
+               <property name="text">
+                <string>0.005</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QPushButton" name="fannoApplyPipeParamBtn">
@@ -2873,7 +2877,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="rayleighPipeLenEdit"/>
+              <widget class="QLineEdit" name="rayleighHeatEdit"/>
              </item>
              <item>
               <spacer name="horizontalSpacer_63">
@@ -2906,7 +2910,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="fannoPipeDiameterEdit_2"/>
+              <widget class="QLineEdit" name="rayleighGasConstantEdit"/>
              </item>
              <item>
               <spacer name="horizontalSpacer_64">
@@ -2939,10 +2943,10 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="fannoFrictionCoeffEdit_2"/>
+              <widget class="QLineEdit" name="rayleighHeatTo1Edit"/>
              </item>
              <item>
-              <widget class="QPushButton" name="fannoApplyPipeParamBtn_2">
+              <widget class="QPushButton" name="rayleighApplyPipeParamBtn">
                <property name="text">
                 <string>Apply to Pipe</string>
                </property>
@@ -3195,12 +3199,12 @@
               </font>
              </property>
              <property name="text">
-              <string>Choked Length:</string>
+              <string>Choked Heat:</string>
              </property>
             </widget>
            </item>
            <item row="3" column="4">
-            <widget class="QLineEdit" name="rayleighChokedLengthEdit"/>
+            <widget class="QLineEdit" name="rayleighChokedHeatEdit"/>
            </item>
           </layout>
          </widget>
