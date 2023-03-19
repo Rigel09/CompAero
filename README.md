@@ -13,6 +13,10 @@ Currently this packet is <u>not</u> available on PYPI. Install can be accomplish
 
 ```python setup.py install```
 
+or by running 
+
+`./install.bat` on Windows machines.
+
 
 ### Overview 
 
@@ -31,6 +35,13 @@ Supported Flows
 Upcoming Flows
 
 - Conical Shocks
+
+The package also supports a command line tool that launches a UI similiar to the Virginia Tech calculator. After installing the package this can be launched by running 
+`compressible_calculator` from the command line. This will launch the UI shown below. 
+
+<b><i>This is still in developement and bugs are still being fixed </i></b>
+
+![picture](Resources/ui_picture.png)
 
 Examples.
 
