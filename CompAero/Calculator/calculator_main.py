@@ -31,6 +31,12 @@ from CompAero.PrandtlMeyer import (
     PrandtlMeyerChoice,
     PRANDTL_MEYER_OPTIONS,
 )
+from CompAero.RocketNozzle import (
+    thrust_coefficient, 
+    max_thrust_coefficient,
+    min_thrust_coefficient,
+)
+from CompAero.Calculator.decorators import error_message_decorator
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from PyQt5 import QtCore, QtWidgets
 import sys
@@ -48,6 +54,8 @@ class UI(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.show()
         self.layout().setContentsMargins(0, 0, 0, 0)
+
+        self._error_box = QtWidgets.QErrorMessage()
 
         # Combos
         self.isentropicOptionCombo.addItems(ISENTROPIC_VALID_OPTIONS)
@@ -72,23 +80,29 @@ class UI(QMainWindow, Ui_MainWindow):
         self.rayleighCalculateBtn.clicked.connect(self.calculateRayleighFlowState)
         self.rayleighApplyPipeParamBtn.clicked.connect(self.calculateRayleighHeatAddition)
         self.prandtlMeyerCalculateBtn.clicked.connect(self.calculatePrandtlMeyerState)
+        self.rocketNozzleCalculateBtn.clicked.connect(self.calculateRocketNozzleState)
         
         # Saved states
         self._fannoState: Optional[FFR] = None
         self._rayleighState: Optional[RFR] = None
     
+    def show_error(self, msg: str) -> None:
+        self._error_box.showMessage(msg)
+
     def obliqueShockDegreesChkBoxUpdate(self) -> None:
         if self.obliqueShockDegreeChkBtn.isChecked():
             self.obliqueShockDegreeChkBtn.setText("Radians")
         else:
             self.obliqueShockDegreeChkBtn.setText("Degrees")
 
+    @error_message_decorator
     def prandtlMeyerDegreesChkBoxUpdate(self) -> None:
         if self.prandtlMeyerDegreeChkBtn.isChecked():
             self.prandtlMeyerDegreeChkBtn.setText("Radians")
         else:
             self.prandtlMeyerDegreeChkBtn.setText("Degrees")
 
+    @error_message_decorator
     def calculateIsentropicState(self) -> None:
         if not self.isentropicGammaEntry.text():
             return
@@ -129,6 +143,7 @@ class UI(QMainWindow, Ui_MainWindow):
             self.isentropicT0TEntry.setText(TO_STR(state.t0_t))
             self.isentropicRho0RhoEntry.setText(TO_STR(state.rho0_rho))
 
+    @error_message_decorator
     def calculateNormalShockState(self) -> None:
         if not self.normalShockGammaEntry.text():
             return
@@ -173,6 +188,7 @@ class UI(QMainWindow, Ui_MainWindow):
             self.normalShockP02P01Entry.setText(TO_STR(state.po2_po1))
             self.normalShockP02P1Entry.setText(TO_STR(state.po2_p1))
 
+    @error_message_decorator
     def calculateObliqueShockState(self) -> None:
         if not self.obliqueShockGammaEntry.text():
             return
@@ -265,6 +281,7 @@ class UI(QMainWindow, Ui_MainWindow):
             self.obliqueShockT2T1Edit.setText(TO_STR(state.t2_t1))
             self.obliqueShockPo2Po1Edit.setText(TO_STR(state.po2_po1))
 
+    @error_message_decorator
     def calculateFannoFlowState(self) -> None:
         if not self.fannoGammaEntry.text():
             return
@@ -327,6 +344,7 @@ class UI(QMainWindow, Ui_MainWindow):
 
         self._fannoState = state
 
+    @error_message_decorator
     def calculateFannoFrictionAddition(self) -> None:
         if self._fannoState is None:
             return
@@ -362,6 +380,7 @@ class UI(QMainWindow, Ui_MainWindow):
         self.fannoPo2Po1Edit.setText(TO_STR(s.po2_po1))
         self.fanno4FLStD24FLStD1Edit.setText(TO_STR(s.f4LD2_f4LD1))
 
+    @error_message_decorator
     def calculateRayleighFlowState(self) -> None:
         if not self.rayleighGammaEntry.text():
             return 
@@ -418,6 +437,7 @@ class UI(QMainWindow, Ui_MainWindow):
             self.rayleighToToStEdit.setText(TO_STR(s.to_toSt))
             self.rayleighUUStEdit.setText(TO_STR(s.u_uSt))
 
+    @error_message_decorator
     def calculateRayleighHeatAddition(self) -> None:
         if self._rayleighState is None:
             return
@@ -455,6 +475,7 @@ class UI(QMainWindow, Ui_MainWindow):
         self.rayleighTo2To1Edit.setText(TO_STR(s.to2_to1))
         self.rayleighTo2Edit.setText(TO_STR(s.to2))
 
+    @error_message_decorator
     def calculatePrandtlMeyerState(self) -> None:
         if not self.prandtlMeyerGammaEntry.text():
             return
@@ -509,10 +530,39 @@ class UI(QMainWindow, Ui_MainWindow):
             self.prandtlMeyerDwnStrmMachEdit.setText(TO_STR(s.dwmStrm_mach))
             self.prandtlMeyerDwnStrmMuEdit.setText(TO_STR(s.dwmStrm_mu))
             self.prandtlMeyerDwnStrmNuEdit.setText(TO_STR(s.dwmStrm_nu))
-        
 
+    @error_message_decorator
     def calculateRocketNozzleState(self) -> None:
-        pass
+        gammaValid = bool(self.rocketNozzleGammaEntry.text())
+        arValid = bool(self.rocketNozzleAreaRatioEdit.text())
+        pepcValid = bool(self.rocketNozzlePePcEdit.text())
+        papcValid = bool(self.rocketNozzlePaPcEdit.text())
+        
+        gamma, ar, pe_pc, pa_pc = (None, None, None, None)
+        
+        if gammaValid:
+            gamma = float(self.rocketNozzleGammaEntry.text())
+        
+        if arValid:
+            ar = float(self.rocketNozzleAreaRatioEdit.text())
+        
+        if pepcValid:
+            pe_pc = float(self.rocketNozzlePePcEdit.text())
+        
+        if papcValid:
+            pa_pc = float(self.rocketNozzlePaPcEdit.text())
+
+        if arValid:
+            min_coeff = min_thrust_coefficient(ar)
+            self.rocketNozzleMinThrustCoeffEdit.setText(TO_STR(min_coeff))
+        
+        if gammaValid and arValid and pepcValid:
+            max_coeff = max_thrust_coefficient(gamma, ar, pe_pc)
+            self.rocketNozzleMaxThrustCoeffEdit.setText(TO_STR(max_coeff))
+        
+        if gammaValid and arValid and pepcValid and papcValid:
+            coeff = thrust_coefficient(gamma, ar, pe_pc, pa_pc)
+            self.rocketNozzleThrustCoeffEdit.setText(TO_STR(coeff))
 
 
 def main() -> None:
