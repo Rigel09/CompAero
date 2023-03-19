@@ -2,6 +2,7 @@ from math import atan, sqrt, nan, pow, radians, degrees
 from types import DynamicClassAttribute
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
+from enum import Enum
 from CompAero.internal import (
     GammaNotDefinedError,
     InvalidOptionCombinationError,
@@ -15,6 +16,15 @@ from CompAero.internal import (
 from CompAero.ObliqueShockRelations import ObliqueShockRelations
 from CompAero.greek_letters import LowerCaseGreek as lcg, Misc
 
+class PrandtlMeyerChoice(Enum):
+    GAMMA_MACH = "gamma, mach"
+    GAMMA_NU = "gamma, nu"
+    GAMMA_MU = "gamma, mu"
+    GAMMA_DEFLECTION_DWN_STRM_MACH = "gamma, deflection angle, dwnStrm_mach"
+    GAMMA_DEFLECTION_DWN_STRM_MU = "gamma, deflection angle, dwnStrm_mu"
+    GAMMA_DEFLECTION_DWN_STRM_NU = "gamma, deflection angle, dwnStrm_nu"
+    
+PRANDTL_MEYER_OPTIONS = [x.value for x in PrandtlMeyerChoice]
 
 class PrandtlMeyer:
     """ This class is a collective name space for basic calculations regarding Prandtl Meyer flows. 

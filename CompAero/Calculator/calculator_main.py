@@ -1,7 +1,11 @@
 from typing import Optional
 from CompAero.Calculator.CalculatorUI import Ui_MainWindow
 from CompAero.internal import FlowState, ShockType
-from CompAero.IsentropecRelations import ISENTROPIC_VALID_OPTIONS, ISENTROPIC_CHOICE, IsentropicRelations
+from CompAero.IsentropecRelations import (
+    ISENTROPIC_VALID_OPTIONS,
+    ISENTROPIC_CHOICE, 
+    IsentropicRelations
+)
 from CompAero.NormalShockRelations import (
     NORMAL_SHOCK_VALID_OPTIONS,
     NORMAL_SHOCK_CHOICE,
@@ -21,6 +25,11 @@ from CompAero.RayleighFlowRelations import (
     RayleighFlowRelations as RFR,
     RayleighFlowChoice,
     RAYLEIGH_FLOW_VALID_OPTIONS,
+)
+from CompAero.PrandtlMeyer import (
+    PrandtlMeyer as PM,
+    PrandtlMeyerChoice,
+    PRANDTL_MEYER_OPTIONS,
 )
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from PyQt5 import QtCore, QtWidgets
@@ -50,6 +59,7 @@ class UI(QMainWindow, Ui_MainWindow):
         self.fannoFlowTypeCombo.addItems([x.value for x in FlowState])
         self.rayleighOptionCombo.addItems(RAYLEIGH_FLOW_VALID_OPTIONS)
         self.rayleighFlowTypeCombo.addItems([x.value for x in FlowState])
+        self.prandtlMeyerOptionCombo.addItems(PRANDTL_MEYER_OPTIONS)
 
         # Buttons
         self.isentropicCalcBtn.clicked.connect(self.calculateIsentropicState)
@@ -61,6 +71,7 @@ class UI(QMainWindow, Ui_MainWindow):
         self.fannoApplyPipeParamBtn.clicked.connect(self.calculateFannoFrictionAddition)
         self.rayleighCalculateBtn.clicked.connect(self.calculateRayleighFlowState)
         self.rayleighApplyPipeParamBtn.clicked.connect(self.calculateRayleighHeatAddition)
+        self.prandtlMeyerCalculateBtn.clicked.connect(self.calculatePrandtlMeyerState)
         
         # Saved states
         self._fannoState: Optional[FFR] = None
@@ -350,7 +361,6 @@ class UI(QMainWindow, Ui_MainWindow):
         self.fannoRho2Rho1Edit.setText(TO_STR(s.rho2_rho1))
         self.fannoPo2Po1Edit.setText(TO_STR(s.po2_po1))
         self.fanno4FLStD24FLStD1Edit.setText(TO_STR(s.f4LD2_f4LD1))
-        
 
     def calculateRayleighFlowState(self) -> None:
         if not self.rayleighGammaEntry.text():
@@ -424,9 +434,9 @@ class UI(QMainWindow, Ui_MainWindow):
         t = float(self.rayleighHeatTo1Edit.text())
         
         self._rayleighState.simulate_heat_addition(h, t, r)
+        s = self._rayleighState
         
         # Down stream conditions
-        s = self._rayleighState
         self.rayleighDwnStrmMachEdit.setText(TO_STR(s.dwnStrmMach))
         self.rayleighDwnStrmTTStEdit.setText(TO_STR(s.dwnStrm_t_tSt))
         self.rayleighDwnStrmPPStEdit.setText(TO_STR(s.dwnStrm_p_pSt))
@@ -446,7 +456,60 @@ class UI(QMainWindow, Ui_MainWindow):
         self.rayleighTo2Edit.setText(TO_STR(s.to2))
 
     def calculatePrandtlMeyerState(self) -> None:
-        pass
+        if not self.prandtlMeyerGammaEntry.text():
+            return
+        
+        gamma = float(self.prandtlMeyerGammaEntry.text())
+        
+        choice = PrandtlMeyerChoice(self.prandtlMeyerOptionCombo.currentText())
+        
+        mValid = bool(self.prandtlMeyerUpstreamMachEdit.text())
+        nuValid = bool(self.prandtlMeyerNuEdit.text())
+        muValid = bool(self.prandtlMeyerMuEdit.text())
+        angleValid = bool(self.prandtlMeyerDeflectionAngleEdit.text())
+        dMValid = bool(self.prandtlMeyerDwnStrmMachEdit.text())
+        dNuValid = bool(self.prandtlMeyerDwnStrmNuEdit.text())
+        dMuValid = bool(self.prandtlMeyerDwnStrmMuEdit.text())
+        degrees = (not self.prandtlMeyerDegreeChkBtn.isChecked())
+        
+        state = None
+        
+        opts = {
+            "gamma": gamma,
+            "inDegrees": degrees,
+        }
+        
+        if angleValid:
+            opts["deflectionAngle"] = float(self.prandtlMeyerDeflectionAngleEdit.text())
+        
+        if choice == PrandtlMeyerChoice.GAMMA_MACH and mValid:
+            state = PM(**opts, mach=float(self.prandtlMeyerUpstreamMachEdit.text()))
+        
+        elif choice == PrandtlMeyerChoice.GAMMA_NU and nuValid:
+            state = PM(**opts, nu=float(self.prandtlMeyerNuEdit.text()))
+        
+        elif choice == PrandtlMeyerChoice.GAMMA_MU and muValid:
+            state = PM(**opts, mu=float(self.prandtlMeyerMuEdit.text()))
+        
+        elif choice == PrandtlMeyerChoice.GAMMA_DEFLECTION_DWN_STRM_MACH and dMValid:
+            state = PM(**opts, dwnStreamMach=float(self.prandtlMeyerDwnStrmMachEdit.text()))
+        
+        elif choice == PrandtlMeyerChoice.GAMMA_DEFLECTION_DWN_STRM_MU and dMuValid:
+            state = PM(**opts, dwnStreamMu=float(self.prandtlMeyerDwnStrmMuEdit.text()))
+        
+        elif choice == PrandtlMeyerChoice.GAMMA_DEFLECTION_DWN_STRM_NU and dNuValid:
+            state = PM(**opts, dwnstreamNu=float(self.prandtlMeyerDwnStrmNuEdit.text()))
+        
+        
+        if state:
+            s = state
+            self.prandtlMeyerUpstreamMachEdit.setText(TO_STR(s.mach))
+            self.prandtlMeyerNuEdit.setText(TO_STR(s.nu))
+            self.prandtlMeyerMuEdit.setText(TO_STR(s.mu))
+            self.prandtlMeyerDwnStrmMachEdit.setText(TO_STR(s.dwmStrm_mach))
+            self.prandtlMeyerDwnStrmMuEdit.setText(TO_STR(s.dwmStrm_mu))
+            self.prandtlMeyerDwnStrmNuEdit.setText(TO_STR(s.dwmStrm_nu))
+        
 
     def calculateRocketNozzleState(self) -> None:
         pass
