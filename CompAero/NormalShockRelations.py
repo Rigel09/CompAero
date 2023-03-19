@@ -1,3 +1,4 @@
+from enum import Enum
 from math import sqrt, nan, pow, isnan
 from scipy.optimize import brenth
 
@@ -12,6 +13,26 @@ from CompAero.internal import (
     named_header,
     seperator,
 )
+
+NORMAL_SHOCK_VALID_OPTIONS = [
+    "gamma, mach",
+    "gamma, P2/P1",
+    "gamma, Rho2/Rho1",
+    "gamma, T2/T1",
+    "gamma, P02/P01",
+    "gamma, P02/P1",
+    "gamma, dwnStrm_mach",
+]
+
+
+class NORMAL_SHOCK_CHOICE(Enum):
+    MACH = "gamma, mach"
+    P2_P1 = "gamma, P2/P1"
+    RHO2_RHO1 = "gamma, Rho2/Rho1"
+    T2_T1 = "gamma, T2/T1"
+    PO2_PO1 = "gamma, P02/P01"
+    PO2_P1 = "gamma, P02/P1"
+    M2 = "gamma, dwnStrm_mach"
 
 
 class NormalShockRelations:

@@ -1,4 +1,5 @@
-from setuptools import setup
+from importlib_metadata import entry_points
+from setuptools import setup, find_packages
 import codecs
 import os.path
 
@@ -24,10 +25,11 @@ setup(
     description="A python package for compressible aerodynamics",
     author="Rigel09",
     url="https://github.com/Rigel09/CompAero",
-    packages=["CompAero",],
-    install_requires=["scipy", "numpy", "colorama", "matplotlib",],
+    packages=find_packages(),
+    install_requires=["scipy", "numpy", "colorama", "matplotlib", "PyQt5"],
     setup_requires=["pytest-runner", "black"],
     tests_require=["pytest"],
     license="MIT",
     long_description=open("README.md", "r", encoding="utf8").read(),
+    entry_points={"console_scripts": ["compressible_calculator=CompAero.Calculator.calculator_main:main"]},
 )

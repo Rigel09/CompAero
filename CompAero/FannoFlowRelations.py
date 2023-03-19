@@ -1,6 +1,7 @@
 from math import sqrt, nan, pow, isnan, log
 from scipy.optimize import brenth
 from colorama import Back, Style, Fore
+from enum import Enum
 from CompAero.greek_letters import LowerCaseGreek as lcg
 from CompAero.internal import (
     FlowState,
@@ -14,6 +15,16 @@ from CompAero.internal import (
     seperator,
 )
 
+class FannoFlowChoice(Enum):
+    GAMMA_MACH = "gamma, mach"
+    GAMMA_T_T_ST = "gamma, T/T*"
+    GAMMA_P_P_ST = "gamma, P/P*"
+    GAMMA_RHO_RHO_ST = "gamma, rho/rho*"
+    GAMMA_PO_PO_ST = "gamma, P0/P0*"
+    GAMMA_4FLSTD_FLOW_TYPE = "gamma, 4FL*/D, flowtype"
+    GAMMA_U_U_ST = "gamma, U/U*"
+
+FANNO_FLOW_VALID_OPTIONS = [x.value for x in FannoFlowChoice]
 
 class FannoFlowRelations:
     """ This class is a collective name space for basic calculations regarding Fanno flows. 
