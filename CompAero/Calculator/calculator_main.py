@@ -17,6 +17,11 @@ from CompAero.FannoFlowRelations import (
     FANNO_FLOW_VALID_OPTIONS,
     FannoFlowChoice
 )
+from CompAero.RayleighFlowRelations import (
+    RayleighFlowRelations as RFR,
+    RayleighFlowChoice,
+    RAYLEIGH_FLOW_VALID_OPTIONS,
+)
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from PyQt5 import QtCore, QtWidgets
 import sys
@@ -43,6 +48,8 @@ class UI(QMainWindow, Ui_MainWindow):
         self.obliqueShockTypeCombo.addItems([x.value for x in ShockType])
         self.fannoOptionCombo.addItems(FANNO_FLOW_VALID_OPTIONS)
         self.fannoFlowTypeCombo.addItems([x.value for x in FlowState])
+        self.rayleighOptionCombo.addItems(RAYLEIGH_FLOW_VALID_OPTIONS)
+        self.rayleighFlowTypeCombo.addItems([x.value for x in FlowState])
 
         # Buttons
         self.isentropicCalcBtn.clicked.connect(self.calculateIsentropicState)
@@ -52,9 +59,12 @@ class UI(QMainWindow, Ui_MainWindow):
         self.prandtlMeyerDegreeChkBtn.clicked.connect(self.prandtlMeyerDegreesChkBoxUpdate)
         self.fannoCalculateBtn.clicked.connect(self.calculateFannoFlowState)
         self.fannoApplyPipeParamBtn.clicked.connect(self.calculateFannoFrictionAddition)
+        self.rayleighCalculateBtn.clicked.connect(self.calculateRayleighFlowState)
+        self.rayleighApplyPipeParamBtn.clicked.connect(self.calculateRayleighHeatAddition)
         
         # Saved states
         self._fannoState: Optional[FFR] = None
+        self._rayleighState: Optional[RFR] = None
     
     def obliqueShockDegreesChkBoxUpdate(self) -> None:
         if self.obliqueShockDegreeChkBtn.isChecked():
@@ -250,7 +260,7 @@ class UI(QMainWindow, Ui_MainWindow):
         
         gamma = float(self.fannoGammaEntry.text())
         choice = FannoFlowChoice(self.fannoOptionCombo.currentText())
-        shockType = FlowState(self.fannoFlowTypeCombo.currentText())
+        flowType = FlowState(self.fannoFlowTypeCombo.currentText())
         
         mValid = bool(self.fannoUpstreamMachEdit.text())
         ttValid = bool(self.fannoTTStEdit.text())
@@ -264,7 +274,7 @@ class UI(QMainWindow, Ui_MainWindow):
         
         opts = {
             "gamma": gamma,
-            "flowType": shockType,
+            "flowType": flowType,
         }
         
         if choice == FannoFlowChoice.GAMMA_MACH and mValid:
@@ -343,7 +353,97 @@ class UI(QMainWindow, Ui_MainWindow):
         
 
     def calculateRayleighFlowState(self) -> None:
-        pass
+        if not self.rayleighGammaEntry.text():
+            return 
+        
+        gamma = float(self.rayleighGammaEntry.text())
+        flowType = FlowState(self.rayleighFlowTypeCombo.currentText())
+        choice = RayleighFlowChoice(self.rayleighOptionCombo.currentText())
+        
+        mValid = bool(self.rayleighUpstreamMachEdit.text())
+        ttValid = bool(self.rayleighTTStEdit.text())
+        ppValid = bool(self.rayleighPPStEdit.text())
+        rrValid = bool(self.rayleighRhoRhoStEdit.text())
+        popoValid = bool(self.rayleighPoPoStEdit.text())
+        totoValid = bool(self.rayleighToToStEdit.text())
+        uuValid = bool(self.rayleighUUStEdit.text())
+        
+        state = None
+        
+        opts = {
+            "gamma": gamma,
+            "flowType": flowType
+        }
+        
+        if choice == RayleighFlowChoice.GAMMA_MACH and mValid:
+            state = RFR(**opts, mach=float(self.rayleighUpstreamMachEdit.text()))
+        
+        elif choice == RayleighFlowChoice.GAMMA_T_T_ST and ttValid:
+            state = RFR(**opts, t_tSt=float(self.rayleighTTStEdit.text()))
+        
+        elif choice == RayleighFlowChoice.GAMMA_P_P_ST and ppValid:
+            state = RFR(**opts, p_pSt=float(self.rayleighPPStEdit.text()))
+        
+        elif choice == RayleighFlowChoice.GAMMA_RHO_RHO_ST and rrValid:
+            state = RFR(**opts, rho_rhoSt=float(self.rayleighRhoRhoStEdit.text()))
+        
+        elif choice == RayleighFlowChoice.GAMMA_PO_PO_ST and popoValid:
+            state = RFR(**opts, po_poSt=float(self.rayleighPoPoStEdit.text()))
+        
+        elif choice == RayleighFlowChoice.GAMMA_TO_TO_FLOW_TYPE and totoValid:
+            state = RFR(**opts, to_toSt=float(self.rayleighToToStEdit.text()))
+        
+        elif choice == RayleighFlowChoice.GAMMA_U_U_ST and uuValid:
+            state = RFR(**opts, u_uSt=float(self.rayleighUUStEdit.text()))
+        
+        self._rayleighState = state
+        
+        if state:
+            s = state
+            self.rayleighUpstreamMachEdit.setText(TO_STR(s.mach))
+            self.rayleighTTStEdit.setText(TO_STR(s.t_tSt))
+            self.rayleighPPStEdit.setText(TO_STR(s.p_pSt))
+            self.rayleighRhoRhoStEdit.setText(TO_STR(s.rho_rhoSt))
+            self.rayleighPoPoStEdit.setText(TO_STR(s.po_poSt))
+            self.rayleighToToStEdit.setText(TO_STR(s.to_toSt))
+            self.rayleighUUStEdit.setText(TO_STR(s.u_uSt))
+
+    def calculateRayleighHeatAddition(self) -> None:
+        if self._rayleighState is None:
+            return
+        
+        validParams = bool(self.rayleighHeatEdit.text())
+        validParams &= bool(self.rayleighGasConstantEdit.text())
+        validParams &= bool(self.rayleighHeatTo1Edit.text())
+        
+        if not validParams:
+            return
+
+        h = float(self.rayleighHeatEdit.text())
+        r = float(self.rayleighGasConstantEdit.text())
+        t = float(self.rayleighHeatTo1Edit.text())
+        
+        self._rayleighState.simulate_heat_addition(h, t, r)
+        
+        # Down stream conditions
+        s = self._rayleighState
+        self.rayleighDwnStrmMachEdit.setText(TO_STR(s.dwnStrmMach))
+        self.rayleighDwnStrmTTStEdit.setText(TO_STR(s.dwnStrm_t_tSt))
+        self.rayleighDwnStrmPPStEdit.setText(TO_STR(s.dwnStrm_p_pSt))
+        self.rayleighDwnStrmRhoRhoStEdit.setText(TO_STR(s.dwnStrm_rho_rhoSt))
+        self.rayleighDwnStrmPoPoStrEdit.setText(TO_STR(s.dwnStrm_po_poSt))
+        self.rayleighDwnStrmToToStEdit.setText(TO_STR(s.dwnStrm_to_toSt))
+        self.rayleighDwnStrmUUStEdit.setText(TO_STR(s.dwnStrm_u_uSt))
+        self.rayleighChokedHeatEdit.setText(TO_STR(s.chokedHeat))
+        
+        # Ratio of down stream to upstream conditions
+        self.rayleighT2T1Edit.setText(TO_STR(s.t2_t1))
+        self.rayleighP2P1Edit.setText(TO_STR(s.p2_p1))
+        self.rayleighU2U1Edit.setText(TO_STR(s.u2_u1))
+        self.rayleighRho2Rho1Edit.setText(TO_STR(s.rho2_rho1))
+        self.rayleighPo2Po1Edit.setText(TO_STR(s.po2_po1))
+        self.rayleighTo2To1Edit.setText(TO_STR(s.to2_to1))
+        self.rayleighTo2Edit.setText(TO_STR(s.to2))
 
     def calculatePrandtlMeyerState(self) -> None:
         pass

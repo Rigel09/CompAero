@@ -15,25 +15,16 @@ from CompAero.internal import (
 )
 from CompAero.greek_letters import LowerCaseGreek as lcg
 
-
-RAYLEIGH_FLOW_VALID_OPTIONS = [
-    "gamma, mach"
-    "gamma, T/T*, flowtype"
-    "gamma, P/P*"
-    "gamma, rho/rho*"
-    "gamma, P0/P0*, flowtype"
-    "gamma, T0/T0*, flowtype"
-    "gamma, U/U*"
-]
-
 class RayleighFlowChoice(Enum):
     GAMMA_MACH = "gamma, mach"
     GAMMA_T_T_ST = "gamma, T/T*, flowtype"
     GAMMA_P_P_ST = "gamma, P/P*"
     GAMMA_RHO_RHO_ST = "gamma, rho/rho*"
     GAMMA_PO_PO_ST = "gamma, P0/P0*, flowtype"
-    GAMMA_4FLSTD_FLOW_TYPE = "gamma, T0/T0*, flowtype"
+    GAMMA_TO_TO_FLOW_TYPE = "gamma, T0/T0*, flowtype"
     GAMMA_U_U_ST = "gamma, U/U*"
+
+RAYLEIGH_FLOW_VALID_OPTIONS = [x.value for x in RayleighFlowChoice]
 
 
 class RayleighFlowRelations:

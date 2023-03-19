@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1142</width>
+    <width>1200</width>
     <height>628</height>
    </rect>
   </property>
@@ -45,7 +45,7 @@
        <string/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="isentropicFlowTab">
        <attribute name="title">
@@ -1591,7 +1591,7 @@
             <widget class="QComboBox" name="fannoFlowTypeCombo">
              <property name="minimumSize">
               <size>
-               <width>150</width>
+               <width>100</width>
                <height>0</height>
               </size>
              </property>
@@ -2271,11 +2271,46 @@
            <string>Downstream / Initial</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_7">
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="fannoRho2Rho1Edit"/>
+           <item row="1" column="11">
+            <widget class="QLabel" name="label_65">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
            </item>
-           <item row="2" column="4">
-            <widget class="QLineEdit" name="fannoPo2Po1Edit"/>
+           <item row="1" column="6">
+            <widget class="QLabel" name="label_67">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;U&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/U&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="fannoT2T1Edit"/>
+           </item>
+           <item row="2" column="3">
+            <widget class="QLabel" name="label_63">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;P&lt;span style=&quot; vertical-align:sub;&quot;&gt;o2&lt;/span&gt;/P&lt;span style=&quot; vertical-align:sub;&quot;&gt;o1&lt;/span&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;*&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="7">
+            <widget class="QLineEdit" name="fanno4FLStD24FLStD1Edit"/>
            </item>
            <item row="2" column="2">
             <spacer name="horizontalSpacer_52">
@@ -2296,56 +2331,8 @@
            <item row="1" column="4">
             <widget class="QLineEdit" name="fannoP2P1Edit"/>
            </item>
-           <item row="2" column="6">
-            <widget class="QLabel" name="label_61">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;(4FL*/D)&lt;span style=&quot; vertical-align:sub;&quot;&gt;2 &lt;/span&gt;/ (4FL*/D)&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_62">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ρ&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/ρ&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="5">
-            <spacer name="horizontalSpacer_55">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Maximum</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="2" column="9">
-            <widget class="QLabel" name="label_68">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="fannoRho2Rho1Edit"/>
            </item>
            <item row="1" column="2">
             <spacer name="horizontalSpacer_53">
@@ -2363,8 +2350,11 @@
              </property>
             </spacer>
            </item>
-           <item row="1" column="3">
-            <widget class="QLabel" name="label_66">
+           <item row="1" column="7">
+            <widget class="QLineEdit" name="fannoU2U1Edit"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_62">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -2373,31 +2363,44 @@
               </font>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;P&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/P&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ρ&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/ρ&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="3">
-            <widget class="QLabel" name="label_63">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;P&lt;span style=&quot; vertical-align:sub;&quot;&gt;o2&lt;/span&gt;/P&lt;span style=&quot; vertical-align:sub;&quot;&gt;o1&lt;/span&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;*&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="fannoT2T1Edit"/>
-           </item>
-           <item row="1" column="11">
-            <widget class="QLabel" name="label_65">
+           <item row="2" column="9">
+            <widget class="QLabel" name="label_68">
              <property name="text">
               <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="5">
+            <spacer name="horizontalSpacer_38">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Maximum</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="6">
+            <widget class="QLabel" name="label_61">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;(4FL*/D)&lt;span style=&quot; vertical-align:sub;&quot;&gt;2 &lt;/span&gt;/ (4FL*/D)&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -2415,8 +2418,8 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="6">
-            <widget class="QLabel" name="label_67">
+           <item row="1" column="3">
+            <widget class="QLabel" name="label_66">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -2425,18 +2428,15 @@
               </font>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;U&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/U&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;P&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/P&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="7">
-            <widget class="QLineEdit" name="fannoU2U1Edit"/>
+           <item row="2" column="4">
+            <widget class="QLineEdit" name="fannoPo2Po1Edit"/>
            </item>
-           <item row="2" column="7">
-            <widget class="QLineEdit" name="fanno4FLStD24FLStD1Edit"/>
-           </item>
-           <item row="1" column="5">
-            <spacer name="horizontalSpacer_38">
+           <item row="2" column="5">
+            <spacer name="horizontalSpacer_55">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -2587,7 +2587,7 @@
             <widget class="QComboBox" name="rayleighFlowTypeCombo">
              <property name="minimumSize">
               <size>
-               <width>75</width>
+               <width>100</width>
                <height>0</height>
               </size>
              </property>
@@ -3215,11 +3215,38 @@
            <string>Downstream / Initial</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_10">
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="rayleighRho2Rho1Edit"/>
+           <item row="1" column="5">
+            <spacer name="horizontalSpacer_74">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Maximum</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
-           <item row="2" column="4">
-            <widget class="QLineEdit" name="rayleighPo2Po1Edit"/>
+           <item row="2" column="3">
+            <widget class="QLabel" name="label_97">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;P&lt;span style=&quot; vertical-align:sub;&quot;&gt;o2&lt;/span&gt;/P&lt;span style=&quot; vertical-align:sub;&quot;&gt;o1&lt;/span&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;*&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="4">
+            <widget class="QLineEdit" name="rayleighP2P1Edit"/>
            </item>
            <item row="2" column="2">
             <spacer name="horizontalSpacer_71">
@@ -3237,8 +3264,8 @@
              </property>
             </spacer>
            </item>
-           <item row="1" column="4">
-            <widget class="QLineEdit" name="rayleighP2P1Edit"/>
+           <item row="2" column="7">
+            <widget class="QLineEdit" name="rayleighTo2To1Edit"/>
            </item>
            <item row="2" column="6">
             <widget class="QLabel" name="label_93">
@@ -3254,22 +3281,21 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_94">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
+           <item row="1" column="7">
+            <widget class="QLineEdit" name="rayleighU2U1Edit"/>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="rayleighRho2Rho1Edit"/>
+           </item>
+           <item row="2" column="9">
+            <widget class="QLabel" name="label_95">
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ρ&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/ρ&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string/>
              </property>
             </widget>
            </item>
-           <item row="2" column="5">
-            <spacer name="horizontalSpacer_72">
+           <item row="1" column="2">
+            <spacer name="horizontalSpacer_73">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -3284,15 +3310,22 @@
              </property>
             </spacer>
            </item>
-           <item row="2" column="9">
-            <widget class="QLabel" name="label_95">
+           <item row="1" column="6">
+            <widget class="QLabel" name="label_100">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
              <property name="text">
-              <string/>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;U&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/U&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="2">
-            <spacer name="horizontalSpacer_73">
+           <item row="2" column="5">
+            <spacer name="horizontalSpacer_72">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -3321,23 +3354,6 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="3">
-            <widget class="QLabel" name="label_97">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;P&lt;span style=&quot; vertical-align:sub;&quot;&gt;o2&lt;/span&gt;/P&lt;span style=&quot; vertical-align:sub;&quot;&gt;o1&lt;/span&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;*&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="rayleighT2T1Edit"/>
-           </item>
            <item row="1" column="11">
             <widget class="QLabel" name="label_98">
              <property name="text">
@@ -3359,8 +3375,8 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="6">
-            <widget class="QLabel" name="label_100">
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_94">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -3369,31 +3385,32 @@
               </font>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;U&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/U&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ρ&lt;span style=&quot; vertical-align:sub;&quot;&gt;2&lt;/span&gt;/ρ&lt;span style=&quot; vertical-align:sub;&quot;&gt;1&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="7">
-            <widget class="QLineEdit" name="rayleighU2U1Edit"/>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="rayleighT2T1Edit"/>
            </item>
-           <item row="2" column="7">
-            <widget class="QLineEdit" name="rayleighTo2To1Edit"/>
+           <item row="2" column="4">
+            <widget class="QLineEdit" name="rayleighPo2Po1Edit"/>
            </item>
-           <item row="1" column="5">
-            <spacer name="horizontalSpacer_74">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_117">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
              </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Maximum</enum>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;T&lt;span style=&quot; vertical-align:sub;&quot;&gt;o2&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="rayleighTo2Edit"/>
            </item>
           </layout>
          </widget>
