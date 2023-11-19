@@ -1,5 +1,13 @@
+"""Contains dataclass for converting Greek letters to strings"""
+
+from dataclasses import dataclass
+
+
+@dataclass
 class UpperCaseGreek:
-    """ Class that maps uppercase unicode greek letter values"""
+    """Class that maps uppercase unicode greek letter values"""
+
+    # pylint: disable=too-many-instance-attributes
 
     alpha: str = "\u0391"
     beta: str = "\u0392"
@@ -28,8 +36,11 @@ class UpperCaseGreek:
     symbol: str = "\u03F4"
 
 
+@dataclass
 class LowerCaseGreek:
-    """ Class that maps lowercase unicode greek letter values"""
+    """Class that maps lowercase unicode greek letter values"""
+
+    # pylint: disable=too-many-instance-attributes
 
     alpha: str = "\u03B1"
     beta: str = "\u03B2"
@@ -58,5 +69,8 @@ class LowerCaseGreek:
     symbol: str = "\u03C9"
 
 
+@dataclass
 class Misc:
-    degreeSym: str = "\u00b0"
+    """Class that stores misc characters such as the degree symbol"""
+
+    degree: str = "\u00b0"

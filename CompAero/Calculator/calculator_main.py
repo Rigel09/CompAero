@@ -1,51 +1,39 @@
+import sys
 from typing import Optional
+
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWidgets import QMainWindow, QWidget
+
 from CompAero.Calculator.CalculatorUI import Ui_MainWindow
+from CompAero.Calculator.decorators import error_message_decorator
+from CompAero.fanno_flow_relations import FANNO_FLOW_VALID_OPTIONS, FannoFlowChoice
+from CompAero.fanno_flow_relations import FannoFlowRelations as FFR
 from CompAero.internal import FlowState, ShockType
-from CompAero.IsentropecRelations import (
+from CompAero.isentropic_relations import (
+    ISENTROPIC_CHOICE,
     ISENTROPIC_VALID_OPTIONS,
-    ISENTROPIC_CHOICE, 
-    IsentropicRelations
+    IsentropicRelations,
 )
-from CompAero.NormalShockRelations import (
-    NORMAL_SHOCK_VALID_OPTIONS,
-    NORMAL_SHOCK_CHOICE,
-    NormalShockRelations as NSR,
-)
-from CompAero.ObliqueShockRelations import (
-    ObliqueShockRelations as OSR,
-    OBLIQUE_SHOCK_VALID_OPTIONS,
-    ObliqueShockChoice
-)
-from CompAero.FannoFlowRelations import (
-    FannoFlowRelations as FFR,
-    FANNO_FLOW_VALID_OPTIONS,
-    FannoFlowChoice
-)
-from CompAero.RayleighFlowRelations import (
-    RayleighFlowRelations as RFR,
-    RayleighFlowChoice,
-    RAYLEIGH_FLOW_VALID_OPTIONS,
-)
-from CompAero.PrandtlMeyer import (
-    PrandtlMeyer as PM,
-    PrandtlMeyerChoice,
-    PRANDTL_MEYER_OPTIONS,
-)
-from CompAero.RocketNozzle import (
-    thrust_coefficient, 
+from CompAero.normal_shock_relations import NORMAL_SHOCK_CHOICE, NORMAL_SHOCK_VALID_OPTIONS
+from CompAero.normal_shock_relations import NormalShockRelations as NSR
+from CompAero.oblique_shock_relations import OBLIQUE_SHOCK_VALID_OPTIONS, ObliqueShockChoice
+from CompAero.oblique_shock_relations import ObliqueShockRelations as OSR
+from CompAero.prandtl_meyer import PRANDTL_MEYER_OPTIONS
+from CompAero.prandtl_meyer import PrandtlMeyer as PM
+from CompAero.prandtl_meyer import PrandtlMeyerChoice
+from CompAero.rayleigh_flow_relations import RAYLEIGH_FLOW_VALID_OPTIONS, RayleighFlowChoice
+from CompAero.rayleigh_flow_relations import RayleighFlowRelations as RFR
+from CompAero.rocket_nozzle import (
     max_thrust_coefficient,
     min_thrust_coefficient,
+    thrust_coefficient,
 )
-from CompAero.Calculator.decorators import error_message_decorator
-from PyQt5.QtWidgets import QMainWindow, QWidget
-from PyQt5 import QtCore, QtWidgets
-import sys
 
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 PRECISION = 6
-TO_STR = lambda val, decimal = PRECISION: str(round(val, decimal))
+TO_STR = lambda val, decimal=PRECISION: str(round(val, decimal))
 
 
 class UI(QMainWindow, Ui_MainWindow):
@@ -59,10 +47,12 @@ class UI(QMainWindow, Ui_MainWindow):
 
         # Combos
         self.isentropicOptionCombo.addItems(ISENTROPIC_VALID_OPTIONS)
-        self.isentropicFlowTypeCombo.addItems([FlowState.SUPER_SONIC.name, FlowState.SUB_SONIC.name])
+        self.isentropicFlowTypeCombo.addItems(
+            [FlowState.SUPER_SONIC.name, FlowState.SUB_SONIC.name]
+        )
         self.normalShockOptionCombo.addItems(NORMAL_SHOCK_VALID_OPTIONS)
         self.obliqueShockOptionCombo.addItems(OBLIQUE_SHOCK_VALID_OPTIONS)
-        self.obliqueShockTypeCombo.addItems([x.value for x in ShockType])
+        self.obliqueshock_typeCombo.addItems([x.value for x in ShockType])
         self.fannoOptionCombo.addItems(FANNO_FLOW_VALID_OPTIONS)
         self.fannoFlowTypeCombo.addItems([x.value for x in FlowState])
         self.rayleighOptionCombo.addItems(RAYLEIGH_FLOW_VALID_OPTIONS)
@@ -81,11 +71,11 @@ class UI(QMainWindow, Ui_MainWindow):
         self.rayleighApplyPipeParamBtn.clicked.connect(self.calculateRayleighHeatAddition)
         self.prandtlMeyerCalculateBtn.clicked.connect(self.calculatePrandtlMeyerState)
         self.rocketNozzleCalculateBtn.clicked.connect(self.calculateRocketNozzleState)
-        
+
         # Saved states
         self._fannoState: Optional[FFR] = None
         self._rayleighState: Optional[RFR] = None
-    
+
     def show_error(self, msg: str) -> None:
         self._error_box.showMessage(msg)
 
@@ -128,18 +118,18 @@ class UI(QMainWindow, Ui_MainWindow):
             state = IsentropicRelations(gamma, t0_t=float(self.isentropicT0TEntry.text()))
 
         elif (
-            choice == ISENTROPIC_CHOICE.A_ASTAR
+            choice == ISENTROPIC_CHOICE.a_a_star
             and self.isentropicAAStarEntry.text()
             and self.isentropicFlowTypeCombo.currentText()
         ):
             flowtype = FlowState(self.isentropicFlowTypeCombo.currentText())
             aaStar = float(self.isentropicAAStarEntry.text())
-            state = IsentropicRelations(gamma, a_aStar=aaStar, flowType=flowtype)
+            state = IsentropicRelations(gamma, a_a_star=aaStar, flow_type=flowtype)
 
         if state is not None:
             self.isentropicMachEntry.setText(TO_STR(state.mach))
             self.isentropicP0PEntry.setText(TO_STR(state.p0_p))
-            self.isentropicAAStarEntry.setText(TO_STR(state.a_aStar))
+            self.isentropicAAStarEntry.setText(TO_STR(state.a_a_star))
             self.isentropicT0TEntry.setText(TO_STR(state.t0_t))
             self.isentropicRho0RhoEntry.setText(TO_STR(state.rho0_rho))
 
@@ -192,88 +182,84 @@ class UI(QMainWindow, Ui_MainWindow):
     def calculateObliqueShockState(self) -> None:
         if not self.obliqueShockGammaEntry.text():
             return
-        
+
         gamma = float(self.obliqueShockGammaEntry.text())
         choice = ObliqueShockChoice(self.obliqueShockOptionCombo.currentText())
-        shockType = ShockType(self.obliqueShockTypeCombo.currentText())
-        wedgeAngleValid = bool(self.obliqueShockWedgeAngleEdit.text())
-        shockAngleValid = bool(self.obliqueShockAngleEdit.text())
-        m1Valid         = bool(self.obliqueShockM1Edit.text())
-        mn1Valid        = bool(self.obliqueShockMn1Edit.text())
-        mn2Valid        = bool(self.obiqueShockMn2Edit.text())
-        m2Valid         = bool(self.obliqueShockM2Edit.text())
-        p2p1Valid       = bool(self.obliqueShockP2P1Edit.text())
-        rho2rho1Valid   = bool(self.obliqueShockRho2Rho1Edit.text())
-        po2p1Valid      = bool(self.obliqueShockPo2P1Edit.text())
-        t2t1Valid       = bool(self.obliqueShockT2T1Edit.text())
-        po2po1Valid     = bool(self.obliqueShockPo2Po1Edit.text())
-        degrees         = bool(not self.obliqueShockDegreeChkBtn.isChecked())
-        
+        shock_type = shock_type(self.obliqueshock_typeCombo.currentText())
+        wedge_angleValid = bool(self.obliqueShockwedge_angleEdit.text())
+        shock_angleValid = bool(self.obliqueshock_angleEdit.text())
+        m1Valid = bool(self.obliqueShockM1Edit.text())
+        mn1Valid = bool(self.obliqueShockMn1Edit.text())
+        mn2Valid = bool(self.obiqueShockMn2Edit.text())
+        m2Valid = bool(self.obliqueShockM2Edit.text())
+        p2p1Valid = bool(self.obliqueShockP2P1Edit.text())
+        rho2rho1Valid = bool(self.obliqueShockRho2Rho1Edit.text())
+        po2p1Valid = bool(self.obliqueShockPo2P1Edit.text())
+        t2t1Valid = bool(self.obliqueShockT2T1Edit.text())
+        po2po1Valid = bool(self.obliqueShockPo2Po1Edit.text())
+        degrees = bool(not self.obliqueShockDegreeChkBtn.isChecked())
+
         if not choice:
             return
-        
+
         state = None
-        
+
         # common options
-        opts = {
-            "gamma": gamma,
-            "useDegrees": degrees,
-            "shockType": shockType
-        }
-        
-        if choice == ObliqueShockChoice.MACH_WEDGE_ANGLE and m1Valid and wedgeAngleValid:
+        opts = {"gamma": gamma, "use_degrees": degrees, "shock_type": shock_type}
+
+        if choice == ObliqueShockChoice.MACH_WEDGE_ANGLE and m1Valid and wedge_angleValid:
             m = float(self.obliqueShockM1Edit.text())
-            wa = float(self.obliqueShockWedgeAngleEdit.text())
-            state = OSR(**opts, mach=m, wedgeAngle=wa)
-            
-        if not shockAngleValid:
+            wa = float(self.obliqueShockwedge_angleEdit.text())
+            state = OSR(**opts, mach=m, wedge_angle=wa)
+
+        if not shock_angleValid:
             return
-        
-        opts["shockAngle"] = float(self.obliqueShockAngleEdit.text())
+
+        opts["shock_angle"] = float(self.obliqueshock_angleEdit.text())
 
         if choice == ObliqueShockChoice.MACH_SHOCK_ANGLE and m1Valid:
             m = float(self.obliqueShockM1Edit.text())
             state = OSR(**opts, mach=m)
-        
+
         elif choice == ObliqueShockChoice.MACH_N_1_SHOCK_ANGLE and mn1Valid:
             m = float(self.obliqueShockMn1Edit.text())
             state = OSR(**opts, mn1=m)
-        
-        elif choice == ObliqueShockChoice.M2_WEDGE_SHOCK_ANGLE and m2Valid and wedgeAngleValid:
+
+        elif choice == ObliqueShockChoice.M2_WEDGE_SHOCK_ANGLE and m2Valid and wedge_angleValid:
             m2 = float(self.obliqueShockM2Edit.text())
-            wa = float(self.obliqueShockWedgeAngleEdit.text())
-            state = OSR(**opts, m2=m2, wedgeAngle=wa)
-        
+            wa = float(self.obliqueShockwedge_angleEdit.text())
+            state = OSR(**opts, m2=m2, wedge_angle=wa)
+
         elif choice == ObliqueShockChoice.P2_P1_SHOCK_ANGLE and p2p1Valid:
             p2p1 = float(self.obliqueShockP2P1Edit.text())
             state = OSR(**opts, p2_p1=p2p1)
-        
+
         elif choice == ObliqueShockChoice.RHO2_RHO1_SHOCK_ANGLE and rho2rho1Valid:
             r2r1 = float(self.obliqueShockRho2Rho1Edit.text())
             state = OSR(**opts, rho2_rho1=r2r1)
-        
+
         elif choice == ObliqueShockChoice.T2_T1_SHOCK_ANGLE and t2t1Valid:
             t2t1 = float(self.obliqueShockT2T1Edit.text())
             state = OSR(**opts, t2_t1=t2t1)
-        
+
         elif choice == ObliqueShockChoice.PO2_PO1_SHOCK_ANGLE and po2po1Valid:
             p = float(self.obliqueShockPo2Po1Edit.text())
             state = OSR(**opts, po2_po1=p)
-        
+
         elif choice == ObliqueShockChoice.PO2_P1_SHOCK_ANGLE and po2p1Valid:
             p = float(self.obliqueShockPo2P1Edit.text())
             state = OSR(**opts, po2_p1=p)
-        
+
         elif choice == ObliqueShockChoice.MN2_SHOCK_ANGLE and mn2Valid:
             m = float(self.obiqueShockMn2Edit.text())
             state = OSR(**opts, mn2=m)
-        
+
         if state:
-            self.obliqueShockWedgeAngleEdit.setText(TO_STR(state.wedgeAngle))
-            self.obliqueShockAngleEdit.setText(TO_STR(state.shockAngle))
+            self.obliqueShockwedge_angleEdit.setText(TO_STR(state.wedge_angle))
+            self.obliqueshock_angleEdit.setText(TO_STR(state.shock_angle))
             self.obliqueShockM1Edit.setText(TO_STR(state.mach))
-            self.obliqueShockMn1Edit.setText(TO_STR(state.machNorm1))
-            self.obiqueShockMn2Edit.setText(TO_STR(state.machNorm2))
+            self.obliqueShockMn1Edit.setText(TO_STR(state.mach_normal_1))
+            self.obiqueShockMn2Edit.setText(TO_STR(state.mach_normal_2))
             self.obliqueShockM2Edit.setText(TO_STR(state.mach2))
             self.obliqueShockP2P1Edit.setText(TO_STR(state.p2_p1))
             self.obliqueShockRho2Rho1Edit.setText(TO_STR(state.rho2_rho1))
@@ -285,11 +271,11 @@ class UI(QMainWindow, Ui_MainWindow):
     def calculateFannoFlowState(self) -> None:
         if not self.fannoGammaEntry.text():
             return
-        
+
         gamma = float(self.fannoGammaEntry.text())
         choice = FannoFlowChoice(self.fannoOptionCombo.currentText())
-        flowType = FlowState(self.fannoFlowTypeCombo.currentText())
-        
+        flow_type = FlowState(self.fannoFlowTypeCombo.currentText())
+
         mValid = bool(self.fannoUpstreamMachEdit.text())
         ttValid = bool(self.fannoTTStEdit.text())
         ppValid = bool(self.fannoPPStEdit.text())
@@ -297,50 +283,50 @@ class UI(QMainWindow, Ui_MainWindow):
         popoValid = bool(self.fannoPoPoStEdit.text())
         fricValid = bool(self.fanno4FLStDEdit.text())
         uuValid = bool(self.fannoUUStEdit.text())
-        
+
         state = None
-        
+
         opts = {
             "gamma": gamma,
-            "flowType": flowType,
+            "flow_type": flow_type,
         }
-        
+
         if choice == FannoFlowChoice.GAMMA_MACH and mValid:
             m = float(self.fannoUpstreamMachEdit.text())
             state = FFR(**opts, mach=m)
-        
+
         elif choice == FannoFlowChoice.GAMMA_T_T_ST and ttValid:
             tt = float(self.fannoTTStEdit.text())
-            state = FFR(**opts, t_tSt=tt)
+            state = FFR(**opts, t_t_st=tt)
 
         elif choice == FannoFlowChoice.GAMMA_P_P_ST and ppValid:
             pp = float(self.fannoPPStEdit.text())
-            state = FFR(**opts, p_pSt=pp)
-        
+            state = FFR(**opts, p_p_st=pp)
+
         elif choice == FannoFlowChoice.GAMMA_RHO_RHO_ST and rrValid:
             rr = float(self.fannoRhoRhoStEdit.text())
-            state = FFR(**opts, rho_rhoSt=rr)
-        
+            state = FFR(**opts, rho_rho_st=rr)
+
         elif choice == FannoFlowChoice.GAMMA_PO_PO_ST and popoValid:
             popo = float(self.fannoPoPoStEdit.text())
-            state = FFR(**opts, po_poSt=popo)
-        
+            state = FFR(**opts, po_po_st=popo)
+
         elif choice == FannoFlowChoice.GAMMA_4FLSTD_FLOW_TYPE and fricValid:
             fric = float(self.fanno4FLStDEdit.text())
-            state = FFR(**opts, f4LSt_D=fric)
-        
+            state = FFR(**opts, f4lst_d=fric)
+
         elif choice == FannoFlowChoice.GAMMA_U_U_ST and uuValid:
             uu = float(self.fannoUUStEdit.text())
-            state = FFR(**opts, u_uSt=uu)
-        
+            state = FFR(**opts, u_u_st=uu)
+
         if state:
             self.fannoUpstreamMachEdit.setText(TO_STR(state.mach))
             self.fannoTTStEdit.setText(TO_STR(state.mach))
-            self.fannoPPStEdit.setText(TO_STR(state.p_pSt))
-            self.fannoRhoRhoStEdit.setText(TO_STR(state.rho_rhoSt))
-            self.fannoPoPoStEdit.setText(TO_STR(state.po_poSt))
-            self.fanno4FLStDEdit.setText(TO_STR(state.f4LSt_D))
-            self.fannoUUStEdit.setText(TO_STR(state.u_uSt))
+            self.fannoPPStEdit.setText(TO_STR(state.p_p_st))
+            self.fannoRhoRhoStEdit.setText(TO_STR(state.rho_rho_st))
+            self.fannoPoPoStEdit.setText(TO_STR(state.po_po_st))
+            self.fanno4FLStDEdit.setText(TO_STR(state.f4lst_d))
+            self.fannoUUStEdit.setText(TO_STR(state.u_u_st))
 
         self._fannoState = state
 
@@ -348,47 +334,47 @@ class UI(QMainWindow, Ui_MainWindow):
     def calculateFannoFrictionAddition(self) -> None:
         if self._fannoState is None:
             return
-        
+
         validParams = bool(self.fannoPipeDiameterEdit.text())
         validParams &= bool(self.fannoFrictionCoeffEdit.text())
         validParams &= bool(self.fannoPipeLenEdit.text())
-        
+
         if not validParams:
             return
-        
+
         d = float(self.fannoPipeDiameterEdit.text())
         f = float(self.fannoFrictionCoeffEdit.text())
         l = float(self.fannoPipeLenEdit.text())
         self._fannoState.apply_pipe_parameters(d, l, f)
-        
+
         s = self._fannoState
-        
+
         # Down stream conditions
-        self.fannoDwnStrmMachEdit.setText(TO_STR(s.dwnStrmMach))
-        self.fannoDwnStrmTTStEdit.setText(TO_STR(s.dwnStrm_t_tSt))
-        self.fannoDwnStrmPPStEdit.setText(TO_STR(s.dwnStrm_p_pSt))
-        self.fannoDwnStrmRhoRhoStEdit.setText(TO_STR(s.dwnStrm_rho_rhoSt))
-        self.fannoDwnStrmPoPoStrEdit.setText(TO_STR(s.dwnStrm_f4LSt_D))
-        self.fannoDwnStrmUUStEdit.setText(TO_STR(s.dwnStrm_u_uSt))
-        self.fannoChokedLengthEdit.setText(TO_STR(s.chokedLength))
-        
+        self.fannoDwnStrmMachEdit.setText(TO_STR(s.dwn_strmMach))
+        self.fannoDwnStrmTTStEdit.setText(TO_STR(s.dwn_strm_t_t_st))
+        self.fannoDwnStrmPPStEdit.setText(TO_STR(s.dwn_strm_p_p_st))
+        self.fannoDwnStrmRhoRhoStEdit.setText(TO_STR(s.dwn_strm_rho_rho_st))
+        self.fannoDwnStrmPoPoStrEdit.setText(TO_STR(s.dwn_strm_f4lst_d))
+        self.fannoDwnStrmUUStEdit.setText(TO_STR(s.dwn_strm_u_u_st))
+        self.fannoChokedLengthEdit.setText(TO_STR(s.choked_length))
+
         # Ratio of down stream to upstream conditions
         self.fannoT2T1Edit.setText(TO_STR(s.t2_t1))
         self.fannoP2P1Edit.setText(TO_STR(s.p2_p1))
         self.fannoU2U1Edit.setText(TO_STR(s.u2_u1))
         self.fannoRho2Rho1Edit.setText(TO_STR(s.rho2_rho1))
         self.fannoPo2Po1Edit.setText(TO_STR(s.po2_po1))
-        self.fanno4FLStD24FLStD1Edit.setText(TO_STR(s.f4LD2_f4LD1))
+        self.fanno4FLStD24FLStD1Edit.setText(TO_STR(s.f4ld2_f4ld1))
 
     @error_message_decorator
     def calculateRayleighFlowState(self) -> None:
         if not self.rayleighGammaEntry.text():
-            return 
-        
+            return
+
         gamma = float(self.rayleighGammaEntry.text())
-        flowType = FlowState(self.rayleighFlowTypeCombo.currentText())
+        flow_type = FlowState(self.rayleighFlowTypeCombo.currentText())
         choice = RayleighFlowChoice(self.rayleighOptionCombo.currentText())
-        
+
         mValid = bool(self.rayleighUpstreamMachEdit.text())
         ttValid = bool(self.rayleighTTStEdit.text())
         ppValid = bool(self.rayleighPPStEdit.text())
@@ -396,76 +382,73 @@ class UI(QMainWindow, Ui_MainWindow):
         popoValid = bool(self.rayleighPoPoStEdit.text())
         totoValid = bool(self.rayleighToToStEdit.text())
         uuValid = bool(self.rayleighUUStEdit.text())
-        
+
         state = None
-        
-        opts = {
-            "gamma": gamma,
-            "flowType": flowType
-        }
-        
+
+        opts = {"gamma": gamma, "flow_type": flow_type}
+
         if choice == RayleighFlowChoice.GAMMA_MACH and mValid:
             state = RFR(**opts, mach=float(self.rayleighUpstreamMachEdit.text()))
-        
+
         elif choice == RayleighFlowChoice.GAMMA_T_T_ST and ttValid:
-            state = RFR(**opts, t_tSt=float(self.rayleighTTStEdit.text()))
-        
+            state = RFR(**opts, t_t_st=float(self.rayleighTTStEdit.text()))
+
         elif choice == RayleighFlowChoice.GAMMA_P_P_ST and ppValid:
-            state = RFR(**opts, p_pSt=float(self.rayleighPPStEdit.text()))
-        
+            state = RFR(**opts, p_p_st=float(self.rayleighPPStEdit.text()))
+
         elif choice == RayleighFlowChoice.GAMMA_RHO_RHO_ST and rrValid:
-            state = RFR(**opts, rho_rhoSt=float(self.rayleighRhoRhoStEdit.text()))
-        
+            state = RFR(**opts, rho_rho_st=float(self.rayleighRhoRhoStEdit.text()))
+
         elif choice == RayleighFlowChoice.GAMMA_PO_PO_ST and popoValid:
-            state = RFR(**opts, po_poSt=float(self.rayleighPoPoStEdit.text()))
-        
+            state = RFR(**opts, po_po_st=float(self.rayleighPoPoStEdit.text()))
+
         elif choice == RayleighFlowChoice.GAMMA_TO_TO_FLOW_TYPE and totoValid:
-            state = RFR(**opts, to_toSt=float(self.rayleighToToStEdit.text()))
-        
+            state = RFR(**opts, to_to_st=float(self.rayleighToToStEdit.text()))
+
         elif choice == RayleighFlowChoice.GAMMA_U_U_ST and uuValid:
-            state = RFR(**opts, u_uSt=float(self.rayleighUUStEdit.text()))
-        
+            state = RFR(**opts, u_u_st=float(self.rayleighUUStEdit.text()))
+
         self._rayleighState = state
-        
+
         if state:
             s = state
             self.rayleighUpstreamMachEdit.setText(TO_STR(s.mach))
-            self.rayleighTTStEdit.setText(TO_STR(s.t_tSt))
-            self.rayleighPPStEdit.setText(TO_STR(s.p_pSt))
-            self.rayleighRhoRhoStEdit.setText(TO_STR(s.rho_rhoSt))
-            self.rayleighPoPoStEdit.setText(TO_STR(s.po_poSt))
-            self.rayleighToToStEdit.setText(TO_STR(s.to_toSt))
-            self.rayleighUUStEdit.setText(TO_STR(s.u_uSt))
+            self.rayleighTTStEdit.setText(TO_STR(s.t_t_st))
+            self.rayleighPPStEdit.setText(TO_STR(s.p_p_st))
+            self.rayleighRhoRhoStEdit.setText(TO_STR(s.rho_rho_st))
+            self.rayleighPoPoStEdit.setText(TO_STR(s.po_po_st))
+            self.rayleighToToStEdit.setText(TO_STR(s.to_to_st))
+            self.rayleighUUStEdit.setText(TO_STR(s.u_u_st))
 
     @error_message_decorator
     def calculateRayleighHeatAddition(self) -> None:
         if self._rayleighState is None:
             return
-        
+
         validParams = bool(self.rayleighHeatEdit.text())
         validParams &= bool(self.rayleighGasConstantEdit.text())
         validParams &= bool(self.rayleighHeatTo1Edit.text())
-        
+
         if not validParams:
             return
 
         h = float(self.rayleighHeatEdit.text())
         r = float(self.rayleighGasConstantEdit.text())
         t = float(self.rayleighHeatTo1Edit.text())
-        
+
         self._rayleighState.simulate_heat_addition(h, t, r)
         s = self._rayleighState
-        
+
         # Down stream conditions
-        self.rayleighDwnStrmMachEdit.setText(TO_STR(s.dwnStrmMach))
-        self.rayleighDwnStrmTTStEdit.setText(TO_STR(s.dwnStrm_t_tSt))
-        self.rayleighDwnStrmPPStEdit.setText(TO_STR(s.dwnStrm_p_pSt))
-        self.rayleighDwnStrmRhoRhoStEdit.setText(TO_STR(s.dwnStrm_rho_rhoSt))
-        self.rayleighDwnStrmPoPoStrEdit.setText(TO_STR(s.dwnStrm_po_poSt))
-        self.rayleighDwnStrmToToStEdit.setText(TO_STR(s.dwnStrm_to_toSt))
-        self.rayleighDwnStrmUUStEdit.setText(TO_STR(s.dwnStrm_u_uSt))
+        self.rayleighDwnStrmMachEdit.setText(TO_STR(s.dwn_strmMach))
+        self.rayleighDwnStrmTTStEdit.setText(TO_STR(s.dwn_strm_t_t_st))
+        self.rayleighDwnStrmPPStEdit.setText(TO_STR(s.dwn_strm_p_p_st))
+        self.rayleighDwnStrmRhoRhoStEdit.setText(TO_STR(s.dwn_strm_rho_rho_st))
+        self.rayleighDwnStrmPoPoStrEdit.setText(TO_STR(s.dwn_strm_po_po_st))
+        self.rayleighDwnStrmToToStEdit.setText(TO_STR(s.dwn_strm_to_to_st))
+        self.rayleighDwnStrmUUStEdit.setText(TO_STR(s.dwn_strm_u_u_st))
         self.rayleighChokedHeatEdit.setText(TO_STR(s.chokedHeat))
-        
+
         # Ratio of down stream to upstream conditions
         self.rayleighT2T1Edit.setText(TO_STR(s.t2_t1))
         self.rayleighP2P1Edit.setText(TO_STR(s.p2_p1))
@@ -479,11 +462,11 @@ class UI(QMainWindow, Ui_MainWindow):
     def calculatePrandtlMeyerState(self) -> None:
         if not self.prandtlMeyerGammaEntry.text():
             return
-        
+
         gamma = float(self.prandtlMeyerGammaEntry.text())
-        
+
         choice = PrandtlMeyerChoice(self.prandtlMeyerOptionCombo.currentText())
-        
+
         mValid = bool(self.prandtlMeyerUpstreamMachEdit.text())
         nuValid = bool(self.prandtlMeyerNuEdit.text())
         muValid = bool(self.prandtlMeyerMuEdit.text())
@@ -491,45 +474,44 @@ class UI(QMainWindow, Ui_MainWindow):
         dMValid = bool(self.prandtlMeyerDwnStrmMachEdit.text())
         dNuValid = bool(self.prandtlMeyerDwnStrmNuEdit.text())
         dMuValid = bool(self.prandtlMeyerDwnStrmMuEdit.text())
-        degrees = (not self.prandtlMeyerDegreeChkBtn.isChecked())
-        
+        degrees = not self.prandtlMeyerDegreeChkBtn.isChecked()
+
         state = None
-        
+
         opts = {
             "gamma": gamma,
-            "inDegrees": degrees,
+            "in_degrees": degrees,
         }
-        
+
         if angleValid:
-            opts["deflectionAngle"] = float(self.prandtlMeyerDeflectionAngleEdit.text())
-        
+            opts["deflection_angle"] = float(self.prandtlMeyerDeflectionAngleEdit.text())
+
         if choice == PrandtlMeyerChoice.GAMMA_MACH and mValid:
             state = PM(**opts, mach=float(self.prandtlMeyerUpstreamMachEdit.text()))
-        
+
         elif choice == PrandtlMeyerChoice.GAMMA_NU and nuValid:
             state = PM(**opts, nu=float(self.prandtlMeyerNuEdit.text()))
-        
+
         elif choice == PrandtlMeyerChoice.GAMMA_MU and muValid:
             state = PM(**opts, mu=float(self.prandtlMeyerMuEdit.text()))
-        
+
         elif choice == PrandtlMeyerChoice.GAMMA_DEFLECTION_DWN_STRM_MACH and dMValid:
-            state = PM(**opts, dwnStreamMach=float(self.prandtlMeyerDwnStrmMachEdit.text()))
-        
+            state = PM(**opts, down_stream_mach=float(self.prandtlMeyerDwnStrmMachEdit.text()))
+
         elif choice == PrandtlMeyerChoice.GAMMA_DEFLECTION_DWN_STRM_MU and dMuValid:
-            state = PM(**opts, dwnStreamMu=float(self.prandtlMeyerDwnStrmMuEdit.text()))
-        
+            state = PM(**opts, down_stream_mu=float(self.prandtlMeyerDwnStrmMuEdit.text()))
+
         elif choice == PrandtlMeyerChoice.GAMMA_DEFLECTION_DWN_STRM_NU and dNuValid:
-            state = PM(**opts, dwnstreamNu=float(self.prandtlMeyerDwnStrmNuEdit.text()))
-        
-        
+            state = PM(**opts, down_stream_nu=float(self.prandtlMeyerDwnStrmNuEdit.text()))
+
         if state:
             s = state
             self.prandtlMeyerUpstreamMachEdit.setText(TO_STR(s.mach))
             self.prandtlMeyerNuEdit.setText(TO_STR(s.nu))
             self.prandtlMeyerMuEdit.setText(TO_STR(s.mu))
-            self.prandtlMeyerDwnStrmMachEdit.setText(TO_STR(s.dwmStrm_mach))
-            self.prandtlMeyerDwnStrmMuEdit.setText(TO_STR(s.dwmStrm_mu))
-            self.prandtlMeyerDwnStrmNuEdit.setText(TO_STR(s.dwmStrm_nu))
+            self.prandtlMeyerDwnStrmMachEdit.setText(TO_STR(s.down_stream_mach))
+            self.prandtlMeyerDwnStrmMuEdit.setText(TO_STR(s.down_stream_mu))
+            self.prandtlMeyerDwnStrmNuEdit.setText(TO_STR(s.down_stream_nu))
 
     @error_message_decorator
     def calculateRocketNozzleState(self) -> None:
@@ -537,29 +519,29 @@ class UI(QMainWindow, Ui_MainWindow):
         arValid = bool(self.rocketNozzleAreaRatioEdit.text())
         pepcValid = bool(self.rocketNozzlePePcEdit.text())
         papcValid = bool(self.rocketNozzlePaPcEdit.text())
-        
+
         gamma, ar, pe_pc, pa_pc = (None, None, None, None)
-        
+
         if gammaValid:
             gamma = float(self.rocketNozzleGammaEntry.text())
-        
+
         if arValid:
             ar = float(self.rocketNozzleAreaRatioEdit.text())
-        
+
         if pepcValid:
             pe_pc = float(self.rocketNozzlePePcEdit.text())
-        
+
         if papcValid:
             pa_pc = float(self.rocketNozzlePaPcEdit.text())
 
         if arValid:
             min_coeff = min_thrust_coefficient(ar)
             self.rocketNozzleMinThrustCoeffEdit.setText(TO_STR(min_coeff))
-        
+
         if gammaValid and arValid and pepcValid:
             max_coeff = max_thrust_coefficient(gamma, ar, pe_pc)
             self.rocketNozzleMaxThrustCoeffEdit.setText(TO_STR(max_coeff))
-        
+
         if gammaValid and arValid and pepcValid and papcValid:
             coeff = thrust_coefficient(gamma, ar, pe_pc, pa_pc)
             self.rocketNozzleThrustCoeffEdit.setText(TO_STR(coeff))

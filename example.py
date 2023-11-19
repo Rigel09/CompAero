@@ -1,14 +1,15 @@
 # from CompAero.ConicalFlow import ConicalFlowRelations
-from CompAero.PrandtlMeyer import PrandtlMeyer
-from CompAero.RayleighFlowRelations import RayleighFlowRelations
-from CompAero.IsentropecRelations import IsentropicRelations
-from CompAero.NormalShockRelations import NormalShockRelations
-from CompAero.ObliqueShockRelations import ObliqueShockRelations
-from CompAero.FannoFlowRelations import FannoFlowRelations
+from math import degrees, pi, radians
 
-from math import radians, degrees, pi
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
+from CompAero.fanno_flow_relations import FannoFlowRelations
+from CompAero.isentropic_relations import IsentropicRelations
+from CompAero.normal_shock_relations import NormalShockRelations
+from CompAero.oblique_shock_relations import ObliqueShockRelations
+from CompAero.prandtl_meyer import PrandtlMeyer
+from CompAero.rayleigh_flow_relations import RayleighFlowRelations
 
 if __name__ == "__main__":
     ##########################################################################
@@ -26,7 +27,7 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Oblique Shock Example  ##############################
     ##########################################################################
-    flow = ObliqueShockRelations(1.4, mach=3, wedgeAngle=60)
+    flow = ObliqueShockRelations(1.4, mach=3, wedge_angle=60)
     print()
     print(flow)
     flow.plot_theta_beta_mach_chart()
@@ -36,8 +37,8 @@ if __name__ == "__main__":
     ##########################################################################
     t1 = 300
     p1 = 1
-    po1 = IsentropicRelations.calc_P0_P(3, 1.4) * p1
-    flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
+    po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
+    flow = FannoFlowRelations(1.4, po_po_st=4.23456790)
     flow.apply_pipe_parameters(0.4, 11, 0.005)
     print()
     print(flow)
@@ -47,9 +48,9 @@ if __name__ == "__main__":
     print("Po2: ", po1 * flow.po2_po1)
 
     # Plot length and diameter combinations to slow a mach 3 flow down to a mach 2.5 flow at the exit
-    f4ld = FannoFlowRelations.calc_4FLSt_D(1.5, 1.4)
+    f4ld = FannoFlowRelations.calc_4flst_d(1.5, 1.4)
 
-    diamEqn = lambda len: 1 / f4ld * 4 * flow.frictionCoeff * len
+    diamEqn = lambda len: 1 / f4ld * 4 * flow.friction_coeff * len
 
     lengths = np.linspace(1e-5, 40, 100)
     diams = np.array([diamEqn(len) for len in lengths])
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Prandtl Meyer Example  ##############################
     ##########################################################################
-    flow = PrandtlMeyer(1.4, dwnstreamNu=86.27, deflectionAngle=1)
+    flow = PrandtlMeyer(1.4, down_stream_nu=86.27, deflection_angle=1)
     print(flow)
 
     ##########################################################################
@@ -87,7 +88,7 @@ if __name__ == "__main__":
     # Not Currently Supported
     #
 
-    # flow = ConicalFlowRelations(1.4, mach=3, shockAngle=30)
+    # flow = ConicalFlowRelations(1.4, mach=3, shock_angle=30)
     # ans = flow.calculateConeFlowParameters(288.16, 287, [21, 25, 26, 24, 24.5, 29, flow.coneAngle])
 
     # print(ans[flow.coneAngle].mach)
@@ -95,4 +96,3 @@ if __name__ == "__main__":
     # print(ans[flow.coneAngle].pressRay_pressInit)
     # print(ans[flow.coneAngle].rhoRay_rhoInit)
     # print(ans[flow.coneAngle])
-

@@ -1,17 +1,31 @@
-from enum import Enum, auto
-from math import isnan
-from typing import List, Union
-import sys
+"""Contains helper functions used by the CompAero Project"""
 
-from colorama.ansi import Style
-from numpy import seterrobj
+from enum import Enum
+from math import isnan
+from typing import Union
 
 # Settings for printing out outputs from classes
 TOTAL_WIDTH = 70  # Width of the area including  | |
 INTERNAL_VALUE_WIDTH = TOTAL_WIDTH - 2  # Width of area excluding | |
 
 
-def to_string(name: str, value: Union[float, int, bool], precision: int, dot_line: bool = False) -> str:
+class FlowState(Enum):
+    """Enum that defines wether a flow is sub / super sonic"""
+
+    SUB_SONIC = "SUB_SONIC"
+    SUPER_SONIC = "SUPER_SONIC"
+
+
+class ShockType(Enum):
+    """Enum that defines wether a shock is strong or weak. (For oblique shocks)"""
+
+    WEAK = "WEAK"
+    STRONG = "STRONG"
+
+
+def to_string(
+    name: str, value: Union[str, float, int, bool], precision: int, dot_line: bool = False
+) -> str:
     """This generates a professional easy to read string for a data value
 
     Args:
@@ -24,12 +38,14 @@ def to_string(name: str, value: Union[float, int, bool], precision: int, dot_lin
     Returns:
         str: A formatted string with new line character on the end
     """
-    valString = str(round(value, precision)) if not isinstance(value, (bool, str,)) else str(value)
+    val_str = str(value)
+    if isinstance(value, (int, float)):
+        val_str = str(round(value, precision))
+
     name = name + ":"
     sep = "-" if dot_line else ""
-    return "|{:{sep}<{width}}{}|{}\n".format(
-        name, valString, Style.RESET_ALL, width=INTERNAL_VALUE_WIDTH - len(valString), sep=sep
-    )
+    width = len(val_str) - INTERNAL_VALUE_WIDTH
+    return f"|{'':{sep}<{width}}{name}|{val_str}\n"
 
 
 def named_subheader(name: str) -> str:
@@ -42,7 +58,8 @@ def named_subheader(name: str) -> str:
     Returns:
         str: A formatted string with new line character on the end
     """
-    return "|{:=^{width}}|\n".format(" " + name + " ", width=INTERNAL_VALUE_WIDTH)
+    name = f" {name} "
+    return f"|{name:=^width}|\n"
 
 
 def seperator() -> str:
@@ -51,7 +68,7 @@ def seperator() -> str:
     Returns:
         str: A formatted string that acts as a blank line for tables
     """
-    return "|{:{width}}|\n".format("", width=INTERNAL_VALUE_WIDTH)
+    return f"|{'':{INTERNAL_VALUE_WIDTH}}|\n"
 
 
 def named_header(name: str, value: Union[float, int], precision: int) -> str:
@@ -64,14 +81,11 @@ def named_header(name: str, value: Union[float, int], precision: int) -> str:
     Returns:
         str: A formatted string that can be used as a header
     """
-    return (
-        footer()
-        + "|{:^{width}}|\n".format(
-            " {}: {:.{precision}f} ".format(name, round(value, precision), precision=precision),
-            width=INTERNAL_VALUE_WIDTH,
-        )
-        + footer()
-    )
+    rv = round(value, precision)
+    data = f" {name}: {rv:.{precision}f} "
+    data_line = f"|{data:^{INTERNAL_VALUE_WIDTH}}|\n"
+    f = footer()
+    return f"{f}\n{data_line}\n{f}"
 
 
 def footer() -> str:
@@ -80,52 +94,44 @@ def footer() -> str:
     Returns:
         str: formatted footer
     """
-    return "|{:=^{width}}|\n".format("", width=INTERNAL_VALUE_WIDTH)
+    return f"|{'':=^{INTERNAL_VALUE_WIDTH}}|\n"
 
 
-def checkValue(value: Union[Union[float, int], List[Union[float, int]]]) -> bool:
-    """ Checks to see if value is non NAN and greater than zero"""
-    checkVal = True
-    if isinstance(value, (float, int,)):
-        value = [value]
+def check_value(*args: Union[int, float, ShockType, FlowState]) -> bool:
+    """Checks to see if value is non NAN and greater than zero"""
 
-    if isinstance(value, list):
-        for val in value:
-            if isinstance(val, (FlowState, ShockType,)):
-                checkVal = checkVal and True
-            elif isinstance(val, (float, int,)):
-                checkVal = checkVal and not isnan(val)
-                checkVal = checkVal and val > 0.0
-            else:
-                raise TypeError("Cannot validate the given type")
-    else:
-        raise TypeError("{} Expected a list".format(sys._getframe().f_code.co_name))
+    for arg in args:
+        if isinstance(arg, (float, int)):
+            if isnan(arg):
+                return False
 
-    return checkVal
+            if arg < 0.0:
+                return False
 
+        elif isinstance(arg, (FlowState, ShockType)):
+            continue
+        else:
+            raise TypeError(
+                f"Error: cannot validate variable of type {type(arg)}, \
+                must be of type int, float, ShockType, or FlowState"
+            )
 
-class FlowState(Enum):
-    SUB_SONIC = "SUB_SONIC"
-    SUPER_SONIC = "SUPER_SONIC"
-
-
-class ShockType(Enum):
-    WEAK = "WEAK"
-    STRONG = "STRONG"
+    return True
 
 
 class InvalidOptionCombinationError(Exception):
-    """ Thrown when the options supplied to a class are incorrect or invalid (nan) """
+    """Thrown when the options supplied to a class are incorrect or invalid (nan)"""
 
     def __init__(self, *args: object) -> None:
         super().__init__(
-            "Either the options suppled were the incorrect combination or not enough valid arguments were supplied",
+            "Either the options suppled were the incorrect combination or not enough \
+            valid arguments were supplied",
             *args,
         )
 
 
 class GammaNotDefinedError(Exception):
-    """ Thrown when gamma is found not to be defined """
+    """Thrown when gamma is found not to be defined"""
 
     def __init__(self, *args: object) -> None:
         super().__init__("Gamma must be defined for the determination of flow states", *args)

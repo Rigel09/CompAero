@@ -1,8 +1,10 @@
 from math import radians
-from pytest import approx
+
 import pytest
-from CompAero.ObliqueShockRelations import ObliqueShockRelations as osr
+from pytest import approx
+
 from CompAero.internal import InvalidOptionCombinationError, ShockType
+from CompAero.oblique_shock_relations import ObliqueShockRelations as osr
 
 
 class TestObliqueShockClassFuncs:
@@ -27,9 +29,9 @@ class TestObliqueShockClassFuncs:
         assert osr.calc_mach_normal_ahead_shock(1.5, radians(53.61)) == approx(1.2075, rel=1e-4)
 
     def test_supersonic_calc_mach_from_mach_normal_1(self):
-        assert osr.calc_mach_ahead_shock_from_mach_normal_ahead_shock(1.207496034, radians(53.61)) == approx(
-            1.5, rel=1e-1
-        )
+        assert osr.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+            1.207496034, radians(53.61)
+        ) == approx(1.5, rel=1e-1)
 
     def test_supersonic_calc_beta_from_mach_normal_1(self):
         assert osr.calc_beta_from_mach_mach_normal_ahead_shock(1.5, 1.25340) == approx(
@@ -62,9 +64,9 @@ class TestObliqueShockClassFuncs:
         )
 
     def test_supersonic_calc_mach_from_theta_beta(self):
-        assert osr.calc_mach_from_theta_beta_mach(radians(56.67868), radians(10.0), self.gamma) == approx(
-            1.5, rel=1e-4
-        )
+        assert osr.calc_mach_from_theta_beta_mach(
+            radians(56.67868), radians(10.0), self.gamma
+        ) == approx(1.5, rel=1e-4)
 
     def test_supersonic_max_flow_deflection_angle(self):
         assert osr.calc_max_flow_deflection_angle(radians(66.5888), 1.5, self.gamma) == approx(
@@ -90,11 +92,11 @@ class TestObliqueShockRelationsClass:
     gamma = 1.4
 
     def test_construction_from_mach_flow_deflection(self):
-        inst = osr(self.gamma, mach=1.5, wedgeAngle=10.0)
-        assert inst.shockAngle == approx(radians(56.67868), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.25340, rel=1e-4)
-        assert inst.machNorm2 == approx(0.81073, rel=1e-4)
+        inst = osr(self.gamma, mach=1.5, wedge_angle=10.0)
+        assert inst.shock_angle == approx(56.67868, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.25340, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.81073, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(1.5, rel=1e-1)
         assert inst.p2_p1 == approx(1.66619, rel=1e-4)
@@ -103,14 +105,14 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.98660, rel=1e-4)
         assert inst.po2_p1 == approx(2.56720)
         assert inst.mach2 == approx(1.11438, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_mach_norm1_shock_angle(self):
-        inst = osr(self.gamma, mn1=1.2534, shockAngle=56.67868)
-        assert inst.shockAngle == approx(radians(56.67868), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.25340, rel=1e-4)
-        assert inst.machNorm2 == approx(0.81073, rel=1e-4)
+        inst = osr(self.gamma, mn1=1.2534, shock_angle=56.67868)
+        assert inst.shock_angle == approx(56.67868, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.25340, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.81073, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(1.5, rel=1e-1)
         assert inst.p2_p1 == approx(1.66619, rel=1e-4)
@@ -119,14 +121,14 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.98660, rel=1e-4)
         assert inst.po2_p1 == approx(2.5672, rel=1e-4)
         assert inst.mach2 == approx(1.11438, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_shock_angle_wedge_angle(self):
-        inst = osr(self.gamma, wedgeAngle=10.0, shockAngle=56.67868)
-        assert inst.shockAngle == approx(radians(56.67868), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.25340, rel=1e-4)
-        assert inst.machNorm2 == approx(0.81073, rel=1e-4)
+        inst = osr(self.gamma, wedge_angle=10.0, shock_angle=56.67868)
+        assert inst.shock_angle == approx(56.67868, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.25340, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.81073, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(1.5, rel=1e-1)
         assert inst.p2_p1 == approx(1.66619, rel=1e-4)
@@ -135,18 +137,18 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.98660, rel=1e-4)
         assert inst.po2_p1 == approx(2.5672, rel=1e-4)
         assert inst.mach2 == approx(1.11438, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_shock_angle_wedge_angle_m2_fail(self):
         with pytest.raises(ValueError):
-            inst = osr(self.gamma, wedgeAngle=10.0, shockAngle=56.67868, m2=2.5672)
+            inst = osr(self.gamma, wedge_angle=10.0, shock_angle=56.67868, m2=2.5672)
 
     def test_construction_from_shock_angle_wedge_angle_m2(self):
-        inst = osr(self.gamma, wedgeAngle=10.0, shockAngle=23.01624, m2=3.13545)
-        assert inst.shockAngle == approx(radians(23.01624), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.48577, rel=1e-4)
-        assert inst.machNorm2 == approx(0.70619, rel=1e-4)
+        inst = osr(self.gamma, wedge_angle=10.0, shock_angle=23.01624, m2=3.13545)
+        assert inst.shock_angle == approx(23.01624, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.48577, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.70619, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(3.8, rel=1e-1)
         assert inst.p2_p1 == approx(2.40876, rel=1e-4)
@@ -155,14 +157,14 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_shock_angle_wedge_angle(self):
-        inst = osr(self.gamma, wedgeAngle=10.0, shockAngle=23.01624)
-        assert inst.shockAngle == approx(radians(23.01624), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.48577, rel=1e-4)
-        assert inst.machNorm2 == approx(0.70619, rel=1e-4)
+        inst = osr(self.gamma, wedge_angle=10.0, shock_angle=23.01624)
+        assert inst.shock_angle == approx(23.01624, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.48577, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.70619, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(3.8, rel=1e-1)
         assert inst.p2_p1 == approx(2.40876, rel=1e-4)
@@ -171,14 +173,14 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_po2_p1(self):
-        inst = osr(self.gamma, po2_p1=3.35977, shockAngle=23.01624)
-        assert inst.shockAngle == approx(radians(23.01624), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.48577, rel=1e-4)
-        assert inst.machNorm2 == approx(0.70619, rel=1e-4)
+        inst = osr(self.gamma, po2_p1=3.35977, shock_angle=23.01624)
+        assert inst.shock_angle == approx(23.01624, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.48577, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.70619, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(3.8, rel=1e-1)
         assert inst.p2_p1 == approx(2.40876, rel=1e-4)
@@ -187,14 +189,14 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_p2_p1(self):
-        inst = osr(self.gamma, p2_p1=2.40876, shockAngle=23.01624)
-        assert inst.shockAngle == approx(radians(23.01624), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.48577, rel=1e-4)
-        assert inst.machNorm2 == approx(0.70619, rel=1e-4)
+        inst = osr(self.gamma, p2_p1=2.40876, shock_angle=23.01624)
+        assert inst.shock_angle == approx(23.01624, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.48577, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.70619, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(3.8, rel=1e-1)
         assert inst.p2_p1 == approx(2.40876, rel=1e-4)
@@ -203,14 +205,14 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_rho2_rho1(self):
-        inst = osr(self.gamma, rho2_rho1=1.83768, shockAngle=23.01624)
-        assert inst.shockAngle == approx(radians(23.01624), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.48577, rel=1e-4)
-        assert inst.machNorm2 == approx(0.70619, rel=1e-4)
+        inst = osr(self.gamma, rho2_rho1=1.83768, shock_angle=23.01624)
+        assert inst.shock_angle == approx(23.01624, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.48577, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.70619, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(3.8, rel=1e-1)
         assert inst.p2_p1 == approx(2.40876, rel=1e-4)
@@ -219,14 +221,14 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_t2_t1(self):
-        inst = osr(self.gamma, t2_t1=1.31077, shockAngle=23.01624)
-        assert inst.shockAngle == approx(radians(23.01624), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.48577, rel=1e-4)
-        assert inst.machNorm2 == approx(0.70619, rel=1e-4)
+        inst = osr(self.gamma, t2_t1=1.31077, shock_angle=23.01624)
+        assert inst.shock_angle == approx(23.01624, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.48577, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.70619, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(3.8, rel=1e-1)
         assert inst.p2_p1 == approx(2.40876, rel=1e-4)
@@ -235,14 +237,14 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_po2_po1(self):
-        inst = osr(self.gamma, po2_po1=0.93423, shockAngle=23.01624)
-        assert inst.shockAngle == approx(radians(23.01624), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.48577, rel=1e-4)
-        assert inst.machNorm2 == approx(0.70619, rel=1e-4)
+        inst = osr(self.gamma, po2_po1=0.93423, shock_angle=23.01624)
+        assert inst.shock_angle == approx(23.01624, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.48577, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.70619, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(3.8, rel=1e-1)
         assert inst.p2_p1 == approx(2.40876, rel=1e-4)
@@ -251,14 +253,14 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_from_mn2_shock_angle(self):
-        inst = osr(self.gamma, mn2=0.70619, shockAngle=23.01624)
-        assert inst.shockAngle == approx(radians(23.01624), rel=1e-4)
-        assert inst.wedgeAngle == approx(radians(10.0), rel=1e-4)
-        assert inst.machNorm1 == approx(1.48577, rel=1e-4)
-        assert inst.machNorm2 == approx(0.70619, rel=1e-4)
+        inst = osr(self.gamma, mn2=0.70619, shock_angle=23.01624)
+        assert inst.shock_angle == approx(23.01624, rel=1e-4)
+        assert inst.wedge_angle == approx(10.0, rel=1e-4)
+        assert inst.mach_normal_1 == approx(1.48577, rel=1e-4)
+        assert inst.mach_normal_2 == approx(0.70619, rel=1e-4)
         assert inst.gamma == approx(self.gamma, rel=1e-1)
         assert inst.mach == approx(3.8, rel=1e-1)
         assert inst.p2_p1 == approx(2.40876, rel=1e-4)
@@ -267,8 +269,8 @@ class TestObliqueShockRelationsClass:
         assert inst.po2_po1 == approx(0.93423, rel=1e-4)
         assert inst.po2_p1 == approx(3.35977, rel=1e-4)
         assert inst.mach2 == approx(3.13545, rel=1e-4)
-        assert inst.shockType == ShockType.WEAK
+        assert inst.shock_type == ShockType.WEAK
 
     def test_construction_not_enough_args(self):
         with pytest.raises(InvalidOptionCombinationError):
-            inst = osr(self.gamma)
+            osr(self.gamma)

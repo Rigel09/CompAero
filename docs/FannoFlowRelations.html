@@ -55,7 +55,7 @@ class FannoFlowRelations:
         rho_rhoSt (float, optional): Ratio of density to sonic density. Defaults to nan.
         po_poSt (float, optional): Ratio of Total pressure to sonic total pressre. Defaults to nan.
         f4LSt_D (float, optional): Effect of friction on pipe. Defaults to nan.
-        u_uSt (float, optional): Velocity to sonic Velocity. Defaults to nan.
+        u_u_st (float, optional): Velocity to sonic Velocity. Defaults to nan.
         flowType (FlowState, optional):  States wether the flow is subsonic or supersonic. Used for Area Ratio Calculations. Defaults to FlowState.SUPER_SONIC.
         
     Raises:
@@ -84,7 +84,7 @@ class FannoFlowRelations:
         rho_rhoSt: float = nan,
         po_poSt: float = nan,
         f4LSt_D: float = nan,
-        u_uSt: float = nan,
+        u_u_st: float = nan,
         flowType: FlowState = FlowState.SUPER_SONIC,
     ) -&gt; None:
         self.gamma = gamma
@@ -101,7 +101,7 @@ class FannoFlowRelations:
         &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0*&#34;&#34;&#34;
         self.f4LSt_D = f4LSt_D
         &#34;&#34;&#34; Friction parameter 4fL*/D&#34;&#34;&#34;
-        self.u_uSt = u_uSt
+        self.u_u_st = u_u_st
         &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U*&#34;&#34;&#34;
         self.flowType = flowType
         &#34;&#34;&#34; Type of flow which is either subsonic or supersonic (Type: flowstate) &#34;&#34;&#34;
@@ -131,7 +131,7 @@ class FannoFlowRelations:
         &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_f4LSt_D = nan
         &#34;&#34;&#34; Friction parameter 4fL*/D of the downstream flow&#34;&#34;&#34;
-        self.dwnStrm_u_uSt = nan
+        self.dwnStrm_u_u_st = nan
         &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U* at the downstream point&#34;&#34;&#34;
 
         # Downstream / Initial Conditions
@@ -173,8 +173,8 @@ class FannoFlowRelations:
                 self.f4LSt_D, self.gamma, flowType=self.flowType
             )
 
-        elif checkValue(self.u_uSt):
-            self.mach = FannoFlowRelations.calc_mach_from_U_USt(self.u_uSt, self.gamma)
+        elif checkValue(self.u_u_st):
+            self.mach = FannoFlowRelations.calc_mach_from_U_USt(self.u_u_st, self.gamma)
 
         else:
             raise InvalidOptionCombinationError()
@@ -199,7 +199,7 @@ class FannoFlowRelations:
                 to_string(&#34;P/P*&#34;, self.p_pSt, self.precision),
                 to_string(&#34;{}/{}*&#34;.format(lcg.rho, lcg.rho), self.rho_rhoSt, self.precision, dot_line=True),
                 to_string(&#34;4FL*/D&#34;, self.f4LSt_D, self.precision),
-                to_string(&#34;U/U*&#34;, self.u_uSt, self.precision, dot_line=True),
+                to_string(&#34;U/U*&#34;, self.u_u_st, self.precision, dot_line=True),
                 to_string(&#34;Flow Type&#34;, self.flowType.name, self.precision),
                 seperator(),
                 named_subheader(&#34;Pipe Parameters&#34;),
@@ -217,7 +217,7 @@ class FannoFlowRelations:
                 to_string(&#34;P0/P0*&#34;, self.dwnStrm_po_poSt, self.precision, dot_line=True),
                 to_string(&#34;{}/{}*&#34;.format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self.precision),
                 to_string(&#34;4FL*/D&#34;, self.dwnStrm_f4LSt_D, self.precision, dot_line=True),
-                to_string(&#34;U/U*&#34;, self.dwnStrm_u_uSt, self.precision),
+                to_string(&#34;U/U*&#34;, self.dwnStrm_u_u_st, self.precision),
                 seperator(),
                 named_subheader(&#34;Conditions Across Friction Area&#34;),
                 to_string(&#34;p2/p1&#34;, self.p2_p1, self.precision),
@@ -250,7 +250,7 @@ class FannoFlowRelations:
         self.rho_rhoSt = FannoFlowRelations.calc_Rho_RhoStar(self.mach, self.gamma)
         self.po_poSt = FannoFlowRelations.calc_Po_PoStar(self.mach, self.gamma)
         self.f4LSt_D = FannoFlowRelations.calc_4FLSt_D(self.mach, self.gamma)
-        self.u_uSt = FannoFlowRelations.calc_U_UStar(self.mach, self.gamma)
+        self.u_u_st = FannoFlowRelations.calc_U_UStar(self.mach, self.gamma)
 
         if self.mach &lt; 1:
             self.flowType = FlowState.SUB_SONIC
@@ -275,7 +275,7 @@ class FannoFlowRelations:
         self.dwnStrm_p_pSt = FannoFlowRelations.calc_P_Pstar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_rho_rhoSt = FannoFlowRelations.calc_Rho_RhoStar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_po_poSt = FannoFlowRelations.calc_Po_PoStar(self.dwnStrmMach, self.gamma)
-        self.dwnStrm_u_uSt = FannoFlowRelations.calc_U_UStar(self.dwnStrmMach, self.gamma)
+        self.dwnStrm_u_u_st = FannoFlowRelations.calc_U_UStar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_f4LSt_D = FannoFlowRelations.calc_4FLSt_D(self.dwnStrmMach, self.gamma)
 
         # Calculate parameter ratios across the condition
@@ -284,7 +284,7 @@ class FannoFlowRelations:
         self.rho2_rho1 = self.dwnStrm_rho_rhoSt / self.rho_rhoSt
         self.po2_po1 = self.dwnStrm_po_poSt / self.po_poSt
         self.f4LD2_f4LD1 = self.dwnStrm_f4LSt_D / self.f4LSt_D
-        self.u2_u1 = self.dwnStrm_u_uSt / self.u_uSt
+        self.u2_u1 = self.dwnStrm_u_u_st / self.u_u_st
 
     @staticmethod
     def calc_T_Tstar(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
@@ -478,17 +478,17 @@ class FannoFlowRelations:
         return mach * sqrt(t_tSt) - offset
 
     @staticmethod
-    def calc_mach_from_U_USt(u_uSt: float, gamma: float) -&gt; float:
+    def calc_mach_from_U_USt(u_u_st: float, gamma: float) -&gt; float:
         &#34;&#34;&#34;Calculates the mach number based of the ratio of velocity to sonic velocity U/U*
 
         Args:
-            u_uSt (float): Ratio of velocity to sonic velocity U/U*
+            u_u_st (float): Ratio of velocity to sonic velocity U/U*
             gamma (float): ratio of specific heats
 
         Returns:
             float: mach number
         &#34;&#34;&#34;
-        return brenth(FannoFlowRelations.calc_U_UStar, 1e-9, 40, args=(gamma, u_uSt))</code></pre>
+        return brenth(FannoFlowRelations.calc_U_UStar, 1e-9, 40, args=(gamma, u_u_st))</code></pre>
 </details>
 </section>
 <section>
@@ -502,7 +502,7 @@ class FannoFlowRelations:
 <dl>
 <dt id="CompAero.FannoFlowRelations.FannoFlowRelations"><code class="flex name class">
 <span>class <span class="ident">FannoFlowRelations</span></span>
-<span>(</span><span>gamma: float, mach: float = nan, t_tSt: float = nan, p_pSt: float = nan, rho_rhoSt: float = nan, po_poSt: float = nan, f4LSt_D: float = nan, u_uSt: float = nan, flowType: <a title="CompAero.internal.FlowState" href="internal.html#CompAero.internal.FlowState">FlowState</a> = FlowState.SUPER_SONIC)</span>
+<span>(</span><span>gamma: float, mach: float = nan, t_tSt: float = nan, p_pSt: float = nan, rho_rhoSt: float = nan, po_poSt: float = nan, f4LSt_D: float = nan, u_u_st: float = nan, flowType: <a title="CompAero.internal.FlowState" href="internal.html#CompAero.internal.FlowState">FlowState</a> = FlowState.SUPER_SONIC)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This class is a collective name space for basic calculations regarding Fanno flows.
@@ -524,7 +524,7 @@ The constructor of this class can also determine the entire state of the flow gi
 <dd>Ratio of Total pressure to sonic total pressre. Defaults to nan.</dd>
 <dt><strong><code>f4LSt_D</code></strong> :&ensp;<code>float</code>, optional</dt>
 <dd>Effect of friction on pipe. Defaults to nan.</dd>
-<dt><strong><code>u_uSt</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dt><strong><code>u_u_st</code></strong> :&ensp;<code>float</code>, optional</dt>
 <dd>Velocity to sonic Velocity. Defaults to nan.</dd>
 <dt><strong><code>flowType</code></strong> :&ensp;<code>FlowState</code>, optional</dt>
 <dd>States wether the flow is subsonic or supersonic. Used for Area Ratio Calculations. Defaults to FlowState.SUPER_SONIC.</dd>
@@ -562,7 +562,7 @@ The constructor of this class can also determine the entire state of the flow gi
         rho_rhoSt (float, optional): Ratio of density to sonic density. Defaults to nan.
         po_poSt (float, optional): Ratio of Total pressure to sonic total pressre. Defaults to nan.
         f4LSt_D (float, optional): Effect of friction on pipe. Defaults to nan.
-        u_uSt (float, optional): Velocity to sonic Velocity. Defaults to nan.
+        u_u_st (float, optional): Velocity to sonic Velocity. Defaults to nan.
         flowType (FlowState, optional):  States wether the flow is subsonic or supersonic. Used for Area Ratio Calculations. Defaults to FlowState.SUPER_SONIC.
         
     Raises:
@@ -591,7 +591,7 @@ The constructor of this class can also determine the entire state of the flow gi
         rho_rhoSt: float = nan,
         po_poSt: float = nan,
         f4LSt_D: float = nan,
-        u_uSt: float = nan,
+        u_u_st: float = nan,
         flowType: FlowState = FlowState.SUPER_SONIC,
     ) -&gt; None:
         self.gamma = gamma
@@ -608,7 +608,7 @@ The constructor of this class can also determine the entire state of the flow gi
         &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0*&#34;&#34;&#34;
         self.f4LSt_D = f4LSt_D
         &#34;&#34;&#34; Friction parameter 4fL*/D&#34;&#34;&#34;
-        self.u_uSt = u_uSt
+        self.u_u_st = u_u_st
         &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U*&#34;&#34;&#34;
         self.flowType = flowType
         &#34;&#34;&#34; Type of flow which is either subsonic or supersonic (Type: flowstate) &#34;&#34;&#34;
@@ -638,7 +638,7 @@ The constructor of this class can also determine the entire state of the flow gi
         &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0* at the downstream point&#34;&#34;&#34;
         self.dwnStrm_f4LSt_D = nan
         &#34;&#34;&#34; Friction parameter 4fL*/D of the downstream flow&#34;&#34;&#34;
-        self.dwnStrm_u_uSt = nan
+        self.dwnStrm_u_u_st = nan
         &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U* at the downstream point&#34;&#34;&#34;
 
         # Downstream / Initial Conditions
@@ -680,8 +680,8 @@ The constructor of this class can also determine the entire state of the flow gi
                 self.f4LSt_D, self.gamma, flowType=self.flowType
             )
 
-        elif checkValue(self.u_uSt):
-            self.mach = FannoFlowRelations.calc_mach_from_U_USt(self.u_uSt, self.gamma)
+        elif checkValue(self.u_u_st):
+            self.mach = FannoFlowRelations.calc_mach_from_U_USt(self.u_u_st, self.gamma)
 
         else:
             raise InvalidOptionCombinationError()
@@ -706,7 +706,7 @@ The constructor of this class can also determine the entire state of the flow gi
                 to_string(&#34;P/P*&#34;, self.p_pSt, self.precision),
                 to_string(&#34;{}/{}*&#34;.format(lcg.rho, lcg.rho), self.rho_rhoSt, self.precision, dot_line=True),
                 to_string(&#34;4FL*/D&#34;, self.f4LSt_D, self.precision),
-                to_string(&#34;U/U*&#34;, self.u_uSt, self.precision, dot_line=True),
+                to_string(&#34;U/U*&#34;, self.u_u_st, self.precision, dot_line=True),
                 to_string(&#34;Flow Type&#34;, self.flowType.name, self.precision),
                 seperator(),
                 named_subheader(&#34;Pipe Parameters&#34;),
@@ -724,7 +724,7 @@ The constructor of this class can also determine the entire state of the flow gi
                 to_string(&#34;P0/P0*&#34;, self.dwnStrm_po_poSt, self.precision, dot_line=True),
                 to_string(&#34;{}/{}*&#34;.format(lcg.rho, lcg.rho), self.dwnStrm_rho_rhoSt, self.precision),
                 to_string(&#34;4FL*/D&#34;, self.dwnStrm_f4LSt_D, self.precision, dot_line=True),
-                to_string(&#34;U/U*&#34;, self.dwnStrm_u_uSt, self.precision),
+                to_string(&#34;U/U*&#34;, self.dwnStrm_u_u_st, self.precision),
                 seperator(),
                 named_subheader(&#34;Conditions Across Friction Area&#34;),
                 to_string(&#34;p2/p1&#34;, self.p2_p1, self.precision),
@@ -757,7 +757,7 @@ The constructor of this class can also determine the entire state of the flow gi
         self.rho_rhoSt = FannoFlowRelations.calc_Rho_RhoStar(self.mach, self.gamma)
         self.po_poSt = FannoFlowRelations.calc_Po_PoStar(self.mach, self.gamma)
         self.f4LSt_D = FannoFlowRelations.calc_4FLSt_D(self.mach, self.gamma)
-        self.u_uSt = FannoFlowRelations.calc_U_UStar(self.mach, self.gamma)
+        self.u_u_st = FannoFlowRelations.calc_U_UStar(self.mach, self.gamma)
 
         if self.mach &lt; 1:
             self.flowType = FlowState.SUB_SONIC
@@ -782,7 +782,7 @@ The constructor of this class can also determine the entire state of the flow gi
         self.dwnStrm_p_pSt = FannoFlowRelations.calc_P_Pstar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_rho_rhoSt = FannoFlowRelations.calc_Rho_RhoStar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_po_poSt = FannoFlowRelations.calc_Po_PoStar(self.dwnStrmMach, self.gamma)
-        self.dwnStrm_u_uSt = FannoFlowRelations.calc_U_UStar(self.dwnStrmMach, self.gamma)
+        self.dwnStrm_u_u_st = FannoFlowRelations.calc_U_UStar(self.dwnStrmMach, self.gamma)
         self.dwnStrm_f4LSt_D = FannoFlowRelations.calc_4FLSt_D(self.dwnStrmMach, self.gamma)
 
         # Calculate parameter ratios across the condition
@@ -791,7 +791,7 @@ The constructor of this class can also determine the entire state of the flow gi
         self.rho2_rho1 = self.dwnStrm_rho_rhoSt / self.rho_rhoSt
         self.po2_po1 = self.dwnStrm_po_poSt / self.po_poSt
         self.f4LD2_f4LD1 = self.dwnStrm_f4LSt_D / self.f4LSt_D
-        self.u2_u1 = self.dwnStrm_u_uSt / self.u_uSt
+        self.u2_u1 = self.dwnStrm_u_u_st / self.u_u_st
 
     @staticmethod
     def calc_T_Tstar(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
@@ -985,17 +985,17 @@ The constructor of this class can also determine the entire state of the flow gi
         return mach * sqrt(t_tSt) - offset
 
     @staticmethod
-    def calc_mach_from_U_USt(u_uSt: float, gamma: float) -&gt; float:
+    def calc_mach_from_U_USt(u_u_st: float, gamma: float) -&gt; float:
         &#34;&#34;&#34;Calculates the mach number based of the ratio of velocity to sonic velocity U/U*
 
         Args:
-            u_uSt (float): Ratio of velocity to sonic velocity U/U*
+            u_u_st (float): Ratio of velocity to sonic velocity U/U*
             gamma (float): ratio of specific heats
 
         Returns:
             float: mach number
         &#34;&#34;&#34;
-        return brenth(FannoFlowRelations.calc_U_UStar, 1e-9, 40, args=(gamma, u_uSt))</code></pre>
+        return brenth(FannoFlowRelations.calc_U_UStar, 1e-9, 40, args=(gamma, u_u_st))</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
@@ -1455,13 +1455,13 @@ def calc_mach_from_T_TStar(t_tSt: float, gamma: float) -&gt; float:
 </details>
 </dd>
 <dt id="CompAero.FannoFlowRelations.FannoFlowRelations.calc_mach_from_U_USt"><code class="name flex">
-<span>def <span class="ident">calc_mach_from_U_USt</span></span>(<span>u_uSt: float, gamma: float) ‑> float</span>
+<span>def <span class="ident">calc_mach_from_U_USt</span></span>(<span>u_u_st: float, gamma: float) ‑> float</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Calculates the mach number based of the ratio of velocity to sonic velocity U/U*</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>u_uSt</code></strong> :&ensp;<code>float</code></dt>
+<dt><strong><code>u_u_st</code></strong> :&ensp;<code>float</code></dt>
 <dd>Ratio of velocity to sonic velocity U/U*</dd>
 <dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
 <dd>ratio of specific heats</dd>
@@ -1476,17 +1476,17 @@ def calc_mach_from_T_TStar(t_tSt: float, gamma: float) -&gt; float:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def calc_mach_from_U_USt(u_uSt: float, gamma: float) -&gt; float:
+def calc_mach_from_U_USt(u_u_st: float, gamma: float) -&gt; float:
     &#34;&#34;&#34;Calculates the mach number based of the ratio of velocity to sonic velocity U/U*
 
     Args:
-        u_uSt (float): Ratio of velocity to sonic velocity U/U*
+        u_u_st (float): Ratio of velocity to sonic velocity U/U*
         gamma (float): ratio of specific heats
 
     Returns:
         float: mach number
     &#34;&#34;&#34;
-    return brenth(FannoFlowRelations.calc_U_UStar, 1e-9, 40, args=(gamma, u_uSt))</code></pre>
+    return brenth(FannoFlowRelations.calc_U_UStar, 1e-9, 40, args=(gamma, u_u_st))</code></pre>
 </details>
 </dd>
 </dl>
@@ -1533,7 +1533,7 @@ def chockedFlow(self) -&gt; bool:
 <dd>
 <div class="desc"><p>Ratio of temperature to the sonic temperature T/T* at the downstream point</p></div>
 </dd>
-<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_u_uSt"><code class="name">var <span class="ident">dwnStrm_u_uSt</span></code></dt>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_u_u_st"><code class="name">var <span class="ident">dwnStrm_u_u_st</span></code></dt>
 <dd>
 <div class="desc"><p>Ratio of velocity to the sonic velcoity U/U* at the downstream point</p></div>
 </dd>
@@ -1609,7 +1609,7 @@ def chockedFlow(self) -&gt; bool:
 <dd>
 <div class="desc"><p>Ratio of downstream velocity to upstream velocity</p></div>
 </dd>
-<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.u_uSt"><code class="name">var <span class="ident">u_uSt</span></code></dt>
+<dt id="CompAero.FannoFlowRelations.FannoFlowRelations.u_u_st"><code class="name">var <span class="ident">u_u_st</span></code></dt>
 <dd>
 <div class="desc"><p>Ratio of velocity to the sonic velcoity U/U*</p></div>
 </dd>
@@ -1692,7 +1692,7 @@ This allows the state at the downstream end of the pipe or pipe section to be fo
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_po_poSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_po_poSt">dwnStrm_po_poSt</a></code></li>
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_rho_rhoSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_rho_rhoSt">dwnStrm_rho_rhoSt</a></code></li>
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_t_tSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_t_tSt">dwnStrm_t_tSt</a></code></li>
-<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_u_uSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_u_uSt">dwnStrm_u_uSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_u_u_st" href="#CompAero.FannoFlowRelations.FannoFlowRelations.dwnStrm_u_u_st">dwnStrm_u_u_st</a></code></li>
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.f4LD2_f4LD1" href="#CompAero.FannoFlowRelations.FannoFlowRelations.f4LD2_f4LD1">f4LD2_f4LD1</a></code></li>
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.f4LSt_D" href="#CompAero.FannoFlowRelations.FannoFlowRelations.f4LSt_D">f4LSt_D</a></code></li>
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.flowType" href="#CompAero.FannoFlowRelations.FannoFlowRelations.flowType">flowType</a></code></li>
@@ -1711,7 +1711,7 @@ This allows the state at the downstream end of the pipe or pipe section to be fo
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.t2_t1" href="#CompAero.FannoFlowRelations.FannoFlowRelations.t2_t1">t2_t1</a></code></li>
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.t_tSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.t_tSt">t_tSt</a></code></li>
 <li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.u2_u1" href="#CompAero.FannoFlowRelations.FannoFlowRelations.u2_u1">u2_u1</a></code></li>
-<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.u_uSt" href="#CompAero.FannoFlowRelations.FannoFlowRelations.u_uSt">u_uSt</a></code></li>
+<li><code><a title="CompAero.FannoFlowRelations.FannoFlowRelations.u_u_st" href="#CompAero.FannoFlowRelations.FannoFlowRelations.u_u_st">u_u_st</a></code></li>
 </ul>
 </li>
 </ul>

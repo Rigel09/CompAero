@@ -56,7 +56,7 @@ class PrandtlMeyer:
         dwnstreamNu (float, optional): down stream prandtl meyer function. Defaults to nan.
         dwnStreamMu (float, optional): down stream mach wave angle. Defaults to nan.
         dwnStreamMach (float, optional): down stream mach number. Defaults to nan.
-        deflectionAngle (float, optional): deflection angle seen by the flow. Defaults to nan.
+        deflection_angle (float, optional): deflection angle seen by the flow. Defaults to nan.
         inDegrees (bool, optional): True if angles passed in are in degrees. Doesnt convert output to defrees. Defaults to True.
 
     Raises:
@@ -84,7 +84,7 @@ class PrandtlMeyer:
         dwnstreamNu: float = nan,
         dwnStreamMu: float = nan,
         dwnStreamMach: float = nan,
-        deflectionAngle: float = nan,
+        deflection_angle: float = nan,
         inDegrees: bool = True,
     ) -&gt; None:
         self.gamma = gamma
@@ -95,7 +95,7 @@ class PrandtlMeyer:
         &#34;&#34;&#34; The Prandtl Meyer function value &#34;&#34;&#34;
         self.mu = mu
         &#34;&#34;&#34; The angle of the mach wave&#34;&#34;&#34;
-        self.deflectionAngle = deflectionAngle
+        self.deflection_angle = deflection_angle
         &#34;&#34;&#34; Angle of the flow deflection angle&#34;&#34;&#34;
         self._degrees = inDegrees
         &#34;&#34;&#34; Angles passed to the constructor are in degrees&#34;&#34;&#34;
@@ -110,7 +110,7 @@ class PrandtlMeyer:
         &#34;&#34;&#34; Mach number of the flow after the expansion wave &#34;&#34;&#34;
 
         if not self._degrees:
-            self.deflectionAngle = degrees(self.deflectionAngle)
+            self.deflection_angle = degrees(self.deflection_angle)
 
         if not checkValue(self.gamma):
             raise GammaNotDefinedError()
@@ -123,19 +123,19 @@ class PrandtlMeyer:
         elif checkValue(self.mu):
             self.mach = ObliqueShockRelations.calc_mach_from_mach_wave_angle(radians(self.mu))
 
-        elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_mach):
+        elif checkValue(self.deflection_angle) and checkValue(self.dwmStrm_mach):
             self.dwmStrm_nu = PrandtlMeyer.calc_nu(self.dwmStrm_mach, self.gamma)
-            self.nu = self.dwmStrm_nu - self.deflectionAngle
+            self.nu = self.dwmStrm_nu - self.deflection_angle
             self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
-        elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_nu):
-            self.nu = self.dwmStrm_nu - self.deflectionAngle
+        elif checkValue(self.deflection_angle) and checkValue(self.dwmStrm_nu):
+            self.nu = self.dwmStrm_nu - self.deflection_angle
             self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
-        elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_mu):
+        elif checkValue(self.deflection_angle) and checkValue(self.dwmStrm_mu):
             self.dwmStrm_mach = ObliqueShockRelations.calc_mach_from_mach_wave_angle(radians(self.dwmStrm_mu))
             self.dwmStrm_nu = PrandtlMeyer.calc_nu(self.dwmStrm_mach, self.gamma)
-            self.nu = self.dwmStrm_nu - self.deflectionAngle
+            self.nu = self.dwmStrm_nu - self.deflection_angle
             self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
         else:
@@ -159,7 +159,7 @@ class PrandtlMeyer:
                 to_string(lcg.mu, self.dwmStrm_mu, self.precision),
                 to_string(
                     &#34;Flow Deflection Angle [{}]&#34;.format(lcg.theta),
-                    self.deflectionAngle,
+                    self.deflection_angle,
                     self.precision,
                     dot_line=True,
                 ),
@@ -171,10 +171,10 @@ class PrandtlMeyer:
         self.nu = PrandtlMeyer.calc_nu(self.mach, self.gamma)
         self.mu = degrees(ObliqueShockRelations.calc_mach_wave_angle(self.mach))
 
-        if not checkValue(self.deflectionAngle):
+        if not checkValue(self.deflection_angle):
             return
 
-        self.dwmStrm_nu = self.deflectionAngle + self.nu
+        self.dwmStrm_nu = self.deflection_angle + self.nu
         self.dwmStrm_mach = PrandtlMeyer.calc_mach_from_nu(self.dwmStrm_nu, self.gamma)
         self.dwmStrm_mu = degrees(ObliqueShockRelations.calc_mach_wave_angle(self.dwmStrm_mach))
 
@@ -226,7 +226,7 @@ class PrandtlMeyer:
 <dl>
 <dt id="CompAero.PrandtlMeyer.PrandtlMeyer"><code class="flex name class">
 <span>class <span class="ident">PrandtlMeyer</span></span>
-<span>(</span><span>gamma: float, mach: float = nan, nu: float = nan, mu: float = nan, dwnstreamNu: float = nan, dwnStreamMu: float = nan, dwnStreamMach: float = nan, deflectionAngle: float = nan, inDegrees: bool = True)</span>
+<span>(</span><span>gamma: float, mach: float = nan, nu: float = nan, mu: float = nan, dwnstreamNu: float = nan, dwnStreamMu: float = nan, dwnStreamMach: float = nan, deflection_angle: float = nan, inDegrees: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This class is a collective name space for basic calculations regarding Prandtl Meyer flows.
@@ -247,7 +247,7 @@ The constructor of this class can also determine the entire state of the flow gi
 <dd>down stream mach wave angle. Defaults to nan.</dd>
 <dt><strong><code>dwnStreamMach</code></strong> :&ensp;<code>float</code>, optional</dt>
 <dd>down stream mach number. Defaults to nan.</dd>
-<dt><strong><code>deflectionAngle</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dt><strong><code>deflection_angle</code></strong> :&ensp;<code>float</code>, optional</dt>
 <dd>deflection angle seen by the flow. Defaults to nan.</dd>
 <dt><strong><code>inDegrees</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>True if angles passed in are in degrees. Doesnt convert output to defrees. Defaults to True.</dd>
@@ -284,7 +284,7 @@ To use this class pass gamma and one of the known parameters of the flow and the
         dwnstreamNu (float, optional): down stream prandtl meyer function. Defaults to nan.
         dwnStreamMu (float, optional): down stream mach wave angle. Defaults to nan.
         dwnStreamMach (float, optional): down stream mach number. Defaults to nan.
-        deflectionAngle (float, optional): deflection angle seen by the flow. Defaults to nan.
+        deflection_angle (float, optional): deflection angle seen by the flow. Defaults to nan.
         inDegrees (bool, optional): True if angles passed in are in degrees. Doesnt convert output to defrees. Defaults to True.
 
     Raises:
@@ -312,7 +312,7 @@ To use this class pass gamma and one of the known parameters of the flow and the
         dwnstreamNu: float = nan,
         dwnStreamMu: float = nan,
         dwnStreamMach: float = nan,
-        deflectionAngle: float = nan,
+        deflection_angle: float = nan,
         inDegrees: bool = True,
     ) -&gt; None:
         self.gamma = gamma
@@ -323,7 +323,7 @@ To use this class pass gamma and one of the known parameters of the flow and the
         &#34;&#34;&#34; The Prandtl Meyer function value &#34;&#34;&#34;
         self.mu = mu
         &#34;&#34;&#34; The angle of the mach wave&#34;&#34;&#34;
-        self.deflectionAngle = deflectionAngle
+        self.deflection_angle = deflection_angle
         &#34;&#34;&#34; Angle of the flow deflection angle&#34;&#34;&#34;
         self._degrees = inDegrees
         &#34;&#34;&#34; Angles passed to the constructor are in degrees&#34;&#34;&#34;
@@ -338,7 +338,7 @@ To use this class pass gamma and one of the known parameters of the flow and the
         &#34;&#34;&#34; Mach number of the flow after the expansion wave &#34;&#34;&#34;
 
         if not self._degrees:
-            self.deflectionAngle = degrees(self.deflectionAngle)
+            self.deflection_angle = degrees(self.deflection_angle)
 
         if not checkValue(self.gamma):
             raise GammaNotDefinedError()
@@ -351,19 +351,19 @@ To use this class pass gamma and one of the known parameters of the flow and the
         elif checkValue(self.mu):
             self.mach = ObliqueShockRelations.calc_mach_from_mach_wave_angle(radians(self.mu))
 
-        elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_mach):
+        elif checkValue(self.deflection_angle) and checkValue(self.dwmStrm_mach):
             self.dwmStrm_nu = PrandtlMeyer.calc_nu(self.dwmStrm_mach, self.gamma)
-            self.nu = self.dwmStrm_nu - self.deflectionAngle
+            self.nu = self.dwmStrm_nu - self.deflection_angle
             self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
-        elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_nu):
-            self.nu = self.dwmStrm_nu - self.deflectionAngle
+        elif checkValue(self.deflection_angle) and checkValue(self.dwmStrm_nu):
+            self.nu = self.dwmStrm_nu - self.deflection_angle
             self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
-        elif checkValue(self.deflectionAngle) and checkValue(self.dwmStrm_mu):
+        elif checkValue(self.deflection_angle) and checkValue(self.dwmStrm_mu):
             self.dwmStrm_mach = ObliqueShockRelations.calc_mach_from_mach_wave_angle(radians(self.dwmStrm_mu))
             self.dwmStrm_nu = PrandtlMeyer.calc_nu(self.dwmStrm_mach, self.gamma)
-            self.nu = self.dwmStrm_nu - self.deflectionAngle
+            self.nu = self.dwmStrm_nu - self.deflection_angle
             self.mach = PrandtlMeyer.calc_mach_from_nu(self.nu, self.gamma)
 
         else:
@@ -387,7 +387,7 @@ To use this class pass gamma and one of the known parameters of the flow and the
                 to_string(lcg.mu, self.dwmStrm_mu, self.precision),
                 to_string(
                     &#34;Flow Deflection Angle [{}]&#34;.format(lcg.theta),
-                    self.deflectionAngle,
+                    self.deflection_angle,
                     self.precision,
                     dot_line=True,
                 ),
@@ -399,10 +399,10 @@ To use this class pass gamma and one of the known parameters of the flow and the
         self.nu = PrandtlMeyer.calc_nu(self.mach, self.gamma)
         self.mu = degrees(ObliqueShockRelations.calc_mach_wave_angle(self.mach))
 
-        if not checkValue(self.deflectionAngle):
+        if not checkValue(self.deflection_angle):
             return
 
-        self.dwmStrm_nu = self.deflectionAngle + self.nu
+        self.dwmStrm_nu = self.deflection_angle + self.nu
         self.dwmStrm_mach = PrandtlMeyer.calc_mach_from_nu(self.dwmStrm_nu, self.gamma)
         self.dwmStrm_mu = degrees(ObliqueShockRelations.calc_mach_wave_angle(self.dwmStrm_mach))
 
@@ -529,7 +529,7 @@ def calc_nu(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
 </dl>
 <h3>Instance variables</h3>
 <dl>
-<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.deflectionAngle"><code class="name">var <span class="ident">deflectionAngle</span></code></dt>
+<dt id="CompAero.PrandtlMeyer.PrandtlMeyer.deflection_angle"><code class="name">var <span class="ident">deflection_angle</span></code></dt>
 <dd>
 <div class="desc"><p>Angle of the flow deflection angle</p></div>
 </dd>
@@ -588,7 +588,7 @@ def calc_nu(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
 <ul class="two-column">
 <li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.calc_mach_from_nu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.calc_mach_from_nu">calc_mach_from_nu</a></code></li>
 <li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.calc_nu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.calc_nu">calc_nu</a></code></li>
-<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.deflectionAngle" href="#CompAero.PrandtlMeyer.PrandtlMeyer.deflectionAngle">deflectionAngle</a></code></li>
+<li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.deflection_angle" href="#CompAero.PrandtlMeyer.PrandtlMeyer.deflection_angle">deflection_angle</a></code></li>
 <li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mach" href="#CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mach">dwmStrm_mach</a></code></li>
 <li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_mu">dwmStrm_mu</a></code></li>
 <li><code><a title="CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_nu" href="#CompAero.PrandtlMeyer.PrandtlMeyer.dwmStrm_nu">dwmStrm_nu</a></code></li>

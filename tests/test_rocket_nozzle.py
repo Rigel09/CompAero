@@ -1,5 +1,10 @@
-from CompAero.RocketNozzle import thrust_coefficient, max_thrust_coefficient, min_thrust_coefficient
 from pytest import approx, raises
+
+from CompAero.rocket_nozzle import (
+    max_thrust_coefficient,
+    min_thrust_coefficient,
+    thrust_coefficient,
+)
 
 
 class Test_Rocket_Nozzle:
