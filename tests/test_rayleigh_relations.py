@@ -1,3 +1,7 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
 from pytest import approx
 
 from CompAero.internal import FlowState as FS
@@ -5,6 +9,7 @@ from CompAero.rayleigh_flow_relations import RayleighFlowRelations as rfr
 
 
 class TestRayleighClassFuncs:
+    # pylint: disable=too-many-public-methods
     gamma = 1.4
 
     # Test the Functions for Subsonic Case
@@ -13,7 +18,9 @@ class TestRayleighClassFuncs:
         assert rfr.calc_t_t_star(0.5, self.gamma) == approx(0.7901, rel=1e-4)
 
     def test_subsonic_mach_from_t_tstar(self):
-        assert rfr.calc_mach_from_t_t_star(0.79012345, self.gamma, FS.SUB_SONIC) == approx(0.5, rel=1e-2)
+        assert rfr.calc_mach_from_t_t_star(0.79012345, self.gamma, FS.SUB_SONIC) == approx(
+            0.5, rel=1e-2
+        )
 
     def test_subsonic_p_pstar(self):
         assert rfr.calc_p_p_star(0.5, self.gamma) == approx(1.7778, rel=1e-4)
@@ -27,21 +34,21 @@ class TestRayleighClassFuncs:
     def test_subsonic_mach_from_rho_rho_star(self):
         assert rfr.calc_mach_from_rho_rho_star(2.25, 1.4) == approx(0.5, 1e-3)
 
-    def test_subsonic_p0_p0Star(self):
+    def test_subsonic_p0_p0_star(self):
         assert rfr.calc_po_po_star(0.5, self.gamma) == approx(1.1141, rel=1e-4)
 
-    def test_subsonic_mach_from_p0_p0Star(self):
-        assert rfr.calc_mach_from_po_po_star(1.11405250, self.gamma, flow_type=FS.SUB_SONIC) == approx(
-            0.5, 1e-3
-        )
+    def test_subsonic_mach_from_p0_p0_star(self):
+        assert rfr.calc_mach_from_po_po_star(
+            1.11405250, self.gamma, flow_type=FS.SUB_SONIC
+        ) == approx(0.5, 1e-3)
 
-    def test_subsonic_t0_t0Star(self):
+    def test_subsonic_t0_t0_star(self):
         assert rfr.calc_to_to_star(0.5, self.gamma) == approx(0.6914, rel=1e-4)
 
-    def test_subsonic_mach_from_t0_t0Star(self):
-        assert rfr.calc_mach_from_to_to_star(0.69135802, self.gamma, flow_type=FS.SUB_SONIC) == approx(
-            0.5, rel=1e-3
-        )
+    def test_subsonic_mach_from_t0_t0_star(self):
+        assert rfr.calc_mach_from_to_to_star(
+            0.69135802, self.gamma, flow_type=FS.SUB_SONIC
+        ) == approx(0.5, rel=1e-3)
 
     def test_subsonic_u_u_star(self):
         assert rfr.calc_u_u_starar(0.5, self.gamma) == approx(0.44444, rel=1e-4)
@@ -55,9 +62,9 @@ class TestRayleighClassFuncs:
         assert rfr.calc_t_t_star(1.5, self.gamma) == approx(0.7525, rel=1e-4)
 
     def test_supersonic_mach_from_t_tstar(self):
-        assert rfr.calc_mach_from_t_t_star(0.75250399, self.gamma, flow_type=FS.SUPER_SONIC) == approx(
-            1.5, rel=1e-2
-        )
+        assert rfr.calc_mach_from_t_t_star(
+            0.75250399, self.gamma, flow_type=FS.SUPER_SONIC
+        ) == approx(1.5, rel=1e-2)
 
     def test_supersonic_p_pstar(self):
         assert rfr.calc_p_p_star(1.5, self.gamma) == approx(0.5783, rel=1e-4)
@@ -71,19 +78,19 @@ class TestRayleighClassFuncs:
     def test_supersonic_mach_from_rho_rho_star(self):
         assert rfr.calc_mach_from_rho_rho_star(0.7685185185185186, 1.4) == approx(1.5, 1e-3)
 
-    def test_supersonic_p0_p0Star(self):
+    def test_supersonic_p0_p0_star(self):
         assert rfr.calc_po_po_star(1.5, self.gamma) == approx(1.1215, rel=1e-4)
 
-    def test_supersonic_mach_from_p0_p0Star(self):
+    def test_supersonic_mach_from_p0_p0_star(self):
         assert rfr.calc_mach_from_po_po_star(1.12154522, self.gamma) == approx(1.5, 1e-3)
 
-    def test_supersonic_t0_t0Star(self):
+    def test_supersonic_t0_t0_star(self):
         assert rfr.calc_to_to_star(1.5, self.gamma) == approx(0.9093, rel=1e-4)
 
-    def test_supersonic_mach_from_t0_t0Star(self):
-        assert rfr.calc_mach_from_to_to_star(0.90927565, self.gamma, flow_type=FS.SUPER_SONIC) == approx(
-            1.5, rel=1e-3
-        )
+    def test_supersonic_mach_from_t0_t0_star(self):
+        assert rfr.calc_mach_from_to_to_star(
+            0.90927565, self.gamma, flow_type=FS.SUPER_SONIC
+        ) == approx(1.5, rel=1e-3)
 
     def test_supersonic_u_u_star(self):
         assert rfr.calc_u_u_starar(1.5, self.gamma) == approx(1.3012, rel=1e-4)
@@ -107,7 +114,7 @@ class TestRayleighClassSubsonic:
         assert inst.po_po_st == approx(1.1141, rel=1e-4)
         assert inst.to_to_st == approx(0.6914, rel=1e-4)
         assert inst.u_u_st == approx(0.44444, rel=1e-4)
-        assert inst.choked_heat== approx(123410.0, rel=1e-1)
+        assert inst.choked_heat == approx(123410.0, rel=1e-1)
         assert inst.heat == approx(100000)
         assert inst.gas_constant_r == approx(275.2, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -140,7 +147,7 @@ class TestRayleighClassSubsonic:
         assert inst.po_po_st == approx(1.1141, rel=1e-4)
         assert inst.to_to_st == approx(0.6914, rel=1e-4)
         assert inst.u_u_st == approx(0.44444, rel=1e-4)
-        assert inst.choked_heat== approx(123410.0, rel=1e-1)
+        assert inst.choked_heat == approx(123410.0, rel=1e-1)
         assert inst.heat == approx(100000)
         assert inst.gas_constant_r == approx(275.2, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -173,7 +180,7 @@ class TestRayleighClassSubsonic:
         assert inst.po_po_st == approx(1.1141, rel=1e-4)
         assert inst.to_to_st == approx(0.6914, rel=1e-4)
         assert inst.u_u_st == approx(0.44444, rel=1e-4)
-        assert inst.choked_heat== approx(123410.0, rel=1e-1)
+        assert inst.choked_heat == approx(123410.0, rel=1e-1)
         assert inst.heat == approx(100000)
         assert inst.gas_constant_r == approx(275.2, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -206,7 +213,7 @@ class TestRayleighClassSubsonic:
         assert inst.po_po_st == approx(1.1141, rel=1e-4)
         assert inst.to_to_st == approx(0.6914, rel=1e-4)
         assert inst.u_u_st == approx(0.44444, rel=1e-4)
-        assert inst.choked_heat== approx(123410.0, rel=1e-1)
+        assert inst.choked_heat == approx(123410.0, rel=1e-1)
         assert inst.heat == approx(100000)
         assert inst.gas_constant_r == approx(275.2, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -239,7 +246,7 @@ class TestRayleighClassSubsonic:
         assert inst.po_po_st == approx(1.1141, rel=1e-4)
         assert inst.to_to_st == approx(0.6914, rel=1e-4)
         assert inst.u_u_st == approx(0.44444, rel=1e-4)
-        assert inst.choked_heat== approx(123410.0, rel=1e-1)
+        assert inst.choked_heat == approx(123410.0, rel=1e-1)
         assert inst.heat == approx(100000)
         assert inst.gas_constant_r == approx(275.2, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -272,7 +279,7 @@ class TestRayleighClassSubsonic:
         assert inst.po_po_st == approx(1.1141, rel=1e-4)
         assert inst.to_to_st == approx(0.6914, rel=1e-4)
         assert inst.u_u_st == approx(0.44444, rel=1e-4)
-        assert inst.choked_heat== approx(123410.0, rel=1e-1)
+        assert inst.choked_heat == approx(123410.0, rel=1e-1)
         assert inst.heat == approx(100000)
         assert inst.gas_constant_r == approx(275.2, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -305,7 +312,7 @@ class TestRayleighClassSubsonic:
         assert inst.po_po_st == approx(1.1141, rel=1e-4)
         assert inst.to_to_st == approx(0.6914, rel=1e-4)
         assert inst.u_u_st == approx(0.44444, rel=1e-4)
-        assert inst.choked_heat== approx(123410.0, rel=1e-1)
+        assert inst.choked_heat == approx(123410.0, rel=1e-1)
         assert inst.heat == approx(100000)
         assert inst.gas_constant_r == approx(275.2, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -338,7 +345,7 @@ class TestRayleighClassSubsonic:
         assert inst.po_po_st == approx(1.1141, rel=1e-4)
         assert inst.to_to_st == approx(0.6914, rel=1e-4)
         assert inst.u_u_st == approx(0.44444, rel=1e-4)
-        assert inst.choked_heat== approx(123410.0, rel=1e-1)
+        assert inst.choked_heat == approx(123410.0, rel=1e-1)
         assert inst.heat == approx(200000)
         assert inst.gas_constant_r == approx(275.2, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -375,7 +382,7 @@ class TestRayleighClassSuperSonic:
         assert inst.po_po_st == approx(1.1215, rel=1e-4)
         assert inst.to_to_st == approx(0.9093, rel=1e-4)
         assert inst.u_u_st == approx(1.3012, rel=1e-4)
-        assert inst.choked_heat== approx(27582.056, rel=1e-1)
+        assert inst.choked_heat == approx(27582.056, rel=1e-1)
         assert inst.heat == approx(1000)
         assert inst.gas_constant_r == approx(287.0, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -408,7 +415,7 @@ class TestRayleighClassSuperSonic:
         assert inst.po_po_st == approx(1.1215, rel=1e-4)
         assert inst.to_to_st == approx(0.9093, rel=1e-4)
         assert inst.u_u_st == approx(1.3012, rel=1e-4)
-        assert inst.choked_heat== approx(27582.056, rel=1e-1)
+        assert inst.choked_heat == approx(27582.056, rel=1e-1)
         assert inst.heat == approx(1000)
         assert inst.gas_constant_r == approx(287.0, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -441,7 +448,7 @@ class TestRayleighClassSuperSonic:
         assert inst.po_po_st == approx(1.1215, rel=1e-4)
         assert inst.to_to_st == approx(0.9093, rel=1e-4)
         assert inst.u_u_st == approx(1.3012, rel=1e-4)
-        assert inst.choked_heat== approx(27582.056, rel=1e-1)
+        assert inst.choked_heat == approx(27582.056, rel=1e-1)
         assert inst.heat == approx(1000)
         assert inst.gas_constant_r == approx(287.0, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -474,7 +481,7 @@ class TestRayleighClassSuperSonic:
         assert inst.po_po_st == approx(1.1215, rel=1e-4)
         assert inst.to_to_st == approx(0.9093, rel=1e-4)
         assert inst.u_u_st == approx(1.3012, rel=1e-4)
-        assert inst.choked_heat== approx(27582.056, rel=1e-1)
+        assert inst.choked_heat == approx(27582.056, rel=1e-1)
         assert inst.heat == approx(1000)
         assert inst.gas_constant_r == approx(287.0, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -507,7 +514,7 @@ class TestRayleighClassSuperSonic:
         assert inst.po_po_st == approx(1.1215, rel=1e-4)
         assert inst.to_to_st == approx(0.9093, rel=1e-4)
         assert inst.u_u_st == approx(1.3012, rel=1e-4)
-        assert inst.choked_heat== approx(27582.056, rel=1e-1)
+        assert inst.choked_heat == approx(27582.056, rel=1e-1)
         assert inst.heat == approx(1000)
         assert inst.gas_constant_r == approx(287.0, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -540,7 +547,7 @@ class TestRayleighClassSuperSonic:
         assert inst.po_po_st == approx(1.1215, rel=1e-4)
         assert inst.to_to_st == approx(0.9093, rel=1e-4)
         assert inst.u_u_st == approx(1.3012, rel=1e-4)
-        assert inst.choked_heat== approx(27582.056, rel=1e-1)
+        assert inst.choked_heat == approx(27582.056, rel=1e-1)
         assert inst.heat == approx(1000)
         assert inst.gas_constant_r == approx(287.0, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -573,7 +580,7 @@ class TestRayleighClassSuperSonic:
         assert inst.po_po_st == approx(1.1215, rel=1e-4)
         assert inst.to_to_st == approx(0.9093, rel=1e-4)
         assert inst.u_u_st == approx(1.3012, rel=1e-4)
-        assert inst.choked_heat== approx(27582.056, rel=1e-1)
+        assert inst.choked_heat == approx(27582.056, rel=1e-1)
         assert inst.heat == approx(1000)
         assert inst.gas_constant_r == approx(287.0, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -606,7 +613,7 @@ class TestRayleighClassSuperSonic:
         assert inst.po_po_st == approx(1.1215, rel=1e-4)
         assert inst.to_to_st == approx(0.9093, rel=1e-4)
         assert inst.u_u_st == approx(1.3012, rel=1e-4)
-        assert inst.choked_heat== approx(27582.056, rel=1e-1)
+        assert inst.choked_heat == approx(27582.056, rel=1e-1)
         assert inst.heat == approx(100000)
         assert inst.gas_constant_r == approx(287.0, rel=1e-1)
         assert inst.cp == approx(1004.5, rel=1e-1)
@@ -626,4 +633,3 @@ class TestRayleighClassSuperSonic:
         assert inst.to1 == approx(275.2, rel=1e-1)
         assert inst.to2 == approx(374.752, rel=1e-3)
         assert inst.choked_flow
-

@@ -1,3 +1,8 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
+
 from math import radians
 
 import pytest
@@ -85,9 +90,9 @@ class TestObliqueShockClassFuncs:
     # TODO: Figure out someway to test the plotting feature of the TBM chart
 
 
-###########################################################################################################
+###################################################################################################
 # Test the class construction
-###########################################################################################################
+###################################################################################################
 class TestObliqueShockRelationsClass:
     gamma = 1.4
 
@@ -141,7 +146,7 @@ class TestObliqueShockRelationsClass:
 
     def test_construction_from_shock_angle_wedge_angle_m2_fail(self):
         with pytest.raises(ValueError):
-            inst = osr(self.gamma, wedge_angle=10.0, shock_angle=56.67868, m2=2.5672)
+            osr(self.gamma, wedge_angle=10.0, shock_angle=56.67868, m2=2.5672)
 
     def test_construction_from_shock_angle_wedge_angle_m2(self):
         inst = osr(self.gamma, wedge_angle=10.0, shock_angle=23.01624, m2=3.13545)
@@ -159,7 +164,7 @@ class TestObliqueShockRelationsClass:
         assert inst.mach2 == approx(3.13545, rel=1e-4)
         assert inst.shock_type == ShockType.WEAK
 
-    def test_construction_from_shock_angle_wedge_angle(self):
+    def test_construction_from_shock_angle_wedge_angle_2(self):
         inst = osr(self.gamma, wedge_angle=10.0, shock_angle=23.01624)
         assert inst.shock_angle == approx(23.01624, rel=1e-4)
         assert inst.wedge_angle == approx(10.0, rel=1e-4)

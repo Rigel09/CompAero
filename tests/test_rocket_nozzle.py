@@ -1,3 +1,8 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
+
 from pytest import approx, raises
 
 from CompAero.rocket_nozzle import (
@@ -7,7 +12,7 @@ from CompAero.rocket_nozzle import (
 )
 
 
-class Test_Rocket_Nozzle:
+class TestRocketNozzle:
     gamma = 1.25
 
     def test_thrust_coefficient(self) -> None:

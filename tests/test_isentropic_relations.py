@@ -1,3 +1,7 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
 from pytest import approx
 
 from CompAero.internal import FlowState as FS
@@ -31,9 +35,9 @@ class TestIsentropicClassFuncs:
         assert isr.calc_a_a_star(0.5, self.gamma) == approx(1.3398, rel=1e-4)
 
     def test_subsonic_func_mach_from_a_a_star(self):
-        assert isr.calc_mach_from_a_a_star(1.33984375, self.gamma, flow_type=FS.SUB_SONIC) == approx(
-            0.5, rel=1e-4
-        )
+        assert isr.calc_mach_from_a_a_star(
+            1.33984375, self.gamma, flow_type=FS.SUB_SONIC
+        ) == approx(0.5, rel=1e-4)
 
     # Test the Functions for Supersonic Case
     #######################################################################################

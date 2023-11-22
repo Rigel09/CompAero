@@ -1,3 +1,7 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
 from pytest import approx
 
 from CompAero.fanno_flow_relations import FannoFlowRelations as ffr
@@ -5,6 +9,7 @@ from CompAero.internal import FlowState as FS
 
 
 class TestFannoClassFuncs:
+    # pylint: disable=too-many-public-methods
     gamma = 1.4
 
     # Test the Functions for Subsonic Case
@@ -27,18 +32,18 @@ class TestFannoClassFuncs:
     def test_subsonic_mach_from_rho_rho_star(self):
         assert ffr.calc_mach_from_rho_rho_star(1.871, 1.4) == approx(0.5, 1e-3)
 
-    def test_subsonic_p0_p0Star(self):
+    def test_subsonic_p0_p0_star(self):
         assert ffr.calc_po_po_star(0.5, self.gamma) == approx(1.3398, rel=1e-4)
 
-    def test_subsonic_mach_from_p0_p0Star(self):
-        assert ffr.calc_mach_from_po_po_star(1.33984375, self.gamma, flow_type=FS.SUB_SONIC) == approx(
-            0.5, 1e-3
-        )
+    def test_subsonic_mach_from_p0_p0_star(self):
+        assert ffr.calc_mach_from_po_po_star(
+            1.33984375, self.gamma, flow_type=FS.SUB_SONIC
+        ) == approx(0.5, 1e-3)
 
-    def test_subsonic_4FLstarD(self):
+    def test_subsonic_4flst_d(self):
         assert ffr.calc_4flst_d(0.5, self.gamma) == approx(1.0691, rel=1e-4)
 
-    def test_subsonic_mach_from_4FLstarD(self):
+    def test_subsonic_mach_from_4flfst_d(self):
         assert ffr.calc_mach_from_4flst_d(1.06906031, self.gamma, flow_type=FS.SUB_SONIC) == approx(
             0.5, rel=1e-3
         )
@@ -69,21 +74,21 @@ class TestFannoClassFuncs:
     def test_supersonic_mach_from_rho_rho_star(self):
         assert ffr.calc_mach_from_rho_rho_star(0.7328, 1.4) == approx(1.5, 1e-3)
 
-    def test_supersonic_p0_p0Star(self):
+    def test_supersonic_p0_p0_star(self):
         assert ffr.calc_po_po_star(1.5, self.gamma) == approx(1.1762, rel=1e-4)
 
-    def test_supersonic_mach_from_p0_p0Star(self):
-        assert ffr.calc_mach_from_po_po_star(1.17616705, self.gamma, flow_type=FS.SUPER_SONIC) == approx(
-            1.5, 1e-3
-        )
+    def test_supersonic_mach_from_p0_p0_star(self):
+        assert ffr.calc_mach_from_po_po_star(
+            1.17616705, self.gamma, flow_type=FS.SUPER_SONIC
+        ) == approx(1.5, 1e-3)
 
-    def test_supersonic_4FLstarD(self):
+    def test_supersonic_4flst_d(self):
         assert ffr.calc_4flst_d(1.5, self.gamma) == approx(0.13605, rel=1e-4)
 
-    def test_supersonic_mach_from_4FLstarD(self):
-        assert ffr.calc_mach_from_4flst_d(0.13605021, self.gamma, flow_type=FS.SUPER_SONIC) == approx(
-            1.5, rel=1e-3
-        )
+    def test_supersonic_mach_from_4flst_d(self):
+        assert ffr.calc_mach_from_4flst_d(
+            0.13605021, self.gamma, flow_type=FS.SUPER_SONIC
+        ) == approx(1.5, rel=1e-3)
 
     def test_supersonic_u_u_star(self):
         assert ffr.calc_u_u_starar(1.5, self.gamma) == approx(1.3646, rel=1e-4)
@@ -230,7 +235,7 @@ class TestFannoClassSubsonic:
         assert inst.f4ld2_f4ld1 == approx(inst.dwn_strm_f4lst_d / inst.f4lst_d, rel=1e-5)
         assert inst.u2_u1 == approx(inst.dwn_strm_u_u_st / inst.u_u_st, rel=1e-5)
 
-    def test_fanno_from_f4LStar_D(self):
+    def test_fanno_from_f4lst_d(self):
         inst = ffr(self.gamma, f4lst_d=1.0690603127182559, flow_type=FS.SUB_SONIC)
         inst.apply_pipe_parameters(0.4, 11, 0.005)
         assert inst.gamma == approx(self.gamma, rel=1e-3)
@@ -450,7 +455,7 @@ class TestFannoClassSupersonic:
         assert inst.f4ld2_f4ld1 == approx(inst.dwn_strm_f4lst_d / inst.f4lst_d, rel=1e-5)
         assert inst.u2_u1 == approx(inst.dwn_strm_u_u_st / inst.u_u_st, rel=1e-5)
 
-    def test_fanno_from_f4LStar_D(self):
+    def test_fanno_from_f4lst_d(self):
         inst = ffr(self.gamma, f4lst_d=0.13605021738414635, flow_type=FS.SUPER_SONIC)
         inst.apply_pipe_parameters(0.4, 1.5, 0.005)
         assert inst.gamma == approx(self.gamma, rel=1e-3)

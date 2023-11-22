@@ -1,7 +1,11 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
+
 import math
 
 import pytest
-from numpy import isnat
 from pytest import approx
 
 from CompAero.internal import InvalidOptionCombinationError
@@ -33,6 +37,7 @@ class TestPrandtlMeyerClassFuncs:
 
 
 class TestPrandtlMeyerClassSubsonic:
+    # pylint: disable=too-few-public-methods
     gamma = 1.4
 
     def test_subsonic_construction_given_mach(self):
