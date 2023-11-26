@@ -5,7 +5,7 @@
 from pytest import approx
 
 from CompAero.fanno_flow_relations import FannoFlowRelations as ffr
-from CompAero.internal import FlowState as FS
+from CompAero.types import FlowState as FS
 
 
 class TestFannoClassFuncs:

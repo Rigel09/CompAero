@@ -4,8 +4,8 @@
 
 from pytest import approx
 
-from CompAero.internal import FlowState as FS
 from CompAero.isentropic_relations import IsentropicRelations as isr
+from CompAero.types import FlowState as FS
 
 
 class TestIsentropicClassFuncs:
