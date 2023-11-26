@@ -3,6 +3,8 @@
 from math import isnan
 from typing import Union
 
+from colorama import Fore
+
 from CompAero.types import FlowState, ShockType
 
 # Settings for printing out outputs from classes
@@ -11,7 +13,11 @@ INTERNAL_VALUE_WIDTH = TOTAL_WIDTH - 2  # Width of area excluding | |
 
 
 def to_string(
-    name: str, value: Union[str, float, int, bool], precision: int, dot_line: bool = False
+    name: str,
+    value: Union[str, float, int, bool],
+    precision: int,
+    dot_line: bool = False,
+    color: str = "",
 ) -> str:
     """This generates a professional easy to read string for a data value
 
@@ -21,17 +27,24 @@ def to_string(
         precision (int, optional): precision to round value to. Defaults to 4.
         dot_line (bool, optional): prints a dotted line between the name and the value This is used
                                     when multiple values are printed in a column. Defaults to False.
+        color (str, optional): The color that the variable should be printed with
 
     Returns:
         str: A formatted string with new line character on the end
     """
     val_str = str(value)
-    if isinstance(value, (int, float)):
+    if isinstance(value, bool):
+        val_str = str(value)
+    elif isinstance(value, (int, float)):
         val_str = str(round(value, precision))
 
     name = name + ":"
     sep = "-" if dot_line else ""
     width = INTERNAL_VALUE_WIDTH - len(val_str)
+
+    if color:
+        val_str = color + val_str + Fore.RESET
+
     return f"|{name:{sep}<{width}}{val_str}|\n"
 
 

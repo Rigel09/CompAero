@@ -3,7 +3,7 @@
 from enum import Enum
 from math import log, nan, sqrt
 
-from colorama import Back, Fore
+from colorama import Fore
 from scipy.optimize import brenth  # type: ignore
 
 from CompAero.greek_letters import LowerCaseGreek as lcg
@@ -184,14 +184,10 @@ class FannoFlowRelations:
     @property
     def choked_flow(self) -> bool:
         """True if the flow has reached the choked condition (I.E. Sonic)"""
-        return self.pipe_length >= self.choked_length
+        return bool(self.pipe_length >= self.choked_length)
 
     def __str__(self) -> str:
-        color = (
-            Back.GREEN + Fore.BLACK
-            if self.pipe_length < self.choked_length
-            else Back.YELLOW + Fore.BLACK
-        )
+        color = Fore.GREEN if not self.choked_flow else Fore.YELLOW
 
         return "".join(
             [
@@ -207,8 +203,9 @@ class FannoFlowRelations:
                 seperator(),
                 named_subheader("Pipe Parameters"),
                 to_string("Length For Chocked Flow", self.choked_length, self.precision),
-                color,
-                to_string("Is Flow Choked? ", self.choked_flow, self.precision, dot_line=True),
+                to_string(
+                    "Is Flow Choked? ", self.choked_flow, self.precision, dot_line=True, color=color
+                ),
                 to_string("Pipe Length", self.pipe_length, self.precision),
                 to_string("Pipe Diameter", self.pipe_diameter, self.precision, dot_line=True),
                 to_string("Friction Coefficient", self.friction_coeff, self.precision),

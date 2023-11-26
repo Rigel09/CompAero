@@ -5,7 +5,7 @@ This module contains the relationships for rayleigh flows
 from enum import Enum
 from math import nan
 
-from colorama import Back, Fore
+from colorama import Fore
 from scipy.optimize import brenth  # type: ignore
 
 from CompAero.greek_letters import LowerCaseGreek as lcg
@@ -193,7 +193,7 @@ class RayleighFlowRelations:
     @property
     def choked_flow(self) -> bool:
         """True if the added heat is greater than the heat addition required to choke the flow"""
-        return self.heat > self.choked_heat
+        return bool(self.heat > self.choked_heat)
 
     def _calc_state(self) -> None:
         self.t_t_st = RayleighFlowRelations.calc_t_t_star(self.mach, self.gamma)
@@ -252,9 +252,7 @@ class RayleighFlowRelations:
         self.u2_u1 = self.dwn_strm_u_u_st / self.u_u_st
 
     def __str__(self) -> str:
-        color = (
-            Back.GREEN + Fore.BLACK if self.heat < self.choked_heat else Back.YELLOW + Fore.BLACK
-        )
+        color = Fore.GREEN if not self.choked_flow else Fore.YELLOW
 
         return "".join(
             [
@@ -271,8 +269,9 @@ class RayleighFlowRelations:
                 seperator(),
                 named_subheader("Pipe Parameters"),
                 to_string("Heat Req. For Chocked Flow", self.choked_heat, self.precision),
-                color,
-                to_string("Is Flow Choked? ", self.choked_flow, self.precision, dot_line=True),
+                to_string(
+                    "Is Flow Choked? ", self.choked_flow, self.precision, dot_line=True, color=color
+                ),
                 to_string("Added Heat", self.heat, self.precision),
                 to_string("Gas Constant R", self.gas_constant_r, self.precision, dot_line=True),
                 to_string("Cp", self.cp, self.precision),
