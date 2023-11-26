@@ -46,7 +46,8 @@ def named_subheader(name: str) -> str:
         str: A formatted string with new line character on the end
     """
     name = f" {name} "
-    return f"|{name:=^width}|\n"
+    w = INTERNAL_VALUE_WIDTH
+    return f"|{name:=^{w}}|\n"
 
 
 def seperator() -> str:

@@ -1,5 +1,8 @@
+"""
+This module shows some general examples on using the CompAero python package
+"""
+
 # from CompAero.ConicalFlow import ConicalFlowRelations
-from math import degrees, pi, radians
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -15,47 +18,49 @@ if __name__ == "__main__":
     ##########################################################################
     #################### Isentropic Example  #################################
     ##########################################################################
-    temp = IsentropicRelations(gamma=1.4, mach=1.5)
-    print(temp)
+    ir_flow = IsentropicRelations(gamma=1.4, mach=1.5)
+    print(ir_flow)
 
     ##########################################################################
     #################### Normal Shock Example  ###############################
     ##########################################################################
-    flow = NormalShockRelations(gamma=1.4, m2=0.5130)
-    print(flow)
+    nsr_flow = NormalShockRelations(gamma=1.4, m2=0.5130)
+    print(nsr_flow)
 
     ##########################################################################
     #################### Oblique Shock Example  ##############################
     ##########################################################################
-    flow = ObliqueShockRelations(1.4, mach=3, wedge_angle=60)
+    osr_flow = ObliqueShockRelations(1.4, mach=3, wedge_angle=20)
     print()
-    print(flow)
-    flow.plot_theta_beta_mach_chart()
+    print(osr_flow)
+    osr_flow.plot_theta_beta_mach_chart()
 
     ##########################################################################
     #################### Fanno Flow Example  #################################
     ##########################################################################
-    t1 = 300
-    p1 = 1
-    po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
+    T1 = 300
+    P1 = 1
+    po1 = IsentropicRelations.calc_p0_p(3, 1.4) * P1
     flow = FannoFlowRelations(1.4, po_po_st=4.23456790)
     flow.apply_pipe_parameters(0.4, 11, 0.005)
     print()
     print(flow)
     print()
-    print("T2: ", t1 * flow.t2_t1)
-    print("P2: ", p1 * flow.p2_p1)
+    print("T2: ", T1 * flow.t2_t1)
+    print("P2: ", P1 * flow.p2_p1)
     print("Po2: ", po1 * flow.po2_po1)
 
-    # Plot length and diameter combinations to slow a mach 3 flow down to a mach 2.5 flow at the exit
+    # Plot length and diameter combinations to slow a mach 3 flow down to mach 2.5 flow at the exit
     f4ld = FannoFlowRelations.calc_4flst_d(1.5, 1.4)
 
-    diamEqn = lambda len: 1 / f4ld * 4 * flow.friction_coeff * len
+    def diam_eqn(pipe_len: float) -> float:
+        """Calculated the corresponing pipe diameter"""
+        return 1 / f4ld * 4 * flow.friction_coeff * pipe_len
 
-    lengths = np.linspace(1e-5, 40, 100)
-    diams = np.array([diamEqn(len) for len in lengths])
+    pipe_length_arr = np.linspace(1e-5, 40, 100)
+    diams = np.array([diam_eqn(pl) for pl in pipe_length_arr])
 
-    plt.plot(lengths, diams)
+    plt.plot(pipe_length_arr, diams)
     plt.xlim(0, 40)
     plt.ylim(0, diams[-1])
     plt.xlabel("Pipe Length [ft]")
@@ -64,35 +69,16 @@ if __name__ == "__main__":
     plt.grid()
     plt.show()
 
-    flow = RayleighFlowRelations(1.4, 0.5)
-    print(flow)
-
     ##########################################################################
     #################### Rayleigh Flow Example  ##############################
     ##########################################################################
-    flow = RayleighFlowRelations(1.4, mach=1.5)
+    rff_flow = RayleighFlowRelations(1.4, mach=1.5)
     print()
-    flow.simulate_heat_addition(1000, 275.2, 287)
-    print(flow)
+    rff_flow.simulate_heat_addition(1000, 275.2, 287)
+    print(rff_flow)
 
     ##########################################################################
     #################### Prandtl Meyer Example  ##############################
     ##########################################################################
-    flow = PrandtlMeyer(1.4, down_stream_nu=86.27, deflection_angle=1)
-    print(flow)
-
-    ##########################################################################
-    ##################### Conical Flow Example  ##############################
-    ##########################################################################
-    #
-    # Not Currently Supported
-    #
-
-    # flow = ConicalFlowRelations(1.4, mach=3, shock_angle=30)
-    # ans = flow.calculateConeFlowParameters(288.16, 287, [21, 25, 26, 24, 24.5, 29, flow.coneAngle])
-
-    # print(ans[flow.coneAngle].mach)
-    # print(ans[flow.coneAngle].tempRay_tempInit)
-    # print(ans[flow.coneAngle].pressRay_pressInit)
-    # print(ans[flow.coneAngle].rhoRay_rhoInit)
-    # print(ans[flow.coneAngle])
+    pm_flow = PrandtlMeyer(1.4, down_stream_nu=86.27, deflection_angle=1)
+    print(pm_flow)
