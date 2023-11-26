@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>CompAero API documentation</title>
-<meta name="description" content="" />
+<title>CompAero.types API documentation</title>
+<meta name="description" content="This module defines the basic types (Enumerations) for the module" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,73 +19,108 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Package <code>CompAero</code></h1>
+<h1 class="title">Module <code>CompAero.types</code></h1>
 </header>
 <section id="section-intro">
+<p>This module defines the basic types (Enumerations) for the module</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python"># __init__.py
+<pre><code class="python">&#34;&#34;&#34;
+This module defines the basic types (Enumerations) for the module
+&#34;&#34;&#34;
+from enum import Enum
 
-# Version
-__version__ = &#34;0.1.0&#34;</code></pre>
+
+class FlowState(Enum):
+    &#34;&#34;&#34;Enum that defines wether a flow is sub / super sonic&#34;&#34;&#34;
+
+    SUB_SONIC = &#34;SUB_SONIC&#34;
+    SUPER_SONIC = &#34;SUPER_SONIC&#34;
+
+
+class ShockType(Enum):
+    &#34;&#34;&#34;Enum that defines wether a shock is strong or weak. (For oblique shocks)&#34;&#34;&#34;
+
+    WEAK = &#34;WEAK&#34;
+    STRONG = &#34;STRONG&#34;</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt><code class="name"><a title="CompAero.Calculator" href="Calculator/index.html">CompAero.Calculator</a></code></dt>
+<dt id="CompAero.types.FlowState"><code class="flex name class">
+<span>class <span class="ident">FlowState</span></span>
+<span>(</span><span>*args, **kwds)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Enum that defines wether a flow is sub / super sonic</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FlowState(Enum):
+    &#34;&#34;&#34;Enum that defines wether a flow is sub / super sonic&#34;&#34;&#34;
+
+    SUB_SONIC = &#34;SUB_SONIC&#34;
+    SUPER_SONIC = &#34;SUPER_SONIC&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="CompAero.types.FlowState.SUB_SONIC"><code class="name">var <span class="ident">SUB_SONIC</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt><code class="name"><a title="CompAero.fanno_flow_relations" href="fanno_flow_relations.html">CompAero.fanno_flow_relations</a></code></dt>
+<dt id="CompAero.types.FlowState.SUPER_SONIC"><code class="name">var <span class="ident">SUPER_SONIC</span></code></dt>
 <dd>
-<div class="desc"><p>Provides a class around the Fanno Flow State</p></div>
-</dd>
-<dt><code class="name"><a title="CompAero.greek_letters" href="greek_letters.html">CompAero.greek_letters</a></code></dt>
-<dd>
-<div class="desc"><p>Contains dataclass for converting Greek letters to strings</p></div>
-</dd>
-<dt><code class="name"><a title="CompAero.internal" href="internal.html">CompAero.internal</a></code></dt>
-<dd>
-<div class="desc"><p>Contains helper functions used by the CompAero Project</p></div>
-</dd>
-<dt><code class="name"><a title="CompAero.isentropic_relations" href="isentropic_relations.html">CompAero.isentropic_relations</a></code></dt>
-<dd>
-<div class="desc"><p>This module contains the class that represents the Isentropic Flow State</p></div>
-</dd>
-<dt><code class="name"><a title="CompAero.normal_shock_relations" href="normal_shock_relations.html">CompAero.normal_shock_relations</a></code></dt>
-<dd>
-<div class="desc"><p>This module contains the relationships for a normal shock flow</p></div>
-</dd>
-<dt><code class="name"><a title="CompAero.oblique_shock_relations" href="oblique_shock_relations.html">CompAero.oblique_shock_relations</a></code></dt>
-<dd>
-<div class="desc"><p>This file contains the relationships for oblique shock waves</p></div>
-</dd>
-<dt><code class="name"><a title="CompAero.prandtl_meyer" href="prandtl_meyer.html">CompAero.prandtl_meyer</a></code></dt>
-<dd>
-<div class="desc"><p>This class defines the relations for the Prandtl Meyer flows</p></div>
-</dd>
-<dt><code class="name"><a title="CompAero.rayleigh_flow_relations" href="rayleigh_flow_relations.html">CompAero.rayleigh_flow_relations</a></code></dt>
-<dd>
-<div class="desc"><p>This module contains the relationships for rayleigh flows</p></div>
-</dd>
-<dt><code class="name"><a title="CompAero.rocket_nozzle" href="rocket_nozzle.html">CompAero.rocket_nozzle</a></code></dt>
-<dd>
-<div class="desc"><p>This module defines relationships for rocket nozzles</p></div>
-</dd>
-<dt><code class="name"><a title="CompAero.types" href="types.html">CompAero.types</a></code></dt>
-<dd>
-<div class="desc"><p>This module defines the basic types (Enumerations) for the module</p></div>
+<div class="desc"></div>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
+</dd>
+<dt id="CompAero.types.ShockType"><code class="flex name class">
+<span>class <span class="ident">ShockType</span></span>
+<span>(</span><span>*args, **kwds)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Enum that defines wether a shock is strong or weak. (For oblique shocks)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ShockType(Enum):
+    &#34;&#34;&#34;Enum that defines wether a shock is strong or weak. (For oblique shocks)&#34;&#34;&#34;
+
+    WEAK = &#34;WEAK&#34;
+    STRONG = &#34;STRONG&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="CompAero.types.ShockType.STRONG"><code class="name">var <span class="ident">STRONG</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.types.ShockType.WEAK"><code class="name">var <span class="ident">WEAK</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -94,19 +129,27 @@ __version__ = &#34;0.1.0&#34;</code></pre>
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="CompAero.Calculator" href="Calculator/index.html">CompAero.Calculator</a></code></li>
-<li><code><a title="CompAero.fanno_flow_relations" href="fanno_flow_relations.html">CompAero.fanno_flow_relations</a></code></li>
-<li><code><a title="CompAero.greek_letters" href="greek_letters.html">CompAero.greek_letters</a></code></li>
-<li><code><a title="CompAero.internal" href="internal.html">CompAero.internal</a></code></li>
-<li><code><a title="CompAero.isentropic_relations" href="isentropic_relations.html">CompAero.isentropic_relations</a></code></li>
-<li><code><a title="CompAero.normal_shock_relations" href="normal_shock_relations.html">CompAero.normal_shock_relations</a></code></li>
-<li><code><a title="CompAero.oblique_shock_relations" href="oblique_shock_relations.html">CompAero.oblique_shock_relations</a></code></li>
-<li><code><a title="CompAero.prandtl_meyer" href="prandtl_meyer.html">CompAero.prandtl_meyer</a></code></li>
-<li><code><a title="CompAero.rayleigh_flow_relations" href="rayleigh_flow_relations.html">CompAero.rayleigh_flow_relations</a></code></li>
-<li><code><a title="CompAero.rocket_nozzle" href="rocket_nozzle.html">CompAero.rocket_nozzle</a></code></li>
-<li><code><a title="CompAero.types" href="types.html">CompAero.types</a></code></li>
+<li><code><a title="CompAero" href="index.html">CompAero</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="CompAero.types.FlowState" href="#CompAero.types.FlowState">FlowState</a></code></h4>
+<ul class="">
+<li><code><a title="CompAero.types.FlowState.SUB_SONIC" href="#CompAero.types.FlowState.SUB_SONIC">SUB_SONIC</a></code></li>
+<li><code><a title="CompAero.types.FlowState.SUPER_SONIC" href="#CompAero.types.FlowState.SUPER_SONIC">SUPER_SONIC</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="CompAero.types.ShockType" href="#CompAero.types.ShockType">ShockType</a></code></h4>
+<ul class="">
+<li><code><a title="CompAero.types.ShockType.STRONG" href="#CompAero.types.ShockType.STRONG">STRONG</a></code></li>
+<li><code><a title="CompAero.types.ShockType.WEAK" href="#CompAero.types.ShockType.WEAK">WEAK</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

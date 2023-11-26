@@ -1,0 +1,2130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>CompAero.rayleigh_flow_relations API documentation</title>
+<meta name="description" content="This module contains the relationships for rayleigh flows" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>CompAero.rayleigh_flow_relations</code></h1>
+</header>
+<section id="section-intro">
+<p>This module contains the relationships for rayleigh flows</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This module contains the relationships for rayleigh flows
+&#34;&#34;&#34;
+
+from enum import Enum
+from math import nan
+
+from colorama import Back, Fore
+from scipy.optimize import brenth  # type: ignore
+
+from CompAero.greek_letters import LowerCaseGreek as lcg
+from CompAero.internal import (
+    GammaNotDefinedError,
+    InvalidOptionCombinationError,
+    check_value,
+    footer,
+    named_header,
+    named_subheader,
+    seperator,
+    to_string,
+)
+from CompAero.types import FlowState
+
+
+class RayleighFlowChoice(Enum):
+    &#34;&#34;&#34;Valid choices for Rayleigh Flow initialization&#34;&#34;&#34;
+
+    GAMMA_MACH = &#34;gamma, mach&#34;
+    GAMMA_T_T_ST = &#34;gamma, T/T*, flowtype&#34;
+    GAMMA_P_P_ST = &#34;gamma, P/P*&#34;
+    GAMMA_RHO_RHO_ST = &#34;gamma, rho/rho*&#34;
+    GAMMA_PO_PO_ST = &#34;gamma, P0/P0*, flowtype&#34;
+    GAMMA_TO_TO_FLOW_TYPE = &#34;gamma, T0/T0*, flowtype&#34;
+    GAMMA_U_U_ST = &#34;gamma, U/U*&#34;
+
+
+RAYLEIGH_FLOW_VALID_OPTIONS = [x.value for x in RayleighFlowChoice]
+
+
+class RayleighFlowRelations:
+    # pylint: disable=too-many-instance-attributes
+    &#34;&#34;&#34;
+    This class is a collective name space for basic calculations regarding Fanno flows.
+
+    Args:
+        gamma (float): ratio of specific heats
+        mach (float, optional): mach number of the flow. Defaults to nan.
+        t_t_st (float, optional): Ratio of Temperature to sonic temperature. Defaults to nan.
+        p_p_st (float, optional): Ratio of Pressure to sonic pressure. Defaults to nan.
+        rho_rho_st (float, optional): Ratio of density to sonic density. Defaults to nan.
+        po_po_st (float, optional): Total pressure to sonic total pressure ratio. Defaults to nan.
+        to_to_star (float, optional): Ratio of Total Tempto sonic total temp. Defaults to nan.
+        u_u_st (float, optional): Velocity to sonic Velocity. Defaults to nan.
+        flow_type (FlowState, optional):  States wether the flow is subsonic or supersonic. Used
+                                        for Area Ratio Calculations. Defaults to
+                                        FlowState.SUPER_SONIC.
+
+    Raises:
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given
+                                        and flow state cannot be determined
+
+    Useage:
+        To use this class pass gamma and one of the known parameters of the flow
+
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, T/T*, flowtype (flow type defaults to super sonic)\n
+        3: gamma, P/P*\n
+        4: gamma, rho/rho*\n
+        5: gamma, P0/P0*, flowtype (flow type defaults to super sonic)\n
+        6: gamma, T0/T0*, flowtype (flow type defaults to super sonic)\n
+        7: gamma, U/U*\n
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        gamma: float,
+        mach: float = nan,
+        t_t_st: float = nan,
+        p_p_st: float = nan,
+        rho_rho_st: float = nan,
+        po_po_st: float = nan,
+        to_to_st: float = nan,
+        u_u_st: float = nan,
+        flow_type: FlowState = FlowState.SUPER_SONIC,
+    ) -&gt; None:
+        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-statements
+        self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
+        self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
+        self.t_t_st = t_t_st
+        &#34;&#34;&#34; Ratio of temperature to the sonic temperature T/T*&#34;&#34;&#34;
+        self.p_p_st = p_p_st
+        &#34;&#34;&#34; Ratio of pressure to the sonic pressure P/P*&#34;&#34;&#34;
+        self.rho_rho_st = rho_rho_st
+        &#34;&#34;&#34; Ratio of the density to the sonic density rho/rho* &#34;&#34;&#34;
+        self.po_po_st = po_po_st
+        &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0*&#34;&#34;&#34;
+        self.u_u_st = u_u_st
+        &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U*&#34;&#34;&#34;
+        self.to_to_st = to_to_st
+        &#34;&#34;&#34; Ratio of the total temperature to the sonic total temperature T0/T0*&#34;&#34;&#34;
+        self.flow_type = flow_type
+        &#34;&#34;&#34; Type of flow which is either subsonic or supersonic (Type: flowstate) &#34;&#34;&#34;
+        self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
+
+        # Pipe parameters
+        self.choked_heat = nan
+        &#34;&#34;&#34; Amount of heat required to choke the flow&#34;&#34;&#34;
+        self.heat = nan
+        &#34;&#34;&#34; Amount of heat added to the flow &#34;&#34;&#34;
+        self.gas_constant_r = nan
+        &#34;&#34;&#34; Gas constant used for flow calculations&#34;&#34;&#34;
+        self.cp = nan
+        &#34;&#34;&#34; Specific heat Coefficient at constant pressure for the gas used&#34;&#34;&#34;
+
+        # Down stream conditions if pipe parameters are given
+        self.dwn_strm_mach = nan
+        &#34;&#34;&#34; Mach number at the downstream point of the flow &#34;&#34;&#34;
+        self.dwn_strm_t_t_st = nan
+        &#34;&#34;&#34; Ratio of temperature to the sonic temperature T/T* at the downstream point&#34;&#34;&#34;
+        self.dwn_strm_p_p_st = nan
+        &#34;&#34;&#34; Ratio of pressure to the sonic pressure P/P* at the downstream point&#34;&#34;&#34;
+        self.dwn_strm_rho_rho_st = nan
+        &#34;&#34;&#34; Ratio of the density to the sonic density rho/rho* at the downstream point&#34;&#34;&#34;
+        self.dwn_strm_po_po_st = nan
+        &#34;&#34;&#34; Stagnation to sonic stagnation pressure ratio P0/P0* at the down stream point&#34;&#34;&#34;
+        self.dwn_strm_u_u_st = nan
+        &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U* at the downstream point&#34;&#34;&#34;
+        self.dwn_strm_to_to_st = nan
+        &#34;&#34;&#34; Ratio of the total temp to the sonic total temp T0/T0* at the downstream point&#34;&#34;&#34;
+
+        # Downstream / Initial Conditions
+        self.t2_t1 = nan
+        &#34;&#34;&#34; Ratio of downstream temperature to upstream temperature&#34;&#34;&#34;
+        self.p2_p1 = nan
+        &#34;&#34;&#34; Ratio of downstream pressure to upstream pressure&#34;&#34;&#34;
+        self.rho2_rho1 = nan
+        &#34;&#34;&#34; Ratio of downstream density to upstream density&#34;&#34;&#34;
+        self.po2_po1 = nan
+        &#34;&#34;&#34; Ratio of downstream total pressure to upstream total pressure&#34;&#34;&#34;
+        self.to2_to1 = nan
+        &#34;&#34;&#34; Ratio of downstream total temperature to upstream total temperature&#34;&#34;&#34;
+        self.u2_u1 = nan
+        &#34;&#34;&#34; Ratio of downstream velocity to upstream velocity &#34;&#34;&#34;
+        self.to2 = nan
+        &#34;&#34;&#34; Downstream total temperature &#34;&#34;&#34;
+        self.to1 = nan
+        &#34;&#34;&#34; Upstream total temperature&#34;&#34;&#34;
+
+        if not check_value(self.gamma):
+            raise GammaNotDefinedError()
+
+        if check_value(self.mach):
+            pass
+
+        elif check_value(self.t_t_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_t_t_star(
+                self.t_t_st, self.gamma, flow_type=self.flow_type
+            )
+
+        elif check_value(self.p_p_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_p_p_star(self.p_p_st, self.gamma)
+
+        elif check_value(self.rho_rho_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_rho_rho_star(
+                self.rho_rho_st, self.gamma
+            )
+
+        elif check_value(self.po_po_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_po_po_star(
+                self.po_po_st, self.gamma, flow_type=self.flow_type
+            )
+
+        elif check_value(self.to_to_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_to_to_star(
+                self.to_to_st, self.gamma, flow_type=self.flow_type
+            )
+
+        elif check_value(self.u_u_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_u_u_star(self.u_u_st, self.gamma)
+
+        else:
+            raise InvalidOptionCombinationError()
+
+        if check_value(self.mach):
+            self._calc_state()
+
+    @property
+    def choked_flow(self) -&gt; bool:
+        &#34;&#34;&#34;True if the added heat is greater than the heat addition required to choke the flow&#34;&#34;&#34;
+        return self.heat &gt; self.choked_heat
+
+    def _calc_state(self) -&gt; None:
+        self.t_t_st = RayleighFlowRelations.calc_t_t_star(self.mach, self.gamma)
+        self.p_p_st = RayleighFlowRelations.calc_p_p_star(self.mach, self.gamma)
+        self.rho_rho_st = RayleighFlowRelations.calc_rho_rho_star(self.mach, self.gamma)
+        self.po_po_st = RayleighFlowRelations.calc_po_po_star(self.mach, self.gamma)
+        self.to_to_st = RayleighFlowRelations.calc_to_to_star(self.mach, self.gamma)
+        self.u_u_st = RayleighFlowRelations.calc_u_u_starar(self.mach, self.gamma)
+        self.flow_type = FlowState.SUPER_SONIC if self.mach &gt; 1.0 else FlowState.SUB_SONIC
+
+    def simulate_heat_addition(self, heat: float, to1: float, gas_const_r: float) -&gt; None:
+        &#34;&#34;&#34;
+        This functions calculates the downstream flow conditions caused due to applied heat.
+
+        Args:
+            heat (float): The amount of heat being applied
+            to1 (float): The initial temperature of the flow
+            gas_const_r (float): The gas constant of the flow
+        &#34;&#34;&#34;
+        self.gas_constant_r = gas_const_r
+        self.to1 = to1
+        self.heat = heat
+        self.cp = self.gamma * gas_const_r / (self.gamma - 1)
+        self.to2 = self.to1 + self.heat / self.cp
+
+        temp_star = self.to1 / self.to_to_st
+        self.choked_heat = self.cp * (temp_star - self.to1)
+
+        self.to2_to1 = self.to2 / self.to1
+        self.dwn_strm_to_to_st = self.to2_to1 * self.to_to_st
+
+        if self.heat &gt; self.choked_heat:
+            self.dwn_strm_to_to_st = 1
+
+        self.dwn_strm_mach = RayleighFlowRelations.calc_mach_from_to_to_star(
+            self.dwn_strm_to_to_st, self.gamma, self.flow_type
+        )
+        self.dwn_strm_t_t_st = RayleighFlowRelations.calc_t_t_star(self.dwn_strm_mach, self.gamma)
+        self.dwn_strm_p_p_st = RayleighFlowRelations.calc_p_p_star(self.dwn_strm_mach, self.gamma)
+        self.dwn_strm_rho_rho_st = RayleighFlowRelations.calc_rho_rho_star(
+            self.dwn_strm_mach, self.gamma
+        )
+        self.dwn_strm_po_po_st = RayleighFlowRelations.calc_po_po_star(
+            self.dwn_strm_mach, self.gamma
+        )
+        self.dwn_strm_to_to_st = RayleighFlowRelations.calc_to_to_star(
+            self.dwn_strm_mach, self.gamma
+        )
+        self.dwn_strm_u_u_st = RayleighFlowRelations.calc_u_u_starar(self.dwn_strm_mach, self.gamma)
+
+        self.to2_to1 = self.dwn_strm_to_to_st / self.to_to_st
+        self.t2_t1 = self.dwn_strm_t_t_st / self.t_t_st
+        self.p2_p1 = self.dwn_strm_p_p_st / self.p_p_st
+        self.rho2_rho1 = self.dwn_strm_rho_rho_st / self.rho_rho_st
+        self.po2_po1 = self.dwn_strm_po_po_st / self.po_po_st
+        self.u2_u1 = self.dwn_strm_u_u_st / self.u_u_st
+
+    def __str__(self) -&gt; str:
+        color = (
+            Back.GREEN + Fore.BLACK if self.heat &lt; self.choked_heat else Back.YELLOW + Fore.BLACK
+        )
+
+        return &#34;&#34;.join(
+            [
+                named_header(&#34;Rayleigh Relations at Mach&#34;, self.mach, precision=self.precision),
+                seperator(),
+                to_string(lcg.gamma, self.gamma, self.precision),
+                to_string(&#34;T/T*&#34;, self.t_t_st, self.precision, dot_line=True),
+                to_string(&#34;P/P*&#34;, self.p_p_st, self.precision),
+                to_string(f&#34;{lcg.rho}/{lcg.rho}&#34;, self.rho_rho_st, self.precision, dot_line=True),
+                to_string(&#34;P0/P0*&#34;, self.po_po_st, self.precision),
+                to_string(&#34;U/U*&#34;, self.u_u_st, self.precision, dot_line=True),
+                to_string(&#34;T0/T0*&#34;, self.to_to_st, self.precision),
+                to_string(&#34;Flow Type&#34;, self.flow_type.name, self.precision, dot_line=True),
+                seperator(),
+                named_subheader(&#34;Pipe Parameters&#34;),
+                to_string(&#34;Heat Req. For Chocked Flow&#34;, self.choked_heat, self.precision),
+                color,
+                to_string(&#34;Is Flow Choked? &#34;, self.choked_flow, self.precision, dot_line=True),
+                to_string(&#34;Added Heat&#34;, self.heat, self.precision),
+                to_string(&#34;Gas Constant R&#34;, self.gas_constant_r, self.precision, dot_line=True),
+                to_string(&#34;Cp&#34;, self.cp, self.precision),
+                to_string(&#34;T01&#34;, self.to1, self.precision, dot_line=True),
+                to_string(&#34;T02&#34;, self.to2, self.precision),
+                seperator(),
+                named_subheader(&#34;Down Stream Conditions&#34;),
+                to_string(&#34;Mach&#34;, self.dwn_strm_mach, self.precision),
+                to_string(&#34;T/T*&#34;, self.t_t_st, self.precision, dot_line=True),
+                to_string(&#34;P/P*&#34;, self.dwn_strm_p_p_st, self.precision),
+                to_string(&#34;P0/P0*&#34;, self.dwn_strm_po_po_st, self.precision, dot_line=True),
+                to_string(f&#34;{lcg.rho}/{lcg.rho}*&#34;, self.dwn_strm_rho_rho_st, self.precision),
+                to_string(&#34;T0/T0*&#34;, self.to_to_st, self.precision, dot_line=True),
+                to_string(&#34;U/U*&#34;, self.dwn_strm_u_u_st, self.precision),
+                seperator(),
+                named_subheader(&#34;Conditions Across Heat Addition&#34;),
+                to_string(&#34;P2/P1&#34;, self.p2_p1, self.precision),
+                to_string(
+                    f&#34;{lcg.rho}2/{lcg.rho}1&#34;,
+                    self.rho2_rho1,
+                    self.precision,
+                    dot_line=True,
+                ),
+                to_string(&#34;T2/T1&#34;, self.t2_t1, self.precision),
+                to_string(&#34;P02/P01&#34;, self.po2_po1, self.precision, dot_line=True),
+                to_string(&#34;T02/T01&#34;, self.to2_to1, self.precision),
+                to_string(&#34;U2/U1&#34;, self.u2_u1, self.precision, dot_line=True),
+                footer(),
+            ]
+        )
+
+    @staticmethod
+    def calc_p_p_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static pressure to sonic pressure P/P*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: P/P*
+        &#34;&#34;&#34;
+        return (1 + gamma) / (1 + gamma * pow(mach, 2)) - offset
+
+    @staticmethod
+    def calc_mach_from_p_p_star(p_p_st: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based of the ratio of static pressure to sonic static
+        pressure P/P*
+
+        Args:
+            p_p_st (float): Ratio of static pressure to sonic static pressure P/P*
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            RayleighFlowRelations.calc_p_p_star,
+            1e-9,
+            40,
+            args=(
+                gamma,
+                p_p_st,
+            ),
+        )  # type: ignore
+
+    @staticmethod
+    def calc_t_t_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static temperature to sonic temperature T/T*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: T/T*
+        &#34;&#34;&#34;
+        return pow(mach, 2) * pow(RayleighFlowRelations.calc_p_p_star(mach, gamma), 2) - offset
+
+    @staticmethod
+    def calc_mach_from_t_t_star(
+        t_t_st: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
+    ) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based of the ratio of static tempto sonic static temp T/T*
+
+        Args:
+            t_t_st (float): Ratio of static temperature to sonic static temperature T/T*
+            gamma (float): ratio of specific heats
+            flow_type (FlowState, optional): States whether the flow is currently supersonic or
+                                            subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        tolerance = 1e-5
+        if t_t_st == 1.0:
+            return 1
+
+        if flow_type == FlowState.SUPER_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_t_t_star,
+                1 + tolerance,
+                40,
+                args=(
+                    gamma,
+                    t_t_st,
+                ),
+            )  # type: ignore
+
+        if flow_type == FlowState.SUB_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_t_t_star,
+                tolerance,
+                1 - tolerance,
+                args=(
+                    gamma,
+                    t_t_st,
+                ),
+            )  # type: ignore
+
+        raise ValueError(
+            f&#34;{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow!{Fore.RESET}&#34;
+        )
+
+    @staticmethod
+    def calc_rho_rho_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static density to sonic density Rho/Rho*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: Rho/Rho*
+        &#34;&#34;&#34;
+        return 1 / RayleighFlowRelations.calc_p_p_star(mach, gamma) / pow(mach, 2) - offset
+
+    @staticmethod
+    def calc_mach_from_rho_rho_star(rho_rho_st: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the mach number based of the ratio of density to sonic density Rho/Rho*
+
+        Args:
+            rho_rho_st (float): Ratio of density to sonic density Rho/Rho*
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            RayleighFlowRelations.calc_rho_rho_star,
+            1e-9,
+            40,
+            args=(
+                gamma,
+                rho_rho_st,
+            ),
+        )  # type: ignore
+
+    @staticmethod
+    def calc_po_po_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static density to sonic density P0/P0*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: P0/P0*
+        &#34;&#34;&#34;
+        gp1 = gamma + 1
+        gm1 = gamma - 1
+        p_p_st = RayleighFlowRelations.calc_p_p_star(mach, gamma)
+        ratio = (2 + gm1 * pow(mach, 2)) / gp1
+        return p_p_st * pow(ratio, gamma / gm1) - offset
+
+    @staticmethod
+    def calc_mach_from_po_po_star(
+        po_po_st: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
+    ) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based of the ratio of total pressure to sonic total pressure
+        P0/P0*
+
+        Args:
+            po_po_st (float): Ratio of total pressure to sonic total pressure P0/P0*
+            gamma (float): ratio of specific heats
+            flow_type (FlowState, optional): States whether the flow is currently supersonic or
+                                            subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        tolerance = 1e-5
+        if po_po_st == 1.0:
+            return 1
+
+        if flow_type == FlowState.SUPER_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_po_po_star,
+                1 + tolerance,
+                40,
+                args=(
+                    gamma,
+                    po_po_st,
+                ),
+            )  # type: ignore
+
+        if flow_type == FlowState.SUB_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_po_po_star,
+                tolerance,
+                1 - tolerance,
+                args=(
+                    gamma,
+                    po_po_st,
+                ),
+            )  # type: ignore
+
+        raise ValueError(
+            f&#34;{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow!{Fore.RESET}&#34;
+        )
+
+    @staticmethod
+    def calc_to_to_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates To_To* given gamma and Mach, offset can be applied for root finding&#34;&#34;&#34;
+        gp1 = gamma + 1
+        gm1 = gamma - 1
+        m_sqr = pow(mach, 2)
+        return gp1 * m_sqr / pow((1 + gamma * m_sqr), 2) * (2 + gm1 * m_sqr) - offset
+
+    @staticmethod
+    def calc_mach_from_to_to_star(
+        t_t_st: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
+    ) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based of the ratio of total tempto sonic total temp T0/T0*
+
+        Args:
+            po_po_st (float): Ratio of total temperature to sonic total temperature T0/T0*
+            gamma (float): ratio of specific heats
+            flow_type (FlowState, optional): States whether the flow is currently supersonic or
+                                                subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        tolerance = 1e-5
+        if t_t_st == 1.0:
+            return 1
+
+        if flow_type == FlowState.SUPER_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_to_to_star,
+                1 + tolerance,
+                40,
+                args=(
+                    gamma,
+                    t_t_st,
+                ),
+            )  # type: ignore
+
+        if flow_type == FlowState.SUB_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_to_to_star,
+                tolerance,
+                1 - tolerance,
+                args=(
+                    gamma,
+                    t_t_st,
+                ),
+            )  # type: ignore
+
+        raise ValueError(
+            f&#34;{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow!{Fore.RESET}&#34;
+        )
+
+    @staticmethod
+    def calc_u_u_starar(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static velocity to sonic velocity U/U*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: U/U*
+        &#34;&#34;&#34;
+        gp1 = gamma + 1
+        m_sqr = pow(mach, 2)
+        return gp1 * m_sqr / (1 + gamma * m_sqr) - offset
+
+    @staticmethod
+    def calc_mach_from_u_u_star(u_u_st: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the mach number based of the ratio of velocity to sonic velocity U/U*
+
+        Args:
+            u_u_st (float): Ratio of velocity to sonic velocity U/U*
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            RayleighFlowRelations.calc_u_u_starar, 1e-9, 40, args=(gamma, u_u_st)
+        )  # type: ignore</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowChoice"><code class="flex name class">
+<span>class <span class="ident">RayleighFlowChoice</span></span>
+<span>(</span><span>*args, **kwds)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Valid choices for Rayleigh Flow initialization</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RayleighFlowChoice(Enum):
+    &#34;&#34;&#34;Valid choices for Rayleigh Flow initialization&#34;&#34;&#34;
+
+    GAMMA_MACH = &#34;gamma, mach&#34;
+    GAMMA_T_T_ST = &#34;gamma, T/T*, flowtype&#34;
+    GAMMA_P_P_ST = &#34;gamma, P/P*&#34;
+    GAMMA_RHO_RHO_ST = &#34;gamma, rho/rho*&#34;
+    GAMMA_PO_PO_ST = &#34;gamma, P0/P0*, flowtype&#34;
+    GAMMA_TO_TO_FLOW_TYPE = &#34;gamma, T0/T0*, flowtype&#34;
+    GAMMA_U_U_ST = &#34;gamma, U/U*&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_MACH"><code class="name">var <span class="ident">GAMMA_MACH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_PO_PO_ST"><code class="name">var <span class="ident">GAMMA_PO_PO_ST</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_P_P_ST"><code class="name">var <span class="ident">GAMMA_P_P_ST</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_RHO_RHO_ST"><code class="name">var <span class="ident">GAMMA_RHO_RHO_ST</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_TO_TO_FLOW_TYPE"><code class="name">var <span class="ident">GAMMA_TO_TO_FLOW_TYPE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_T_T_ST"><code class="name">var <span class="ident">GAMMA_T_T_ST</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_U_U_ST"><code class="name">var <span class="ident">GAMMA_U_U_ST</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations"><code class="flex name class">
+<span>class <span class="ident">RayleighFlowRelations</span></span>
+<span>(</span><span>gamma: float, mach: float = nan, t_t_st: float = nan, p_p_st: float = nan, rho_rho_st: float = nan, po_po_st: float = nan, to_to_st: float = nan, u_u_st: float = nan, flow_type: <a title="CompAero.types.FlowState" href="types.html#CompAero.types.FlowState">FlowState</a> = FlowState.SUPER_SONIC)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This class is a collective name space for basic calculations regarding Fanno flows.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>mach number of the flow. Defaults to nan.</dd>
+<dt><strong><code>t_t_st</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ratio of Temperature to sonic temperature. Defaults to nan.</dd>
+<dt><strong><code>p_p_st</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ratio of Pressure to sonic pressure. Defaults to nan.</dd>
+<dt><strong><code>rho_rho_st</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ratio of density to sonic density. Defaults to nan.</dd>
+<dt><strong><code>po_po_st</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Total pressure to sonic total pressure ratio. Defaults to nan.</dd>
+<dt><strong><code>to_to_star</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ratio of Total Tempto sonic total temp. Defaults to nan.</dd>
+<dt><strong><code>u_u_st</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Velocity to sonic Velocity. Defaults to nan.</dd>
+<dt><strong><code>flow_type</code></strong> :&ensp;<code>FlowState</code>, optional</dt>
+<dd>States wether the flow is subsonic or supersonic. Used
+for Area Ratio Calculations. Defaults to
+FlowState.SUPER_SONIC.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>GammaNotDefinedError</code></dt>
+<dd>Raised if Gamma is undefined</dd>
+<dt><code>InvalidOptionCombinationError</code></dt>
+<dd>Raised if an invalid combination of parameters is given
+and flow state cannot be determined</dd>
+</dl>
+<h2 id="useage">Useage</h2>
+<p>To use this class pass gamma and one of the known parameters of the flow</p>
+<h2 id="valid_combinations_of_parameters">Valid_Combinations_Of_Parameters</h2>
+<p>1: gamma, mach</p>
+<p>2: gamma, T/T*, flowtype (flow type defaults to super sonic)</p>
+<p>3: gamma, P/P*</p>
+<p>4: gamma, rho/rho*</p>
+<p>5: gamma, P0/P0*, flowtype (flow type defaults to super sonic)</p>
+<p>6: gamma, T0/T0*, flowtype (flow type defaults to super sonic)</p>
+<p>7: gamma, U/U*</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RayleighFlowRelations:
+    # pylint: disable=too-many-instance-attributes
+    &#34;&#34;&#34;
+    This class is a collective name space for basic calculations regarding Fanno flows.
+
+    Args:
+        gamma (float): ratio of specific heats
+        mach (float, optional): mach number of the flow. Defaults to nan.
+        t_t_st (float, optional): Ratio of Temperature to sonic temperature. Defaults to nan.
+        p_p_st (float, optional): Ratio of Pressure to sonic pressure. Defaults to nan.
+        rho_rho_st (float, optional): Ratio of density to sonic density. Defaults to nan.
+        po_po_st (float, optional): Total pressure to sonic total pressure ratio. Defaults to nan.
+        to_to_star (float, optional): Ratio of Total Tempto sonic total temp. Defaults to nan.
+        u_u_st (float, optional): Velocity to sonic Velocity. Defaults to nan.
+        flow_type (FlowState, optional):  States wether the flow is subsonic or supersonic. Used
+                                        for Area Ratio Calculations. Defaults to
+                                        FlowState.SUPER_SONIC.
+
+    Raises:
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given
+                                        and flow state cannot be determined
+
+    Useage:
+        To use this class pass gamma and one of the known parameters of the flow
+
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach\n
+        2: gamma, T/T*, flowtype (flow type defaults to super sonic)\n
+        3: gamma, P/P*\n
+        4: gamma, rho/rho*\n
+        5: gamma, P0/P0*, flowtype (flow type defaults to super sonic)\n
+        6: gamma, T0/T0*, flowtype (flow type defaults to super sonic)\n
+        7: gamma, U/U*\n
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        gamma: float,
+        mach: float = nan,
+        t_t_st: float = nan,
+        p_p_st: float = nan,
+        rho_rho_st: float = nan,
+        po_po_st: float = nan,
+        to_to_st: float = nan,
+        u_u_st: float = nan,
+        flow_type: FlowState = FlowState.SUPER_SONIC,
+    ) -&gt; None:
+        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-statements
+        self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
+        self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
+        self.t_t_st = t_t_st
+        &#34;&#34;&#34; Ratio of temperature to the sonic temperature T/T*&#34;&#34;&#34;
+        self.p_p_st = p_p_st
+        &#34;&#34;&#34; Ratio of pressure to the sonic pressure P/P*&#34;&#34;&#34;
+        self.rho_rho_st = rho_rho_st
+        &#34;&#34;&#34; Ratio of the density to the sonic density rho/rho* &#34;&#34;&#34;
+        self.po_po_st = po_po_st
+        &#34;&#34;&#34; Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0*&#34;&#34;&#34;
+        self.u_u_st = u_u_st
+        &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U*&#34;&#34;&#34;
+        self.to_to_st = to_to_st
+        &#34;&#34;&#34; Ratio of the total temperature to the sonic total temperature T0/T0*&#34;&#34;&#34;
+        self.flow_type = flow_type
+        &#34;&#34;&#34; Type of flow which is either subsonic or supersonic (Type: flowstate) &#34;&#34;&#34;
+        self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
+
+        # Pipe parameters
+        self.choked_heat = nan
+        &#34;&#34;&#34; Amount of heat required to choke the flow&#34;&#34;&#34;
+        self.heat = nan
+        &#34;&#34;&#34; Amount of heat added to the flow &#34;&#34;&#34;
+        self.gas_constant_r = nan
+        &#34;&#34;&#34; Gas constant used for flow calculations&#34;&#34;&#34;
+        self.cp = nan
+        &#34;&#34;&#34; Specific heat Coefficient at constant pressure for the gas used&#34;&#34;&#34;
+
+        # Down stream conditions if pipe parameters are given
+        self.dwn_strm_mach = nan
+        &#34;&#34;&#34; Mach number at the downstream point of the flow &#34;&#34;&#34;
+        self.dwn_strm_t_t_st = nan
+        &#34;&#34;&#34; Ratio of temperature to the sonic temperature T/T* at the downstream point&#34;&#34;&#34;
+        self.dwn_strm_p_p_st = nan
+        &#34;&#34;&#34; Ratio of pressure to the sonic pressure P/P* at the downstream point&#34;&#34;&#34;
+        self.dwn_strm_rho_rho_st = nan
+        &#34;&#34;&#34; Ratio of the density to the sonic density rho/rho* at the downstream point&#34;&#34;&#34;
+        self.dwn_strm_po_po_st = nan
+        &#34;&#34;&#34; Stagnation to sonic stagnation pressure ratio P0/P0* at the down stream point&#34;&#34;&#34;
+        self.dwn_strm_u_u_st = nan
+        &#34;&#34;&#34; Ratio of velocity to the sonic velcoity U/U* at the downstream point&#34;&#34;&#34;
+        self.dwn_strm_to_to_st = nan
+        &#34;&#34;&#34; Ratio of the total temp to the sonic total temp T0/T0* at the downstream point&#34;&#34;&#34;
+
+        # Downstream / Initial Conditions
+        self.t2_t1 = nan
+        &#34;&#34;&#34; Ratio of downstream temperature to upstream temperature&#34;&#34;&#34;
+        self.p2_p1 = nan
+        &#34;&#34;&#34; Ratio of downstream pressure to upstream pressure&#34;&#34;&#34;
+        self.rho2_rho1 = nan
+        &#34;&#34;&#34; Ratio of downstream density to upstream density&#34;&#34;&#34;
+        self.po2_po1 = nan
+        &#34;&#34;&#34; Ratio of downstream total pressure to upstream total pressure&#34;&#34;&#34;
+        self.to2_to1 = nan
+        &#34;&#34;&#34; Ratio of downstream total temperature to upstream total temperature&#34;&#34;&#34;
+        self.u2_u1 = nan
+        &#34;&#34;&#34; Ratio of downstream velocity to upstream velocity &#34;&#34;&#34;
+        self.to2 = nan
+        &#34;&#34;&#34; Downstream total temperature &#34;&#34;&#34;
+        self.to1 = nan
+        &#34;&#34;&#34; Upstream total temperature&#34;&#34;&#34;
+
+        if not check_value(self.gamma):
+            raise GammaNotDefinedError()
+
+        if check_value(self.mach):
+            pass
+
+        elif check_value(self.t_t_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_t_t_star(
+                self.t_t_st, self.gamma, flow_type=self.flow_type
+            )
+
+        elif check_value(self.p_p_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_p_p_star(self.p_p_st, self.gamma)
+
+        elif check_value(self.rho_rho_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_rho_rho_star(
+                self.rho_rho_st, self.gamma
+            )
+
+        elif check_value(self.po_po_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_po_po_star(
+                self.po_po_st, self.gamma, flow_type=self.flow_type
+            )
+
+        elif check_value(self.to_to_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_to_to_star(
+                self.to_to_st, self.gamma, flow_type=self.flow_type
+            )
+
+        elif check_value(self.u_u_st):
+            self.mach = RayleighFlowRelations.calc_mach_from_u_u_star(self.u_u_st, self.gamma)
+
+        else:
+            raise InvalidOptionCombinationError()
+
+        if check_value(self.mach):
+            self._calc_state()
+
+    @property
+    def choked_flow(self) -&gt; bool:
+        &#34;&#34;&#34;True if the added heat is greater than the heat addition required to choke the flow&#34;&#34;&#34;
+        return self.heat &gt; self.choked_heat
+
+    def _calc_state(self) -&gt; None:
+        self.t_t_st = RayleighFlowRelations.calc_t_t_star(self.mach, self.gamma)
+        self.p_p_st = RayleighFlowRelations.calc_p_p_star(self.mach, self.gamma)
+        self.rho_rho_st = RayleighFlowRelations.calc_rho_rho_star(self.mach, self.gamma)
+        self.po_po_st = RayleighFlowRelations.calc_po_po_star(self.mach, self.gamma)
+        self.to_to_st = RayleighFlowRelations.calc_to_to_star(self.mach, self.gamma)
+        self.u_u_st = RayleighFlowRelations.calc_u_u_starar(self.mach, self.gamma)
+        self.flow_type = FlowState.SUPER_SONIC if self.mach &gt; 1.0 else FlowState.SUB_SONIC
+
+    def simulate_heat_addition(self, heat: float, to1: float, gas_const_r: float) -&gt; None:
+        &#34;&#34;&#34;
+        This functions calculates the downstream flow conditions caused due to applied heat.
+
+        Args:
+            heat (float): The amount of heat being applied
+            to1 (float): The initial temperature of the flow
+            gas_const_r (float): The gas constant of the flow
+        &#34;&#34;&#34;
+        self.gas_constant_r = gas_const_r
+        self.to1 = to1
+        self.heat = heat
+        self.cp = self.gamma * gas_const_r / (self.gamma - 1)
+        self.to2 = self.to1 + self.heat / self.cp
+
+        temp_star = self.to1 / self.to_to_st
+        self.choked_heat = self.cp * (temp_star - self.to1)
+
+        self.to2_to1 = self.to2 / self.to1
+        self.dwn_strm_to_to_st = self.to2_to1 * self.to_to_st
+
+        if self.heat &gt; self.choked_heat:
+            self.dwn_strm_to_to_st = 1
+
+        self.dwn_strm_mach = RayleighFlowRelations.calc_mach_from_to_to_star(
+            self.dwn_strm_to_to_st, self.gamma, self.flow_type
+        )
+        self.dwn_strm_t_t_st = RayleighFlowRelations.calc_t_t_star(self.dwn_strm_mach, self.gamma)
+        self.dwn_strm_p_p_st = RayleighFlowRelations.calc_p_p_star(self.dwn_strm_mach, self.gamma)
+        self.dwn_strm_rho_rho_st = RayleighFlowRelations.calc_rho_rho_star(
+            self.dwn_strm_mach, self.gamma
+        )
+        self.dwn_strm_po_po_st = RayleighFlowRelations.calc_po_po_star(
+            self.dwn_strm_mach, self.gamma
+        )
+        self.dwn_strm_to_to_st = RayleighFlowRelations.calc_to_to_star(
+            self.dwn_strm_mach, self.gamma
+        )
+        self.dwn_strm_u_u_st = RayleighFlowRelations.calc_u_u_starar(self.dwn_strm_mach, self.gamma)
+
+        self.to2_to1 = self.dwn_strm_to_to_st / self.to_to_st
+        self.t2_t1 = self.dwn_strm_t_t_st / self.t_t_st
+        self.p2_p1 = self.dwn_strm_p_p_st / self.p_p_st
+        self.rho2_rho1 = self.dwn_strm_rho_rho_st / self.rho_rho_st
+        self.po2_po1 = self.dwn_strm_po_po_st / self.po_po_st
+        self.u2_u1 = self.dwn_strm_u_u_st / self.u_u_st
+
+    def __str__(self) -&gt; str:
+        color = (
+            Back.GREEN + Fore.BLACK if self.heat &lt; self.choked_heat else Back.YELLOW + Fore.BLACK
+        )
+
+        return &#34;&#34;.join(
+            [
+                named_header(&#34;Rayleigh Relations at Mach&#34;, self.mach, precision=self.precision),
+                seperator(),
+                to_string(lcg.gamma, self.gamma, self.precision),
+                to_string(&#34;T/T*&#34;, self.t_t_st, self.precision, dot_line=True),
+                to_string(&#34;P/P*&#34;, self.p_p_st, self.precision),
+                to_string(f&#34;{lcg.rho}/{lcg.rho}&#34;, self.rho_rho_st, self.precision, dot_line=True),
+                to_string(&#34;P0/P0*&#34;, self.po_po_st, self.precision),
+                to_string(&#34;U/U*&#34;, self.u_u_st, self.precision, dot_line=True),
+                to_string(&#34;T0/T0*&#34;, self.to_to_st, self.precision),
+                to_string(&#34;Flow Type&#34;, self.flow_type.name, self.precision, dot_line=True),
+                seperator(),
+                named_subheader(&#34;Pipe Parameters&#34;),
+                to_string(&#34;Heat Req. For Chocked Flow&#34;, self.choked_heat, self.precision),
+                color,
+                to_string(&#34;Is Flow Choked? &#34;, self.choked_flow, self.precision, dot_line=True),
+                to_string(&#34;Added Heat&#34;, self.heat, self.precision),
+                to_string(&#34;Gas Constant R&#34;, self.gas_constant_r, self.precision, dot_line=True),
+                to_string(&#34;Cp&#34;, self.cp, self.precision),
+                to_string(&#34;T01&#34;, self.to1, self.precision, dot_line=True),
+                to_string(&#34;T02&#34;, self.to2, self.precision),
+                seperator(),
+                named_subheader(&#34;Down Stream Conditions&#34;),
+                to_string(&#34;Mach&#34;, self.dwn_strm_mach, self.precision),
+                to_string(&#34;T/T*&#34;, self.t_t_st, self.precision, dot_line=True),
+                to_string(&#34;P/P*&#34;, self.dwn_strm_p_p_st, self.precision),
+                to_string(&#34;P0/P0*&#34;, self.dwn_strm_po_po_st, self.precision, dot_line=True),
+                to_string(f&#34;{lcg.rho}/{lcg.rho}*&#34;, self.dwn_strm_rho_rho_st, self.precision),
+                to_string(&#34;T0/T0*&#34;, self.to_to_st, self.precision, dot_line=True),
+                to_string(&#34;U/U*&#34;, self.dwn_strm_u_u_st, self.precision),
+                seperator(),
+                named_subheader(&#34;Conditions Across Heat Addition&#34;),
+                to_string(&#34;P2/P1&#34;, self.p2_p1, self.precision),
+                to_string(
+                    f&#34;{lcg.rho}2/{lcg.rho}1&#34;,
+                    self.rho2_rho1,
+                    self.precision,
+                    dot_line=True,
+                ),
+                to_string(&#34;T2/T1&#34;, self.t2_t1, self.precision),
+                to_string(&#34;P02/P01&#34;, self.po2_po1, self.precision, dot_line=True),
+                to_string(&#34;T02/T01&#34;, self.to2_to1, self.precision),
+                to_string(&#34;U2/U1&#34;, self.u2_u1, self.precision, dot_line=True),
+                footer(),
+            ]
+        )
+
+    @staticmethod
+    def calc_p_p_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static pressure to sonic pressure P/P*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: P/P*
+        &#34;&#34;&#34;
+        return (1 + gamma) / (1 + gamma * pow(mach, 2)) - offset
+
+    @staticmethod
+    def calc_mach_from_p_p_star(p_p_st: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based of the ratio of static pressure to sonic static
+        pressure P/P*
+
+        Args:
+            p_p_st (float): Ratio of static pressure to sonic static pressure P/P*
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            RayleighFlowRelations.calc_p_p_star,
+            1e-9,
+            40,
+            args=(
+                gamma,
+                p_p_st,
+            ),
+        )  # type: ignore
+
+    @staticmethod
+    def calc_t_t_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static temperature to sonic temperature T/T*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: T/T*
+        &#34;&#34;&#34;
+        return pow(mach, 2) * pow(RayleighFlowRelations.calc_p_p_star(mach, gamma), 2) - offset
+
+    @staticmethod
+    def calc_mach_from_t_t_star(
+        t_t_st: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
+    ) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based of the ratio of static tempto sonic static temp T/T*
+
+        Args:
+            t_t_st (float): Ratio of static temperature to sonic static temperature T/T*
+            gamma (float): ratio of specific heats
+            flow_type (FlowState, optional): States whether the flow is currently supersonic or
+                                            subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        tolerance = 1e-5
+        if t_t_st == 1.0:
+            return 1
+
+        if flow_type == FlowState.SUPER_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_t_t_star,
+                1 + tolerance,
+                40,
+                args=(
+                    gamma,
+                    t_t_st,
+                ),
+            )  # type: ignore
+
+        if flow_type == FlowState.SUB_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_t_t_star,
+                tolerance,
+                1 - tolerance,
+                args=(
+                    gamma,
+                    t_t_st,
+                ),
+            )  # type: ignore
+
+        raise ValueError(
+            f&#34;{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow!{Fore.RESET}&#34;
+        )
+
+    @staticmethod
+    def calc_rho_rho_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static density to sonic density Rho/Rho*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: Rho/Rho*
+        &#34;&#34;&#34;
+        return 1 / RayleighFlowRelations.calc_p_p_star(mach, gamma) / pow(mach, 2) - offset
+
+    @staticmethod
+    def calc_mach_from_rho_rho_star(rho_rho_st: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the mach number based of the ratio of density to sonic density Rho/Rho*
+
+        Args:
+            rho_rho_st (float): Ratio of density to sonic density Rho/Rho*
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            RayleighFlowRelations.calc_rho_rho_star,
+            1e-9,
+            40,
+            args=(
+                gamma,
+                rho_rho_st,
+            ),
+        )  # type: ignore
+
+    @staticmethod
+    def calc_po_po_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static density to sonic density P0/P0*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: P0/P0*
+        &#34;&#34;&#34;
+        gp1 = gamma + 1
+        gm1 = gamma - 1
+        p_p_st = RayleighFlowRelations.calc_p_p_star(mach, gamma)
+        ratio = (2 + gm1 * pow(mach, 2)) / gp1
+        return p_p_st * pow(ratio, gamma / gm1) - offset
+
+    @staticmethod
+    def calc_mach_from_po_po_star(
+        po_po_st: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
+    ) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based of the ratio of total pressure to sonic total pressure
+        P0/P0*
+
+        Args:
+            po_po_st (float): Ratio of total pressure to sonic total pressure P0/P0*
+            gamma (float): ratio of specific heats
+            flow_type (FlowState, optional): States whether the flow is currently supersonic or
+                                            subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        tolerance = 1e-5
+        if po_po_st == 1.0:
+            return 1
+
+        if flow_type == FlowState.SUPER_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_po_po_star,
+                1 + tolerance,
+                40,
+                args=(
+                    gamma,
+                    po_po_st,
+                ),
+            )  # type: ignore
+
+        if flow_type == FlowState.SUB_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_po_po_star,
+                tolerance,
+                1 - tolerance,
+                args=(
+                    gamma,
+                    po_po_st,
+                ),
+            )  # type: ignore
+
+        raise ValueError(
+            f&#34;{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow!{Fore.RESET}&#34;
+        )
+
+    @staticmethod
+    def calc_to_to_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates To_To* given gamma and Mach, offset can be applied for root finding&#34;&#34;&#34;
+        gp1 = gamma + 1
+        gm1 = gamma - 1
+        m_sqr = pow(mach, 2)
+        return gp1 * m_sqr / pow((1 + gamma * m_sqr), 2) * (2 + gm1 * m_sqr) - offset
+
+    @staticmethod
+    def calc_mach_from_to_to_star(
+        t_t_st: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
+    ) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based of the ratio of total tempto sonic total temp T0/T0*
+
+        Args:
+            po_po_st (float): Ratio of total temperature to sonic total temperature T0/T0*
+            gamma (float): ratio of specific heats
+            flow_type (FlowState, optional): States whether the flow is currently supersonic or
+                                                subsonic. Defaults to FlowState.SUPER_SONIC.
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        tolerance = 1e-5
+        if t_t_st == 1.0:
+            return 1
+
+        if flow_type == FlowState.SUPER_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_to_to_star,
+                1 + tolerance,
+                40,
+                args=(
+                    gamma,
+                    t_t_st,
+                ),
+            )  # type: ignore
+
+        if flow_type == FlowState.SUB_SONIC:
+            return brenth(
+                RayleighFlowRelations.calc_to_to_star,
+                tolerance,
+                1 - tolerance,
+                args=(
+                    gamma,
+                    t_t_st,
+                ),
+            )  # type: ignore
+
+        raise ValueError(
+            f&#34;{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow!{Fore.RESET}&#34;
+        )
+
+    @staticmethod
+    def calc_u_u_starar(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of static velocity to sonic velocity U/U*
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Returns:
+            float: U/U*
+        &#34;&#34;&#34;
+        gp1 = gamma + 1
+        m_sqr = pow(mach, 2)
+        return gp1 * m_sqr / (1 + gamma * m_sqr) - offset
+
+    @staticmethod
+    def calc_mach_from_u_u_star(u_u_st: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the mach number based of the ratio of velocity to sonic velocity U/U*
+
+        Args:
+            u_u_st (float): Ratio of velocity to sonic velocity U/U*
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            RayleighFlowRelations.calc_u_u_starar, 1e-9, 40, args=(gamma, u_u_st)
+        )  # type: ignore</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_p_p_star"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_p_p_star</span></span>(<span>p_p_st: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based of the ratio of static pressure to sonic static
+pressure P/P*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>p_p_st</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of static pressure to sonic static pressure P/P*</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_p_p_star(p_p_st: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number based of the ratio of static pressure to sonic static
+    pressure P/P*
+
+    Args:
+        p_p_st (float): Ratio of static pressure to sonic static pressure P/P*
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return brenth(
+        RayleighFlowRelations.calc_p_p_star,
+        1e-9,
+        40,
+        args=(
+            gamma,
+            p_p_st,
+        ),
+    )  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_po_po_star"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_po_po_star</span></span>(<span>po_po_st: float, gamma: float, flow_type: <a title="CompAero.types.FlowState" href="types.html#CompAero.types.FlowState">FlowState</a> = FlowState.SUPER_SONIC) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based of the ratio of total pressure to sonic total pressure
+P0/P0*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>po_po_st</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of total pressure to sonic total pressure P0/P0*</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>flow_type</code></strong> :&ensp;<code>FlowState</code>, optional</dt>
+<dd>States whether the flow is currently supersonic or
+subsonic. Defaults to FlowState.SUPER_SONIC.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_po_po_star(
+    po_po_st: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
+) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number based of the ratio of total pressure to sonic total pressure
+    P0/P0*
+
+    Args:
+        po_po_st (float): Ratio of total pressure to sonic total pressure P0/P0*
+        gamma (float): ratio of specific heats
+        flow_type (FlowState, optional): States whether the flow is currently supersonic or
+                                        subsonic. Defaults to FlowState.SUPER_SONIC.
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    tolerance = 1e-5
+    if po_po_st == 1.0:
+        return 1
+
+    if flow_type == FlowState.SUPER_SONIC:
+        return brenth(
+            RayleighFlowRelations.calc_po_po_star,
+            1 + tolerance,
+            40,
+            args=(
+                gamma,
+                po_po_st,
+            ),
+        )  # type: ignore
+
+    if flow_type == FlowState.SUB_SONIC:
+        return brenth(
+            RayleighFlowRelations.calc_po_po_star,
+            tolerance,
+            1 - tolerance,
+            args=(
+                gamma,
+                po_po_st,
+            ),
+        )  # type: ignore
+
+    raise ValueError(
+        f&#34;{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow!{Fore.RESET}&#34;
+    )</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_rho_rho_star"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_rho_rho_star</span></span>(<span>rho_rho_st: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based of the ratio of density to sonic density Rho/Rho*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>rho_rho_st</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of density to sonic density Rho/Rho*</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_rho_rho_star(rho_rho_st: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;Calculates the mach number based of the ratio of density to sonic density Rho/Rho*
+
+    Args:
+        rho_rho_st (float): Ratio of density to sonic density Rho/Rho*
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return brenth(
+        RayleighFlowRelations.calc_rho_rho_star,
+        1e-9,
+        40,
+        args=(
+            gamma,
+            rho_rho_st,
+        ),
+    )  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_t_t_star"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_t_t_star</span></span>(<span>t_t_st: float, gamma: float, flow_type: <a title="CompAero.types.FlowState" href="types.html#CompAero.types.FlowState">FlowState</a> = FlowState.SUPER_SONIC) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based of the ratio of static tempto sonic static temp T/T*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>t_t_st</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of static temperature to sonic static temperature T/T*</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>flow_type</code></strong> :&ensp;<code>FlowState</code>, optional</dt>
+<dd>States whether the flow is currently supersonic or
+subsonic. Defaults to FlowState.SUPER_SONIC.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_t_t_star(
+    t_t_st: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
+) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number based of the ratio of static tempto sonic static temp T/T*
+
+    Args:
+        t_t_st (float): Ratio of static temperature to sonic static temperature T/T*
+        gamma (float): ratio of specific heats
+        flow_type (FlowState, optional): States whether the flow is currently supersonic or
+                                        subsonic. Defaults to FlowState.SUPER_SONIC.
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    tolerance = 1e-5
+    if t_t_st == 1.0:
+        return 1
+
+    if flow_type == FlowState.SUPER_SONIC:
+        return brenth(
+            RayleighFlowRelations.calc_t_t_star,
+            1 + tolerance,
+            40,
+            args=(
+                gamma,
+                t_t_st,
+            ),
+        )  # type: ignore
+
+    if flow_type == FlowState.SUB_SONIC:
+        return brenth(
+            RayleighFlowRelations.calc_t_t_star,
+            tolerance,
+            1 - tolerance,
+            args=(
+                gamma,
+                t_t_st,
+            ),
+        )  # type: ignore
+
+    raise ValueError(
+        f&#34;{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow!{Fore.RESET}&#34;
+    )</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_to_to_star"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_to_to_star</span></span>(<span>t_t_st: float, gamma: float, flow_type: <a title="CompAero.types.FlowState" href="types.html#CompAero.types.FlowState">FlowState</a> = FlowState.SUPER_SONIC) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based of the ratio of total tempto sonic total temp T0/T0*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>po_po_st</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of total temperature to sonic total temperature T0/T0*</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>flow_type</code></strong> :&ensp;<code>FlowState</code>, optional</dt>
+<dd>States whether the flow is currently supersonic or
+subsonic. Defaults to FlowState.SUPER_SONIC.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_to_to_star(
+    t_t_st: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
+) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number based of the ratio of total tempto sonic total temp T0/T0*
+
+    Args:
+        po_po_st (float): Ratio of total temperature to sonic total temperature T0/T0*
+        gamma (float): ratio of specific heats
+        flow_type (FlowState, optional): States whether the flow is currently supersonic or
+                                            subsonic. Defaults to FlowState.SUPER_SONIC.
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    tolerance = 1e-5
+    if t_t_st == 1.0:
+        return 1
+
+    if flow_type == FlowState.SUPER_SONIC:
+        return brenth(
+            RayleighFlowRelations.calc_to_to_star,
+            1 + tolerance,
+            40,
+            args=(
+                gamma,
+                t_t_st,
+            ),
+        )  # type: ignore
+
+    if flow_type == FlowState.SUB_SONIC:
+        return brenth(
+            RayleighFlowRelations.calc_to_to_star,
+            tolerance,
+            1 - tolerance,
+            args=(
+                gamma,
+                t_t_st,
+            ),
+        )  # type: ignore
+
+    raise ValueError(
+        f&#34;{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow!{Fore.RESET}&#34;
+    )</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_u_u_star"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_u_u_star</span></span>(<span>u_u_st: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based of the ratio of velocity to sonic velocity U/U*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>u_u_st</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of velocity to sonic velocity U/U*</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_u_u_star(u_u_st: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;Calculates the mach number based of the ratio of velocity to sonic velocity U/U*
+
+    Args:
+        u_u_st (float): Ratio of velocity to sonic velocity U/U*
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return brenth(
+        RayleighFlowRelations.calc_u_u_starar, 1e-9, 40, args=(gamma, u_u_st)
+    )  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_p_p_star"><code class="name flex">
+<span>def <span class="ident">calc_p_p_star</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of static pressure to sonic pressure P/P*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>P/P*</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_p_p_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;Calculates Ratio of static pressure to sonic pressure P/P*
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Returns:
+        float: P/P*
+    &#34;&#34;&#34;
+    return (1 + gamma) / (1 + gamma * pow(mach, 2)) - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_po_po_star"><code class="name flex">
+<span>def <span class="ident">calc_po_po_star</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of static density to sonic density P0/P0*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>P0/P0*</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_po_po_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;Calculates Ratio of static density to sonic density P0/P0*
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Returns:
+        float: P0/P0*
+    &#34;&#34;&#34;
+    gp1 = gamma + 1
+    gm1 = gamma - 1
+    p_p_st = RayleighFlowRelations.calc_p_p_star(mach, gamma)
+    ratio = (2 + gm1 * pow(mach, 2)) / gp1
+    return p_p_st * pow(ratio, gamma / gm1) - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_rho_rho_star"><code class="name flex">
+<span>def <span class="ident">calc_rho_rho_star</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of static density to sonic density Rho/Rho*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Rho/Rho*</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_rho_rho_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;Calculates Ratio of static density to sonic density Rho/Rho*
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Returns:
+        float: Rho/Rho*
+    &#34;&#34;&#34;
+    return 1 / RayleighFlowRelations.calc_p_p_star(mach, gamma) / pow(mach, 2) - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_t_t_star"><code class="name flex">
+<span>def <span class="ident">calc_t_t_star</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of static temperature to sonic temperature T/T*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>T/T*</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_t_t_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;Calculates Ratio of static temperature to sonic temperature T/T*
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Returns:
+        float: T/T*
+    &#34;&#34;&#34;
+    return pow(mach, 2) * pow(RayleighFlowRelations.calc_p_p_star(mach, gamma), 2) - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_to_to_star"><code class="name flex">
+<span>def <span class="ident">calc_to_to_star</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates To_To* given gamma and Mach, offset can be applied for root finding</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_to_to_star(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;Calculates To_To* given gamma and Mach, offset can be applied for root finding&#34;&#34;&#34;
+    gp1 = gamma + 1
+    gm1 = gamma - 1
+    m_sqr = pow(mach, 2)
+    return gp1 * m_sqr / pow((1 + gamma * m_sqr), 2) * (2 + gm1 * m_sqr) - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_u_u_starar"><code class="name flex">
+<span>def <span class="ident">calc_u_u_starar</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of static velocity to sonic velocity U/U*</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>U/U*</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_u_u_starar(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;Calculates Ratio of static velocity to sonic velocity U/U*
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Returns:
+        float: U/U*
+    &#34;&#34;&#34;
+    gp1 = gamma + 1
+    m_sqr = pow(mach, 2)
+    return gp1 * m_sqr / (1 + gamma * m_sqr) - offset</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.choked_flow"><code class="name">var <span class="ident">choked_flow</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>True if the added heat is greater than the heat addition required to choke the flow</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def choked_flow(self) -&gt; bool:
+    &#34;&#34;&#34;True if the added heat is greater than the heat addition required to choke the flow&#34;&#34;&#34;
+    return self.heat &gt; self.choked_heat</code></pre>
+</details>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.choked_heat"><code class="name">var <span class="ident">choked_heat</span></code></dt>
+<dd>
+<div class="desc"><p>Amount of heat required to choke the flow</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.cp"><code class="name">var <span class="ident">cp</span></code></dt>
+<dd>
+<div class="desc"><p>Specific heat Coefficient at constant pressure for the gas used</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_mach"><code class="name">var <span class="ident">dwn_strm_mach</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number at the downstream point of the flow</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_p_p_st"><code class="name">var <span class="ident">dwn_strm_p_p_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of pressure to the sonic pressure P/P* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_po_po_st"><code class="name">var <span class="ident">dwn_strm_po_po_st</span></code></dt>
+<dd>
+<div class="desc"><p>Stagnation to sonic stagnation pressure ratio P0/P0* at the down stream point</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_rho_rho_st"><code class="name">var <span class="ident">dwn_strm_rho_rho_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the density to the sonic density rho/rho* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_t_t_st"><code class="name">var <span class="ident">dwn_strm_t_t_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of temperature to the sonic temperature T/T* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_to_to_st"><code class="name">var <span class="ident">dwn_strm_to_to_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the total temp to the sonic total temp T0/T0* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_u_u_st"><code class="name">var <span class="ident">dwn_strm_u_u_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of velocity to the sonic velcoity U/U* at the downstream point</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.flow_type"><code class="name">var <span class="ident">flow_type</span></code></dt>
+<dd>
+<div class="desc"><p>Type of flow which is either subsonic or supersonic (Type: flowstate)</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.gamma"><code class="name">var <span class="ident">gamma</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of specific heats</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.gas_constant_r"><code class="name">var <span class="ident">gas_constant_r</span></code></dt>
+<dd>
+<div class="desc"><p>Gas constant used for flow calculations</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.heat"><code class="name">var <span class="ident">heat</span></code></dt>
+<dd>
+<div class="desc"><p>Amount of heat added to the flow</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.mach"><code class="name">var <span class="ident">mach</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number of the flow</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.p2_p1"><code class="name">var <span class="ident">p2_p1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream pressure to upstream pressure</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.p_p_st"><code class="name">var <span class="ident">p_p_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of pressure to the sonic pressure P/P*</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.po2_po1"><code class="name">var <span class="ident">po2_po1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream total pressure to upstream total pressure</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.po_po_st"><code class="name">var <span class="ident">po_po_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the stagnation pressure to the sonic stagnation pressure P0/P0*</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.precision"><code class="name">var <span class="ident">precision</span></code></dt>
+<dd>
+<div class="desc"><p>Precision to use when printing output to the console defaults to four</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.rho2_rho1"><code class="name">var <span class="ident">rho2_rho1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream density to upstream density</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.rho_rho_st"><code class="name">var <span class="ident">rho_rho_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the density to the sonic density rho/rho*</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.t2_t1"><code class="name">var <span class="ident">t2_t1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream temperature to upstream temperature</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.t_t_st"><code class="name">var <span class="ident">t_t_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of temperature to the sonic temperature T/T*</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.to1"><code class="name">var <span class="ident">to1</span></code></dt>
+<dd>
+<div class="desc"><p>Upstream total temperature</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.to2"><code class="name">var <span class="ident">to2</span></code></dt>
+<dd>
+<div class="desc"><p>Downstream total temperature</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.to2_to1"><code class="name">var <span class="ident">to2_to1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream total temperature to upstream total temperature</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.to_to_st"><code class="name">var <span class="ident">to_to_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of the total temperature to the sonic total temperature T0/T0*</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.u2_u1"><code class="name">var <span class="ident">u2_u1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of downstream velocity to upstream velocity</p></div>
+</dd>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.u_u_st"><code class="name">var <span class="ident">u_u_st</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of velocity to the sonic velcoity U/U*</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="CompAero.rayleigh_flow_relations.RayleighFlowRelations.simulate_heat_addition"><code class="name flex">
+<span>def <span class="ident">simulate_heat_addition</span></span>(<span>self, heat: float, to1: float, gas_const_r: float) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This functions calculates the downstream flow conditions caused due to applied heat.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>heat</code></strong> :&ensp;<code>float</code></dt>
+<dd>The amount of heat being applied</dd>
+<dt><strong><code>to1</code></strong> :&ensp;<code>float</code></dt>
+<dd>The initial temperature of the flow</dd>
+<dt><strong><code>gas_const_r</code></strong> :&ensp;<code>float</code></dt>
+<dd>The gas constant of the flow</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def simulate_heat_addition(self, heat: float, to1: float, gas_const_r: float) -&gt; None:
+    &#34;&#34;&#34;
+    This functions calculates the downstream flow conditions caused due to applied heat.
+
+    Args:
+        heat (float): The amount of heat being applied
+        to1 (float): The initial temperature of the flow
+        gas_const_r (float): The gas constant of the flow
+    &#34;&#34;&#34;
+    self.gas_constant_r = gas_const_r
+    self.to1 = to1
+    self.heat = heat
+    self.cp = self.gamma * gas_const_r / (self.gamma - 1)
+    self.to2 = self.to1 + self.heat / self.cp
+
+    temp_star = self.to1 / self.to_to_st
+    self.choked_heat = self.cp * (temp_star - self.to1)
+
+    self.to2_to1 = self.to2 / self.to1
+    self.dwn_strm_to_to_st = self.to2_to1 * self.to_to_st
+
+    if self.heat &gt; self.choked_heat:
+        self.dwn_strm_to_to_st = 1
+
+    self.dwn_strm_mach = RayleighFlowRelations.calc_mach_from_to_to_star(
+        self.dwn_strm_to_to_st, self.gamma, self.flow_type
+    )
+    self.dwn_strm_t_t_st = RayleighFlowRelations.calc_t_t_star(self.dwn_strm_mach, self.gamma)
+    self.dwn_strm_p_p_st = RayleighFlowRelations.calc_p_p_star(self.dwn_strm_mach, self.gamma)
+    self.dwn_strm_rho_rho_st = RayleighFlowRelations.calc_rho_rho_star(
+        self.dwn_strm_mach, self.gamma
+    )
+    self.dwn_strm_po_po_st = RayleighFlowRelations.calc_po_po_star(
+        self.dwn_strm_mach, self.gamma
+    )
+    self.dwn_strm_to_to_st = RayleighFlowRelations.calc_to_to_star(
+        self.dwn_strm_mach, self.gamma
+    )
+    self.dwn_strm_u_u_st = RayleighFlowRelations.calc_u_u_starar(self.dwn_strm_mach, self.gamma)
+
+    self.to2_to1 = self.dwn_strm_to_to_st / self.to_to_st
+    self.t2_t1 = self.dwn_strm_t_t_st / self.t_t_st
+    self.p2_p1 = self.dwn_strm_p_p_st / self.p_p_st
+    self.rho2_rho1 = self.dwn_strm_rho_rho_st / self.rho_rho_st
+    self.po2_po1 = self.dwn_strm_po_po_st / self.po_po_st
+    self.u2_u1 = self.dwn_strm_u_u_st / self.u_u_st</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="CompAero" href="index.html">CompAero</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowChoice" href="#CompAero.rayleigh_flow_relations.RayleighFlowChoice">RayleighFlowChoice</a></code></h4>
+<ul class="">
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_MACH" href="#CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_MACH">GAMMA_MACH</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_PO_PO_ST" href="#CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_PO_PO_ST">GAMMA_PO_PO_ST</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_P_P_ST" href="#CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_P_P_ST">GAMMA_P_P_ST</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_RHO_RHO_ST" href="#CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_RHO_RHO_ST">GAMMA_RHO_RHO_ST</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_TO_TO_FLOW_TYPE" href="#CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_TO_TO_FLOW_TYPE">GAMMA_TO_TO_FLOW_TYPE</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_T_T_ST" href="#CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_T_T_ST">GAMMA_T_T_ST</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_U_U_ST" href="#CompAero.rayleigh_flow_relations.RayleighFlowChoice.GAMMA_U_U_ST">GAMMA_U_U_ST</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations">RayleighFlowRelations</a></code></h4>
+<ul class="">
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_p_p_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_p_p_star">calc_mach_from_p_p_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_po_po_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_po_po_star">calc_mach_from_po_po_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_rho_rho_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_rho_rho_star">calc_mach_from_rho_rho_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_t_t_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_t_t_star">calc_mach_from_t_t_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_to_to_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_to_to_star">calc_mach_from_to_to_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_u_u_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_mach_from_u_u_star">calc_mach_from_u_u_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_p_p_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_p_p_star">calc_p_p_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_po_po_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_po_po_star">calc_po_po_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_rho_rho_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_rho_rho_star">calc_rho_rho_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_t_t_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_t_t_star">calc_t_t_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_to_to_star" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_to_to_star">calc_to_to_star</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_u_u_starar" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.calc_u_u_starar">calc_u_u_starar</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.choked_flow" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.choked_flow">choked_flow</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.choked_heat" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.choked_heat">choked_heat</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.cp" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.cp">cp</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_mach" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_mach">dwn_strm_mach</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_p_p_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_p_p_st">dwn_strm_p_p_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_po_po_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_po_po_st">dwn_strm_po_po_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_rho_rho_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_rho_rho_st">dwn_strm_rho_rho_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_t_t_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_t_t_st">dwn_strm_t_t_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_to_to_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_to_to_st">dwn_strm_to_to_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_u_u_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.dwn_strm_u_u_st">dwn_strm_u_u_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.flow_type" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.flow_type">flow_type</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.gamma" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.gamma">gamma</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.gas_constant_r" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.gas_constant_r">gas_constant_r</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.heat" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.heat">heat</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.mach" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.mach">mach</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.p2_p1" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.p2_p1">p2_p1</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.p_p_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.p_p_st">p_p_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.po2_po1" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.po2_po1">po2_po1</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.po_po_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.po_po_st">po_po_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.precision" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.precision">precision</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.rho2_rho1" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.rho2_rho1">rho2_rho1</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.rho_rho_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.rho_rho_st">rho_rho_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.simulate_heat_addition" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.simulate_heat_addition">simulate_heat_addition</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.t2_t1" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.t2_t1">t2_t1</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.t_t_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.t_t_st">t_t_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.to1" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.to1">to1</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.to2" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.to2">to2</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.to2_to1" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.to2_to1">to2_to1</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.to_to_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.to_to_st">to_to_st</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.u2_u1" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.u2_u1">u2_u1</a></code></li>
+<li><code><a title="CompAero.rayleigh_flow_relations.RayleighFlowRelations.u_u_st" href="#CompAero.rayleigh_flow_relations.RayleighFlowRelations.u_u_st">u_u_st</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
