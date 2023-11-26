@@ -82,7 +82,7 @@ class UI(QMainWindow, Ui_MainWindow):
         )
         self.normalShockOptionCombo.addItems(NORMAL_SHOCK_VALID_OPTIONS)
         self.obliqueShockOptionCombo.addItems(OBLIQUE_SHOCK_VALID_OPTIONS)
-        self.obliqueshock_typeCombo.addItems([x.value for x in ShockType])
+        self.obliqueShockTypeCombo.addItems([x.value for x in ShockType])
         self.fannoOptionCombo.addItems(FANNO_FLOW_VALID_OPTIONS)
         self.fannoFlowTypeCombo.addItems([x.value for x in FlowState])
         self.rayleighOptionCombo.addItems(RAYLEIGH_FLOW_VALID_OPTIONS)
