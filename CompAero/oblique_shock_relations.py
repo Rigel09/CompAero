@@ -289,12 +289,9 @@ class ObliqueShockRelations(NormalShockRelations):
             self.mach_normal_2, self.wedge_angle, self.shock_angle
         )
 
-        print(f"Here use degrees: {self.use_degrees} {self.wedge_angle}  {self.shock_angle}")
-
         if self.use_degrees:
             self.wedge_angle = degrees(self.wedge_angle)
             self.shock_angle = degrees(self.shock_angle)
-            print(f"Here use degrees: {self.use_degrees} {self.wedge_angle}  {self.shock_angle}")
 
     def _calc_state(self) -> None:
         if check_value(self.wedge_angle):
