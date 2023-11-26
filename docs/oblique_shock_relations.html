@@ -1,0 +1,2215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>CompAero.oblique_shock_relations API documentation</title>
+<meta name="description" content="This file contains the relationships for oblique shock waves" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>CompAero.oblique_shock_relations</code></h1>
+</header>
+<section id="section-intro">
+<p>This file contains the relationships for oblique shock waves</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This file contains the relationships for oblique shock waves
+&#34;&#34;&#34;
+
+from enum import Enum
+from math import asin, atan, cos, degrees, nan, radians, sin, sqrt, tan
+
+import matplotlib.pyplot as plt  # type: ignore
+import numpy as np
+from scipy.optimize import brenth  # type: ignore
+
+from CompAero.greek_letters import LowerCaseGreek as lcg
+from CompAero.internal import (
+    GammaNotDefinedError,
+    InvalidOptionCombinationError,
+    check_value,
+    footer,
+    named_header,
+    named_subheader,
+    seperator,
+    to_string,
+)
+from CompAero.normal_shock_relations import NormalShockRelations
+from CompAero.types import ShockType
+
+
+class ObliqueShockChoice(Enum):
+    &#34;&#34;&#34;Valid Oblique Shock Initialization Choices&#34;&#34;&#34;
+
+    MACH_SHOCK_ANGLE = &#34;gamma, mach, shock angle&#34;
+    MACH_WEDGE_ANGLE = &#34;gamma, mach, wedge angle&#34;
+    MACH_N_1_SHOCK_ANGLE = &#34;gamma, mach normal 1, shock angle &#34;
+    M2_WEDGE_SHOCK_ANGLE = &#34;gamma, mach behind shock (M2), wedge angle, shock angle&#34;
+    P2_P1_SHOCK_ANGLE = &#34;gamma, P2/P1, shock angle&#34;
+    RHO2_RHO1_SHOCK_ANGLE = &#34;gamma, Rho2/Rho1, shock angle&#34;
+    T2_T1_SHOCK_ANGLE = &#34;gamma, T2/T1, shock angle&#34;
+    PO2_PO1_SHOCK_ANGLE = &#34;gamma, P02/P01, shock angle&#34;
+    PO2_P1_SHOCK_ANGLE = &#34;gamma, P02/P1, shock angle&#34;
+    MN2_SHOCK_ANGLE = &#34;gamma, MN2, shock angle&#34;
+
+
+OBLIQUE_SHOCK_VALID_OPTIONS = [x.value for x in ObliqueShockChoice]
+
+
+class ObliqueShockRelations(NormalShockRelations):
+    &#34;&#34;&#34;
+    This class is a collective name space for basic calculations regarding Oblique Shock Properties
+    The constructor of this class can  determine the entire state of the flow given a partial state
+
+    Args:
+        gamma (float): Ratio of specific heats
+        use_degrees (bool, optional): If true then the angles provided to the class are in degrees.
+                                        Defaults to True.
+        shock_angle (float, optional): Angle of the oblique shock wave. Defaults to nan.
+        wedge_angle (float, optional): Angle of the wedge that is deflecting the flow. Defaults to
+                                        nan.
+        mn1 (float, optional): Normal component of mach number ahead of the shock. Defaults to nan.
+        mn2 (float, optional): Normal component of mach number behind the shock. Defaults to nan.
+        mach (float, optional): Mach number ahead of the shock. Defaults to nan.
+        p2_p1 (float, optional): Ratio of pressure behind shock to ahead of shock. Defaults to nan.
+        rho2_rho1 (float, optional): Ratio of density behind shock to ahead of shock. Defaults to
+                                        nan.
+        t2_t1 (float, optional): Ratio of temp behind shock to ahead of shock. Defaults to nan.
+        po2_po1 (float, optional): Ratio of total pressure to behind shock to ahead of shock.
+                                    Defaults to nan.
+        po2_p1 (float, optional): Ratio Total pressure behind shock to static pressure ahead of
+                                    shock. Defaults to nan.
+        m2 (float, optional): mach number behind shock wave. Defaults to nan.
+        shock_type (ShockType, optional): Describes whether the oblique shock is Weak or Strong.
+                                            Defaults to ShockType.WEAK.
+
+    Raises:
+        RuntimeError: If shock wave angle is found to be less than the mach wave angle at
+        RuntimeError: If the deflection angle is greater than the max deflection angle for the flow
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and
+                                        the flow state cannot be determined
+
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach, shock angle\n
+        2. gamma, mach, wedge angle\n
+        2: gamma, mach normal 1, shock angle \n
+        3: gamma, mach behind shock, wedge angle, shock angle\n
+        4: gamma, shock angle, wedge angle\n
+        5: gamma, P2/P1, shock angle\n
+        6: gamma, Rho2/Rho1, shock angle\n
+        7: gamma, T2/T1, shock angle\n
+        8: gamma, P02/P01, shock angle\n
+        9: gamma, P02/P1, shock angle\n
+        10: gamma, dwn_strm_mach, shock angle\n
+    &#34;&#34;&#34;
+
+    # pylint: disable=too-many-instance-attributes
+    def __init__(
+        self,
+        gamma: float,
+        use_degrees: bool = True,
+        shock_angle: float = nan,
+        wedge_angle: float = nan,
+        mn1: float = nan,
+        mn2: float = nan,
+        mach: float = nan,
+        p2_p1: float = nan,
+        rho2_rho1: float = nan,
+        t2_t1: float = nan,
+        po2_po1: float = nan,
+        po2_p1: float = nan,
+        m2: float = nan,
+        shock_type: ShockType = ShockType.WEAK,
+    ) -&gt; None:
+        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-statements
+        # pylint: disable=too-many-branches
+        # pylint: disable=too-many-locals
+        self.use_degrees = use_degrees
+        &#34;&#34;&#34; Angles passed to the constructor are in degrees&#34;&#34;&#34;
+        self.shock_angle = shock_angle
+        &#34;&#34;&#34; Angle Oblique shock&#34;&#34;&#34;
+        self.wedge_angle = wedge_angle
+        &#34;&#34;&#34; Angle of the flow deflection (wedge) angle&#34;&#34;&#34;
+        self.mach_normal_1 = mn1
+        &#34;&#34;&#34; The normal component of the mach number ahead the shock wave&#34;&#34;&#34;
+        self.mach_normal_2 = mn2
+        &#34;&#34;&#34; The normal component of the mach number behind the shock wave&#34;&#34;&#34;
+        self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
+        self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
+        self.p2_p1 = p2_p1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
+        self.rho2_rho1 = rho2_rho1
+        &#34;&#34;&#34; Ratio of density behind the shock to density before the shock rho2/rho1 &#34;&#34;&#34;
+        self.t2_t1 = t2_t1
+        &#34;&#34;&#34; Ratio of temperature behind the shock to temperature before the shock wave T2/T1 &#34;&#34;&#34;
+        self.po2_po1 = po2_po1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
+        self.po2_p1 = po2_p1
+        &#34;&#34;&#34; Ratio of total pressure behind the shock to pressure before the shock P02/P1 &#34;&#34;&#34;
+        self.mach2 = m2
+        &#34;&#34;&#34; Mach number behind the shock wave &#34;&#34;&#34;
+        self.shock_type: ShockType = shock_type
+        &#34;&#34;&#34; The type of shock whether it is strong or weak &#34;&#34;&#34;
+        self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
+
+        if self.use_degrees and check_value(self.shock_angle):
+            self.shock_angle = radians(self.shock_angle)
+        if self.use_degrees and check_value(self.wedge_angle):
+            self.wedge_angle = radians(self.wedge_angle)
+
+        if not check_value(self.gamma):
+            raise GammaNotDefinedError()
+
+        if check_value(self.mach, self.shock_angle):
+            mach_wave_angle = ObliqueShockRelations.calc_mach_wave_angle(self.mach)
+            if self.shock_angle &lt; mach_wave_angle or self.shock_angle &gt; radians(90):
+                sa = degrees(self.shock_angle)
+                mwa = degrees(mach_wave_angle)
+                m = self.mach
+                raise ValueError(
+                    f&#34;Shock Angle of [{sa}] must be between mach wave angle of [{mwa}] and 90&#34;
+                    f&#34; degrees for mach [{m}]&#34;
+                )
+
+        elif check_value(self.mach, self.wedge_angle):
+            max_shock_angle = ObliqueShockRelations.calc_max_shock_angle(self.mach, self.gamma)
+            max_wedge_angle = ObliqueShockRelations.calc_max_flow_deflection_angle(
+                max_shock_angle, self.mach, self.gamma
+            )
+            if self.wedge_angle &gt; max_wedge_angle:
+                wa = degrees(self.wedge_angle)
+                mwa = degrees(max_wedge_angle)
+                m = self.mach
+                raise ValueError(
+                    f&#34;Wedge angle of [{wa}] is greater than a maximum wedge angle of [{mwa}] for&#34;
+                    f&#34;mach [{m}]&#34;
+                )
+
+        elif check_value(self.mach_normal_1, self.shock_angle):
+            if self.mach_normal_1 &lt; 1:
+                raise ValueError(
+                    &#34;Normal Component of mach ahead of shock wave must be greater than 1&#34;
+                )
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(m2, self.wedge_angle, self.shock_angle):
+            self.mach_normal_2 = (
+                ObliqueShockRelations.calc_mach_normal_behind_shock_from_mach_behind_shock(
+                    m2, self.shock_angle, self.wedge_angle
+                )
+            )
+            if self.mach_normal_2 &gt; 1:
+                raise ValueError(&#34;Normal component of downstream mach number has to be less than 1&#34;)
+            self.mach_normal_1 = (
+                NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
+                    self.mach_normal_2, self.gamma
+                )
+            )
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(self.shock_angle, self.wedge_angle):
+            self.mach = ObliqueShockRelations.calc_mach_from_theta_beta_mach(
+                self.shock_angle, self.wedge_angle, self.gamma
+            )
+            mach_angle = ObliqueShockRelations.calc_mach_wave_angle(self.mach)
+            max_shock_angle = ObliqueShockRelations.calc_max_shock_angle(self.mach, self.gamma)
+            max_deflection_angle = ObliqueShockRelations.calc_max_flow_deflection_angle(
+                max_shock_angle, self.mach, self.gamma
+            )
+
+            if mach_angle &gt; self.shock_angle:
+                sa = round(self.shock_angle, 4)
+                ma = round(mach_angle, 4)
+                raise RuntimeError(
+                    f&#34;Shock Angle, {sa}, cannot be less than that of Mach Wave, {ma}&#34;
+                )
+
+            if max_deflection_angle &lt; self.wedge_angle:
+                wa = round(self.wedge_angle, 4)
+                mda = round(max_deflection_angle, 4)
+                raise RuntimeError(f&#34;SHOCK DETACHED!! Deflection Angles: Given: {wa}\tMax: {mda}&#34;)
+
+        elif check_value(po2_p1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_po2_p1(po2_p1, self.gamma)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(p2_p1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_p2_p1(p2_p1, self.gamma)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(rho2_rho1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_rho2_rho1(
+                rho2_rho1, self.gamma
+            )
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(t2_t1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_t2_t1(t2_t1, self.gamma)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(po2_po1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_po2_po1(po2_po1, self.gamma)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(self.mach_normal_2, self.shock_angle):
+            self.mach_normal_1 = (
+                NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
+                    self.mach_normal_2, self.gamma
+                )
+            )
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        else:
+            raise InvalidOptionCombinationError()
+
+        if check_value(self.mach) and (
+            (check_value(self.shock_angle) or check_value(self.wedge_angle))
+        ):
+            self._calc_state()
+
+        else:
+            raise RuntimeError(
+                &#34;Values for mach and shock angle or wedge angle are needed to&#34;
+                &#34;determine flow state. For some reason those wasn&#39;t computed.&#34;
+            )
+
+        super().__init__(self.gamma, mach=self.mach_normal_1)
+        self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+            self.mach_normal_1, self.shock_angle
+        )
+        self.mach_normal_2 = self.mach2
+        self.mach2 = ObliqueShockRelations.calc_mach_behind_shock(
+            self.mach_normal_2, self.wedge_angle, self.shock_angle
+        )
+
+        print(f&#34;Here use degrees: {self.use_degrees} {self.wedge_angle}  {self.shock_angle}&#34;)
+
+        if self.use_degrees:
+            self.wedge_angle = degrees(self.wedge_angle)
+            self.shock_angle = degrees(self.shock_angle)
+            print(f&#34;Here use degrees: {self.use_degrees} {self.wedge_angle}  {self.shock_angle}&#34;)
+
+    def _calc_state(self) -&gt; None:
+        if check_value(self.wedge_angle):
+            if self.shock_type == ShockType.WEAK:
+                self.shock_angle = ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak(
+                    self.wedge_angle, self.mach, self.gamma
+                )
+
+            elif self.shock_type == ShockType.STRONG:
+                self.shock_angle = ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong(
+                    self.wedge_angle, self.mach, self.gamma
+                )
+
+            else:
+                raise ValueError(
+                    f&#34;Incorrect shock type specified -&gt; [{self.shock_type}]. Choices: Strong, Weak&#34;
+                )
+
+        elif check_value(self.shock_angle):
+            self.wedge_angle = ObliqueShockRelations.calc_theta_from_theta_beta_mach(
+                self.shock_angle, self.mach, self.gamma
+            )
+
+        self.mach_normal_1 = ObliqueShockRelations.calc_mach_normal_ahead_shock(
+            self.mach, self.shock_angle
+        )
+
+    def __str__(self) -&gt; str:
+        return &#34;&#34;.join(
+            [
+                named_header(&#34;Oblique Shock Relations at Mach&#34;, self.mach, self.precision),
+                seperator(),
+                named_subheader(&#34;Upstream Conditions&#34;),
+                to_string(lcg.gamma, self.gamma, self.precision),
+                to_string(&#34;Mach&#34;, self.mach, self.precision, dot_line=True),
+                to_string(&#34;Mach Normal Component&#34;, self.mach_normal_1, self.precision),
+                to_string(
+                    f&#34;Flow Deflection Angle {lcg.theta}&#34;,
+                    self.wedge_angle,
+                    self.precision,
+                    dot_line=True,
+                ),
+                to_string(f&#34;Shock Angle {lcg.beta}&#34;, self.shock_angle, self.precision),
+                to_string(&#34;Flow Turn Type&#34;, self.shock_type.name, self.precision),
+                seperator(),
+                named_subheader(&#34;Shock Jump Conditions&#34;),
+                to_string(&#34;P2/P1&#34;, self.p2_p1, self.precision),
+                to_string(
+                    &#34;{}2/{}1&#34;.format(*[lcg.rho] * 2), self.rho2_rho1, self.precision, dot_line=True
+                ),
+                to_string(&#34;T2/T1&#34;, self.t2_t1, self.precision),
+                to_string(&#34;P02/P01&#34;, self.po2_po1, self.precision, dot_line=True),
+                to_string(&#34;P02/P1&#34;, self.po2_p1, self.precision),
+                seperator(),
+                named_subheader(&#34;Downstream Conditions&#34;),
+                to_string(&#34;Mach&#34;, self.mach2, self.precision, dot_line=True),
+                to_string(&#34;Mach Normal Component&#34;, self.mach_normal_2, self.precision),
+                footer(),
+            ]
+        )
+
+    @staticmethod
+    def calc_mach_normal_ahead_shock(mach: float, beta: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the normal component of the mach number ahead of the shock wave
+
+        Args:
+            mach (float): Mach number of flow ahead of shock wave
+            beta (float): Angle of oblique shock in radians
+
+        Raises:
+            ValueError: Raised if mach number is less than 1.0
+
+        Returns:
+            float: Normal component of upstream mach number
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+        mach_wave = ObliqueShockRelations.calc_mach_wave_angle(mach)
+
+        if abs(beta - mach_wave) &lt; 1e-5:
+            return 1.0
+
+        if beta &lt; mach_wave:
+            return nan
+
+        return mach * sin(beta)
+
+    @staticmethod
+    def calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+        mach_normal_1: float, beta: float
+    ) -&gt; float:
+        &#34;&#34;&#34;Calculates the upstream mach number from the normal component of the upstream mach number
+
+        Args:
+            machNormal1 (float): Normal Component of mach number ahead of the shock wave
+            beta (float): Angle of oblique shock in radians
+
+        Returns:
+            float: Returns value of mach number of the flow ahead of the shock wave
+        &#34;&#34;&#34;
+        return mach_normal_1 / sin(beta)
+
+    @staticmethod
+    def calc_beta_from_mach_mach_normal_ahead_shock(mach: float, mach_normal_1: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the Oblique shock angle from the normal component of the mach number that is
+        ahead of the shock wave
+
+        Args:
+            mach (float): Mach number of the flow ahead of the shock wave
+            mach_normal_1  (float): Normal Component of mach number of the flow that is ahead of an
+                                    oblique shock wave
+
+        Returns:
+            float: Oblique Shock Angle
+        &#34;&#34;&#34;
+        return asin(mach_normal_1 / mach)
+
+    @staticmethod
+    def calc_mach_behind_shock(mach_normal_2: float, theta: float, beta: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the Mach number behind the oblique shock wave
+
+        Args:
+            mach_normal_2 (float): Normal Component of the mach number behind the shock wave
+            theta (float): Flow Deflection Angle (radians) (Wedge angle)
+            beta (float): Oblique shock angle (radians)
+
+        Returns:
+            float: Mach number of flow behind the oblique shock
+        &#34;&#34;&#34;
+        return mach_normal_2 / sin(beta - theta)
+
+    @staticmethod
+    def calc_mach_normal_behind_shock_from_mach_behind_shock(
+        mach2: float, beta: float, theta: float
+    ) -&gt; float:
+        &#34;&#34;&#34;Calculates the normal component of the mach number behind the oblique shock
+
+        Args:
+            mach2 (float): Mach number of flow behind the oblique shock
+            beta (float): Oblique shock angle (radians)
+            theta (float): Flow deflections (Wedge) angle (radians)
+
+        Returns:
+            float: Normal component of mach numnber of the flow behind the shock wave
+        &#34;&#34;&#34;
+        return mach2 * sin(beta - theta)
+
+    @staticmethod
+    def calc_theta_from_theta_beta_mach(
+        beta: float, mach: float, gamma: float, offset: float = 0.0
+    ) -&gt; float:
+        &#34;&#34;&#34;Impliments the Theta-Beta-Mach (TBM) equation. Solves for Theta
+
+        Args:
+            beta (float): Oblique shock angle (radians)
+            mach (float): Mach number of flow ahead of the shock wave
+            gamma (float): Ratio of specific heats
+            offset (float, optional): [description]. Defaults to 0.0.
+
+        Returns:
+            float: Flow deflection (Wedge) angle (radians)
+        &#34;&#34;&#34;
+        m_sqr = pow(mach, 2)
+        num = m_sqr * pow(sin(beta), 2) - 1
+        denom = m_sqr * (gamma + cos(2 * beta)) + 2
+        theta = atan(2 * 1 / tan(beta) * num / denom) - offset
+        return theta
+
+    @staticmethod
+    def calc_beta_from_theta_beta_mach_weak(theta: float, mach: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming the
+        shock is weak
+
+        Args:
+            theta (float): Flow deflection (Wedge) angle (radians)
+            mach (float): Mach number of the flow ahead of the oblique shock
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: Oblique shock angle (radians)
+        &#34;&#34;&#34;
+        max_shock_angle = ObliqueShockRelations.calc_max_shock_angle(mach, gamma)
+        min_shock_angle = ObliqueShockRelations.calc_mach_wave_angle(mach)
+        return brenth(
+            ObliqueShockRelations.calc_theta_from_theta_beta_mach,
+            min_shock_angle,
+            max_shock_angle,
+            args=(mach, gamma, theta),
+        )  # type: ignore
+
+    @staticmethod
+    def calc_beta_from_theta_beta_mach_strong(theta: float, mach: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming a
+        strong shock wave
+
+        Args:
+            theta (float): Flow deflection (Wedge) angle (radians)
+            mach (float): Mach number of the flow ahead of the oblique shock
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: Oblique shock angle (radians)
+        &#34;&#34;&#34;
+        maxshock_angle = ObliqueShockRelations.calc_max_shock_angle(mach, gamma)
+        return brenth(
+            ObliqueShockRelations.calc_theta_from_theta_beta_mach,
+            maxshock_angle,
+            radians(90),
+            args=(mach, gamma, theta),
+        )  # type: ignore
+
+    @staticmethod
+    def calc_mach_from_theta_beta_mach(beta: float, theta: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Impliments the Theta-Beta-Mach (TBM) Equation. Solves for the mach number
+
+        Args:
+            beta (float): Oblique shock angle (radians)
+            theta (float): Flow deflection (wedge) angle (radians)
+            gamma (float): Ratio of specific heats
+
+        Returns:
+            float: Mach number of the flow ahead of the shock wave
+        &#34;&#34;&#34;
+        numerator = -2 * (1 + tan(theta) * tan(beta))
+        denominator = tan(theta) * tan(beta) * (gamma + cos(2 * beta)) - 2 * (sin(beta)) ** 2
+        return sqrt(numerator / denominator)
+
+    @staticmethod
+    def calc_max_flow_deflection_angle(maxshock_angle: float, mach: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the max flow deflection angle for a flow
+
+        Args:
+            maxshock_angle (float): Maximum oblique shock angle (radians)
+            mach (float): Mach number of flow ahead of the oblique shock
+            gamma (float): Ratio of specific heats
+
+        Returns:
+            float: Mac flow deflection angle (radians)
+        &#34;&#34;&#34;
+        msa = maxshock_angle
+        numerator = (pow(mach, 2) * (sin(msa)) ** 2 - 1) / tan(msa)
+        denominator = pow(mach, 2) * (gamma + 1) / 2 - pow(mach, 2) * (pow(sin(msa), 2)) + 1
+        return atan(numerator / denominator)
+
+    @staticmethod
+    def calc_max_shock_angle(mach: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the maximum oblique shock angle
+
+        Args:
+            mach (float): Mach number of flow ahead of the shock wave
+            gamma (float): Ratio of specific heats
+
+        Returns:
+            float: Maximum value of the oblique shock angle (radians)
+        &#34;&#34;&#34;
+        gp1 = gamma + 1
+        gm1 = gamma - 1
+        # splitting up of beta_max equation
+        isissq = gp1 * (1 + gm1 * pow(mach, 2) / 2 + gp1 / 16 * pow(mach, 4))
+        issq = 1 / (gamma * pow(mach, 2)) * (gp1 * pow(mach, 2) / 4 + sqrt(isissq) - 1)
+        return asin(sqrt(issq))
+
+    @staticmethod
+    def calc_mach_wave_angle(mach: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach wave angle given the mach number
+
+        Args:
+            mach float: Mach number
+
+        Returns (float): Returns the mach wave angle in radians
+        &#34;&#34;&#34;
+        return asin(1 / mach)
+
+    @staticmethod
+    def calc_mach_from_mach_wave_angle(mach_angle: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the Mach number fromt he mach wave angle
+
+        Args:
+            mach_angle (float): Mach wave angle (mu) (radians)
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return 1 / sin(mach_angle)
+
+    def plot_theta_beta_mach_chart(self) -&gt; None:
+        &#34;&#34;&#34;Plots the Theta-Beta-Mach plot from the data already in the class&#34;&#34;&#34;
+        mach = self.mach
+
+        mach_wave_angle = degrees(ObliqueShockRelations.calc_mach_wave_angle(mach))
+        max_shock_angle = degrees(ObliqueShockRelations.calc_max_shock_angle(mach, self.gamma))
+        max_deflection_angle = degrees(
+            ObliqueShockRelations.calc_max_flow_deflection_angle(
+                radians(max_shock_angle), mach, self.gamma
+            )
+        )
+
+        weak_deflection_angles = np.linspace(0, max_deflection_angle - 0.1, 100)
+        weak_shock_angles = np.zeros(weak_deflection_angles.shape)
+        strong_shock_angles = np.zeros(weak_deflection_angles.shape)
+
+        for ii in range(weak_deflection_angles.shape[0]):
+            if weak_deflection_angles[ii] == 0:
+                weak_shock_angles[ii] = mach_wave_angle
+                strong_shock_angles[ii] = 90
+                continue
+
+            weak_shock_angles[ii] = degrees(
+                ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak(
+                    radians(weak_deflection_angles[ii]), mach, self.gamma
+                )
+            )
+            strong_shock_angles[ii] = degrees(
+                ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong(
+                    radians(weak_deflection_angles[ii]), mach, self.gamma
+                )
+            )
+
+        weak_deflection_angles = np.append(weak_deflection_angles, [max_deflection_angle])
+        strong_shock_angles = np.append(strong_shock_angles, [max_shock_angle])
+        weak_shock_angles = np.append(weak_shock_angles, [max_shock_angle])
+
+        # vertPointLine = np.linspace(0, self.shock_angle, 20)
+        # horzPointLine = np.linspace(0, self.wedge_angle, 20)
+
+        _, ax = plt.subplots(1, 1)
+
+        ax.plot(weak_deflection_angles, weak_shock_angles, label=&#34; Oblique Weak Shock&#34;)
+        ax.plot(weak_deflection_angles, strong_shock_angles, label=&#34;Oblique Strong Shock&#34;)
+
+        shock_angle = degrees(self.shock_angle)
+        wedge_angle = degrees(self.wedge_angle)
+        ax.scatter(wedge_angle, shock_angle, label=&#34;This Flow&#34;, color=&#34;r&#34;)
+        # ax.plot(np.ones(vertPointLine.shape) * self.wedge_angle, vertPointLine, &#39;g&#39;)
+        # ax.plot(horzPointLine, np.ones(horzPointLine.shape) * self.shock_angle, &#39;g&#39;)
+        ax.annotate(
+            f&#34;Shock {round(max_shock_angle, 2)}\nWedge {round(max_deflection_angle, 2)}&#34;,
+            xy=(max_deflection_angle, max_shock_angle),
+            xytext=(
+                max_deflection_angle + 0.02 * max_deflection_angle,
+                max_shock_angle + 0.1 * max_shock_angle,
+            ),
+            arrowprops={&#34;facecolor&#34;: &#34;black&#34;, &#34;shrink&#34;: 0.05},
+        )
+        ax.annotate(
+            f&#34;Shock {round(shock_angle, 2)}\nWedge {round(wedge_angle, 2)}&#34;,
+            xy=(wedge_angle, shock_angle),
+            xytext=(wedge_angle - 0.2 * wedge_angle, shock_angle - 0.4 * shock_angle),
+            arrowprops={&#34;facecolor&#34;: &#34;black&#34;, &#34;shrink&#34;: 0.05},
+        )
+        # ax.set_xlim(0, maxDeflectionAngle + 5)
+        # ax.set_ylim(0, 90)
+        ax.set_xticks(list(range(0, int(max_deflection_angle) + 5, 2)))
+        ax.set_yticks(list(range(0, 92, 2)))
+        ax.set_xlabel(&#34;Flow Deflection Angle, \u03B8 (\u00b0)&#34;)
+        ax.set_ylabel(&#34;Shock Anlge, \u03B2 (\u00b0)&#34;)
+        ax.set_title(f&#34;Mach {round(self.mach, self.precision)} Flow&#34;)
+        ax.legend()
+        ax.grid()
+        plt.show()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice"><code class="flex name class">
+<span>class <span class="ident">ObliqueShockChoice</span></span>
+<span>(</span><span>*args, **kwds)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Valid Oblique Shock Initialization Choices</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ObliqueShockChoice(Enum):
+    &#34;&#34;&#34;Valid Oblique Shock Initialization Choices&#34;&#34;&#34;
+
+    MACH_SHOCK_ANGLE = &#34;gamma, mach, shock angle&#34;
+    MACH_WEDGE_ANGLE = &#34;gamma, mach, wedge angle&#34;
+    MACH_N_1_SHOCK_ANGLE = &#34;gamma, mach normal 1, shock angle &#34;
+    M2_WEDGE_SHOCK_ANGLE = &#34;gamma, mach behind shock (M2), wedge angle, shock angle&#34;
+    P2_P1_SHOCK_ANGLE = &#34;gamma, P2/P1, shock angle&#34;
+    RHO2_RHO1_SHOCK_ANGLE = &#34;gamma, Rho2/Rho1, shock angle&#34;
+    T2_T1_SHOCK_ANGLE = &#34;gamma, T2/T1, shock angle&#34;
+    PO2_PO1_SHOCK_ANGLE = &#34;gamma, P02/P01, shock angle&#34;
+    PO2_P1_SHOCK_ANGLE = &#34;gamma, P02/P1, shock angle&#34;
+    MN2_SHOCK_ANGLE = &#34;gamma, MN2, shock angle&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.M2_WEDGE_SHOCK_ANGLE"><code class="name">var <span class="ident">M2_WEDGE_SHOCK_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.MACH_N_1_SHOCK_ANGLE"><code class="name">var <span class="ident">MACH_N_1_SHOCK_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.MACH_SHOCK_ANGLE"><code class="name">var <span class="ident">MACH_SHOCK_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.MACH_WEDGE_ANGLE"><code class="name">var <span class="ident">MACH_WEDGE_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.MN2_SHOCK_ANGLE"><code class="name">var <span class="ident">MN2_SHOCK_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.P2_P1_SHOCK_ANGLE"><code class="name">var <span class="ident">P2_P1_SHOCK_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.PO2_P1_SHOCK_ANGLE"><code class="name">var <span class="ident">PO2_P1_SHOCK_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.PO2_PO1_SHOCK_ANGLE"><code class="name">var <span class="ident">PO2_PO1_SHOCK_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.RHO2_RHO1_SHOCK_ANGLE"><code class="name">var <span class="ident">RHO2_RHO1_SHOCK_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockChoice.T2_T1_SHOCK_ANGLE"><code class="name">var <span class="ident">T2_T1_SHOCK_ANGLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations"><code class="flex name class">
+<span>class <span class="ident">ObliqueShockRelations</span></span>
+<span>(</span><span>gamma: float, use_degrees: bool = True, shock_angle: float = nan, wedge_angle: float = nan, mn1: float = nan, mn2: float = nan, mach: float = nan, p2_p1: float = nan, rho2_rho1: float = nan, t2_t1: float = nan, po2_po1: float = nan, po2_p1: float = nan, m2: float = nan, shock_type: <a title="CompAero.types.ShockType" href="types.html#CompAero.types.ShockType">ShockType</a> = ShockType.WEAK)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This class is a collective name space for basic calculations regarding Oblique Shock Properties
+The constructor of this class can
+determine the entire state of the flow given a partial state</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of specific heats</dd>
+<dt><strong><code>use_degrees</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If true then the angles provided to the class are in degrees.
+Defaults to True.</dd>
+<dt><strong><code>shock_angle</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Angle of the oblique shock wave. Defaults to nan.</dd>
+<dt><strong><code>wedge_angle</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Angle of the wedge that is deflecting the flow. Defaults to
+nan.</dd>
+<dt><strong><code>mn1</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Normal component of mach number ahead of the shock. Defaults to nan.</dd>
+<dt><strong><code>mn2</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Normal component of mach number behind the shock. Defaults to nan.</dd>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Mach number ahead of the shock. Defaults to nan.</dd>
+<dt><strong><code>p2_p1</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ratio of pressure behind shock to ahead of shock. Defaults to nan.</dd>
+<dt><strong><code>rho2_rho1</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ratio of density behind shock to ahead of shock. Defaults to
+nan.</dd>
+<dt><strong><code>t2_t1</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ratio of temp behind shock to ahead of shock. Defaults to nan.</dd>
+<dt><strong><code>po2_po1</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ratio of total pressure to behind shock to ahead of shock.
+Defaults to nan.</dd>
+<dt><strong><code>po2_p1</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ratio Total pressure behind shock to static pressure ahead of
+shock. Defaults to nan.</dd>
+<dt><strong><code>m2</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>mach number behind shock wave. Defaults to nan.</dd>
+<dt><strong><code>shock_type</code></strong> :&ensp;<code>ShockType</code>, optional</dt>
+<dd>Describes whether the oblique shock is Weak or Strong.
+Defaults to ShockType.WEAK.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If shock wave angle is found to be less than the mach wave angle at</dd>
+<dt><code>RuntimeError</code></dt>
+<dd>If the deflection angle is greater than the max deflection angle for the flow</dd>
+<dt><code>GammaNotDefinedError</code></dt>
+<dd>Raised if Gamma is undefined</dd>
+<dt><code>InvalidOptionCombinationError</code></dt>
+<dd>Raised if an invalid combination of parameters is given and
+the flow state cannot be determined</dd>
+</dl>
+<h2 id="valid_combinations_of_parameters">Valid_Combinations_Of_Parameters</h2>
+<p>1: gamma, mach, shock angle</p>
+<ol>
+<li>gamma, mach, wedge angle</li>
+</ol>
+<p>2: gamma, mach normal 1, shock angle </p>
+<p>3: gamma, mach behind shock, wedge angle, shock angle</p>
+<p>4: gamma, shock angle, wedge angle</p>
+<p>5: gamma, P2/P1, shock angle</p>
+<p>6: gamma, Rho2/Rho1, shock angle</p>
+<p>7: gamma, T2/T1, shock angle</p>
+<p>8: gamma, P02/P01, shock angle</p>
+<p>9: gamma, P02/P1, shock angle</p>
+<p>10: gamma, dwn_strm_mach, shock angle</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ObliqueShockRelations(NormalShockRelations):
+    &#34;&#34;&#34;
+    This class is a collective name space for basic calculations regarding Oblique Shock Properties
+    The constructor of this class can  determine the entire state of the flow given a partial state
+
+    Args:
+        gamma (float): Ratio of specific heats
+        use_degrees (bool, optional): If true then the angles provided to the class are in degrees.
+                                        Defaults to True.
+        shock_angle (float, optional): Angle of the oblique shock wave. Defaults to nan.
+        wedge_angle (float, optional): Angle of the wedge that is deflecting the flow. Defaults to
+                                        nan.
+        mn1 (float, optional): Normal component of mach number ahead of the shock. Defaults to nan.
+        mn2 (float, optional): Normal component of mach number behind the shock. Defaults to nan.
+        mach (float, optional): Mach number ahead of the shock. Defaults to nan.
+        p2_p1 (float, optional): Ratio of pressure behind shock to ahead of shock. Defaults to nan.
+        rho2_rho1 (float, optional): Ratio of density behind shock to ahead of shock. Defaults to
+                                        nan.
+        t2_t1 (float, optional): Ratio of temp behind shock to ahead of shock. Defaults to nan.
+        po2_po1 (float, optional): Ratio of total pressure to behind shock to ahead of shock.
+                                    Defaults to nan.
+        po2_p1 (float, optional): Ratio Total pressure behind shock to static pressure ahead of
+                                    shock. Defaults to nan.
+        m2 (float, optional): mach number behind shock wave. Defaults to nan.
+        shock_type (ShockType, optional): Describes whether the oblique shock is Weak or Strong.
+                                            Defaults to ShockType.WEAK.
+
+    Raises:
+        RuntimeError: If shock wave angle is found to be less than the mach wave angle at
+        RuntimeError: If the deflection angle is greater than the max deflection angle for the flow
+        GammaNotDefinedError: Raised if Gamma is undefined
+        InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and
+                                        the flow state cannot be determined
+
+    Valid_Combinations_of_Parameters:
+        1: gamma, mach, shock angle\n
+        2. gamma, mach, wedge angle\n
+        2: gamma, mach normal 1, shock angle \n
+        3: gamma, mach behind shock, wedge angle, shock angle\n
+        4: gamma, shock angle, wedge angle\n
+        5: gamma, P2/P1, shock angle\n
+        6: gamma, Rho2/Rho1, shock angle\n
+        7: gamma, T2/T1, shock angle\n
+        8: gamma, P02/P01, shock angle\n
+        9: gamma, P02/P1, shock angle\n
+        10: gamma, dwn_strm_mach, shock angle\n
+    &#34;&#34;&#34;
+
+    # pylint: disable=too-many-instance-attributes
+    def __init__(
+        self,
+        gamma: float,
+        use_degrees: bool = True,
+        shock_angle: float = nan,
+        wedge_angle: float = nan,
+        mn1: float = nan,
+        mn2: float = nan,
+        mach: float = nan,
+        p2_p1: float = nan,
+        rho2_rho1: float = nan,
+        t2_t1: float = nan,
+        po2_po1: float = nan,
+        po2_p1: float = nan,
+        m2: float = nan,
+        shock_type: ShockType = ShockType.WEAK,
+    ) -&gt; None:
+        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-statements
+        # pylint: disable=too-many-branches
+        # pylint: disable=too-many-locals
+        self.use_degrees = use_degrees
+        &#34;&#34;&#34; Angles passed to the constructor are in degrees&#34;&#34;&#34;
+        self.shock_angle = shock_angle
+        &#34;&#34;&#34; Angle Oblique shock&#34;&#34;&#34;
+        self.wedge_angle = wedge_angle
+        &#34;&#34;&#34; Angle of the flow deflection (wedge) angle&#34;&#34;&#34;
+        self.mach_normal_1 = mn1
+        &#34;&#34;&#34; The normal component of the mach number ahead the shock wave&#34;&#34;&#34;
+        self.mach_normal_2 = mn2
+        &#34;&#34;&#34; The normal component of the mach number behind the shock wave&#34;&#34;&#34;
+        self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
+        self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
+        self.p2_p1 = p2_p1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
+        self.rho2_rho1 = rho2_rho1
+        &#34;&#34;&#34; Ratio of density behind the shock to density before the shock rho2/rho1 &#34;&#34;&#34;
+        self.t2_t1 = t2_t1
+        &#34;&#34;&#34; Ratio of temperature behind the shock to temperature before the shock wave T2/T1 &#34;&#34;&#34;
+        self.po2_po1 = po2_po1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
+        self.po2_p1 = po2_p1
+        &#34;&#34;&#34; Ratio of total pressure behind the shock to pressure before the shock P02/P1 &#34;&#34;&#34;
+        self.mach2 = m2
+        &#34;&#34;&#34; Mach number behind the shock wave &#34;&#34;&#34;
+        self.shock_type: ShockType = shock_type
+        &#34;&#34;&#34; The type of shock whether it is strong or weak &#34;&#34;&#34;
+        self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
+
+        if self.use_degrees and check_value(self.shock_angle):
+            self.shock_angle = radians(self.shock_angle)
+        if self.use_degrees and check_value(self.wedge_angle):
+            self.wedge_angle = radians(self.wedge_angle)
+
+        if not check_value(self.gamma):
+            raise GammaNotDefinedError()
+
+        if check_value(self.mach, self.shock_angle):
+            mach_wave_angle = ObliqueShockRelations.calc_mach_wave_angle(self.mach)
+            if self.shock_angle &lt; mach_wave_angle or self.shock_angle &gt; radians(90):
+                sa = degrees(self.shock_angle)
+                mwa = degrees(mach_wave_angle)
+                m = self.mach
+                raise ValueError(
+                    f&#34;Shock Angle of [{sa}] must be between mach wave angle of [{mwa}] and 90&#34;
+                    f&#34; degrees for mach [{m}]&#34;
+                )
+
+        elif check_value(self.mach, self.wedge_angle):
+            max_shock_angle = ObliqueShockRelations.calc_max_shock_angle(self.mach, self.gamma)
+            max_wedge_angle = ObliqueShockRelations.calc_max_flow_deflection_angle(
+                max_shock_angle, self.mach, self.gamma
+            )
+            if self.wedge_angle &gt; max_wedge_angle:
+                wa = degrees(self.wedge_angle)
+                mwa = degrees(max_wedge_angle)
+                m = self.mach
+                raise ValueError(
+                    f&#34;Wedge angle of [{wa}] is greater than a maximum wedge angle of [{mwa}] for&#34;
+                    f&#34;mach [{m}]&#34;
+                )
+
+        elif check_value(self.mach_normal_1, self.shock_angle):
+            if self.mach_normal_1 &lt; 1:
+                raise ValueError(
+                    &#34;Normal Component of mach ahead of shock wave must be greater than 1&#34;
+                )
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(m2, self.wedge_angle, self.shock_angle):
+            self.mach_normal_2 = (
+                ObliqueShockRelations.calc_mach_normal_behind_shock_from_mach_behind_shock(
+                    m2, self.shock_angle, self.wedge_angle
+                )
+            )
+            if self.mach_normal_2 &gt; 1:
+                raise ValueError(&#34;Normal component of downstream mach number has to be less than 1&#34;)
+            self.mach_normal_1 = (
+                NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
+                    self.mach_normal_2, self.gamma
+                )
+            )
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(self.shock_angle, self.wedge_angle):
+            self.mach = ObliqueShockRelations.calc_mach_from_theta_beta_mach(
+                self.shock_angle, self.wedge_angle, self.gamma
+            )
+            mach_angle = ObliqueShockRelations.calc_mach_wave_angle(self.mach)
+            max_shock_angle = ObliqueShockRelations.calc_max_shock_angle(self.mach, self.gamma)
+            max_deflection_angle = ObliqueShockRelations.calc_max_flow_deflection_angle(
+                max_shock_angle, self.mach, self.gamma
+            )
+
+            if mach_angle &gt; self.shock_angle:
+                sa = round(self.shock_angle, 4)
+                ma = round(mach_angle, 4)
+                raise RuntimeError(
+                    f&#34;Shock Angle, {sa}, cannot be less than that of Mach Wave, {ma}&#34;
+                )
+
+            if max_deflection_angle &lt; self.wedge_angle:
+                wa = round(self.wedge_angle, 4)
+                mda = round(max_deflection_angle, 4)
+                raise RuntimeError(f&#34;SHOCK DETACHED!! Deflection Angles: Given: {wa}\tMax: {mda}&#34;)
+
+        elif check_value(po2_p1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_po2_p1(po2_p1, self.gamma)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(p2_p1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_p2_p1(p2_p1, self.gamma)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(rho2_rho1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_rho2_rho1(
+                rho2_rho1, self.gamma
+            )
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(t2_t1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_t2_t1(t2_t1, self.gamma)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(po2_po1, self.shock_angle):
+            self.mach_normal_1 = NormalShockRelations.calc_mach_from_po2_po1(po2_po1, self.gamma)
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        elif check_value(self.mach_normal_2, self.shock_angle):
+            self.mach_normal_1 = (
+                NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
+                    self.mach_normal_2, self.gamma
+                )
+            )
+            self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+                self.mach_normal_1, self.shock_angle
+            )
+
+        else:
+            raise InvalidOptionCombinationError()
+
+        if check_value(self.mach) and (
+            (check_value(self.shock_angle) or check_value(self.wedge_angle))
+        ):
+            self._calc_state()
+
+        else:
+            raise RuntimeError(
+                &#34;Values for mach and shock angle or wedge angle are needed to&#34;
+                &#34;determine flow state. For some reason those wasn&#39;t computed.&#34;
+            )
+
+        super().__init__(self.gamma, mach=self.mach_normal_1)
+        self.mach = ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+            self.mach_normal_1, self.shock_angle
+        )
+        self.mach_normal_2 = self.mach2
+        self.mach2 = ObliqueShockRelations.calc_mach_behind_shock(
+            self.mach_normal_2, self.wedge_angle, self.shock_angle
+        )
+
+        print(f&#34;Here use degrees: {self.use_degrees} {self.wedge_angle}  {self.shock_angle}&#34;)
+
+        if self.use_degrees:
+            self.wedge_angle = degrees(self.wedge_angle)
+            self.shock_angle = degrees(self.shock_angle)
+            print(f&#34;Here use degrees: {self.use_degrees} {self.wedge_angle}  {self.shock_angle}&#34;)
+
+    def _calc_state(self) -&gt; None:
+        if check_value(self.wedge_angle):
+            if self.shock_type == ShockType.WEAK:
+                self.shock_angle = ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak(
+                    self.wedge_angle, self.mach, self.gamma
+                )
+
+            elif self.shock_type == ShockType.STRONG:
+                self.shock_angle = ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong(
+                    self.wedge_angle, self.mach, self.gamma
+                )
+
+            else:
+                raise ValueError(
+                    f&#34;Incorrect shock type specified -&gt; [{self.shock_type}]. Choices: Strong, Weak&#34;
+                )
+
+        elif check_value(self.shock_angle):
+            self.wedge_angle = ObliqueShockRelations.calc_theta_from_theta_beta_mach(
+                self.shock_angle, self.mach, self.gamma
+            )
+
+        self.mach_normal_1 = ObliqueShockRelations.calc_mach_normal_ahead_shock(
+            self.mach, self.shock_angle
+        )
+
+    def __str__(self) -&gt; str:
+        return &#34;&#34;.join(
+            [
+                named_header(&#34;Oblique Shock Relations at Mach&#34;, self.mach, self.precision),
+                seperator(),
+                named_subheader(&#34;Upstream Conditions&#34;),
+                to_string(lcg.gamma, self.gamma, self.precision),
+                to_string(&#34;Mach&#34;, self.mach, self.precision, dot_line=True),
+                to_string(&#34;Mach Normal Component&#34;, self.mach_normal_1, self.precision),
+                to_string(
+                    f&#34;Flow Deflection Angle {lcg.theta}&#34;,
+                    self.wedge_angle,
+                    self.precision,
+                    dot_line=True,
+                ),
+                to_string(f&#34;Shock Angle {lcg.beta}&#34;, self.shock_angle, self.precision),
+                to_string(&#34;Flow Turn Type&#34;, self.shock_type.name, self.precision),
+                seperator(),
+                named_subheader(&#34;Shock Jump Conditions&#34;),
+                to_string(&#34;P2/P1&#34;, self.p2_p1, self.precision),
+                to_string(
+                    &#34;{}2/{}1&#34;.format(*[lcg.rho] * 2), self.rho2_rho1, self.precision, dot_line=True
+                ),
+                to_string(&#34;T2/T1&#34;, self.t2_t1, self.precision),
+                to_string(&#34;P02/P01&#34;, self.po2_po1, self.precision, dot_line=True),
+                to_string(&#34;P02/P1&#34;, self.po2_p1, self.precision),
+                seperator(),
+                named_subheader(&#34;Downstream Conditions&#34;),
+                to_string(&#34;Mach&#34;, self.mach2, self.precision, dot_line=True),
+                to_string(&#34;Mach Normal Component&#34;, self.mach_normal_2, self.precision),
+                footer(),
+            ]
+        )
+
+    @staticmethod
+    def calc_mach_normal_ahead_shock(mach: float, beta: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the normal component of the mach number ahead of the shock wave
+
+        Args:
+            mach (float): Mach number of flow ahead of shock wave
+            beta (float): Angle of oblique shock in radians
+
+        Raises:
+            ValueError: Raised if mach number is less than 1.0
+
+        Returns:
+            float: Normal component of upstream mach number
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+        mach_wave = ObliqueShockRelations.calc_mach_wave_angle(mach)
+
+        if abs(beta - mach_wave) &lt; 1e-5:
+            return 1.0
+
+        if beta &lt; mach_wave:
+            return nan
+
+        return mach * sin(beta)
+
+    @staticmethod
+    def calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+        mach_normal_1: float, beta: float
+    ) -&gt; float:
+        &#34;&#34;&#34;Calculates the upstream mach number from the normal component of the upstream mach number
+
+        Args:
+            machNormal1 (float): Normal Component of mach number ahead of the shock wave
+            beta (float): Angle of oblique shock in radians
+
+        Returns:
+            float: Returns value of mach number of the flow ahead of the shock wave
+        &#34;&#34;&#34;
+        return mach_normal_1 / sin(beta)
+
+    @staticmethod
+    def calc_beta_from_mach_mach_normal_ahead_shock(mach: float, mach_normal_1: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the Oblique shock angle from the normal component of the mach number that is
+        ahead of the shock wave
+
+        Args:
+            mach (float): Mach number of the flow ahead of the shock wave
+            mach_normal_1  (float): Normal Component of mach number of the flow that is ahead of an
+                                    oblique shock wave
+
+        Returns:
+            float: Oblique Shock Angle
+        &#34;&#34;&#34;
+        return asin(mach_normal_1 / mach)
+
+    @staticmethod
+    def calc_mach_behind_shock(mach_normal_2: float, theta: float, beta: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the Mach number behind the oblique shock wave
+
+        Args:
+            mach_normal_2 (float): Normal Component of the mach number behind the shock wave
+            theta (float): Flow Deflection Angle (radians) (Wedge angle)
+            beta (float): Oblique shock angle (radians)
+
+        Returns:
+            float: Mach number of flow behind the oblique shock
+        &#34;&#34;&#34;
+        return mach_normal_2 / sin(beta - theta)
+
+    @staticmethod
+    def calc_mach_normal_behind_shock_from_mach_behind_shock(
+        mach2: float, beta: float, theta: float
+    ) -&gt; float:
+        &#34;&#34;&#34;Calculates the normal component of the mach number behind the oblique shock
+
+        Args:
+            mach2 (float): Mach number of flow behind the oblique shock
+            beta (float): Oblique shock angle (radians)
+            theta (float): Flow deflections (Wedge) angle (radians)
+
+        Returns:
+            float: Normal component of mach numnber of the flow behind the shock wave
+        &#34;&#34;&#34;
+        return mach2 * sin(beta - theta)
+
+    @staticmethod
+    def calc_theta_from_theta_beta_mach(
+        beta: float, mach: float, gamma: float, offset: float = 0.0
+    ) -&gt; float:
+        &#34;&#34;&#34;Impliments the Theta-Beta-Mach (TBM) equation. Solves for Theta
+
+        Args:
+            beta (float): Oblique shock angle (radians)
+            mach (float): Mach number of flow ahead of the shock wave
+            gamma (float): Ratio of specific heats
+            offset (float, optional): [description]. Defaults to 0.0.
+
+        Returns:
+            float: Flow deflection (Wedge) angle (radians)
+        &#34;&#34;&#34;
+        m_sqr = pow(mach, 2)
+        num = m_sqr * pow(sin(beta), 2) - 1
+        denom = m_sqr * (gamma + cos(2 * beta)) + 2
+        theta = atan(2 * 1 / tan(beta) * num / denom) - offset
+        return theta
+
+    @staticmethod
+    def calc_beta_from_theta_beta_mach_weak(theta: float, mach: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming the
+        shock is weak
+
+        Args:
+            theta (float): Flow deflection (Wedge) angle (radians)
+            mach (float): Mach number of the flow ahead of the oblique shock
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: Oblique shock angle (radians)
+        &#34;&#34;&#34;
+        max_shock_angle = ObliqueShockRelations.calc_max_shock_angle(mach, gamma)
+        min_shock_angle = ObliqueShockRelations.calc_mach_wave_angle(mach)
+        return brenth(
+            ObliqueShockRelations.calc_theta_from_theta_beta_mach,
+            min_shock_angle,
+            max_shock_angle,
+            args=(mach, gamma, theta),
+        )  # type: ignore
+
+    @staticmethod
+    def calc_beta_from_theta_beta_mach_strong(theta: float, mach: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming a
+        strong shock wave
+
+        Args:
+            theta (float): Flow deflection (Wedge) angle (radians)
+            mach (float): Mach number of the flow ahead of the oblique shock
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: Oblique shock angle (radians)
+        &#34;&#34;&#34;
+        maxshock_angle = ObliqueShockRelations.calc_max_shock_angle(mach, gamma)
+        return brenth(
+            ObliqueShockRelations.calc_theta_from_theta_beta_mach,
+            maxshock_angle,
+            radians(90),
+            args=(mach, gamma, theta),
+        )  # type: ignore
+
+    @staticmethod
+    def calc_mach_from_theta_beta_mach(beta: float, theta: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Impliments the Theta-Beta-Mach (TBM) Equation. Solves for the mach number
+
+        Args:
+            beta (float): Oblique shock angle (radians)
+            theta (float): Flow deflection (wedge) angle (radians)
+            gamma (float): Ratio of specific heats
+
+        Returns:
+            float: Mach number of the flow ahead of the shock wave
+        &#34;&#34;&#34;
+        numerator = -2 * (1 + tan(theta) * tan(beta))
+        denominator = tan(theta) * tan(beta) * (gamma + cos(2 * beta)) - 2 * (sin(beta)) ** 2
+        return sqrt(numerator / denominator)
+
+    @staticmethod
+    def calc_max_flow_deflection_angle(maxshock_angle: float, mach: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the max flow deflection angle for a flow
+
+        Args:
+            maxshock_angle (float): Maximum oblique shock angle (radians)
+            mach (float): Mach number of flow ahead of the oblique shock
+            gamma (float): Ratio of specific heats
+
+        Returns:
+            float: Mac flow deflection angle (radians)
+        &#34;&#34;&#34;
+        msa = maxshock_angle
+        numerator = (pow(mach, 2) * (sin(msa)) ** 2 - 1) / tan(msa)
+        denominator = pow(mach, 2) * (gamma + 1) / 2 - pow(mach, 2) * (pow(sin(msa), 2)) + 1
+        return atan(numerator / denominator)
+
+    @staticmethod
+    def calc_max_shock_angle(mach: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the maximum oblique shock angle
+
+        Args:
+            mach (float): Mach number of flow ahead of the shock wave
+            gamma (float): Ratio of specific heats
+
+        Returns:
+            float: Maximum value of the oblique shock angle (radians)
+        &#34;&#34;&#34;
+        gp1 = gamma + 1
+        gm1 = gamma - 1
+        # splitting up of beta_max equation
+        isissq = gp1 * (1 + gm1 * pow(mach, 2) / 2 + gp1 / 16 * pow(mach, 4))
+        issq = 1 / (gamma * pow(mach, 2)) * (gp1 * pow(mach, 2) / 4 + sqrt(isissq) - 1)
+        return asin(sqrt(issq))
+
+    @staticmethod
+    def calc_mach_wave_angle(mach: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach wave angle given the mach number
+
+        Args:
+            mach float: Mach number
+
+        Returns (float): Returns the mach wave angle in radians
+        &#34;&#34;&#34;
+        return asin(1 / mach)
+
+    @staticmethod
+    def calc_mach_from_mach_wave_angle(mach_angle: float) -&gt; float:
+        &#34;&#34;&#34;Calculates the Mach number fromt he mach wave angle
+
+        Args:
+            mach_angle (float): Mach wave angle (mu) (radians)
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return 1 / sin(mach_angle)
+
+    def plot_theta_beta_mach_chart(self) -&gt; None:
+        &#34;&#34;&#34;Plots the Theta-Beta-Mach plot from the data already in the class&#34;&#34;&#34;
+        mach = self.mach
+
+        mach_wave_angle = degrees(ObliqueShockRelations.calc_mach_wave_angle(mach))
+        max_shock_angle = degrees(ObliqueShockRelations.calc_max_shock_angle(mach, self.gamma))
+        max_deflection_angle = degrees(
+            ObliqueShockRelations.calc_max_flow_deflection_angle(
+                radians(max_shock_angle), mach, self.gamma
+            )
+        )
+
+        weak_deflection_angles = np.linspace(0, max_deflection_angle - 0.1, 100)
+        weak_shock_angles = np.zeros(weak_deflection_angles.shape)
+        strong_shock_angles = np.zeros(weak_deflection_angles.shape)
+
+        for ii in range(weak_deflection_angles.shape[0]):
+            if weak_deflection_angles[ii] == 0:
+                weak_shock_angles[ii] = mach_wave_angle
+                strong_shock_angles[ii] = 90
+                continue
+
+            weak_shock_angles[ii] = degrees(
+                ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak(
+                    radians(weak_deflection_angles[ii]), mach, self.gamma
+                )
+            )
+            strong_shock_angles[ii] = degrees(
+                ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong(
+                    radians(weak_deflection_angles[ii]), mach, self.gamma
+                )
+            )
+
+        weak_deflection_angles = np.append(weak_deflection_angles, [max_deflection_angle])
+        strong_shock_angles = np.append(strong_shock_angles, [max_shock_angle])
+        weak_shock_angles = np.append(weak_shock_angles, [max_shock_angle])
+
+        # vertPointLine = np.linspace(0, self.shock_angle, 20)
+        # horzPointLine = np.linspace(0, self.wedge_angle, 20)
+
+        _, ax = plt.subplots(1, 1)
+
+        ax.plot(weak_deflection_angles, weak_shock_angles, label=&#34; Oblique Weak Shock&#34;)
+        ax.plot(weak_deflection_angles, strong_shock_angles, label=&#34;Oblique Strong Shock&#34;)
+
+        shock_angle = degrees(self.shock_angle)
+        wedge_angle = degrees(self.wedge_angle)
+        ax.scatter(wedge_angle, shock_angle, label=&#34;This Flow&#34;, color=&#34;r&#34;)
+        # ax.plot(np.ones(vertPointLine.shape) * self.wedge_angle, vertPointLine, &#39;g&#39;)
+        # ax.plot(horzPointLine, np.ones(horzPointLine.shape) * self.shock_angle, &#39;g&#39;)
+        ax.annotate(
+            f&#34;Shock {round(max_shock_angle, 2)}\nWedge {round(max_deflection_angle, 2)}&#34;,
+            xy=(max_deflection_angle, max_shock_angle),
+            xytext=(
+                max_deflection_angle + 0.02 * max_deflection_angle,
+                max_shock_angle + 0.1 * max_shock_angle,
+            ),
+            arrowprops={&#34;facecolor&#34;: &#34;black&#34;, &#34;shrink&#34;: 0.05},
+        )
+        ax.annotate(
+            f&#34;Shock {round(shock_angle, 2)}\nWedge {round(wedge_angle, 2)}&#34;,
+            xy=(wedge_angle, shock_angle),
+            xytext=(wedge_angle - 0.2 * wedge_angle, shock_angle - 0.4 * shock_angle),
+            arrowprops={&#34;facecolor&#34;: &#34;black&#34;, &#34;shrink&#34;: 0.05},
+        )
+        # ax.set_xlim(0, maxDeflectionAngle + 5)
+        # ax.set_ylim(0, 90)
+        ax.set_xticks(list(range(0, int(max_deflection_angle) + 5, 2)))
+        ax.set_yticks(list(range(0, 92, 2)))
+        ax.set_xlabel(&#34;Flow Deflection Angle, \u03B8 (\u00b0)&#34;)
+        ax.set_ylabel(&#34;Shock Anlge, \u03B2 (\u00b0)&#34;)
+        ax.set_title(f&#34;Mach {round(self.mach, self.precision)} Flow&#34;)
+        ax.legend()
+        ax.grid()
+        plt.show()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="CompAero.normal_shock_relations.NormalShockRelations" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations">NormalShockRelations</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_beta_from_mach_mach_normal_ahead_shock"><code class="name flex">
+<span>def <span class="ident">calc_beta_from_mach_mach_normal_ahead_shock</span></span>(<span>mach: float, mach_normal_1: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the Oblique shock angle from the normal component of the mach number that is
+ahead of the shock wave</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>Mach number of the flow ahead of the shock wave</dd>
+</dl>
+<p>mach_normal_1
+(float): Normal Component of mach number of the flow that is ahead of an
+oblique shock wave</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Oblique Shock Angle</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_beta_from_mach_mach_normal_ahead_shock(mach: float, mach_normal_1: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the Oblique shock angle from the normal component of the mach number that is
+    ahead of the shock wave
+
+    Args:
+        mach (float): Mach number of the flow ahead of the shock wave
+        mach_normal_1  (float): Normal Component of mach number of the flow that is ahead of an
+                                oblique shock wave
+
+    Returns:
+        float: Oblique Shock Angle
+    &#34;&#34;&#34;
+    return asin(mach_normal_1 / mach)</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong"><code class="name flex">
+<span>def <span class="ident">calc_beta_from_theta_beta_mach_strong</span></span>(<span>theta: float, mach: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming a
+strong shock wave</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Flow deflection (Wedge) angle (radians)</dd>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>Mach number of the flow ahead of the oblique shock</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Oblique shock angle (radians)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_beta_from_theta_beta_mach_strong(theta: float, mach: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;
+    Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming a
+    strong shock wave
+
+    Args:
+        theta (float): Flow deflection (Wedge) angle (radians)
+        mach (float): Mach number of the flow ahead of the oblique shock
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: Oblique shock angle (radians)
+    &#34;&#34;&#34;
+    maxshock_angle = ObliqueShockRelations.calc_max_shock_angle(mach, gamma)
+    return brenth(
+        ObliqueShockRelations.calc_theta_from_theta_beta_mach,
+        maxshock_angle,
+        radians(90),
+        args=(mach, gamma, theta),
+    )  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak"><code class="name flex">
+<span>def <span class="ident">calc_beta_from_theta_beta_mach_weak</span></span>(<span>theta: float, mach: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming the
+shock is weak</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Flow deflection (Wedge) angle (radians)</dd>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>Mach number of the flow ahead of the oblique shock</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Oblique shock angle (radians)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_beta_from_theta_beta_mach_weak(theta: float, mach: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;
+    Impliments the Theta-Beta-Mach (TBM) equation. Solves for Beta (shock angle) assuming the
+    shock is weak
+
+    Args:
+        theta (float): Flow deflection (Wedge) angle (radians)
+        mach (float): Mach number of the flow ahead of the oblique shock
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: Oblique shock angle (radians)
+    &#34;&#34;&#34;
+    max_shock_angle = ObliqueShockRelations.calc_max_shock_angle(mach, gamma)
+    min_shock_angle = ObliqueShockRelations.calc_mach_wave_angle(mach)
+    return brenth(
+        ObliqueShockRelations.calc_theta_from_theta_beta_mach,
+        min_shock_angle,
+        max_shock_angle,
+        args=(mach, gamma, theta),
+    )  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock"><code class="name flex">
+<span>def <span class="ident">calc_mach_ahead_shock_from_mach_normal_ahead_shock</span></span>(<span>mach_normal_1: float, beta: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the upstream mach number from the normal component of the upstream mach number</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>machNormal1</code></strong> :&ensp;<code>float</code></dt>
+<dd>Normal Component of mach number ahead of the shock wave</dd>
+<dt><strong><code>beta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Angle of oblique shock in radians</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Returns value of mach number of the flow ahead of the shock wave</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_ahead_shock_from_mach_normal_ahead_shock(
+    mach_normal_1: float, beta: float
+) -&gt; float:
+    &#34;&#34;&#34;Calculates the upstream mach number from the normal component of the upstream mach number
+
+    Args:
+        machNormal1 (float): Normal Component of mach number ahead of the shock wave
+        beta (float): Angle of oblique shock in radians
+
+    Returns:
+        float: Returns value of mach number of the flow ahead of the shock wave
+    &#34;&#34;&#34;
+    return mach_normal_1 / sin(beta)</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_behind_shock"><code class="name flex">
+<span>def <span class="ident">calc_mach_behind_shock</span></span>(<span>mach_normal_2: float, theta: float, beta: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the Mach number behind the oblique shock wave</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach_normal_2</code></strong> :&ensp;<code>float</code></dt>
+<dd>Normal Component of the mach number behind the shock wave</dd>
+<dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Flow Deflection Angle (radians) (Wedge angle)</dd>
+<dt><strong><code>beta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Oblique shock angle (radians)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Mach number of flow behind the oblique shock</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_behind_shock(mach_normal_2: float, theta: float, beta: float) -&gt; float:
+    &#34;&#34;&#34;Calculates the Mach number behind the oblique shock wave
+
+    Args:
+        mach_normal_2 (float): Normal Component of the mach number behind the shock wave
+        theta (float): Flow Deflection Angle (radians) (Wedge angle)
+        beta (float): Oblique shock angle (radians)
+
+    Returns:
+        float: Mach number of flow behind the oblique shock
+    &#34;&#34;&#34;
+    return mach_normal_2 / sin(beta - theta)</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_from_mach_wave_angle"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_mach_wave_angle</span></span>(<span>mach_angle: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the Mach number fromt he mach wave angle</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach_angle</code></strong> :&ensp;<code>float</code></dt>
+<dd>Mach wave angle (mu) (radians)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_mach_wave_angle(mach_angle: float) -&gt; float:
+    &#34;&#34;&#34;Calculates the Mach number fromt he mach wave angle
+
+    Args:
+        mach_angle (float): Mach wave angle (mu) (radians)
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return 1 / sin(mach_angle)</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_from_theta_beta_mach"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_theta_beta_mach</span></span>(<span>beta: float, theta: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Impliments the Theta-Beta-Mach (TBM) Equation. Solves for the mach number</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>beta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Oblique shock angle (radians)</dd>
+<dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Flow deflection (wedge) angle (radians)</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Mach number of the flow ahead of the shock wave</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_theta_beta_mach(beta: float, theta: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;Impliments the Theta-Beta-Mach (TBM) Equation. Solves for the mach number
+
+    Args:
+        beta (float): Oblique shock angle (radians)
+        theta (float): Flow deflection (wedge) angle (radians)
+        gamma (float): Ratio of specific heats
+
+    Returns:
+        float: Mach number of the flow ahead of the shock wave
+    &#34;&#34;&#34;
+    numerator = -2 * (1 + tan(theta) * tan(beta))
+    denominator = tan(theta) * tan(beta) * (gamma + cos(2 * beta)) - 2 * (sin(beta)) ** 2
+    return sqrt(numerator / denominator)</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_normal_ahead_shock"><code class="name flex">
+<span>def <span class="ident">calc_mach_normal_ahead_shock</span></span>(<span>mach: float, beta: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the normal component of the mach number ahead of the shock wave</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>Mach number of flow ahead of shock wave</dd>
+<dt><strong><code>beta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Angle of oblique shock in radians</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if mach number is less than 1.0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Normal component of upstream mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_normal_ahead_shock(mach: float, beta: float) -&gt; float:
+    &#34;&#34;&#34;Calculates the normal component of the mach number ahead of the shock wave
+
+    Args:
+        mach (float): Mach number of flow ahead of shock wave
+        beta (float): Angle of oblique shock in radians
+
+    Raises:
+        ValueError: Raised if mach number is less than 1.0
+
+    Returns:
+        float: Normal component of upstream mach number
+    &#34;&#34;&#34;
+    if mach &lt; 1.0:
+        raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+    mach_wave = ObliqueShockRelations.calc_mach_wave_angle(mach)
+
+    if abs(beta - mach_wave) &lt; 1e-5:
+        return 1.0
+
+    if beta &lt; mach_wave:
+        return nan
+
+    return mach * sin(beta)</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_normal_behind_shock_from_mach_behind_shock"><code class="name flex">
+<span>def <span class="ident">calc_mach_normal_behind_shock_from_mach_behind_shock</span></span>(<span>mach2: float, beta: float, theta: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the normal component of the mach number behind the oblique shock</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach2</code></strong> :&ensp;<code>float</code></dt>
+<dd>Mach number of flow behind the oblique shock</dd>
+<dt><strong><code>beta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Oblique shock angle (radians)</dd>
+<dt><strong><code>theta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Flow deflections (Wedge) angle (radians)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Normal component of mach numnber of the flow behind the shock wave</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_normal_behind_shock_from_mach_behind_shock(
+    mach2: float, beta: float, theta: float
+) -&gt; float:
+    &#34;&#34;&#34;Calculates the normal component of the mach number behind the oblique shock
+
+    Args:
+        mach2 (float): Mach number of flow behind the oblique shock
+        beta (float): Oblique shock angle (radians)
+        theta (float): Flow deflections (Wedge) angle (radians)
+
+    Returns:
+        float: Normal component of mach numnber of the flow behind the shock wave
+    &#34;&#34;&#34;
+    return mach2 * sin(beta - theta)</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_wave_angle"><code class="name flex">
+<span>def <span class="ident">calc_mach_wave_angle</span></span>(<span>mach: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach wave angle given the mach number</p>
+<h2 id="args">Args</h2>
+<p>mach float: Mach number
+Returns (float): Returns the mach wave angle in radians</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_wave_angle(mach: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach wave angle given the mach number
+
+    Args:
+        mach float: Mach number
+
+    Returns (float): Returns the mach wave angle in radians
+    &#34;&#34;&#34;
+    return asin(1 / mach)</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_max_flow_deflection_angle"><code class="name flex">
+<span>def <span class="ident">calc_max_flow_deflection_angle</span></span>(<span>maxshock_angle: float, mach: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the max flow deflection angle for a flow</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>maxshock_angle</code></strong> :&ensp;<code>float</code></dt>
+<dd>Maximum oblique shock angle (radians)</dd>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>Mach number of flow ahead of the oblique shock</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Mac flow deflection angle (radians)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_max_flow_deflection_angle(maxshock_angle: float, mach: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;Calculates the max flow deflection angle for a flow
+
+    Args:
+        maxshock_angle (float): Maximum oblique shock angle (radians)
+        mach (float): Mach number of flow ahead of the oblique shock
+        gamma (float): Ratio of specific heats
+
+    Returns:
+        float: Mac flow deflection angle (radians)
+    &#34;&#34;&#34;
+    msa = maxshock_angle
+    numerator = (pow(mach, 2) * (sin(msa)) ** 2 - 1) / tan(msa)
+    denominator = pow(mach, 2) * (gamma + 1) / 2 - pow(mach, 2) * (pow(sin(msa), 2)) + 1
+    return atan(numerator / denominator)</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_max_shock_angle"><code class="name flex">
+<span>def <span class="ident">calc_max_shock_angle</span></span>(<span>mach: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the maximum oblique shock angle</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>Mach number of flow ahead of the shock wave</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Maximum value of the oblique shock angle (radians)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_max_shock_angle(mach: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;Calculates the maximum oblique shock angle
+
+    Args:
+        mach (float): Mach number of flow ahead of the shock wave
+        gamma (float): Ratio of specific heats
+
+    Returns:
+        float: Maximum value of the oblique shock angle (radians)
+    &#34;&#34;&#34;
+    gp1 = gamma + 1
+    gm1 = gamma - 1
+    # splitting up of beta_max equation
+    isissq = gp1 * (1 + gm1 * pow(mach, 2) / 2 + gp1 / 16 * pow(mach, 4))
+    issq = 1 / (gamma * pow(mach, 2)) * (gp1 * pow(mach, 2) / 4 + sqrt(isissq) - 1)
+    return asin(sqrt(issq))</code></pre>
+</details>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_theta_from_theta_beta_mach"><code class="name flex">
+<span>def <span class="ident">calc_theta_from_theta_beta_mach</span></span>(<span>beta: float, mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Impliments the Theta-Beta-Mach (TBM) equation. Solves for Theta</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>beta</code></strong> :&ensp;<code>float</code></dt>
+<dd>Oblique shock angle (radians)</dd>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>Mach number of flow ahead of the shock wave</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>[description]. Defaults to 0.0.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Flow deflection (Wedge) angle (radians)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_theta_from_theta_beta_mach(
+    beta: float, mach: float, gamma: float, offset: float = 0.0
+) -&gt; float:
+    &#34;&#34;&#34;Impliments the Theta-Beta-Mach (TBM) equation. Solves for Theta
+
+    Args:
+        beta (float): Oblique shock angle (radians)
+        mach (float): Mach number of flow ahead of the shock wave
+        gamma (float): Ratio of specific heats
+        offset (float, optional): [description]. Defaults to 0.0.
+
+    Returns:
+        float: Flow deflection (Wedge) angle (radians)
+    &#34;&#34;&#34;
+    m_sqr = pow(mach, 2)
+    num = m_sqr * pow(sin(beta), 2) - 1
+    denom = m_sqr * (gamma + cos(2 * beta)) + 2
+    theta = atan(2 * 1 / tan(beta) * num / denom) - offset
+    return theta</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.mach_normal_1"><code class="name">var <span class="ident">mach_normal_1</span></code></dt>
+<dd>
+<div class="desc"><p>The normal component of the mach number ahead the shock wave</p></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.mach_normal_2"><code class="name">var <span class="ident">mach_normal_2</span></code></dt>
+<dd>
+<div class="desc"><p>The normal component of the mach number behind the shock wave</p></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.shock_angle"><code class="name">var <span class="ident">shock_angle</span></code></dt>
+<dd>
+<div class="desc"><p>Angle Oblique shock</p></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.shock_type"><code class="name">var <span class="ident">shock_type</span></code></dt>
+<dd>
+<div class="desc"><p>The type of shock whether it is strong or weak</p></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.use_degrees"><code class="name">var <span class="ident">use_degrees</span></code></dt>
+<dd>
+<div class="desc"><p>Angles passed to the constructor are in degrees</p></div>
+</dd>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.wedge_angle"><code class="name">var <span class="ident">wedge_angle</span></code></dt>
+<dd>
+<div class="desc"><p>Angle of the flow deflection (wedge) angle</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="CompAero.oblique_shock_relations.ObliqueShockRelations.plot_theta_beta_mach_chart"><code class="name flex">
+<span>def <span class="ident">plot_theta_beta_mach_chart</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Plots the Theta-Beta-Mach plot from the data already in the class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_theta_beta_mach_chart(self) -&gt; None:
+    &#34;&#34;&#34;Plots the Theta-Beta-Mach plot from the data already in the class&#34;&#34;&#34;
+    mach = self.mach
+
+    mach_wave_angle = degrees(ObliqueShockRelations.calc_mach_wave_angle(mach))
+    max_shock_angle = degrees(ObliqueShockRelations.calc_max_shock_angle(mach, self.gamma))
+    max_deflection_angle = degrees(
+        ObliqueShockRelations.calc_max_flow_deflection_angle(
+            radians(max_shock_angle), mach, self.gamma
+        )
+    )
+
+    weak_deflection_angles = np.linspace(0, max_deflection_angle - 0.1, 100)
+    weak_shock_angles = np.zeros(weak_deflection_angles.shape)
+    strong_shock_angles = np.zeros(weak_deflection_angles.shape)
+
+    for ii in range(weak_deflection_angles.shape[0]):
+        if weak_deflection_angles[ii] == 0:
+            weak_shock_angles[ii] = mach_wave_angle
+            strong_shock_angles[ii] = 90
+            continue
+
+        weak_shock_angles[ii] = degrees(
+            ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak(
+                radians(weak_deflection_angles[ii]), mach, self.gamma
+            )
+        )
+        strong_shock_angles[ii] = degrees(
+            ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong(
+                radians(weak_deflection_angles[ii]), mach, self.gamma
+            )
+        )
+
+    weak_deflection_angles = np.append(weak_deflection_angles, [max_deflection_angle])
+    strong_shock_angles = np.append(strong_shock_angles, [max_shock_angle])
+    weak_shock_angles = np.append(weak_shock_angles, [max_shock_angle])
+
+    # vertPointLine = np.linspace(0, self.shock_angle, 20)
+    # horzPointLine = np.linspace(0, self.wedge_angle, 20)
+
+    _, ax = plt.subplots(1, 1)
+
+    ax.plot(weak_deflection_angles, weak_shock_angles, label=&#34; Oblique Weak Shock&#34;)
+    ax.plot(weak_deflection_angles, strong_shock_angles, label=&#34;Oblique Strong Shock&#34;)
+
+    shock_angle = degrees(self.shock_angle)
+    wedge_angle = degrees(self.wedge_angle)
+    ax.scatter(wedge_angle, shock_angle, label=&#34;This Flow&#34;, color=&#34;r&#34;)
+    # ax.plot(np.ones(vertPointLine.shape) * self.wedge_angle, vertPointLine, &#39;g&#39;)
+    # ax.plot(horzPointLine, np.ones(horzPointLine.shape) * self.shock_angle, &#39;g&#39;)
+    ax.annotate(
+        f&#34;Shock {round(max_shock_angle, 2)}\nWedge {round(max_deflection_angle, 2)}&#34;,
+        xy=(max_deflection_angle, max_shock_angle),
+        xytext=(
+            max_deflection_angle + 0.02 * max_deflection_angle,
+            max_shock_angle + 0.1 * max_shock_angle,
+        ),
+        arrowprops={&#34;facecolor&#34;: &#34;black&#34;, &#34;shrink&#34;: 0.05},
+    )
+    ax.annotate(
+        f&#34;Shock {round(shock_angle, 2)}\nWedge {round(wedge_angle, 2)}&#34;,
+        xy=(wedge_angle, shock_angle),
+        xytext=(wedge_angle - 0.2 * wedge_angle, shock_angle - 0.4 * shock_angle),
+        arrowprops={&#34;facecolor&#34;: &#34;black&#34;, &#34;shrink&#34;: 0.05},
+    )
+    # ax.set_xlim(0, maxDeflectionAngle + 5)
+    # ax.set_ylim(0, 90)
+    ax.set_xticks(list(range(0, int(max_deflection_angle) + 5, 2)))
+    ax.set_yticks(list(range(0, 92, 2)))
+    ax.set_xlabel(&#34;Flow Deflection Angle, \u03B8 (\u00b0)&#34;)
+    ax.set_ylabel(&#34;Shock Anlge, \u03B2 (\u00b0)&#34;)
+    ax.set_title(f&#34;Mach {round(self.mach, self.precision)} Flow&#34;)
+    ax.legend()
+    ax.grid()
+    plt.show()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="CompAero.normal_shock_relations.NormalShockRelations" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations">NormalShockRelations</a></b></code>:
+<ul class="hlist">
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_after_normal_shock" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_after_normal_shock">calc_mach_after_normal_shock</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock">calc_mach_before_normal_shock_from_mach_after_shock</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_p2_p1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_p2_p1">calc_mach_from_p2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_p1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_p1">calc_mach_from_po2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_po1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_po1">calc_mach_from_po2_po1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_rho2_rho1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_rho2_rho1">calc_mach_from_rho2_rho1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_t2_t1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_t2_t1">calc_mach_from_t2_t1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_p2_p1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_p2_p1">calc_p2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_po2_p1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_po2_p1">calc_po2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_po2_po1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_po2_po1">calc_po2_po1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_rho2_rho1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_rho2_rho1">calc_rho2_rho1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_t2_t1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.calc_t2_t1">calc_t2_t1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.gamma" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.gamma">gamma</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.mach" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.mach">mach</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.mach2" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.mach2">mach2</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.p2_p1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.p2_p1">p2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.po2_p1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.po2_p1">po2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.po2_po1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.po2_po1">po2_po1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.precision" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.precision">precision</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.rho2_rho1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.rho2_rho1">rho2_rho1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.t2_t1" href="normal_shock_relations.html#CompAero.normal_shock_relations.NormalShockRelations.t2_t1">t2_t1</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="CompAero" href="index.html">CompAero</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice" href="#CompAero.oblique_shock_relations.ObliqueShockChoice">ObliqueShockChoice</a></code></h4>
+<ul class="">
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.M2_WEDGE_SHOCK_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.M2_WEDGE_SHOCK_ANGLE">M2_WEDGE_SHOCK_ANGLE</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.MACH_N_1_SHOCK_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.MACH_N_1_SHOCK_ANGLE">MACH_N_1_SHOCK_ANGLE</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.MACH_SHOCK_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.MACH_SHOCK_ANGLE">MACH_SHOCK_ANGLE</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.MACH_WEDGE_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.MACH_WEDGE_ANGLE">MACH_WEDGE_ANGLE</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.MN2_SHOCK_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.MN2_SHOCK_ANGLE">MN2_SHOCK_ANGLE</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.P2_P1_SHOCK_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.P2_P1_SHOCK_ANGLE">P2_P1_SHOCK_ANGLE</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.PO2_P1_SHOCK_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.PO2_P1_SHOCK_ANGLE">PO2_P1_SHOCK_ANGLE</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.PO2_PO1_SHOCK_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.PO2_PO1_SHOCK_ANGLE">PO2_PO1_SHOCK_ANGLE</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.RHO2_RHO1_SHOCK_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.RHO2_RHO1_SHOCK_ANGLE">RHO2_RHO1_SHOCK_ANGLE</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockChoice.T2_T1_SHOCK_ANGLE" href="#CompAero.oblique_shock_relations.ObliqueShockChoice.T2_T1_SHOCK_ANGLE">T2_T1_SHOCK_ANGLE</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations" href="#CompAero.oblique_shock_relations.ObliqueShockRelations">ObliqueShockRelations</a></code></h4>
+<ul class="">
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_beta_from_mach_mach_normal_ahead_shock" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_beta_from_mach_mach_normal_ahead_shock">calc_beta_from_mach_mach_normal_ahead_shock</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_beta_from_theta_beta_mach_strong">calc_beta_from_theta_beta_mach_strong</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_beta_from_theta_beta_mach_weak">calc_beta_from_theta_beta_mach_weak</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_ahead_shock_from_mach_normal_ahead_shock">calc_mach_ahead_shock_from_mach_normal_ahead_shock</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_behind_shock" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_behind_shock">calc_mach_behind_shock</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_from_mach_wave_angle" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_from_mach_wave_angle">calc_mach_from_mach_wave_angle</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_from_theta_beta_mach" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_from_theta_beta_mach">calc_mach_from_theta_beta_mach</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_normal_ahead_shock" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_normal_ahead_shock">calc_mach_normal_ahead_shock</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_normal_behind_shock_from_mach_behind_shock" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_normal_behind_shock_from_mach_behind_shock">calc_mach_normal_behind_shock_from_mach_behind_shock</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_wave_angle" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_mach_wave_angle">calc_mach_wave_angle</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_max_flow_deflection_angle" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_max_flow_deflection_angle">calc_max_flow_deflection_angle</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_max_shock_angle" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_max_shock_angle">calc_max_shock_angle</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.calc_theta_from_theta_beta_mach" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.calc_theta_from_theta_beta_mach">calc_theta_from_theta_beta_mach</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.mach_normal_1" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.mach_normal_1">mach_normal_1</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.mach_normal_2" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.mach_normal_2">mach_normal_2</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.plot_theta_beta_mach_chart" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.plot_theta_beta_mach_chart">plot_theta_beta_mach_chart</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.shock_angle" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.shock_angle">shock_angle</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.shock_type" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.shock_type">shock_type</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.use_degrees" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.use_degrees">use_degrees</a></code></li>
+<li><code><a title="CompAero.oblique_shock_relations.ObliqueShockRelations.wedge_angle" href="#CompAero.oblique_shock_relations.ObliqueShockRelations.wedge_angle">wedge_angle</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,5 +1,5 @@
 [tool.black]
-    line-length = 110
+    line-length = 100
     py36 = true
     include = '\.pyi?$'
     exclude = '''
@@ -18,3 +18,8 @@
       | blib2to3
       | tests/data
     )/'''
+
+
+[tool.pyright]
+  max-line-length=100
+

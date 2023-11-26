@@ -1,18 +1,22 @@
-import enum
+"""This module contains the class that represents the Isentropic Flow State"""
+
+from dataclasses import dataclass
+from math import nan, sqrt
+
+from colorama.ansi import Fore
+from scipy.optimize import brenth  # type: ignore
+
+from CompAero.greek_letters import LowerCaseGreek as lcg
 from CompAero.internal import (
+    GammaNotDefinedError,
     InvalidOptionCombinationError,
-    checkValue,
-    FlowState,
+    check_value,
     footer,
     named_header,
     seperator,
     to_string,
-    GammaNotDefinedError,
 )
-from CompAero.greek_letters import LowerCaseGreek as lcg
-
-from math import sqrt, nan, pow
-from scipy.optimize import brenth
+from CompAero.types import FlowState
 
 ISENTROPIC_VALID_OPTIONS = [
     "gamma, mach",
@@ -23,17 +27,20 @@ ISENTROPIC_VALID_OPTIONS = [
 ]
 
 
+@dataclass
 class ISENTROPIC_CHOICE:
     MACH = "gamma, mach"
     P0_P = " gamma, P0/P"
     T0_T = " gamma, T0/T"
     RHO0_RHO = " gamma, Rho0/Rho"
-    A_ASTAR = " gamma, A/A*"
+    a_a_star = " gamma, A/A*"
 
 
 class IsentropicRelations:
-    """ This class is a collective name space for basic calculations regarding isentropic flows. 
-    The constructor of this class can also determine the entire state of the flow given a partial state of the flow 
+    # pylint: disable=too-many-instance-attributes
+    """This class is a collective name space for basic calculations regarding isentropic flows.
+    The constructor of this class can also determine the entire state of the flow given a partial
+    state of the flow
 
     Args:
         gamma (float): ratio of specific heats
@@ -41,21 +48,25 @@ class IsentropicRelations:
         p0_p (float, optional): Ratio of total pressure to static pressure. Defaults to nan.
         t0_t (float, optional): Ratio of total temperature to static temperature. Defaults to nan.
         rho0_rho (float, optional): Ratio of total density to static density. Defaults to nan.
-        a_aStar (float, optional): Ratio of Nozzle Area to sonic throat area. Defaults to nan.
-        flowType (FlowState, optional): States wether the flow is subsonic or supersonic. Used for Area Ratio Calculations. Defaults to FlowState.SUPER_SONIC.
+        a_a_star (float, optional): Ratio of Nozzle Area to sonic throat area. Defaults to nan.
+        flow_type (FlowState, optional): States wether the flow is subsonic or supersonic.
+                                        Used for Area Ratio Calculations. Defaults to
+                                        FlowState.SUPER_SONIC.
 
     Raises:
-        InvalidOptionCombinationError: Raised if invalid combination of values are given to the constructor
-        
+        InvalidOptionCombinationError: Raised if invalid combination of values are given to the
+                                        constructor
+
     Useage:
-        To use this class pass gamma and one of the known parameters of the flow and the rest are calculated. 
-    
+        To use this class pass gamma and one of the known parameters of the flow and the rest are
+        calculated#.
+
     Valid_Combinations_of_Parameters:
         1: gamma, mach\n
         2: gamma, p0/p\n
         3: gamma, t0/t\n
         4: gamma, rho0/rho\n
-        5: gamma, a/a*, flowtype (flow type defaults to super sonic)\n 
+        5: gamma, a/a*, flowtype (flow type defaults to super sonic)\n
     """
 
     def __init__(
@@ -65,9 +76,11 @@ class IsentropicRelations:
         p0_p: float = nan,
         t0_t: float = nan,
         rho0_rho: float = nan,
-        a_aStar: float = nan,
-        flowType: FlowState = FlowState.SUPER_SONIC,
+        a_a_star: float = nan,
+        flow_type: FlowState = FlowState.SUPER_SONIC,
     ) -> None:
+        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-statements
         self.gamma = gamma
         """ Ratio of specific heats """
         self.mach = mach
@@ -78,39 +91,42 @@ class IsentropicRelations:
         """ Ratio of total temperature to static temperature """
         self.rho0_rho = rho0_rho
         """ Ratio of total density to static density """
-        self.a_aStar = a_aStar
+        self.a_a_star = a_a_star
         """ Ratio of Nozzle area to sonic nozzle area """
-        self.flowType = flowType
+        self.flow_type = flow_type
         """ Type of flow which is either subsonic or supersonic (Type: flowstate) """
         self.precision = 4
         """ Precision to use when printing output to the console defaults to four """
 
         # Calculate parameters based on what was passed in
-        if not checkValue(self.gamma):
+        if not check_value(self.gamma):
             raise GammaNotDefinedError()
 
-        if checkValue(self.mach):
+        if check_value(self.mach):
             pass
-        elif checkValue(self.p0_p):
+        elif check_value(self.p0_p):
             self.mach = IsentropicRelations.calc_mach_from_p0_p(self.p0_p, self.gamma)
-        elif checkValue(self.t0_t):
-            self.mach = IsentropicRelations.calc_mach_from_T0_T(self.t0_t, self.gamma)
-        elif checkValue(self.rho0_rho):
+        elif check_value(self.t0_t):
+            self.mach = IsentropicRelations.calc_mach_from_t0_t(self.t0_t, self.gamma)
+        elif check_value(self.rho0_rho):
             self.mach = IsentropicRelations.calc_mach_from_rho0_rho(self.rho0_rho, self.gamma)
-        elif checkValue(self.a_aStar):
-            self.mach = IsentropicRelations.calc_mach_from_A_Astar(self.a_aStar, self.gamma, self.flowType)
+        elif check_value(self.a_a_star):
+            self.mach = IsentropicRelations.calc_mach_from_a_a_star(
+                self.a_a_star, self.gamma, self.flow_type
+            )
         else:
             raise InvalidOptionCombinationError()
 
-        if checkValue(self.mach):
-            self.__calculateStateFromMach()
+        if check_value(self.mach):
+            self.__calc_state_from_mach()
 
-    def __calculateStateFromMach(self) -> None:
-        self.t0_t = IsentropicRelations.calc_T0_T(self.mach, self.gamma)
-        self.p0_p = IsentropicRelations.calc_P0_P(self.mach, self.gamma)
+    def __calc_state_from_mach(self) -> None:
+        self.t0_t = IsentropicRelations.calc_t0_t(self.mach, self.gamma)
+        self.p0_p = IsentropicRelations.calc_p0_p(self.mach, self.gamma)
         self.rho0_rho = IsentropicRelations.calc_rho0_rho(self.mach, self.gamma)
-        self.a_aStar = IsentropicRelations.calc_A_Astar(self.mach, self.gamma)
-        self.flowType = FlowState.SUPER_SONIC if self.mach > 1.0 else FlowState.SUB_SONIC
+        self.a_a_star = IsentropicRelations.calc_a_a_star(self.mach, self.gamma)
+        self.flow_type = FlowState.SUPER_SONIC if self.mach > 1.0 else FlowState.SUB_SONIC
+        x = True
 
     def __str__(self) -> str:
         return "".join(
@@ -120,21 +136,22 @@ class IsentropicRelations:
                 to_string(lcg.gamma, self.gamma, self.precision, dot_line=True),
                 to_string("p0/p", self.p0_p, self.precision),
                 to_string("T0/T", self.t0_t, self.precision, dot_line=True),
-                to_string("{}0/{}".format(lcg.rho, lcg.rho), self.rho0_rho, self.precision),
-                to_string("A/A*", self.a_aStar, self.precision, dot_line=True),
-                to_string("Flow Type", self.flowType.name, self.precision),
+                to_string(f"{lcg.rho}0/{lcg.rho}", self.rho0_rho, self.precision),
+                to_string("A/A*", self.a_a_star, self.precision, dot_line=True),
+                to_string("Flow Type", self.flow_type.name, self.precision),
                 footer(),
             ]
         )
 
     @staticmethod
-    def calc_T0_T(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_t0_t(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates the ratio of Total Temperature to static temperature (T0/T)
 
         Args:
             mach (float): Mach number of the flow
             gamma (float): Ratio of specific heats of the flow
-            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+            offset (float, optional): offset that can be used for root finding for a specific
+                                        value. Defaults to 0.0.
 
         Returns:
             float: T0/T
@@ -143,8 +160,8 @@ class IsentropicRelations:
         return 1 + (gamma - 1) / 2 * pow(mach, 2) - offset
 
     @staticmethod
-    def calc_mach_from_T0_T(t0_t: float, gamma: float) -> float:
-        """Calculates the Mach number for a flow given the ratio of total temperature to static temperature
+    def calc_mach_from_t0_t(t0_t: float, gamma: float) -> float:
+        """Calculates the Mach number for a flow given the ratio of total tempto static temp
 
         Args:
             t0_t (float): Ratio of total temperature to static temperature
@@ -156,13 +173,14 @@ class IsentropicRelations:
         return sqrt((t0_t - 1) * 2 / (gamma - 1))
 
     @staticmethod
-    def calc_P0_P(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_p0_p(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates the ratio of Total pressure to static pressure (P0/P)
 
         Args:
             mach (float): mach number of the flow
             gamma (float): ratio of specific heats
-            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+            offset (float, optional): offset that can be used for root finding for a specific
+                                        value. Defaults to 0.0.
 
         Returns:
             float: P0/P
@@ -172,7 +190,7 @@ class IsentropicRelations:
 
     @staticmethod
     def calc_mach_from_p0_p(p0_p: float, gamma: float) -> float:
-        """Calculates the Mach number for a flow given the ratio of total pressure to static pressure
+        """Calculates the Mach # for a flow given the ratio of total pressure to static pressure
 
         Args:
             p0_p (float): Ratio of total pressure to static pressure
@@ -182,7 +200,7 @@ class IsentropicRelations:
             float: mach number
         """
 
-        return brenth(IsentropicRelations.calc_P0_P, 0, 30, args=(gamma, p0_p))
+        return brenth(IsentropicRelations.calc_p0_p, 0, 30, args=(gamma, p0_p))  # type: ignore
 
     @staticmethod
     def calc_rho0_rho(mach: float, gamma: float, offset: float = 0.0) -> float:
@@ -191,7 +209,8 @@ class IsentropicRelations:
         Args:
             mach (float): mach number of the flow
             gamma (float): ratio of specific heats
-            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+            offset (float, optional): offset that can be used for root finding for a specific
+                                        value. Defaults to 0.0.
 
         Returns:
             float: rho0/rho
@@ -211,16 +230,19 @@ class IsentropicRelations:
             float: mach number
         """
 
-        return brenth(IsentropicRelations.calc_rho0_rho, 0, 30, args=(gamma, rho0_rho))
+        return brenth(
+            IsentropicRelations.calc_rho0_rho, 0, 30, args=(gamma, rho0_rho)
+        )  # type: ignore
 
     @staticmethod
-    def calc_A_Astar(mach: float, gamma: float, offset: float = 0.0) -> float:
+    def calc_a_a_star(mach: float, gamma: float, offset: float = 0.0) -> float:
         """Calculates the ratio of Nozzle Area to Sonic Throat Area (A/A*)
 
         Args:
             mach (float): mach number of the flow
             gamma (float): ratio of specific heats
-            offset (float, optional): offset that can be used for root finding for a specific value. Defaults to 0.0.
+            offset (float, optional): offset that can be used for root finding for a specific
+                                        value. Defaults to 0.0.
 
         Returns:
             float: A/A*
@@ -228,33 +250,40 @@ class IsentropicRelations:
 
         gm1 = gamma - 1
         gp1 = gamma + 1
-        mSqr = pow(mach, 2)
+        m_sqr = pow(mach, 2)
 
-        nonRaised = 2 / gp1 * (1 + gm1 / 2 * mSqr)
+        non_raised = 2 / gp1 * (1 + gm1 / 2 * m_sqr)
 
-        return sqrt(pow(nonRaised, gp1 / gm1) / mSqr) - offset
+        return sqrt(pow(non_raised, gp1 / gm1) / m_sqr) - offset
 
     @staticmethod
-    def calc_mach_from_A_Astar(
-        A_Astar: float, gamma: float, flowType: FlowState = FlowState.SUPER_SONIC
+    def calc_mach_from_a_a_star(
+        a_a_star: float, gamma: float, flow_type: FlowState = FlowState.SUPER_SONIC
     ) -> float:
         """Calculates the mach number for a flow given the nozzle area ratio and flow type
 
         Args:
-            A_Astar (float): Ratio of nozzle area ratio to sonic area ratio
+            a_a_star (float): Ratio of nozzle area ratio to sonic area ratio
             gamma (float): ratio of specific heats
-            flowType (FlowState, optional): Type of flow whether it is super sonic of subsonic. Defaults to FlowState.SUPER_SONIC.
+            flow_type (FlowState, optional): Type of flow whether it is super sonic of subsonic.
+                                                Defaults to FlowState.SUPER_SONIC.
 
         Returns:
             float: mach number
         """
-        assert isinstance(flowType, FlowState)
-        if A_Astar == 1.0:
-            return A_Astar
-        elif flowType == FlowState.SUPER_SONIC:
-            return brenth(IsentropicRelations.calc_A_Astar, 1, 30, args=(gamma, A_Astar))
-        elif flowType == FlowState.SUB_SONIC:
-            return brenth(IsentropicRelations.calc_A_Astar, 0.001, 1, args=(gamma, A_Astar))
-        else:
-            print("Unsupported flow type passed to A/A* calculations. Type: {}".format(flowType.name))
-            return nan
+        assert isinstance(flow_type, FlowState)
+        if a_a_star == 1.0:
+            return a_a_star
+
+        if flow_type == FlowState.SUPER_SONIC:
+            return brenth(
+                IsentropicRelations.calc_a_a_star, 1, 30, args=(gamma, a_a_star)
+            )  # type: ignore
+
+        if flow_type == FlowState.SUB_SONIC:
+            return brenth(
+                IsentropicRelations.calc_a_a_star, 0.001, 1, args=(gamma, a_a_star)
+            )  # type: ignore
+
+        err = f"{Fore.RED}Unsupported flow type passed to A/A* calculations. Got {flow_type}"
+        raise ValueError(err)

@@ -1,26 +1,24 @@
 # CompAero
+
 A python repository for compressible aerodynamics
 
 The goal with this project is to make it easy to determine flow states. This is done by taking compressible aerodynamic tables and computing them. Also more functionality than what is included in the tables is included here as well. This is expected to be a python version of the compressible aerodynamic tables by Virginia tech http://www.dept.aoe.vt.edu/~devenpor/aoe3114/calc.html
 
 Documentation for the project can be found at https://rigel09.github.io/CompAero/
 
-
-
 ### Install
 
-Currently this packet is <u>not</u> available on PYPI. Install can be accomplished locally from the cloned project by running the following command. 
+Currently this packet is <u>not</u> available on PYPI. Install can be accomplished locally from the cloned project by running the following command.
 
-```python setup.py install```
+`python setup.py install`
 
-or by running 
+or by running
 
 `./install.bat` on Windows machines.
 
+### Overview
 
-### Overview 
-
-This repository allows users to easily simulate the Compressible Aerodynamic Tables found in the back of common text books for Compressible Aerodynamics. By knowing the state for any single value or combination of values the user can easily know the rest of them. The repository also prints out the state of the flow in a human readable format. 
+This repository allows users to easily simulate the Compressible Aerodynamic Tables found in the back of common text books for Compressible Aerodynamics. By knowing the state for any single value or combination of values the user can easily know the rest of them. The repository also prints out the state of the flow in a human readable format.
 
 Supported Flows
 
@@ -36,8 +34,8 @@ Upcoming Flows
 
 - Conical Shocks
 
-The package also supports a command line tool that launches a UI similiar to the Virginia Tech calculator. After installing the package this can be launched by running 
-`compressible_calculator` from the command line. This will launch the UI shown below. 
+The package also supports a command line tool that launches a UI similiar to the Virginia Tech calculator. After installing the package this can be launched by running
+`compressible_calculator` from the command line. This will launch the UI shown below.
 
 <b><i>This is still in developement and bugs are still being fixed </i></b>
 
@@ -46,7 +44,7 @@ The package also supports a command line tool that launches a UI similiar to the
 Examples.
 
 ```python
-temp = IsentropicRelations(gamma=1.4, a_aStar=1.0235)
+temp = IsentropicRelations(gamma=1.4, a_a_star=1.0235)
 print(temp)
 ```
 
@@ -93,8 +91,8 @@ The Rayleigh and Fanno Classes can also simulate Heat and Friction
 ```python
 t1 = 300
 p1 = 1
-po1 = IsentropicRelations.calc_P0_P(3, 1.4) * p1
-flow = FannoFlowRelations(1.4, po_poSt=4.23456790)
+po1 = IsentropicRelations.calc_p0_p(3, 1.4) * p1
+flow = FannoFlowRelations(1.4, po_po_st=4.23456790)
 flow.apply_pipe_parameters(0.4, 11, 0.005)
 print()
 print(flow)
@@ -102,7 +100,7 @@ print()
 print("T2: ", t1 * flow.t2_t1)
 print("P2: ", p1 * flow.p2_p1)
 print("Po2: ", po1 * flow.po2_po1)
-    
+
 flow = RayleighFlowRelations(1.4, mach=1.5)
 flow.simulate_heat_addition(1000, 275.2, 287)
 print(flow)
@@ -194,25 +192,21 @@ Po2:  8.674491157634302
 |====================================================================|
 ```
 
-
-
 ### Class Functions
 
-In some cases all the variables may not be necessary. Each of the classes contain static methods for each of the calculations so that a user can use them without creating  a class instance. In this case the class acts as a collective namespace for functions that make calculations for the same type of flows.
+In some cases all the variables may not be necessary. Each of the classes contain static methods for each of the calculations so that a user can use them without creating a class instance. In this case the class acts as a collective namespace for functions that make calculations for the same type of flows.
 
 Example.
 
 ```python
 NormalShockRelations.calc_po2_po1(1.5, 1.4)
-IsentropicRelations.calc_P0_P(1.5, 1.4)
+IsentropicRelations.calc_p0_p(1.5, 1.4)
 ```
 
 ### Validation
 
-Approximately 170 tests are run on the repository to ensure validation of both class constructors and internal functions for calculations. These tests may not catch all scenarios so please open an issue for any more further bugs. 
-
-
+Approximately 170 tests are run on the repository to ensure validation of both class constructors and internal functions for calculations. These tests may not catch all scenarios so please open an issue for any more further bugs.
 
 ### Contributing
 
-Any contributions must include a test and an example. Any bug fixes need a test that fails and then after the bug is fixed the test must pass. 
+Any contributions must include a test and an example. Any bug fixes need a test that fails and then after the bug is fixed the test must pass.

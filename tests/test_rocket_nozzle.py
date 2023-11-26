@@ -1,8 +1,18 @@
-from CompAero.RocketNozzle import thrust_coefficient, max_thrust_coefficient, min_thrust_coefficient
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
+
 from pytest import approx, raises
 
+from CompAero.rocket_nozzle import (
+    max_thrust_coefficient,
+    min_thrust_coefficient,
+    thrust_coefficient,
+)
 
-class Test_Rocket_Nozzle:
+
+class TestRocketNozzle:
     gamma = 1.25
 
     def test_thrust_coefficient(self) -> None:

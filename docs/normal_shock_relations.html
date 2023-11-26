@@ -1,0 +1,1597 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>CompAero.normal_shock_relations API documentation</title>
+<meta name="description" content="This module contains the relationships for a normal shock flow" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>CompAero.normal_shock_relations</code></h1>
+</header>
+<section id="section-intro">
+<p>This module contains the relationships for a normal shock flow</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34; This module contains the relationships for a normal shock flow&#34;&#34;&#34;
+
+from enum import Enum
+from math import nan, sqrt
+
+from scipy.optimize import brenth  # type: ignore
+
+from CompAero.greek_letters import LowerCaseGreek as lcg
+from CompAero.internal import (
+    GammaNotDefinedError,
+    InvalidOptionCombinationError,
+    check_value,
+    footer,
+    named_header,
+    seperator,
+    to_string,
+)
+from CompAero.isentropic_relations import IsentropicRelations
+
+NORMAL_SHOCK_VALID_OPTIONS = [
+    &#34;gamma, mach&#34;,
+    &#34;gamma, P2/P1&#34;,
+    &#34;gamma, Rho2/Rho1&#34;,
+    &#34;gamma, T2/T1&#34;,
+    &#34;gamma, P02/P01&#34;,
+    &#34;gamma, P02/P1&#34;,
+    &#34;gamma, dwn_strm_mach&#34;,
+]
+
+
+class NORMAL_SHOCK_CHOICE(Enum):
+    MACH = &#34;gamma, mach&#34;
+    P2_P1 = &#34;gamma, P2/P1&#34;
+    RHO2_RHO1 = &#34;gamma, Rho2/Rho1&#34;
+    T2_T1 = &#34;gamma, T2/T1&#34;
+    PO2_PO1 = &#34;gamma, P02/P01&#34;
+    PO2_P1 = &#34;gamma, P02/P1&#34;
+    M2 = &#34;gamma, dwn_strm_mach&#34;
+
+
+class NormalShockRelations:
+    &#34;&#34;&#34;
+    This class is a collective name space for basic calculations regarding Normal
+    Shock Properties.
+
+    The constructor of this class can also determine the entire state of the flow given a partial
+    state of the flow
+
+    Args:
+    gamma (float): Ratio of specific heats
+    mach (float, optional): mach number of the flow. Defaults to nan.
+    p2_p1 (float, optional): Ratio of pressure behind shock to ahead of shock. Defaults to nan.
+    rho2_rho1 (float, optional): Ratio of density behind shock to ahead of shock. Defaults to nan.
+    t2_t1 (float, optional): Ratio of temp behind shock to ahead of shock wave. Defaults to nan.
+    po2_po1 (float, optional): Ratio of total pressure to behind shock wave to ahead of shock wave.
+                                Defaults to nan.
+    po2_p1 (float, optional): Ratio Total pressure behind shock wave to static pressure ahead of
+                                shock wave. Defaults to nan.
+    m2 (float, optional): mach number behind shock wave. Defaults to nan.
+
+    Raises:
+    GammaNotDefinedError: Raised if Gamma is undefined
+    InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and
+                                    flow state cannot be determined
+
+    Useage:
+    Usage: Pass gamma &amp; one of the known parameters of the flow &amp; the rest are calculated.
+
+    Valid_Combinations_of_Parameters:
+    1: gamma, mach\n
+    2: gamma, P2/P1\n
+    3: gamma, Rho2/Rho1\n
+    4: gamma, T2/T1\n
+    5: gamma, P02/P01\n
+    6: gamma, P02/P1\n
+    7: gamma, dwn_strm_mach\n&#34;&#34;&#34;
+
+    # pylint: disable=too-many-instance-attributes
+    def __init__(
+        self,
+        gamma: float,
+        mach: float = nan,
+        p2_p1: float = nan,
+        rho2_rho1: float = nan,
+        t2_t1: float = nan,
+        po2_po1: float = nan,
+        po2_p1: float = nan,
+        m2: float = nan,
+    ) -&gt; None:
+        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-statements
+        self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
+        self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
+        self.p2_p1 = p2_p1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
+        self.rho2_rho1 = rho2_rho1
+        &#34;&#34;&#34; Ratio of density behind the shock wave to density before the shock wave rho2/rho1 &#34;&#34;&#34;
+        self.t2_t1 = t2_t1
+        &#34;&#34;&#34; Ratio of temp behind the shock wave to temp before the shock wave T2/T1 &#34;&#34;&#34;
+        self.po2_po1 = po2_po1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
+        self.po2_p1 = po2_p1
+        &#34;&#34;&#34; Ratio of total pressure behind the shock to pressure before the shock P02/P1 &#34;&#34;&#34;
+        self.mach2 = m2
+        &#34;&#34;&#34; Mach number behind the shock wave &#34;&#34;&#34;
+        self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
+
+        # Calculate parameters based on what was passed in
+        if not check_value(self.gamma):
+            raise GammaNotDefinedError()
+
+        if check_value(self.mach):
+            pass
+
+        elif check_value(self.p2_p1):
+            self.mach = NormalShockRelations.calc_mach_from_p2_p1(self.p2_p1, self.gamma)
+
+        elif check_value(self.rho2_rho1):
+            self.mach = NormalShockRelations.calc_mach_from_rho2_rho1(self.rho2_rho1, self.gamma)
+
+        elif check_value(self.t2_t1):
+            self.mach = NormalShockRelations.calc_mach_from_t2_t1(self.t2_t1, self.gamma)
+
+        elif check_value(self.po2_po1):
+            self.mach = NormalShockRelations.calc_mach_from_po2_po1(self.po2_po1, self.gamma)
+
+        elif check_value(self.po2_p1):
+            self.mach = NormalShockRelations.calc_mach_from_po2_p1(self.po2_p1, self.gamma)
+
+        elif check_value(self.mach2):
+            self.mach = NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
+                self.mach2, self.gamma
+            )
+
+        else:
+            raise InvalidOptionCombinationError()
+
+        if check_value(self.mach):
+            if self.mach &gt;= 1.0:
+                self._calc_state_from_mach()
+            else:
+                self.mach = nan
+
+    def _calc_state_from_mach(self) -&gt; None:
+        self.p2_p1 = NormalShockRelations.calc_p2_p1(self.mach, self.gamma)
+        self.rho2_rho1 = NormalShockRelations.calc_rho2_rho1(self.mach, self.gamma)
+        self.t2_t1 = NormalShockRelations.calc_t2_t1(self.mach, self.gamma)
+        self.po2_po1 = NormalShockRelations.calc_po2_po1(self.mach, self.gamma)
+        self.po2_p1 = NormalShockRelations.calc_po2_p1(self.mach, self.gamma)
+        self.mach2 = NormalShockRelations.calc_mach_after_normal_shock(self.mach, self.gamma)
+
+    def __str__(self) -&gt; str:
+        return &#34;&#34;.join(
+            [
+                named_header(&#34;Normal Shock Relations at Mach&#34;, self.mach, self.precision),
+                seperator(),
+                to_string(&#34;P2/P1&#34;, self.p2_p1, self.precision),
+                to_string(f&#34;{lcg.rho}2/{lcg.rho}1&#34;, self.rho2_rho1, self.precision, dot_line=True),
+                to_string(&#34;T2/T1&#34;, self.t2_t1, self.precision),
+                to_string(&#34;P02/P01&#34;, self.po2_po1, self.precision, dot_line=True),
+                to_string(&#34;P02/P1&#34;, self.po2_p1, self.precision),
+                to_string(&#34;Dowstream Mach&#34;, self.mach2, self.precision, dot_line=True),
+                footer(),
+            ]
+        )
+
+    @staticmethod
+    def calc_p2_p1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of Pressure behind the shock wave to that of before the shock wave P2/P1
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: P2/P1
+        &#34;&#34;&#34;
+
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+        return 1 + 2 * gamma / (gamma + 1) * (pow(mach, 2) - 1) - offset
+
+    @staticmethod
+    def calc_mach_from_p2_p1(p2_p1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio Pressure behind the shock to that of before
+        the shock P2/P1
+
+        Args:
+            p2_p1 (float): Ratio of Pressure behind the shock to that of before the shock P2/P1
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(NormalShockRelations.calc_p2_p1, 1.0, 30, args=(gamma, p2_p1))  # type: ignore
+
+    @staticmethod
+    def calc_rho2_rho1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates Ratio of density behind the shock to that of density before the shock Rho2/Rho1
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: Rho2/Rho1
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+        return (gamma + 1) * pow(mach, 2) / (2 + (gamma - 1) * pow(mach, 2)) - offset
+
+    @staticmethod
+    def calc_mach_from_rho2_rho1(rho2_rho1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio density behind the shock wave to that of
+        before the shock wave Rho2/Rho1
+
+        Args:
+            p2_p1 (float): Ratio of density behind the shock to that of before the shock Rho2/Rho1
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            NormalShockRelations.calc_rho2_rho1, 1.0, 30, args=(gamma, rho2_rho1)
+        )  # type: ignore
+
+    @staticmethod
+    def calc_t2_t1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates Ratio of temp behind the shock to that of temp before the shock T2/T1
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: T2/T1
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+        return (
+            NormalShockRelations.calc_p2_p1(mach, gamma)
+            / NormalShockRelations.calc_rho2_rho1(mach, gamma)
+            - offset
+        )
+
+    @staticmethod
+    def calc_mach_from_t2_t1(t2_t1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio of temperature behind the shock wave to
+        that of before the shock wave T2/T1
+
+        Args:
+            t2_t1 (float): Ratio of temp behind the shock to that of before the shock T2/T1
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(NormalShockRelations.calc_t2_t1, 1, 30, args=(gamma, t2_t1))  # type: ignore
+
+    @staticmethod
+    def calc_mach_after_normal_shock(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates the mach number behind the shock wave
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: mach number behind shock wave
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+        gm1 = gamma - 1
+        m_sqr = pow(mach, 2)
+        num = 1 + gm1 / 2 * m_sqr
+        denom = gamma * m_sqr - gm1 / 2
+        return sqrt(num / denom) - offset
+
+    @staticmethod
+    def calc_mach_before_normal_shock_from_mach_after_shock(mach2: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number before a shock wave based on the mach number after a shock wave
+
+        Args:
+            mach2 (float): mach number after the shock wave
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            NormalShockRelations.calc_mach_after_normal_shock, 1, 30, args=(gamma, mach2)
+        )  # type: ignore
+
+    @staticmethod
+    def calc_po2_po1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates Ratio of Total Pressure behind the shock wave to that of Total Pressure before
+        the shock wave P02/P01
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: P02/P01
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+        m2 = NormalShockRelations.calc_mach_after_normal_shock(mach, gamma)
+        upstream = IsentropicRelations(gamma, mach=mach)
+        downstream = IsentropicRelations(gamma, mach=m2)
+        p2_p1 = NormalShockRelations.calc_p2_p1(mach, gamma)
+        return downstream.p0_p * p2_p1 / upstream.p0_p - offset
+
+    @staticmethod
+    def calc_mach_from_po2_po1(po2_po1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio of Total Pressure behind the shock wave to
+        that of before the shock wave P02/P01
+
+        Args:
+            po2_po1 (float): Ratio of Total Pressure behind the shock to before the shock P02/P01
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            NormalShockRelations.calc_po2_po1, 1, 30, args=(gamma, po2_po1)
+        )  # type: ignore
+
+    @staticmethod
+    def calc_po2_p1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates Ratio of Total Pressure behind the shock wave to that of static Pressure before
+        the shock wave P02/P1
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: P02/P1
+        &#34;&#34;&#34;
+        gm1 = gamma - 1
+        gp1 = gamma + 1
+        m_sqr = pow(mach, 2)
+
+        first_ratio = pow(gp1, 2) * m_sqr / (4 * gamma * m_sqr - 2 * gm1)
+        second_ratio = (1 - gamma + 2 * gamma * m_sqr) / gp1
+        return pow(first_ratio, gamma / gm1) * second_ratio - offset
+
+    @staticmethod
+    def calc_mach_from_po2_p1(po2_p1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio of Total Pressure behind the shock wave to
+        that of before the shock wave P02/P1
+        Also known as the &#34;Rayleigh Pitot Tube Formula&#34;
+
+        Args:
+            po2_p1 (float): Ratio of temp behind the shock to that of before the shock P02/P1
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(NormalShockRelations.calc_po2_p1, 1, 30, args=(gamma, po2_p1))  # type: ignore</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE"><code class="flex name class">
+<span>class <span class="ident">NORMAL_SHOCK_CHOICE</span></span>
+<span>(</span><span>*args, **kwds)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a collection of name/value pairs.</p>
+<p>Example enumeration:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; class Color(Enum):
+...     RED = 1
+...     BLUE = 2
+...     GREEN = 3
+</code></pre>
+<p>Access them by:</p>
+<ul>
+<li>attribute access::</li>
+</ul>
+<pre><code class="language-python-repl">&gt;&gt;&gt; Color.RED
+&lt;Color.RED: 1&gt;
+</code></pre>
+<ul>
+<li>value lookup:</li>
+</ul>
+<pre><code class="language-python-repl">&gt;&gt;&gt; Color(1)
+&lt;Color.RED: 1&gt;
+</code></pre>
+<ul>
+<li>name lookup:</li>
+</ul>
+<pre><code class="language-python-repl">&gt;&gt;&gt; Color['RED']
+&lt;Color.RED: 1&gt;
+</code></pre>
+<p>Enumerations can be iterated over, and know how many members they have:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; len(Color)
+3
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; list(Color)
+[&lt;Color.RED: 1&gt;, &lt;Color.BLUE: 2&gt;, &lt;Color.GREEN: 3&gt;]
+</code></pre>
+<p>Methods can be added to enumerations, and members can have their own
+attributes &ndash; see the documentation for details.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NORMAL_SHOCK_CHOICE(Enum):
+    MACH = &#34;gamma, mach&#34;
+    P2_P1 = &#34;gamma, P2/P1&#34;
+    RHO2_RHO1 = &#34;gamma, Rho2/Rho1&#34;
+    T2_T1 = &#34;gamma, T2/T1&#34;
+    PO2_PO1 = &#34;gamma, P02/P01&#34;
+    PO2_P1 = &#34;gamma, P02/P1&#34;
+    M2 = &#34;gamma, dwn_strm_mach&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.M2"><code class="name">var <span class="ident">M2</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.MACH"><code class="name">var <span class="ident">MACH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.P2_P1"><code class="name">var <span class="ident">P2_P1</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.PO2_P1"><code class="name">var <span class="ident">PO2_P1</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.PO2_PO1"><code class="name">var <span class="ident">PO2_PO1</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.RHO2_RHO1"><code class="name">var <span class="ident">RHO2_RHO1</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.T2_T1"><code class="name">var <span class="ident">T2_T1</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations"><code class="flex name class">
+<span>class <span class="ident">NormalShockRelations</span></span>
+<span>(</span><span>gamma: float, mach: float = nan, p2_p1: float = nan, rho2_rho1: float = nan, t2_t1: float = nan, po2_po1: float = nan, po2_p1: float = nan, m2: float = nan)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This class is a collective name space for basic calculations regarding Normal
+Shock Properties.</p>
+<p>The constructor of this class can also determine the entire state of the flow given a partial
+state of the flow</p>
+<p>Args:
+gamma (float): Ratio of specific heats
+mach (float, optional): mach number of the flow. Defaults to nan.
+p2_p1 (float, optional): Ratio of pressure behind shock to ahead of shock. Defaults to nan.
+rho2_rho1 (float, optional): Ratio of density behind shock to ahead of shock. Defaults to nan.
+t2_t1 (float, optional): Ratio of temp behind shock to ahead of shock wave. Defaults to nan.
+po2_po1 (float, optional): Ratio of total pressure to behind shock wave to ahead of shock wave.
+Defaults to nan.
+po2_p1 (float, optional): Ratio Total pressure behind shock wave to static pressure ahead of
+shock wave. Defaults to nan.
+m2 (float, optional): mach number behind shock wave. Defaults to nan.</p>
+<p>Raises:
+GammaNotDefinedError: Raised if Gamma is undefined
+InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and
+flow state cannot be determined</p>
+<p>Useage:
+Usage: Pass gamma &amp; one of the known parameters of the flow &amp; the rest are calculated.</p>
+<p>Valid_Combinations_of_Parameters:
+1: gamma, mach</p>
+<p>2: gamma, P2/P1</p>
+<p>3: gamma, Rho2/Rho1</p>
+<p>4: gamma, T2/T1</p>
+<p>5: gamma, P02/P01</p>
+<p>6: gamma, P02/P1</p>
+<p>7: gamma, dwn_strm_mach</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NormalShockRelations:
+    &#34;&#34;&#34;
+    This class is a collective name space for basic calculations regarding Normal
+    Shock Properties.
+
+    The constructor of this class can also determine the entire state of the flow given a partial
+    state of the flow
+
+    Args:
+    gamma (float): Ratio of specific heats
+    mach (float, optional): mach number of the flow. Defaults to nan.
+    p2_p1 (float, optional): Ratio of pressure behind shock to ahead of shock. Defaults to nan.
+    rho2_rho1 (float, optional): Ratio of density behind shock to ahead of shock. Defaults to nan.
+    t2_t1 (float, optional): Ratio of temp behind shock to ahead of shock wave. Defaults to nan.
+    po2_po1 (float, optional): Ratio of total pressure to behind shock wave to ahead of shock wave.
+                                Defaults to nan.
+    po2_p1 (float, optional): Ratio Total pressure behind shock wave to static pressure ahead of
+                                shock wave. Defaults to nan.
+    m2 (float, optional): mach number behind shock wave. Defaults to nan.
+
+    Raises:
+    GammaNotDefinedError: Raised if Gamma is undefined
+    InvalidOptionCombinationError: Raised if an invalid combination of parameters is given and
+                                    flow state cannot be determined
+
+    Useage:
+    Usage: Pass gamma &amp; one of the known parameters of the flow &amp; the rest are calculated.
+
+    Valid_Combinations_of_Parameters:
+    1: gamma, mach\n
+    2: gamma, P2/P1\n
+    3: gamma, Rho2/Rho1\n
+    4: gamma, T2/T1\n
+    5: gamma, P02/P01\n
+    6: gamma, P02/P1\n
+    7: gamma, dwn_strm_mach\n&#34;&#34;&#34;
+
+    # pylint: disable=too-many-instance-attributes
+    def __init__(
+        self,
+        gamma: float,
+        mach: float = nan,
+        p2_p1: float = nan,
+        rho2_rho1: float = nan,
+        t2_t1: float = nan,
+        po2_po1: float = nan,
+        po2_p1: float = nan,
+        m2: float = nan,
+    ) -&gt; None:
+        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-statements
+        self.gamma = gamma
+        &#34;&#34;&#34; Ratio of specific heats &#34;&#34;&#34;
+        self.mach = mach
+        &#34;&#34;&#34; Mach number of the flow &#34;&#34;&#34;
+        self.p2_p1 = p2_p1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
+        self.rho2_rho1 = rho2_rho1
+        &#34;&#34;&#34; Ratio of density behind the shock wave to density before the shock wave rho2/rho1 &#34;&#34;&#34;
+        self.t2_t1 = t2_t1
+        &#34;&#34;&#34; Ratio of temp behind the shock wave to temp before the shock wave T2/T1 &#34;&#34;&#34;
+        self.po2_po1 = po2_po1
+        &#34;&#34;&#34; Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1 &#34;&#34;&#34;
+        self.po2_p1 = po2_p1
+        &#34;&#34;&#34; Ratio of total pressure behind the shock to pressure before the shock P02/P1 &#34;&#34;&#34;
+        self.mach2 = m2
+        &#34;&#34;&#34; Mach number behind the shock wave &#34;&#34;&#34;
+        self.precision = 4
+        &#34;&#34;&#34; Precision to use when printing output to the console defaults to four &#34;&#34;&#34;
+
+        # Calculate parameters based on what was passed in
+        if not check_value(self.gamma):
+            raise GammaNotDefinedError()
+
+        if check_value(self.mach):
+            pass
+
+        elif check_value(self.p2_p1):
+            self.mach = NormalShockRelations.calc_mach_from_p2_p1(self.p2_p1, self.gamma)
+
+        elif check_value(self.rho2_rho1):
+            self.mach = NormalShockRelations.calc_mach_from_rho2_rho1(self.rho2_rho1, self.gamma)
+
+        elif check_value(self.t2_t1):
+            self.mach = NormalShockRelations.calc_mach_from_t2_t1(self.t2_t1, self.gamma)
+
+        elif check_value(self.po2_po1):
+            self.mach = NormalShockRelations.calc_mach_from_po2_po1(self.po2_po1, self.gamma)
+
+        elif check_value(self.po2_p1):
+            self.mach = NormalShockRelations.calc_mach_from_po2_p1(self.po2_p1, self.gamma)
+
+        elif check_value(self.mach2):
+            self.mach = NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock(
+                self.mach2, self.gamma
+            )
+
+        else:
+            raise InvalidOptionCombinationError()
+
+        if check_value(self.mach):
+            if self.mach &gt;= 1.0:
+                self._calc_state_from_mach()
+            else:
+                self.mach = nan
+
+    def _calc_state_from_mach(self) -&gt; None:
+        self.p2_p1 = NormalShockRelations.calc_p2_p1(self.mach, self.gamma)
+        self.rho2_rho1 = NormalShockRelations.calc_rho2_rho1(self.mach, self.gamma)
+        self.t2_t1 = NormalShockRelations.calc_t2_t1(self.mach, self.gamma)
+        self.po2_po1 = NormalShockRelations.calc_po2_po1(self.mach, self.gamma)
+        self.po2_p1 = NormalShockRelations.calc_po2_p1(self.mach, self.gamma)
+        self.mach2 = NormalShockRelations.calc_mach_after_normal_shock(self.mach, self.gamma)
+
+    def __str__(self) -&gt; str:
+        return &#34;&#34;.join(
+            [
+                named_header(&#34;Normal Shock Relations at Mach&#34;, self.mach, self.precision),
+                seperator(),
+                to_string(&#34;P2/P1&#34;, self.p2_p1, self.precision),
+                to_string(f&#34;{lcg.rho}2/{lcg.rho}1&#34;, self.rho2_rho1, self.precision, dot_line=True),
+                to_string(&#34;T2/T1&#34;, self.t2_t1, self.precision),
+                to_string(&#34;P02/P01&#34;, self.po2_po1, self.precision, dot_line=True),
+                to_string(&#34;P02/P1&#34;, self.po2_p1, self.precision),
+                to_string(&#34;Dowstream Mach&#34;, self.mach2, self.precision, dot_line=True),
+                footer(),
+            ]
+        )
+
+    @staticmethod
+    def calc_p2_p1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates Ratio of Pressure behind the shock wave to that of before the shock wave P2/P1
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: P2/P1
+        &#34;&#34;&#34;
+
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+        return 1 + 2 * gamma / (gamma + 1) * (pow(mach, 2) - 1) - offset
+
+    @staticmethod
+    def calc_mach_from_p2_p1(p2_p1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio Pressure behind the shock to that of before
+        the shock P2/P1
+
+        Args:
+            p2_p1 (float): Ratio of Pressure behind the shock to that of before the shock P2/P1
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(NormalShockRelations.calc_p2_p1, 1.0, 30, args=(gamma, p2_p1))  # type: ignore
+
+    @staticmethod
+    def calc_rho2_rho1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates Ratio of density behind the shock to that of density before the shock Rho2/Rho1
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: Rho2/Rho1
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+        return (gamma + 1) * pow(mach, 2) / (2 + (gamma - 1) * pow(mach, 2)) - offset
+
+    @staticmethod
+    def calc_mach_from_rho2_rho1(rho2_rho1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio density behind the shock wave to that of
+        before the shock wave Rho2/Rho1
+
+        Args:
+            p2_p1 (float): Ratio of density behind the shock to that of before the shock Rho2/Rho1
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            NormalShockRelations.calc_rho2_rho1, 1.0, 30, args=(gamma, rho2_rho1)
+        )  # type: ignore
+
+    @staticmethod
+    def calc_t2_t1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates Ratio of temp behind the shock to that of temp before the shock T2/T1
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: T2/T1
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+        return (
+            NormalShockRelations.calc_p2_p1(mach, gamma)
+            / NormalShockRelations.calc_rho2_rho1(mach, gamma)
+            - offset
+        )
+
+    @staticmethod
+    def calc_mach_from_t2_t1(t2_t1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio of temperature behind the shock wave to
+        that of before the shock wave T2/T1
+
+        Args:
+            t2_t1 (float): Ratio of temp behind the shock to that of before the shock T2/T1
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(NormalShockRelations.calc_t2_t1, 1, 30, args=(gamma, t2_t1))  # type: ignore
+
+    @staticmethod
+    def calc_mach_after_normal_shock(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;Calculates the mach number behind the shock wave
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: mach number behind shock wave
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+        gm1 = gamma - 1
+        m_sqr = pow(mach, 2)
+        num = 1 + gm1 / 2 * m_sqr
+        denom = gamma * m_sqr - gm1 / 2
+        return sqrt(num / denom) - offset
+
+    @staticmethod
+    def calc_mach_before_normal_shock_from_mach_after_shock(mach2: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number before a shock wave based on the mach number after a shock wave
+
+        Args:
+            mach2 (float): mach number after the shock wave
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            NormalShockRelations.calc_mach_after_normal_shock, 1, 30, args=(gamma, mach2)
+        )  # type: ignore
+
+    @staticmethod
+    def calc_po2_po1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates Ratio of Total Pressure behind the shock wave to that of Total Pressure before
+        the shock wave P02/P01
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: P02/P01
+        &#34;&#34;&#34;
+        if mach &lt; 1.0:
+            raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+        m2 = NormalShockRelations.calc_mach_after_normal_shock(mach, gamma)
+        upstream = IsentropicRelations(gamma, mach=mach)
+        downstream = IsentropicRelations(gamma, mach=m2)
+        p2_p1 = NormalShockRelations.calc_p2_p1(mach, gamma)
+        return downstream.p0_p * p2_p1 / upstream.p0_p - offset
+
+    @staticmethod
+    def calc_mach_from_po2_po1(po2_po1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio of Total Pressure behind the shock wave to
+        that of before the shock wave P02/P01
+
+        Args:
+            po2_po1 (float): Ratio of Total Pressure behind the shock to before the shock P02/P01
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(
+            NormalShockRelations.calc_po2_po1, 1, 30, args=(gamma, po2_po1)
+        )  # type: ignore
+
+    @staticmethod
+    def calc_po2_p1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates Ratio of Total Pressure behind the shock wave to that of static Pressure before
+        the shock wave P02/P1
+
+        Args:
+            mach (float): mach number of the flow
+            gamma (float): ratio of specific heats
+            offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+        Raises:
+            ValueError: Raised if mach &lt; 1.0
+
+        Returns:
+            float: P02/P1
+        &#34;&#34;&#34;
+        gm1 = gamma - 1
+        gp1 = gamma + 1
+        m_sqr = pow(mach, 2)
+
+        first_ratio = pow(gp1, 2) * m_sqr / (4 * gamma * m_sqr - 2 * gm1)
+        second_ratio = (1 - gamma + 2 * gamma * m_sqr) / gp1
+        return pow(first_ratio, gamma / gm1) * second_ratio - offset
+
+    @staticmethod
+    def calc_mach_from_po2_p1(po2_p1: float, gamma: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculates the mach number based on the ratio of Total Pressure behind the shock wave to
+        that of before the shock wave P02/P1
+        Also known as the &#34;Rayleigh Pitot Tube Formula&#34;
+
+        Args:
+            po2_p1 (float): Ratio of temp behind the shock to that of before the shock P02/P1
+            gamma (float): ratio of specific heats
+
+        Returns:
+            float: mach number
+        &#34;&#34;&#34;
+        return brenth(NormalShockRelations.calc_po2_p1, 1, 30, args=(gamma, po2_p1))  # type: ignore</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="CompAero.oblique_shock_relations.ObliqueShockRelations" href="oblique_shock_relations.html#CompAero.oblique_shock_relations.ObliqueShockRelations">ObliqueShockRelations</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_after_normal_shock"><code class="name flex">
+<span>def <span class="ident">calc_mach_after_normal_shock</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number behind the shock wave</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if mach &lt; 1.0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number behind shock wave</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_after_normal_shock(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;Calculates the mach number behind the shock wave
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Raises:
+        ValueError: Raised if mach &lt; 1.0
+
+    Returns:
+        float: mach number behind shock wave
+    &#34;&#34;&#34;
+    if mach &lt; 1.0:
+        raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+    gm1 = gamma - 1
+    m_sqr = pow(mach, 2)
+    num = 1 + gm1 / 2 * m_sqr
+    denom = gamma * m_sqr - gm1 / 2
+    return sqrt(num / denom) - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock"><code class="name flex">
+<span>def <span class="ident">calc_mach_before_normal_shock_from_mach_after_shock</span></span>(<span>mach2: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number before a shock wave based on the mach number after a shock wave</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach2</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number after the shock wave</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_before_normal_shock_from_mach_after_shock(mach2: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number before a shock wave based on the mach number after a shock wave
+
+    Args:
+        mach2 (float): mach number after the shock wave
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return brenth(
+        NormalShockRelations.calc_mach_after_normal_shock, 1, 30, args=(gamma, mach2)
+    )  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_p2_p1"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_p2_p1</span></span>(<span>p2_p1: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based on the ratio Pressure behind the shock to that of before
+the shock P2/P1</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>p2_p1</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of Pressure behind the shock to that of before the shock P2/P1</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_p2_p1(p2_p1: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number based on the ratio Pressure behind the shock to that of before
+    the shock P2/P1
+
+    Args:
+        p2_p1 (float): Ratio of Pressure behind the shock to that of before the shock P2/P1
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return brenth(NormalShockRelations.calc_p2_p1, 1.0, 30, args=(gamma, p2_p1))  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_p1"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_po2_p1</span></span>(<span>po2_p1: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based on the ratio of Total Pressure behind the shock wave to
+that of before the shock wave P02/P1
+Also known as the "Rayleigh Pitot Tube Formula"</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>po2_p1</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of temp behind the shock to that of before the shock P02/P1</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_po2_p1(po2_p1: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number based on the ratio of Total Pressure behind the shock wave to
+    that of before the shock wave P02/P1
+    Also known as the &#34;Rayleigh Pitot Tube Formula&#34;
+
+    Args:
+        po2_p1 (float): Ratio of temp behind the shock to that of before the shock P02/P1
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return brenth(NormalShockRelations.calc_po2_p1, 1, 30, args=(gamma, po2_p1))  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_po1"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_po2_po1</span></span>(<span>po2_po1: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based on the ratio of Total Pressure behind the shock wave to
+that of before the shock wave P02/P01</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>po2_po1</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of Total Pressure behind the shock to before the shock P02/P01</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_po2_po1(po2_po1: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number based on the ratio of Total Pressure behind the shock wave to
+    that of before the shock wave P02/P01
+
+    Args:
+        po2_po1 (float): Ratio of Total Pressure behind the shock to before the shock P02/P01
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return brenth(
+        NormalShockRelations.calc_po2_po1, 1, 30, args=(gamma, po2_po1)
+    )  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_rho2_rho1"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_rho2_rho1</span></span>(<span>rho2_rho1: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based on the ratio density behind the shock wave to that of
+before the shock wave Rho2/Rho1</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>p2_p1</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of density behind the shock to that of before the shock Rho2/Rho1</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_rho2_rho1(rho2_rho1: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number based on the ratio density behind the shock wave to that of
+    before the shock wave Rho2/Rho1
+
+    Args:
+        p2_p1 (float): Ratio of density behind the shock to that of before the shock Rho2/Rho1
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return brenth(
+        NormalShockRelations.calc_rho2_rho1, 1.0, 30, args=(gamma, rho2_rho1)
+    )  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_t2_t1"><code class="name flex">
+<span>def <span class="ident">calc_mach_from_t2_t1</span></span>(<span>t2_t1: float, gamma: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates the mach number based on the ratio of temperature behind the shock wave to
+that of before the shock wave T2/T1</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>t2_t1</code></strong> :&ensp;<code>float</code></dt>
+<dd>Ratio of temp behind the shock to that of before the shock T2/T1</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>mach number</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_mach_from_t2_t1(t2_t1: float, gamma: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates the mach number based on the ratio of temperature behind the shock wave to
+    that of before the shock wave T2/T1
+
+    Args:
+        t2_t1 (float): Ratio of temp behind the shock to that of before the shock T2/T1
+        gamma (float): ratio of specific heats
+
+    Returns:
+        float: mach number
+    &#34;&#34;&#34;
+    return brenth(NormalShockRelations.calc_t2_t1, 1, 30, args=(gamma, t2_t1))  # type: ignore</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_p2_p1"><code class="name flex">
+<span>def <span class="ident">calc_p2_p1</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of Pressure behind the shock wave to that of before the shock wave P2/P1</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if mach &lt; 1.0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>P2/P1</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_p2_p1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;Calculates Ratio of Pressure behind the shock wave to that of before the shock wave P2/P1
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Raises:
+        ValueError: Raised if mach &lt; 1.0
+
+    Returns:
+        float: P2/P1
+    &#34;&#34;&#34;
+
+    if mach &lt; 1.0:
+        raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+    return 1 + 2 * gamma / (gamma + 1) * (pow(mach, 2) - 1) - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_po2_p1"><code class="name flex">
+<span>def <span class="ident">calc_po2_p1</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of Total Pressure behind the shock wave to that of static Pressure before
+the shock wave P02/P1</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if mach &lt; 1.0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>P02/P1</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_po2_p1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates Ratio of Total Pressure behind the shock wave to that of static Pressure before
+    the shock wave P02/P1
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Raises:
+        ValueError: Raised if mach &lt; 1.0
+
+    Returns:
+        float: P02/P1
+    &#34;&#34;&#34;
+    gm1 = gamma - 1
+    gp1 = gamma + 1
+    m_sqr = pow(mach, 2)
+
+    first_ratio = pow(gp1, 2) * m_sqr / (4 * gamma * m_sqr - 2 * gm1)
+    second_ratio = (1 - gamma + 2 * gamma * m_sqr) / gp1
+    return pow(first_ratio, gamma / gm1) * second_ratio - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_po2_po1"><code class="name flex">
+<span>def <span class="ident">calc_po2_po1</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of Total Pressure behind the shock wave to that of Total Pressure before
+the shock wave P02/P01</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if mach &lt; 1.0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>P02/P01</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_po2_po1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates Ratio of Total Pressure behind the shock wave to that of Total Pressure before
+    the shock wave P02/P01
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Raises:
+        ValueError: Raised if mach &lt; 1.0
+
+    Returns:
+        float: P02/P01
+    &#34;&#34;&#34;
+    if mach &lt; 1.0:
+        raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+    m2 = NormalShockRelations.calc_mach_after_normal_shock(mach, gamma)
+    upstream = IsentropicRelations(gamma, mach=mach)
+    downstream = IsentropicRelations(gamma, mach=m2)
+    p2_p1 = NormalShockRelations.calc_p2_p1(mach, gamma)
+    return downstream.p0_p * p2_p1 / upstream.p0_p - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_rho2_rho1"><code class="name flex">
+<span>def <span class="ident">calc_rho2_rho1</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of density behind the shock to that of density before the shock Rho2/Rho1</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if mach &lt; 1.0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Rho2/Rho1</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_rho2_rho1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates Ratio of density behind the shock to that of density before the shock Rho2/Rho1
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Raises:
+        ValueError: Raised if mach &lt; 1.0
+
+    Returns:
+        float: Rho2/Rho1
+    &#34;&#34;&#34;
+    if mach &lt; 1.0:
+        raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+    return (gamma + 1) * pow(mach, 2) / (2 + (gamma - 1) * pow(mach, 2)) - offset</code></pre>
+</details>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.calc_t2_t1"><code class="name flex">
+<span>def <span class="ident">calc_t2_t1</span></span>(<span>mach: float, gamma: float, offset: float = 0.0) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates Ratio of temp behind the shock to that of temp before the shock T2/T1</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mach</code></strong> :&ensp;<code>float</code></dt>
+<dd>mach number of the flow</dd>
+<dt><strong><code>gamma</code></strong> :&ensp;<code>float</code></dt>
+<dd>ratio of specific heats</dd>
+<dt><strong><code>offset</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>offset that can be used for root finding. Defaults to 0.0.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if mach &lt; 1.0</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>T2/T1</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def calc_t2_t1(mach: float, gamma: float, offset: float = 0.0) -&gt; float:
+    &#34;&#34;&#34;
+    Calculates Ratio of temp behind the shock to that of temp before the shock T2/T1
+
+    Args:
+        mach (float): mach number of the flow
+        gamma (float): ratio of specific heats
+        offset (float, optional): offset that can be used for root finding. Defaults to 0.0.
+
+    Raises:
+        ValueError: Raised if mach &lt; 1.0
+
+    Returns:
+        float: T2/T1
+    &#34;&#34;&#34;
+    if mach &lt; 1.0:
+        raise ValueError(&#34;Normal Shocks Require a mach greater than 1&#34;)
+
+    return (
+        NormalShockRelations.calc_p2_p1(mach, gamma)
+        / NormalShockRelations.calc_rho2_rho1(mach, gamma)
+        - offset
+    )</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.gamma"><code class="name">var <span class="ident">gamma</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of specific heats</p></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.mach"><code class="name">var <span class="ident">mach</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number of the flow</p></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.mach2"><code class="name">var <span class="ident">mach2</span></code></dt>
+<dd>
+<div class="desc"><p>Mach number behind the shock wave</p></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.p2_p1"><code class="name">var <span class="ident">p2_p1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1</p></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.po2_p1"><code class="name">var <span class="ident">po2_p1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of total pressure behind the shock to pressure before the shock P02/P1</p></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.po2_po1"><code class="name">var <span class="ident">po2_po1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of pressure behind the shock wave to pressure before the shock wave P2/P1</p></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.precision"><code class="name">var <span class="ident">precision</span></code></dt>
+<dd>
+<div class="desc"><p>Precision to use when printing output to the console defaults to four</p></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.rho2_rho1"><code class="name">var <span class="ident">rho2_rho1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of density behind the shock wave to density before the shock wave rho2/rho1</p></div>
+</dd>
+<dt id="CompAero.normal_shock_relations.NormalShockRelations.t2_t1"><code class="name">var <span class="ident">t2_t1</span></code></dt>
+<dd>
+<div class="desc"><p>Ratio of temp behind the shock wave to temp before the shock wave T2/T1</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="CompAero" href="index.html">CompAero</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE" href="#CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE">NORMAL_SHOCK_CHOICE</a></code></h4>
+<ul class="two-column">
+<li><code><a title="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.M2" href="#CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.M2">M2</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.MACH" href="#CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.MACH">MACH</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.P2_P1" href="#CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.P2_P1">P2_P1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.PO2_P1" href="#CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.PO2_P1">PO2_P1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.PO2_PO1" href="#CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.PO2_PO1">PO2_PO1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.RHO2_RHO1" href="#CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.RHO2_RHO1">RHO2_RHO1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.T2_T1" href="#CompAero.normal_shock_relations.NORMAL_SHOCK_CHOICE.T2_T1">T2_T1</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="CompAero.normal_shock_relations.NormalShockRelations" href="#CompAero.normal_shock_relations.NormalShockRelations">NormalShockRelations</a></code></h4>
+<ul class="">
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_after_normal_shock" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_after_normal_shock">calc_mach_after_normal_shock</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_before_normal_shock_from_mach_after_shock">calc_mach_before_normal_shock_from_mach_after_shock</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_p2_p1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_p2_p1">calc_mach_from_p2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_p1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_p1">calc_mach_from_po2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_po1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_po2_po1">calc_mach_from_po2_po1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_rho2_rho1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_rho2_rho1">calc_mach_from_rho2_rho1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_t2_t1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_mach_from_t2_t1">calc_mach_from_t2_t1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_p2_p1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_p2_p1">calc_p2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_po2_p1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_po2_p1">calc_po2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_po2_po1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_po2_po1">calc_po2_po1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_rho2_rho1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_rho2_rho1">calc_rho2_rho1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.calc_t2_t1" href="#CompAero.normal_shock_relations.NormalShockRelations.calc_t2_t1">calc_t2_t1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.gamma" href="#CompAero.normal_shock_relations.NormalShockRelations.gamma">gamma</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.mach" href="#CompAero.normal_shock_relations.NormalShockRelations.mach">mach</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.mach2" href="#CompAero.normal_shock_relations.NormalShockRelations.mach2">mach2</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.p2_p1" href="#CompAero.normal_shock_relations.NormalShockRelations.p2_p1">p2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.po2_p1" href="#CompAero.normal_shock_relations.NormalShockRelations.po2_p1">po2_p1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.po2_po1" href="#CompAero.normal_shock_relations.NormalShockRelations.po2_po1">po2_po1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.precision" href="#CompAero.normal_shock_relations.NormalShockRelations.precision">precision</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.rho2_rho1" href="#CompAero.normal_shock_relations.NormalShockRelations.rho2_rho1">rho2_rho1</a></code></li>
+<li><code><a title="CompAero.normal_shock_relations.NormalShockRelations.t2_t1" href="#CompAero.normal_shock_relations.NormalShockRelations.t2_t1">t2_t1</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

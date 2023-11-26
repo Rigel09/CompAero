@@ -1,6 +1,12 @@
-from pytest import approx
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
+
 import pytest
-from CompAero.NormalShockRelations import NormalShockRelations as nsr
+from pytest import approx
+
+from CompAero.normal_shock_relations import NormalShockRelations as nsr
 
 
 class TestNormalShockClassFuncs:
@@ -24,7 +30,7 @@ class TestNormalShockClassFuncs:
 
     def test_subsonic_t2_t1(self):
         with pytest.raises(ValueError):
-            nsr.calc_T2_T1(0.5, self.gamma)
+            nsr.calc_t2_t1(0.5, self.gamma)
 
     def test_subsonic_downstream_mach(self):
         with pytest.raises(ValueError):
@@ -54,18 +60,18 @@ class TestNormalShockClassFuncs:
         assert nsr.calc_mach_from_rho2_rho1(1.86207, self.gamma) == approx(1.5, rel=1e-1)
 
     def test_supersonic_t2_t1(self):
-        assert nsr.calc_T2_T1(1.5, self.gamma) == approx(1.32022, rel=1e-4)
+        assert nsr.calc_t2_t1(1.5, self.gamma) == approx(1.32022, rel=1e-4)
 
     def test_supersonic_mach_from_t2_t1(self):
-        assert nsr.calc_mach_from_T2_T1(1.32022, self.gamma) == approx(1.5, rel=1e-1)
+        assert nsr.calc_mach_from_t2_t1(1.32022, self.gamma) == approx(1.5, rel=1e-1)
 
     def test_supersonic_downstream_mach(self):
         assert nsr.calc_mach_after_normal_shock(1.5, self.gamma) == approx(0.70109, rel=1e-4)
 
     def test_supersonic_mach_from_downstream_mach(self):
-        assert nsr.calc_mach_before_normal_shock_from_mach_after_shock(0.70109, self.gamma) == approx(
-            1.5, rel=1e-4
-        )
+        assert nsr.calc_mach_before_normal_shock_from_mach_after_shock(
+            0.70109, self.gamma
+        ) == approx(1.5, rel=1e-4)
 
     def test_supersonic_po2_po1(self):
         assert nsr.calc_po2_po1(1.5, self.gamma) == approx(0.92979, rel=1e-4)
@@ -162,4 +168,3 @@ class TestNormalShockRelationsConstructions:
         assert inst.po2_po1 == approx(0.92979, rel=1e-4)
         assert inst.po2_p1 == approx(3.41327, rel=1e-4)
         assert inst.mach2 == approx(0.70109, rel=1e-4)
-

@@ -1,7 +1,7 @@
-from importlib_metadata import entry_points
-from setuptools import setup, find_packages
 import codecs
 import os.path
+
+from setuptools import find_packages, setup
 
 
 def read(rel_path):
@@ -15,8 +15,8 @@ def get_version(rel_path):
         if line.startswith("__version__"):
             delim = '"' if '"' in line else "'"
             return line.split(delim)[1]
-    else:
-        raise RuntimeError("Unable to find version string.")
+
+    raise RuntimeError("Unable to find version string.")
 
 
 setup(
@@ -31,5 +31,7 @@ setup(
     tests_require=["pytest"],
     license="MIT",
     long_description=open("README.md", "r", encoding="utf8").read(),
-    entry_points={"console_scripts": ["compressible_calculator=CompAero.Calculator.calculator_main:main"]},
+    entry_points={
+        "console_scripts": ["compressible_calculator=CompAero.Calculator.calculator_main:main"]
+    },
 )
