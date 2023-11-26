@@ -13,7 +13,6 @@ from CompAero.greek_letters import LowerCaseGreek as lcg
 from CompAero.internal import (
     GammaNotDefinedError,
     InvalidOptionCombinationError,
-    ShockType,
     check_value,
     footer,
     named_header,
@@ -22,6 +21,7 @@ from CompAero.internal import (
     to_string,
 )
 from CompAero.normal_shock_relations import NormalShockRelations
+from CompAero.types import ShockType
 
 
 class ObliqueShockChoice(Enum):

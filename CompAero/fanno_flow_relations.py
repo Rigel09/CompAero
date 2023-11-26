@@ -7,10 +7,17 @@ from colorama import Back, Fore
 from scipy.optimize import brenth  # type: ignore
 
 from CompAero.greek_letters import LowerCaseGreek as lcg
-from CompAero.internal import (FlowState, GammaNotDefinedError,
-                               InvalidOptionCombinationError, check_value,
-                               footer, named_header, named_subheader,
-                               seperator, to_string)
+from CompAero.internal import (
+    GammaNotDefinedError,
+    InvalidOptionCombinationError,
+    check_value,
+    footer,
+    named_header,
+    named_subheader,
+    seperator,
+    to_string,
+)
+from CompAero.types import FlowState
 
 
 class FannoFlowChoice(Enum):
@@ -329,7 +336,7 @@ class FannoFlowRelations:
                 gamma,
                 t_t_st,
             ),
-        ) # type: ignore
+        )  # type: ignore
 
     @staticmethod
     def calc_p_p_star(mach: float, gamma: float, offset: float = 0.0) -> float:
@@ -366,7 +373,7 @@ class FannoFlowRelations:
                 gamma,
                 p_p_st,
             ),
-        ) # type: ignore
+        )  # type: ignore
 
     @staticmethod
     def calc_rho_rho_star(mach: float, gamma: float, offset: float = 0.0) -> float:
@@ -402,7 +409,7 @@ class FannoFlowRelations:
                 gamma,
                 rho_rho_st,
             ),
-        ) # type: ignore
+        )  # type: ignore
 
     @staticmethod
     def calc_po_po_star(mach: float, gamma: float, offset: float = 0.0) -> float:
@@ -432,7 +439,7 @@ class FannoFlowRelations:
         Args:
             po_po_st (float): Ratio of total pressure to sonic total pressure P0/P0*
             gamma (float): ratio of specific heats
-            flow_type (FlowState, optional): States whether the flow is currently supersonic or 
+            flow_type (FlowState, optional): States whether the flow is currently supersonic or
                                             subsonic. Defaults to FlowState.SUPER_SONIC.
 
         Returns:
@@ -451,7 +458,7 @@ class FannoFlowRelations:
                     gamma,
                     po_po_st,
                 ),
-            ) # type: ignore
+            )  # type: ignore
 
         if flow_type == FlowState.SUB_SONIC:
             return brenth(
@@ -462,7 +469,7 @@ class FannoFlowRelations:
                     gamma,
                     po_po_st,
                 ),
-            ) # type: ignore
+            )  # type: ignore
 
         err = f"{Fore.RED} Flow Type [{flow_type}] not supported for Fanno Flow! {Fore.RESET}"
         raise ValueError(err)
@@ -515,7 +522,7 @@ class FannoFlowRelations:
                     gamma,
                     f4lst_d,
                 ),
-            ) # type: ignore
+            )  # type: ignore
 
         if flow_type == FlowState.SUB_SONIC:
             return brenth(
@@ -526,7 +533,7 @@ class FannoFlowRelations:
                     gamma,
                     f4lst_d,
                 ),
-            ) # type: ignore
+            )  # type: ignore
 
         err = f"{Fore.RED}Flow Type [{flow_type}] not supported for FannoFlow!{Fore.RESET}"
         raise ValueError(err)
@@ -560,4 +567,4 @@ class FannoFlowRelations:
         """
         return brenth(
             FannoFlowRelations.calc_u_u_starar, 1e-9, 40, args=(gamma, u_u_st)
-        ) # type: ignore
+        )  # type: ignore

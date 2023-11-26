@@ -1,26 +1,13 @@
 """Contains helper functions used by the CompAero Project"""
 
-from enum import Enum
 from math import isnan
 from typing import Union
+
+from CompAero.types import FlowState, ShockType
 
 # Settings for printing out outputs from classes
 TOTAL_WIDTH = 70  # Width of the area including  | |
 INTERNAL_VALUE_WIDTH = TOTAL_WIDTH - 2  # Width of area excluding | |
-
-
-class FlowState(Enum):
-    """Enum that defines wether a flow is sub / super sonic"""
-
-    SUB_SONIC = "SUB_SONIC"
-    SUPER_SONIC = "SUPER_SONIC"
-
-
-class ShockType(Enum):
-    """Enum that defines wether a shock is strong or weak. (For oblique shocks)"""
-
-    WEAK = "WEAK"
-    STRONG = "STRONG"
 
 
 def to_string(

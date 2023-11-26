@@ -7,9 +7,16 @@ from colorama.ansi import Fore
 from scipy.optimize import brenth  # type: ignore
 
 from CompAero.greek_letters import LowerCaseGreek as lcg
-from CompAero.internal import (FlowState, GammaNotDefinedError,
-                               InvalidOptionCombinationError, check_value,
-                               footer, named_header, seperator, to_string)
+from CompAero.internal import (
+    GammaNotDefinedError,
+    InvalidOptionCombinationError,
+    check_value,
+    footer,
+    named_header,
+    seperator,
+    to_string,
+)
+from CompAero.types import FlowState
 
 ISENTROPIC_VALID_OPTIONS = [
     "gamma, mach",
@@ -18,6 +25,7 @@ ISENTROPIC_VALID_OPTIONS = [
     " gamma, Rho0/Rho",
     " gamma, A/A*",
 ]
+
 
 @dataclass
 class ISENTROPIC_CHOICE:
@@ -31,7 +39,7 @@ class ISENTROPIC_CHOICE:
 class IsentropicRelations:
     # pylint: disable=too-many-instance-attributes
     """This class is a collective name space for basic calculations regarding isentropic flows.
-    The constructor of this class can also determine the entire state of the flow given a partial 
+    The constructor of this class can also determine the entire state of the flow given a partial
     state of the flow
 
     Args:
@@ -41,12 +49,12 @@ class IsentropicRelations:
         t0_t (float, optional): Ratio of total temperature to static temperature. Defaults to nan.
         rho0_rho (float, optional): Ratio of total density to static density. Defaults to nan.
         a_a_star (float, optional): Ratio of Nozzle Area to sonic throat area. Defaults to nan.
-        flow_type (FlowState, optional): States wether the flow is subsonic or supersonic. 
-                                        Used for Area Ratio Calculations. Defaults to 
+        flow_type (FlowState, optional): States wether the flow is subsonic or supersonic.
+                                        Used for Area Ratio Calculations. Defaults to
                                         FlowState.SUPER_SONIC.
 
     Raises:
-        InvalidOptionCombinationError: Raised if invalid combination of values are given to the 
+        InvalidOptionCombinationError: Raised if invalid combination of values are given to the
                                         constructor
 
     Useage:
@@ -119,6 +127,7 @@ class IsentropicRelations:
         self.a_a_star = IsentropicRelations.calc_a_a_star(self.mach, self.gamma)
         self.flow_type = FlowState.SUPER_SONIC if self.mach > 1.0 else FlowState.SUB_SONIC
         x = True
+
     def __str__(self) -> str:
         return "".join(
             [
@@ -141,7 +150,7 @@ class IsentropicRelations:
         Args:
             mach (float): Mach number of the flow
             gamma (float): Ratio of specific heats of the flow
-            offset (float, optional): offset that can be used for root finding for a specific 
+            offset (float, optional): offset that can be used for root finding for a specific
                                         value. Defaults to 0.0.
 
         Returns:
@@ -170,7 +179,7 @@ class IsentropicRelations:
         Args:
             mach (float): mach number of the flow
             gamma (float): ratio of specific heats
-            offset (float, optional): offset that can be used for root finding for a specific 
+            offset (float, optional): offset that can be used for root finding for a specific
                                         value. Defaults to 0.0.
 
         Returns:
@@ -191,7 +200,7 @@ class IsentropicRelations:
             float: mach number
         """
 
-        return brenth(IsentropicRelations.calc_p0_p, 0, 30, args=(gamma, p0_p)) # type: ignore
+        return brenth(IsentropicRelations.calc_p0_p, 0, 30, args=(gamma, p0_p))  # type: ignore
 
     @staticmethod
     def calc_rho0_rho(mach: float, gamma: float, offset: float = 0.0) -> float:
@@ -200,7 +209,7 @@ class IsentropicRelations:
         Args:
             mach (float): mach number of the flow
             gamma (float): ratio of specific heats
-            offset (float, optional): offset that can be used for root finding for a specific 
+            offset (float, optional): offset that can be used for root finding for a specific
                                         value. Defaults to 0.0.
 
         Returns:
@@ -223,7 +232,7 @@ class IsentropicRelations:
 
         return brenth(
             IsentropicRelations.calc_rho0_rho, 0, 30, args=(gamma, rho0_rho)
-        ) # type: ignore
+        )  # type: ignore
 
     @staticmethod
     def calc_a_a_star(mach: float, gamma: float, offset: float = 0.0) -> float:
@@ -232,7 +241,7 @@ class IsentropicRelations:
         Args:
             mach (float): mach number of the flow
             gamma (float): ratio of specific heats
-            offset (float, optional): offset that can be used for root finding for a specific 
+            offset (float, optional): offset that can be used for root finding for a specific
                                         value. Defaults to 0.0.
 
         Returns:
@@ -256,7 +265,7 @@ class IsentropicRelations:
         Args:
             a_a_star (float): Ratio of nozzle area ratio to sonic area ratio
             gamma (float): ratio of specific heats
-            flow_type (FlowState, optional): Type of flow whether it is super sonic of subsonic. 
+            flow_type (FlowState, optional): Type of flow whether it is super sonic of subsonic.
                                                 Defaults to FlowState.SUPER_SONIC.
 
         Returns:
@@ -269,12 +278,12 @@ class IsentropicRelations:
         if flow_type == FlowState.SUPER_SONIC:
             return brenth(
                 IsentropicRelations.calc_a_a_star, 1, 30, args=(gamma, a_a_star)
-            ) # type: ignore
+            )  # type: ignore
 
         if flow_type == FlowState.SUB_SONIC:
             return brenth(
                 IsentropicRelations.calc_a_a_star, 0.001, 1, args=(gamma, a_a_star)
-            ) # type: ignore
+            )  # type: ignore
 
         err = f"{Fore.RED}Unsupported flow type passed to A/A* calculations. Got {flow_type}"
         raise ValueError(err)

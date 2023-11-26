@@ -14,7 +14,6 @@ from CompAero.Calculator.CalculatorUI import Ui_MainWindow
 from CompAero.Calculator.decorators import error_message_decorator
 from CompAero.fanno_flow_relations import FANNO_FLOW_VALID_OPTIONS, FannoFlowChoice
 from CompAero.fanno_flow_relations import FannoFlowRelations as FFR
-from CompAero.internal import FlowState, ShockType
 from CompAero.isentropic_relations import (
     ISENTROPIC_CHOICE,
     ISENTROPIC_VALID_OPTIONS,
@@ -34,6 +33,7 @@ from CompAero.rocket_nozzle import (
     min_thrust_coefficient,
     thrust_coefficient,
 )
+from CompAero.types import FlowState, ShockType
 
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)  # type: ignore
 QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)  # type: ignore

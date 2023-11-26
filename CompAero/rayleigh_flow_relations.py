@@ -10,7 +10,6 @@ from scipy.optimize import brenth  # type: ignore
 
 from CompAero.greek_letters import LowerCaseGreek as lcg
 from CompAero.internal import (
-    FlowState,
     GammaNotDefinedError,
     InvalidOptionCombinationError,
     check_value,
@@ -20,6 +19,7 @@ from CompAero.internal import (
     seperator,
     to_string,
 )
+from CompAero.types import FlowState
 
 
 class RayleighFlowChoice(Enum):

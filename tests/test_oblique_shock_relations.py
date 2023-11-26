@@ -8,8 +8,9 @@ from math import radians
 import pytest
 from pytest import approx
 
-from CompAero.internal import InvalidOptionCombinationError, ShockType
+from CompAero.internal import InvalidOptionCombinationError
 from CompAero.oblique_shock_relations import ObliqueShockRelations as osr
+from CompAero.types import ShockType
 
 
 class TestObliqueShockClassFuncs:
