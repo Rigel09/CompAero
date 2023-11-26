@@ -31,8 +31,8 @@ def to_string(
 
     name = name + ":"
     sep = "-" if dot_line else ""
-    width = len(val_str) - INTERNAL_VALUE_WIDTH
-    return f"|{'':{sep}<{width}}{name}|{val_str}\n"
+    width = INTERNAL_VALUE_WIDTH - len(val_str)
+    return f"|{name:{sep}<{width}}{val_str}|\n"
 
 
 def named_subheader(name: str) -> str:
@@ -72,7 +72,7 @@ def named_header(name: str, value: Union[float, int], precision: int) -> str:
     data = f" {name}: {rv:.{precision}f} "
     data_line = f"|{data:^{INTERNAL_VALUE_WIDTH}}|\n"
     f = footer()
-    return f"{f}\n{data_line}\n{f}"
+    return f"{f}{data_line}{f}"
 
 
 def footer() -> str:

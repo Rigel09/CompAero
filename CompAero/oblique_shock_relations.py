@@ -173,7 +173,7 @@ class ObliqueShockRelations(NormalShockRelations):
                 m = self.mach
                 raise ValueError(
                     f"Wedge angle of [{wa}] is greater than a maximum wedge angle of [{mwa}] for"
-                    f"mach [{m}]"
+                    f" mach [{m}]"
                 )
 
         elif check_value(self.mach_normal_1, self.shock_angle):
