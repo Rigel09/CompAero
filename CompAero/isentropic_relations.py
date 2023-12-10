@@ -126,7 +126,6 @@ class IsentropicRelations:
         self.rho0_rho = IsentropicRelations.calc_rho0_rho(self.mach, self.gamma)
         self.a_a_star = IsentropicRelations.calc_a_a_star(self.mach, self.gamma)
         self.flow_type = FlowState.SUPER_SONIC if self.mach > 1.0 else FlowState.SUB_SONIC
-        x = True
 
     def __str__(self) -> str:
         return "".join(
